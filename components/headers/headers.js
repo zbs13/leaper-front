@@ -5,12 +5,12 @@ import HeaderTitle from './HeaderTitle';
 import NavigationBackIcon from '../NavigationBackIcon';
 
 export default headerType = {
-    main: {
-        headerTitle: (props) => (<MainHeaderLeft />),
+    main: (navigation) => ({
+        headerTitle: (props) => (<MainHeaderLeft navigation={navigation} />),
         headerRight: () => (
             <MainHeaderRight />
         )
-    },
+    }),
     back: (navigation, title = "...", headerRight = null) => ({
         headerTitle: props => <HeaderTitle title={title}/>,
         headerLeft: () => (

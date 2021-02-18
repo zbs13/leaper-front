@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Button } from 'react-native';
 import PopupBottom from '../components/PopupBottom';
 
-export default function AddList({navigation}) {
+export default function AddListScreen({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>

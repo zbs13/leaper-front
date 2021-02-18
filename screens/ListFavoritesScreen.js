@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export default function Notifications() {
+export default function ListFavoritesScreen() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Listes les notifications</Text>
+        <Text>Listes lieux favoris</Text>
       </View>
     );
   }

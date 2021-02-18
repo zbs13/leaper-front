@@ -7,12 +7,12 @@ import Cta from '../Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
 
-export default function MainHeaderLeft() {
+export default function MainHeaderLeft({navigation}) {
 
     return (
         <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Cta _style={[styles.headerIcons]} 
-                onPress={() => alert("&&")}
+                onPress={() => navigation.openDrawer()}
                 value={<Ionicons style={styles.headerIcons} name="reorder-four-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
