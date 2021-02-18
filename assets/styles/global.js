@@ -31,5 +31,11 @@ export default globalStyles = StyleSheet.create({
     },
     c_light_g: {
         color: global.colors.LIGHT_GREY
+    },
+    f_bold: {
+        fontWeight: "bold"
+    },
+    title_size: {
+        fontSize: 20
     }
 });

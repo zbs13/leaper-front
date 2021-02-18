@@ -1,12 +1,21 @@
 import React, { useEffect } from 'react';
-import { Text, View, Button } from 'react-native';
-import langs from '../providers/langs';
+import { View, Button } from 'react-native';
+import { getUserLang } from '../utils';
+import useApp from "../hooks/useApp";
 
 export default function HomeScreen({ navigation }) {
 
+    const { actions } = useApp();
+
+    useEffect(() => {
+        // actions.updateUserParameters({
+        //     lang: "en"
+        // });
+    })
+
     return (
         <View>
-            <Button title="PIPI" onPress={() => navigation.push("Home")} />
+            <Button title="GO" onPress={() => navigation.push("Home")} />
         </View>
     );
 }

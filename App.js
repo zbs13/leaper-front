@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import screensRouting from './providers/screensRouting';
+import { AppProvider } from "./context/appContext";
 
 const Stack = createStackNavigator();
 
@@ -28,5 +29,14 @@ export default function App() {
         })}
       </Stack.Navigator>
     </NavigationContainer>
+    <AppProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {screensRouting.map((screen, index) => {
+            return <Stack.Screen key={index} name={screen.name} component={screen.component} options={screen.header} />
+          })}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AppProvider>
   );
 }

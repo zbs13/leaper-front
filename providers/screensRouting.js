@@ -8,6 +8,6 @@ export default screensRouting = [
     {
         name: global.pages.HOME,
         component: HomeScreen,
-        header: ({navigation}) => (headerType.back(navigation, "la bite", <BackHeaderCtas type="menu" options={[{"aaa": "aaa"}]} />))
+        header: ({navigation}) => (headerType.back(navigation, "LE TITRE", <BackHeaderCtas type="menu" options={[{"aaa": "aaa"}]} />))
     }
 ]
