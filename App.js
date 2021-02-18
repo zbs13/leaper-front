@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PopupLeft from './components/PopupLeft';
 import HomeScreen from './screens/HomeScreen';
 import { Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import screensRouting from './providers/screensRouting';
@@ -12,6 +14,7 @@ import screensRouting from './providers/screensRouting';
 const Stack = createStackNavigator();
 
 export default function App() {
+
   return (
     <>
     <NavigationContainer>

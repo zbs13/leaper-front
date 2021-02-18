@@ -13,10 +13,8 @@ export default function MainHeaderRight() {
     });
 
     useEffect(() => {
-        setMainHeaderState({
-            profilePic: null
-        });
-    })
+        
+    }, [])
 
     return (
         <View style={styles.headerRightContainer}>
@@ -25,10 +23,9 @@ export default function MainHeaderRight() {
                 value={<Ionicons style={styles.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
-            <Cta _style={[styles.headerIcons, globalStyles.p_10]} 
+            <Cta _style={[styles.headerProfilePic, globalStyles.m_10]} 
                 onPress={() => alert("bbaab")}
-                backgroundImage={mainHeaderState.profilePic === null ? '../../assets/img/default_profile_pic.png' : ''} //a changer selon recuperation depuis api
-                underlayColor="black"
+                backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
             />
         </View>
     );

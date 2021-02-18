@@ -1,8 +1,9 @@
 import React from 'react';
-import { Image, Text, View, TouchableHighlight } from 'react-native';
+import { Text, View, TouchableHighlight } from 'react-native';
+import BackgroundImage from './BackgroundImage';
+import globalStyles from '../assets/styles/global';
 
 export default function Cta({_style, onPress, underlayColor, value, backgroundImage}) {
-    console.log(_style);
     return (
         <View>
             <TouchableHighlight style={_style} 
@@ -13,7 +14,10 @@ export default function Cta({_style, onPress, underlayColor, value, backgroundIm
                             <Text>{value}</Text>
                         : 
                             typeof backgroundImage !== "undefined" ?
-                                <Image source={backgroundImage} />
+                                <BackgroundImage
+                                    image={backgroundImage} 
+                                    _style={globalStyles.br_50}>
+                                </BackgroundImage>
                             :
                                 value
 
