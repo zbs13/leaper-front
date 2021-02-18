@@ -1,25 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import LeftToggleMenu from './components/Menus/LeftToggleMenu';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import PopupLeft from './components/PopupLeft';
-const Stack = createStackNavigator();
+import { AppProvider } from "./context/appContext";
 
 export default function App() {
+
   return (
-    <>
-    <NavigationContainer>
-      <PopupLeft />
-    </NavigationContainer>
-    </>
+    <AppProvider>
+      <NavigationContainer>
+        <LeftToggleMenu />
+      </NavigationContainer>
+    </AppProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

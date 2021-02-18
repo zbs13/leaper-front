@@ -1,13 +1,21 @@
-import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import SportEventScreen from '../screens/SportEventScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import BottomMenu from './BottomMenu';
-import { StyleSheet } from 'react-native';
+import { langs, getUserLang } from './langs';
 
-const Drawer = createDrawerNavigator();
-
-const listSports = 
+export default global = {
+    screens: {
+        HOME: "Home",
+        ADD: "Add",
+        FAVORITES: "Favorites",
+        FRIENDS: "Friends",
+        NOTIFICATIONS: "Notifications",
+        SETTINGS: "Settings",
+        SPORT_EVENTS: "SportEvents"
+    },
+    colors: {
+        MAIN_COLOR: '#BDE023',
+        ANTHRACITE: "#293231",
+        LIGHT_GREY: '#C6C6C6'
+    },
+    listSports: 
     [
         {
             name: 'Home',
@@ -16,418 +24,347 @@ const listSports =
         },{
             name: 'Biathlon',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 1
         },{
             name: 'Courses',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 2
         },{
             name: 'Cyclisme',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 3
         },{
             name: 'Lancers',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 4
         },{
             name: 'Marche',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 5
         },{
             name: 'Marathon',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 6
         },{
             name: 'Sauts',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
+            id: 7
         },{
             name: 'Triathlon',
             icon: 'md-stopwatch',
-            component: 'SportEventScreen'
-        },
-        
-        {
+            id: 8
+        },{
             name: 'Crossfit',
             icon: 'md-barbell',
-            component: 'SportEventScreen'
+            id: 9
         },{
             name: 'Halterophilie',
             icon: 'md-barbell',
-            component: 'SportEventScreen'
+            id: 10
         },{
             name: 'Parkour',
             icon: 'md-barbell',
-            component: 'SportEventScreen'
+            id: 11
         },{
             name: 'Pilate',
             icon: 'md-barbell',
-            component: 'SportEventScreen'
+            id: 12
         },{
             name: 'Step',
             icon: 'md-barbell',
-            component: 'SportEventScreen'
+            id: 13
         },{
             name: 'Yoga',
             icon: 'md-barbell',
-            component: 'SportEventScreen'
+            id: 14
         },{
             name: 'Gymnastique',
             icon: 'md-medal',
-            component: 'SportEventScreen'
+            id: 15
         },{
             name: 'Airsoft',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 16
         },{
             name: 'Baby-foot',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 17
         },{
             name: 'Billard',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 18
         },{
             name: 'Bowling',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 19
         },{
             name: 'Danse',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 20
         },{
             name: 'Echecs',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 21
         },{
             name: 'Equitation',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 22
         },{
             name: 'Karting',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 23
         },{
             name: 'Paintball',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 24
         },{
             name: 'Pétanque',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 25
         },{
             name: 'Tir à l’arc',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 26
         },{
             name: 'Ultimate',
             icon: 'md-pint',
-            component: 'SportEventScreen'
+            id: 27
         },{
             name: 'Badminton',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 28
         },{
             name: 'Baseball',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 29
         },{
             name: 'Basketball',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 30
         },{
             name: 'Cricket',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 31
         },{
             name: 'Football',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 32
         },{
             name: 'Football americain',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 33
         },{
             name: 'Futsal',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 34
         },{
             name: 'Golf',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 35
         },{
             name: 'Handball',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 36
         },{
             name: 'Hockey sur gazon',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 37
         },{
             name: 'Squash',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 38
         },{
             name: 'Pelote basque',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 39
         },{
             name: 'Tennis',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 40
         },{
             name: 'Tennis de table',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 41
         },{
             name: 'Polo',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 42
         },{
             name: 'Rugby',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 43
         },{
             name: 'Volley ball',
             icon: 'md-football',
-            component: 'SportEventScreen'
+            id: 44
         },{
             name: 'Water polo',
             icon: 'md-football',
-            component: 'SportEventScreen'
-        },
-        {
+            id: 45
+        },{
             name: 'Aikido',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 46
         },{
             name: 'Boxe',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 47
         },{
             name: 'Capoeira',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 48
         },{
             name: 'Catch',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 49
         },{
             name: 'Escrime',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 50
         },{
             name: 'Ju-jitsu',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 51
         },{
             name: 'Judo',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 52
         },{
             name: 'Karaté',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 53
         },{
             name: 'Kendo',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 54
         },{
             name: 'Kenjutsu',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 55
         },{
             name: 'Kick boxing',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 56
         },{
             name: 'Kung-fu',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 57
         },{
             name: 'Krav maga',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 58
         },{
             name: 'MMA',
             icon: 'md-shield',
-            component: 'SportEventScreen'
+            id: 59
         },{
             name: 'Taekwondo',
             icon: 'md-shield',
-            component: 'SportEventScreen'
-        },
-        
-        
-        {
+            id: 60
+        },{
             name: 'Bmx',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 61
         },{
             name: 'Hockey sur glace',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 62
         },{
             name: 'Kitesurfing',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 63
         },{
             name: 'Patinage',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 64
         },{
             name: 'Planche à voile',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 65
         },{
             name: 'Roller',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 66
         },{
             name: 'Skateboard',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 67
         },{
             name: 'Ski alpin',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 68
         },{
             name: 'Ski nautique',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 69
         },{
             name: 'Snowboard',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 70
         },{
             name: 'Surf',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
+            id: 71
         },{
             name: 'Wakeboard',
             icon: 'md-trending-down',
-            component: 'SportEventScreen'
-        },
-
-        {
+            id: 72
+        },{
             name: 'Aviron',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 73
         },{
             name: 'Canoe',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 74
         },{
             name: 'Canyoning',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 75
         },{
             name: 'Kayak',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 76
         },{
             name: 'Natation',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 77
         },{
             name: 'Pêche',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 78
         },{
             name: 'Plongée',
             icon: 'md-boat',
-            component: 'SportEventScreen'
+            id: 79
         },{
             name: 'Rafting',
             icon: 'md-boat',
-            component: 'SportEventScreen'
-        },
-
-        {
+            id: 80
+        },{
             name: 'Base jump',
             icon: 'md-warning',
-            component: 'SportEventScreen'
+            id: 81
         },{
             name: 'Escalade',
             icon: 'md-warning',
-            component: 'SportEventScreen'
+            id: 82
         },{
             name: 'Parachutisme',
             icon: 'md-warning',
-            component: 'SportEventScreen'
+            id: 83
         },{
             name: 'Parapente',
             icon: 'md-warning',
-            component: 'SportEventScreen'
+            id: 84
         },{
             name: 'Quad',
             icon: 'md-warning',
-            component: 'SportEventScreen'
+            id: 85
         },{
             name: 'Rallye Automobile',
             icon: 'md-warning',
-            component: 'SportEventScreen'
+            id: 86
         }
-    ];
-
-export default function PopupLeft() {
-  return (
-    <>
-        <Drawer.Navigator drawerStyle={{ backgroundColor: '#ffff', width: 260, }}>
-            {
-                listSports.map((value, index) => {
-                    if(value.component === 'SportEventScreen') {
-                        return (
-                            <Drawer.Screen 
-                            key={index}
-                            name= {value.name}
-                            component={SportEventScreen} 
-                            options={{
-                                title: value.name,
-                                drawerIcon: ({focused, size}) => (
-                                    <Ionicons
-                                        name= {value.icon}
-                                        size={size}
-                                        color={focused ? '#BDE023' : '#ccc'}
-                                    />
-                                ),
-                            }}
-                        />
-                        )  
-                    }
-                    if(value.component === 'Home') {
-                        return (
-                            <Drawer.Screen 
-                            key={index}
-                            name= {value.name}
-                            component={BottomMenu} 
-                            options={{
-                                title: value.name,
-                                drawerIcon: ({focused, size}) => (
-                                    <Ionicons
-                                        name= {value.icon}
-                                        size={size}
-                                        color={focused ? '#BDE023' : '#ccc'}
-                                    />
-                                ),
-                            }}
-                        />
-                        ) 
-                    }
-                })
-            }
-            
-        </Drawer.Navigator>
-    </>
-  );
+    ]
 }
-
-const styles = StyleSheet.create({
-    bottomNavigationView: {
-      backgroundColor: '#fff',
-      width: '100%',
-      height: 350,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-});
