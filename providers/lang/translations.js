@@ -1,6 +1,4 @@
-import useApp from "../hooks/useApp";
-
-export const langs = {
+const l = {
     fr: {
         ADD: "Ajouter",
         FRIENDS: "Amis",
@@ -8,7 +6,8 @@ export const langs = {
         NOTIFICATIONS: "Notifications",
         FAVORITES: "Favoris",
         sports: {
-
+            BIATHLON: "Biathlon",
+            RUNNING: "Course"
         }
     },
     en: {
@@ -18,12 +17,12 @@ export const langs = {
         NOTIFICATIONS: "Notifications",
         FAVORITES: "Favorites",
         sports: {
-            
+            BIATHLON: "Biathlon",
+            RUNNING: "Running"
         }
     }
 }
 
-export function getUserLang(){
-    const { selectors } = useApp();
-    return selectors.getUserParameters().lang;
+export default t = (lang) => {
+    return l[lang];
 }
