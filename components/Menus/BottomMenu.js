@@ -7,11 +7,15 @@ import ListFriendsScreenManager from '../../screensManager/ListFriendsScreenMana
 import NotificationsScreenManager from '../../screensManager/NotificationsScreenManager';
 import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreenManager';
 import global from '../../providers/global';
-import { langs, getUserLang } from '../../providers/langs';
+import t from '../../providers/lang/translations';
+import useApp from '../../hooks/useApp';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomMenu() {
+
+    const  {selectors} = useApp();
+
     return (
       <Tab.Navigator
         initialRouteName={global.screens.HOME}
@@ -20,20 +24,20 @@ export default function BottomMenu() {
               let iconName;
 
               switch (route.name) {
-                  case langs[getUserLang()].HOME : 
+                  case t(selectors.getLang()).HOME : 
                       iconName = 'ios-home';
                       size = 35;
                       break;
-                  case langs[getUserLang()].ADD :
+                  case t(selectors.getLang()).ADD :
                       iconName = 'ios-add-outline';
                       break;
-                  case langs[getUserLang()].FRIENDS :
+                  case t(selectors.getLang()).FRIENDS :
                       iconName = 'ios-people-outline';
                       break;
-                  case langs[getUserLang()].NOTIFICATIONS :
+                  case t(selectors.getLang()).NOTIFICATIONS :
                       iconName = 'ios-notifications-outline';
                       break;
-                  case langs[getUserLang()].FAVORITES :
+                  case t(selectors.getLang()).FAVORITES :
                       iconName = 'ios-location-outline';
                       break;
               }
@@ -45,11 +49,11 @@ export default function BottomMenu() {
         inactiveTintColor: 'gray',
       }}
       >
-        <Tab.Screen name={langs[getUserLang()].ADD} component={AddListScreenManager}/>
-        <Tab.Screen name={langs[getUserLang()].FRIENDS} component={ListFriendsScreenManager}/>
-        <Tab.Screen name={langs[getUserLang()].HOME} component={HomeScreenManager} />
-        <Tab.Screen name={langs[getUserLang()].NOTIFICATIONS} component={NotificationsScreenManager} options={{ tabBarBadge: 3 }} />
-        <Tab.Screen name={langs[getUserLang()].FAVORITES} component={ListFavoritesScreenManager} />
+        <Tab.Screen name={t(selectors.getLang()).ADD} component={AddListScreenManager}/>
+        <Tab.Screen name={t(selectors.getLang()).FRIENDS} component={ListFriendsScreenManager}/>
+        <Tab.Screen name={t(selectors.getLang()).HOME} component={HomeScreenManager} />
+        <Tab.Screen name={t(selectors.getLang()).NOTIFICATIONS} component={NotificationsScreenManager} options={{ tabBarBadge: 3 }} />
+        <Tab.Screen name={t(selectors.getLang()).FAVORITES} component={ListFavoritesScreenManager} />
       </Tab.Navigator>
     );
   }
