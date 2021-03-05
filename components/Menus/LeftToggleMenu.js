@@ -22,7 +22,7 @@ export default function LeftToggleMenu() {
     useEffect(() => {
         AsyncStorage.getItem("lang").then(val => {
             if(val !== state.lang){
-            AsyncStorage.setItem("lang", "fr").then(() => {
+            AsyncStorage.setItem("lang", "en").then(() => {
                 setState({
                     lang: "en",
                     isLoaded: true

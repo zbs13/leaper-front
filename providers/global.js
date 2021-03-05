@@ -30,339 +30,339 @@ export default global = {
                 icon: 'md-stopwatch',
                 id: 2
             },{
-                name: 'Cyclisme',
+                name: t(lang).sports.CYCLING,
                 icon: 'md-stopwatch',
                 id: 3
             },{
-                name: 'Lancers',
+                name: t(lang).sports.SHOT_PUT,
                 icon: 'md-stopwatch',
                 id: 4
             },{
-                name: 'Marche',
+                name: t(lang).sports.WALK,
                 icon: 'md-stopwatch',
                 id: 5
             },{
-                name: 'Marathon',
+                name: t(lang).sports.MARATHON,
                 icon: 'md-stopwatch',
                 id: 6
             },{
-                name: 'Sauts',
+                name: t(lang).sports.JUMPS,
                 icon: 'md-stopwatch',
                 id: 7
             },{
-                name: 'Triathlon',
+                name: t(lang).sports.TRIATHLON,
                 icon: 'md-stopwatch',
                 id: 8
             },{
-                name: 'Crossfit',
+                name: t(lang).sports.CROSSFIT,
                 icon: 'md-barbell',
                 id: 9
             },{
-                name: 'Halterophilie',
+                name: t(lang).sports.WEIGHTLIFTING,
                 icon: 'md-barbell',
                 id: 10
             },{
-                name: 'Parkour',
+                name: t(lang).sports.PARKOUR,
                 icon: 'md-barbell',
                 id: 11
             },{
-                name: 'Pilate',
+                name: t(lang).sports.PILATES,
                 icon: 'md-barbell',
                 id: 12
             },{
-                name: 'Step',
+                name: t(lang).sports.STEP,
                 icon: 'md-barbell',
                 id: 13
             },{
-                name: 'Yoga',
+                name: t(lang).sports.YOGA,
                 icon: 'md-barbell',
                 id: 14
             },{
-                name: 'Gymnastique',
+                name: t(lang).sports.GYMNASTICS,
                 icon: 'md-medal',
                 id: 15
             },{
-                name: 'Airsoft',
+                name: t(lang).sports.AIRSOFT,
                 icon: 'md-pint',
                 id: 16
             },{
-                name: 'Baby-foot',
+                name: t(lang).sports.FOOSBALL,
                 icon: 'md-pint',
                 id: 17
             },{
-                name: 'Billard',
+                name: t(lang).sports.POOL,
                 icon: 'md-pint',
                 id: 18
             },{
-                name: 'Bowling',
+                name: t(lang).sports.BOWLING,
                 icon: 'md-pint',
                 id: 19
             },{
-                name: 'Danse',
+                name: t(lang).sports.DANCE,
                 icon: 'md-pint',
                 id: 20
             },{
-                name: 'Echecs',
+                name: t(lang).sports.CHESS,
                 icon: 'md-pint',
                 id: 21
             },{
-                name: 'Equitation',
+                name: t(lang).sports.HORSEBACK_RIDING,
                 icon: 'md-pint',
                 id: 22
             },{
-                name: 'Karting',
+                name: t(lang).sports.KARTING,
                 icon: 'md-pint',
                 id: 23
             },{
-                name: 'Paintball',
+                name: t(lang).sports.PAINTBALL,
                 icon: 'md-pint',
                 id: 24
             },{
-                name: 'Pétanque',
+                name: t(lang).sports.BOCCE,
                 icon: 'md-pint',
                 id: 25
             },{
-                name: 'Tir à l’arc',
+                name: t(lang).sports.ARCHERY,
                 icon: 'md-pint',
                 id: 26
             },{
-                name: 'Ultimate',
+                name: t(lang).sports.FRISBEE,
                 icon: 'md-pint',
                 id: 27
             },{
-                name: 'Badminton',
+                name: t(lang).sports.BADMINTON,
                 icon: 'md-football',
                 id: 28
             },{
-                name: 'Baseball',
+                name: t(lang).sports.BASEBALL,
                 icon: 'md-football',
                 id: 29
             },{
-                name: 'Basketball',
+                name: t(lang).sports.BASKETBALL,
                 icon: 'md-football',
                 id: 30
             },{
-                name: 'Cricket',
+                name: t(lang).sports.CRICKET,
                 icon: 'md-football',
                 id: 31
             },{
-                name: 'Football',
+                name: t(lang).sports.FOOTBALL,
                 icon: 'md-football',
                 id: 32
             },{
-                name: 'Football americain',
+                name: t(lang).sports.AMERICAN_FOOTBALL,
                 icon: 'md-football',
                 id: 33
             },{
-                name: 'Futsal',
+                name: t(lang).sports.FUTSAL,
                 icon: 'md-football',
                 id: 34
             },{
-                name: 'Golf',
+                name: t(lang).sports.GOLF,
                 icon: 'md-football',
                 id: 35
             },{
-                name: 'Handball',
+                name: t(lang).sports.HANDBALL,
                 icon: 'md-football',
                 id: 36
             },{
-                name: 'Hockey sur gazon',
+                name: t(lang).sports.HOCKEY,
                 icon: 'md-football',
                 id: 37
             },{
-                name: 'Squash',
+                name: t(lang).sports.SQUASH,
                 icon: 'md-football',
                 id: 38
             },{
-                name: 'Pelote basque',
+                name: t(lang).sports.BASQUE_PELOTA,
                 icon: 'md-football',
                 id: 39
             },{
-                name: 'Tennis',
+                name: t(lang).sports.TENNIS,
                 icon: 'md-football',
                 id: 40
             },{
-                name: 'Tennis de table',
+                name: t(lang).sports.TABLE_TENNIS,
                 icon: 'md-football',
                 id: 41
             },{
-                name: 'Polo',
+                name: t(lang).sports.POLO,
                 icon: 'md-football',
                 id: 42
             },{
-                name: 'Rugby',
+                name: t(lang).sports.RUGBY,
                 icon: 'md-football',
                 id: 43
             },{
-                name: 'Volley ball',
+                name: t(lang).sports.VOLLEYBALL,
                 icon: 'md-football',
                 id: 44
             },{
-                name: 'Water polo',
+                name: t(lang).sports.WATER_POLO,
                 icon: 'md-football',
                 id: 45
             },{
-                name: 'Aikido',
+                name: t(lang).sports.AIKIDO,
                 icon: 'md-shield',
                 id: 46
             },{
-                name: 'Boxe',
+                name: t(lang).sports.BOXING,
                 icon: 'md-shield',
                 id: 47
             },{
-                name: 'Capoeira',
+                name: t(lang).sports.CAPOEIRA,
                 icon: 'md-shield',
                 id: 48
             },{
-                name: 'Catch',
+                name: t(lang).sports.CATCH,
                 icon: 'md-shield',
                 id: 49
             },{
-                name: 'Escrime',
+                name: t(lang).sports.FENCING,
                 icon: 'md-shield',
                 id: 50
             },{
-                name: 'Ju-jitsu',
+                name: t(lang).sports.JUJITSU,
                 icon: 'md-shield',
                 id: 51
             },{
-                name: 'Judo',
+                name: t(lang).sports.JUDO,
                 icon: 'md-shield',
                 id: 52
             },{
-                name: 'Karaté',
+                name: t(lang).sports.KARATE,
                 icon: 'md-shield',
                 id: 53
             },{
-                name: 'Kendo',
+                name: t(lang).sports.KENDO,
                 icon: 'md-shield',
                 id: 54
             },{
-                name: 'Kenjutsu',
+                name: t(lang).sports.KENJUTSU,
                 icon: 'md-shield',
                 id: 55
             },{
-                name: 'Kick boxing',
+                name: t(lang).sports.KICK_BOXING,
                 icon: 'md-shield',
                 id: 56
             },{
-                name: 'Kung-fu',
+                name: t(lang).sports.KUNG_FU,
                 icon: 'md-shield',
                 id: 57
             },{
-                name: 'Krav maga',
+                name: t(lang).sports.KRAV_MAGA,
                 icon: 'md-shield',
                 id: 58
             },{
-                name: 'MMA',
+                name: t(lang).sports.MMA,
                 icon: 'md-shield',
                 id: 59
             },{
-                name: 'Taekwondo',
+                name: t(lang).sports.TAEKWONDO,
                 icon: 'md-shield',
                 id: 60
             },{
-                name: 'Bmx',
+                name: t(lang).sports.BMX,
                 icon: 'md-trending-down',
                 id: 61
             },{
-                name: 'Hockey sur glace',
+                name: t(lang).sports.ICE_HOCKEY,
                 icon: 'md-trending-down',
                 id: 62
             },{
-                name: 'Kitesurfing',
+                name: t(lang).sports.KITESURFING_BOARD,
                 icon: 'md-trending-down',
                 id: 63
             },{
-                name: 'Patinage',
+                name: t(lang).sports.ICE_SKATING,
                 icon: 'md-trending-down',
                 id: 64
             },{
-                name: 'Planche à voile',
+                name: t(lang).sports.WINDSURFING,
                 icon: 'md-trending-down',
                 id: 65
             },{
-                name: 'Roller',
+                name: t(lang).sports.ROLLERSKATING,
                 icon: 'md-trending-down',
                 id: 66
             },{
-                name: 'Skateboard',
+                name: t(lang).sports.SKATEBOARDING,
                 icon: 'md-trending-down',
                 id: 67
             },{
-                name: 'Ski alpin',
+                name: t(lang).sports.ALPINE_SKIING,
                 icon: 'md-trending-down',
                 id: 68
             },{
-                name: 'Ski nautique',
+                name: t(lang).sports.WATER_SKIING,
                 icon: 'md-trending-down',
                 id: 69
             },{
-                name: 'Snowboard',
+                name: t(lang).sports.SNOWBOARDING,
                 icon: 'md-trending-down',
                 id: 70
             },{
-                name: 'Surf',
+                name: t(lang).sports.SURFING,
                 icon: 'md-trending-down',
                 id: 71
             },{
-                name: 'Wakeboard',
+                name: t(lang).sports.WAKEBOARDING,
                 icon: 'md-trending-down',
                 id: 72
             },{
-                name: 'Aviron',
+                name: t(lang).sports.ROWING,
                 icon: 'md-boat',
                 id: 73
             },{
-                name: 'Canoe',
+                name: t(lang).sports.CANOEING,
                 icon: 'md-boat',
                 id: 74
             },{
-                name: 'Canyoning',
+                name: t(lang).sports.CANYONING,
                 icon: 'md-boat',
                 id: 75
             },{
-                name: 'Kayak',
+                name: t(lang).sports.KAYAKING,
                 icon: 'md-boat',
                 id: 76
             },{
-                name: 'Natation',
+                name: t(lang).sports.SWIMMING,
                 icon: 'md-boat',
                 id: 77
             },{
-                name: 'Pêche',
+                name: t(lang).sports.FISHING,
                 icon: 'md-boat',
                 id: 78
             },{
-                name: 'Plongée',
+                name: t(lang).sports.SNORKELLING,
                 icon: 'md-boat',
                 id: 79
             },{
-                name: 'Rafting',
+                name: t(lang).sports.RAFTING,
                 icon: 'md-boat',
                 id: 80
             },{
-                name: 'Base jump',
+                name: t(lang).sports.BASE_JUMPING,
                 icon: 'md-warning',
                 id: 81
             },{
-                name: 'Escalade',
+                name: t(lang).sports.ROCK_CLIMBING,
                 icon: 'md-warning',
                 id: 82
             },{
-                name: 'Parachutisme',
+                name: t(lang).sports.SKYDIVING,
                 icon: 'md-warning',
                 id: 83
             },{
-                name: 'Parapente',
+                name: t(lang).sports.PARAGLIDING,
                 icon: 'md-warning',
                 id: 84
             },{
-                name: 'Quad',
+                name: t(lang).sports.QUAD_BIKING,
                 icon: 'md-warning',
                 id: 85
             },{
-                name: 'Rallye Automobile',
+                name: t(lang).sports.CAR_RALLY,
                 icon: 'md-warning',
                 id: 86
             }

@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import { View, StyleSheet, Text, Button } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
+import t from '../providers/lang/translations';
+import useApp from '../hooks/useApp';
 
 
 export default function PopupBottom(props) {
+
+    const  {selectors} = useApp();
+
     const [visible, setVisible] = useState(false);
     const toggleBottomNavigationView = () => {
       setVisible(!visible);
@@ -35,7 +40,7 @@ export default function PopupBottom(props) {
                   })
                   }
                   <Button onPress={() => {toggleBottomNavigationView()}
-                  } title="Retour" />
+                  } title={t(selectors.getLang()).CANCEL} />
               </View>
              
           </View>
