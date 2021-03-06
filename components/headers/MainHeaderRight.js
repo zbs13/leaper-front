@@ -1,12 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View } from 'react-native';
+import Search from '../Search';
 import Cta from '../Cta';
 import styles from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
+import useApp from '../../hooks/useApp';
 
 export default function MainHeaderRight() {
+
+    const {actions} = useApp();
 
     const [mainHeaderState, setMainHeaderState] = useState({
         profilePic: null
@@ -19,7 +23,9 @@ export default function MainHeaderRight() {
     return (
         <View style={styles.headerRightContainer}>
             <Cta _style={[styles.headerIcons, globalStyles.p_10]} 
-                onPress={() => alert("&&")}
+                onPress={() => actions.updateUserParameters({
+                    searchBar: "global"
+                })}
                 value={<Ionicons style={styles.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
