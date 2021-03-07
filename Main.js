@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
 import LeftToggleMenu from './components/Menus/LeftToggleMenu';
 import Search from './components/Search';
+import HomeLoading from './components/HomeLoading';
 
 export default function Main() {
 
@@ -23,15 +24,15 @@ export default function Main() {
 
         AsyncStorage.getItem("lang").then(val => {
             if(val !== state.lang){
-            AsyncStorage.setItem("lang", "en").then(() => {
-                setState({
-                    lang: "en",
-                    isLoaded: true
+                AsyncStorage.setItem("lang", "en").then(() => {
+                    setState({
+                        lang: "en",
+                        isLoaded: true
+                    });
+                    actions.updateUserParameters({
+                        lang: "en"
+                    })
                 });
-                actions.updateUserParameters({
-                    lang: "en"
-                })
-            });
             }else{
                 setState({
                     ...state,
@@ -54,6 +55,8 @@ export default function Main() {
             </>
         );
     }else{
-        return(<Text>aaa</Text>)
+        return(
+            <HomeLoading />
+        )
     }
 }

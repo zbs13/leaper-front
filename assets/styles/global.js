@@ -14,6 +14,15 @@ export default globalStyles = StyleSheet.create({
     br_50: {
         borderRadius: 50
     },
+    w_100: {
+        width: "100%"
+    },
+    h_100: {
+        height: "100%"
+    },
+    ta_c: {
+        textAlign: "center"
+    },
     flex: {
         display: "flex",
         flexWrap: "wrap"

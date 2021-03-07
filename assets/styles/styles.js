@@ -2,9 +2,6 @@ import { StyleSheet } from 'react-native';
 import global from '../../providers/global';
 
 export const header = StyleSheet.create({
-    headerLogo: {
-        width: 150
-    },
     headerRightContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -25,6 +22,15 @@ export const header = StyleSheet.create({
     headerBackIcon: {
         color: global.colors.MAIN_COLOR,
         marginLeft: 10
+    }
+});
+
+export const logo = StyleSheet.create({
+    loading: {
+        width: 250
+    },
+    header: {
+        width: 150
     }
 });
 
