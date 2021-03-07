@@ -9,6 +9,10 @@ const l = {
         CREATE_GROUP: "Créer un groupe",
         CREATE_EVENT: "Créer un évènement",
         ADD_CONTACT_PERSON: "Ajouter un contact",
+        SEARCH: "Recherche",
+        search: {
+            GLOBAL: "Rechercher un sport, un évènement, un groupe..."
+        },
         sports: {
             BIATHLON: "Biathlon",
             RUNNING: "Course",
@@ -108,6 +112,10 @@ const l = {
         CREATE_GROUP: "Create a group",
         CREATE_EVENT: "Create an event",
         ADD_CONTACT_PERSON: "Add a contact person",
+        SEARCH: "Search",
+        search: {
+            GLOBAL: "Search a sport, an event, a group..."
+        },
         sports: {
             BIATHLON: "Biathlon",
             RUNNING: "Running",

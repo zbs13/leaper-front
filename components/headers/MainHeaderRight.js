@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Cta from '../Cta';
-import styles from '../../assets/styles/styles';
+import { header } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
+import useApp from '../../hooks/useApp';
 
 export default function MainHeaderRight() {
+
+    const {actions} = useApp();
 
     const [mainHeaderState, setMainHeaderState] = useState({
         profilePic: null
@@ -17,13 +20,15 @@ export default function MainHeaderRight() {
     }, [])
 
     return (
-        <View style={styles.headerRightContainer}>
-            <Cta _style={[styles.headerIcons, globalStyles.p_10]} 
-                onPress={() => alert("&&")}
-                value={<Ionicons style={styles.headerIcons} name="search-outline" />}
+        <View style={header.headerRightContainer}>
+            <Cta _style={[header.headerIcons, globalStyles.p_10]} 
+                onPress={() => actions.updateUserParameters({
+                    searchBar: "global"
+                })}
+                value={<Ionicons style={header.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
-            <Cta _style={[styles.headerProfilePic, globalStyles.m_10]} 
+            <Cta _style={[header.headerProfilePic, globalStyles.m_10]} 
                 onPress={() => alert("bbaab")}
                 backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
             />

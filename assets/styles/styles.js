@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import global from '../../providers/global';
 
-export default styles = StyleSheet.create({
+export const header = StyleSheet.create({
     headerLogo: {
         width: 150
     },
@@ -27,3 +27,23 @@ export default styles = StyleSheet.create({
         marginLeft: 10
     }
 });
+
+export const cta = StyleSheet.create({
+    main: {
+        borderRadius: 20,
+        padding: 10
+    },
+    first: {
+        backgroundColor: global.colors.MAIN_COLOR,
+        color: global.colors.ANTHRACITE,
+    }
+});
+
+export const text = StyleSheet.create({
+    searchTitle: {
+        color: global.colors.ANTHRACITE,
+        fontWeight: "bold",
+        fontSize: 20,
+        maxWidth: "75%"
+    }
+})
