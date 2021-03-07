@@ -38,7 +38,8 @@ const useApp = () => {
   const selectors = {
     getUserParameters: () => appState,
     getLang: () => appState.lang,
-    getSearchBar: () => appState.searchBar
+    getSearchBar: () => appState.searchBar,
+    getOS: () => appState.os
   };
 
   return { selectors, actions };

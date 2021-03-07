@@ -1,6 +1,7 @@
 export const initialState = {
     lang: "fr",
-    searchBar: null   
+    searchBar: null,
+    os: "android"  
 };
   
   /**

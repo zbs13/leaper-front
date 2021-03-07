@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Text } from 'react-native';
+import { Platform, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
 import LeftToggleMenu from './components/Menus/LeftToggleMenu';
@@ -15,6 +15,12 @@ export default function Main() {
     const {actions, selectors} = useApp();
 
     useEffect(() => {
+        if(Platform.OS === 'ios'){
+            actions.updateUserParameters({
+                os: 'ios'
+            })
+        }
+
         AsyncStorage.getItem("lang").then(val => {
             if(val !== state.lang){
             AsyncStorage.setItem("lang", "en").then(() => {
@@ -33,7 +39,7 @@ export default function Main() {
                 });
             }
         })
-    }, [state.lang])
+    }, [])
 
     if(state.isLoaded){
         return (

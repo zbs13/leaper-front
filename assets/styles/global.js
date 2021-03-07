@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import global from '../../providers/global';
 
 export default globalStyles = StyleSheet.create({
+    p_5: {
+        padding: 5
+    },
     p_10: {
         padding: 10
     },
@@ -12,10 +15,14 @@ export default globalStyles = StyleSheet.create({
         borderRadius: 50
     },
     flex: {
-        display: "flex"
+        display: "flex",
+        flexWrap: "wrap"
     },
     flexRow: {
         flexDirection: "row"
+    },
+    flexBetween: {
+        justifyContent: "space-between"
     },
     justifyCenter: {
         justifyContent: "center"
