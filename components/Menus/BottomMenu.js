@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomMenu() {
 
-    const  {selectors} = useApp();
+    const {selectors} = useApp();
 
     return (
       <Tab.Navigator
