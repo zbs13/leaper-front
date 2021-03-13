@@ -10,6 +10,7 @@ const l = {
         CREATE_EVENT: "Créer un évènement",
         ADD_CONTACT_PERSON: "Ajouter un contact",
         SEARCH: "Recherche",
+        ERROR_API: "Oups, une erreur est survenue",
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
@@ -113,6 +114,7 @@ const l = {
         CREATE_EVENT: "Create an event",
         ADD_CONTACT_PERSON: "Add a contact person",
         SEARCH: "Search",
+        ERROR_API: "Oops, an error has occurred !",
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },

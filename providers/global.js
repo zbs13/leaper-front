@@ -13,7 +13,11 @@ export default global = {
     colors: {
         MAIN_COLOR: '#BDE023',
         ANTHRACITE: "#293231",
-        LIGHT_GREY: '#C6C6C6'
+        LIGHT_GREY: '#C6C6C6',
+        GREEN_SUCCESS: '#BDE023',
+        GREEN_SUCCESS_TEXT: '#32682B',
+        RED_ERROR: '#B75A5A',
+        RED_ERROR_TEXT: '#6A2626',
     },
     listSports : (lang) => ( 
         [
