@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import { Platform, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
-import LeftToggleMenu from './components/Menus/LeftToggleMenu';
+import LeftToggleMenu from './components/menus/LeftToggleMenu';
 import Search from './components/Search';
-import HomeLoading from './components/HomeLoading';
+import HomeLoader from './components/loaders/HomeLoader';
+import PopupStatus from './components/PopupStatus';
 
 export default function Main() {
 
@@ -52,11 +53,12 @@ export default function Main() {
                     :
                         null
                 }
+                <PopupStatus />
             </>
         );
     }else{
         return(
-            <HomeLoading />
+            <HomeLoader />
         )
     }
 }

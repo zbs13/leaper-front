@@ -1,7 +1,8 @@
 export const initialState = {
     lang: "fr",
     searchBar: null,
-    os: "android"  
+    os: "android",
+    popupsStatus: []
 };
   
   /**
@@ -14,6 +15,16 @@ export const initialState = {
           ...state,
           ...action.payload
         };
+      case "ADD_POPUP_STATUS":
+        state.popupsStatus.push(action.payload);
+        return state;
+      case "REMOVE_POPUP_STATUS":
+        state.popupsStatus.map((popup, index) => {
+          if(popup.id == action.payload){
+            state.popupsStatus.splice(index, 1);
+          }
+        })
+        return state;
       default:
         return state;
     }

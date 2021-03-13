@@ -33,13 +33,39 @@ const useApp = () => {
         payload: datas
       })
     },
+    addPopupStatus: function({type, message}) {
+      let id = Date.now();
+      dispatch({
+        type: "ADD_POPUP_STATUS",
+        payload: {
+          id: id,
+          type: type,
+          message: message
+        }
+      })
+
+      new Promise(function(resolve) {
+        setTimeout(function(){
+          resolve("removePopupStatus");
+        }, 2000);
+      }).then(function(removePopupFunc){
+        actions[removePopupFunc](id);
+      });
+    },
+    removePopupStatus: function(id) {
+      dispatch({
+        type: "REMOVE_POPUP_STATUS",
+        payload: id
+      })
+    }
   };
 
   const selectors = {
     getUserParameters: () => appState,
     getLang: () => appState.lang,
     getSearchBar: () => appState.searchBar,
-    getOS: () => appState.os
+    getOS: () => appState.os,
+    getPopupsStatus: () => appState.popupsStatus
   };
 
   return { selectors, actions };

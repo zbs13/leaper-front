@@ -31,6 +31,9 @@ export const logo = StyleSheet.create({
     },
     header: {
         width: 150
+    },
+    mini: {
+        width: 40
     }
 });
 
@@ -51,5 +54,46 @@ export const text = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 20,
         maxWidth: "75%"
+    }
+})
+
+export const popup = StyleSheet.create({
+    global: {
+        position: "absolute",
+        zIndex: 10000,
+        bottom: 0,
+        width: "100%",
+    },
+    success: {
+        backgroundColor: global.colors.GREEN_SUCCESS
+    },
+    success_text: {
+        color: global.colors.GREEN_SUCCESS_TEXT
+    },
+    error: {
+        backgroundColor: global.colors.RED_ERROR
+    },
+    error_text: {
+        color: global.colors.RED_ERROR_TEXT
+    },
+    wait: {
+        backgroundColor: global.colors.ANTHRACITE
+    },
+    icon: {
+        fontSize: 20,
+        padding: 5,
+    },
+    icon_success: {
+        color: global.colors.GREEN_SUCCESS_TEXT
+    },
+    icon_error: {
+        color: global.colors.RED_ERROR_TEXT
+    }
+})
+
+export const miniLoader = StyleSheet.create({
+    main: {
+        position: "absolute",
+        top: 0
     }
 })
