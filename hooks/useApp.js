@@ -10,12 +10,13 @@ const useApp = () => {
 
   const actions = {
     fetchUserParameters: function () {
-    //   fetchUserParameters().then((data) => {
-    //     dispatch({
-    //       type: "UPDATE_USER_PARAMETERS",
-    //       payload: data
-    //     });
-    //   });
+      return fetchUserParameters().then((data) => {
+        // dispatch({
+        //   type: "UPDATE_USER_PARAMETERS",
+        //   payload: data
+        // });
+        return [data]
+      });
     //   dispatch({
     //     type: "UPDATE_USER_PARAMETERS",
     //     payload: datas

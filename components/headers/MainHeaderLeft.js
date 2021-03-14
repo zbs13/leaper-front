@@ -10,7 +10,7 @@ import global from '../../providers/global';
 export default function MainHeaderLeft({navigation}) {
 
     return (
-        <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
+        <View style={[globalStyles.m_10, globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Cta _style={[header.headerIcons]} 
                 onPress={() => navigation.openDrawer()}
                 value={<Ionicons style={header.headerIcons} name="reorder-four-outline" />}
