@@ -6,7 +6,8 @@ import NavigationBackIcon from '../NavigationBackIcon';
 
 export default headerType = {
     main: (navigation) => ({
-        headerTitle: (props) => (<MainHeaderLeft navigation={navigation} />),
+        headerTitle: "",
+        headerLeft: (props) => (<MainHeaderLeft navigation={navigation} />),
         headerRight: () => (
             <MainHeaderRight />
         )
