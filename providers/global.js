@@ -8,7 +8,9 @@ export default global = {
         FRIENDS: "Friends",
         NOTIFICATIONS: "Notifications",
         SETTINGS: "Settings",
-        SPORT_EVENTS: "SportEvents"
+        SPORT_EVENTS: "SportEvents",
+        MY_GROUPS: "MyGroups",
+        MY_EVENTS: "MyEvents"
     },
     colors: {
         MAIN_COLOR: '#BDE023',

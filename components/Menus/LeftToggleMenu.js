@@ -5,6 +5,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomMenu from './BottomMenu';
 import global from '../../providers/global';
 import useApp from '../../hooks/useApp';
+import MyEventsScreenManager from '../../screensManager/MyEventsScreenManager';
+import MyGroupsScreenManager from '../../screensManager/MyGroupsScreenManager';
 
 const Drawer = createDrawerNavigator();
 
@@ -16,12 +18,11 @@ export default function LeftToggleMenu() {
         <Drawer.Navigator drawerStyle={{ backgroundColor: '#ffff', width: 260 }}>
             {
                 global.listSports(selectors.getLang()).map((value, index) => {
-                    if(typeof value.component === "undefined") {
-                        return (
-                            <Drawer.Screen 
+                    return (
+                        <Drawer.Screen 
                             key={index}
                             name= {value.name}
-                            component={SportEventScreenManager} 
+                            component={typeof value.component === "undefined" ? SportEventScreenManager : value.component === global.screens.HOME ? BottomMenu : null} 
                             options={{
                                 title: value.name,
                                 drawerIcon: ({focused, size}) => (
@@ -33,29 +34,11 @@ export default function LeftToggleMenu() {
                                 ),
                             }}
                         />
-                        )  
-                    }
-                    if(value.component === global.screens.HOME) {
-                        return (
-                            <Drawer.Screen 
-                            key={index}
-                            name= {value.name}
-                            component={BottomMenu} 
-                            options={{
-                                title: value.name,
-                                drawerIcon: ({focused, size}) => (
-                                    <Ionicons
-                                        name= {value.icon}
-                                        size={size}
-                                        color={focused ? '#BDE023' : '#ccc'}
-                                    />
-                                ),
-                            }}
-                        />
-                        ) 
-                    }
+                    )  
                 })
             }
+            <Drawer.Screen name="MyGroups" component={MyGroupsScreenManager} />
+            <Drawer.Screen name="MyEvents" component={MyEventsScreenManager} />
         </Drawer.Navigator>
     );
 }

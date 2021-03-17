@@ -9,6 +9,8 @@ import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreen
 import global from '../../providers/global';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
+import MyEventsScreenManager from '../../screensManager/MyEventsScreenManager';
+import MyGroupsScreenManager from '../../screensManager/MyGroupsScreenManager';
 
 const Tab = createBottomTabNavigator();
 

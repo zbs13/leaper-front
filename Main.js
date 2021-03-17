@@ -15,7 +15,6 @@ export default function Main() {
     });
 
     const {actions, selectors} = useApp();
-
     useEffect(() => {
         if(Platform.OS === 'ios'){
             actions.updateUserParameters({

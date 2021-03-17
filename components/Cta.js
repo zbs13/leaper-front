@@ -3,7 +3,7 @@ import { Text, View, TouchableHighlight } from 'react-native';
 import BackgroundImage from './BackgroundImage';
 import globalStyles from '../assets/styles/global';
 
-export default function Cta({_style, onPress, underlayColor, value, backgroundImage}) {
+export default function Cta({_style, onPress, underlayColor, value, backgroundImage, children}) {
 
     let color = {};
     if(Array.isArray(_style)){
@@ -25,13 +25,16 @@ export default function Cta({_style, onPress, underlayColor, value, backgroundIm
                         {typeof value === "string" ?
                             <Text style={color}>{value}</Text>
                         : 
-                            typeof backgroundImage !== "undefined" ?
+                            typeof backgroundImage !== "undefined" && typeof value === "undefined" ?
                                 <BackgroundImage
                                     image={backgroundImage} 
                                     _style={globalStyles.br_50}>
                                 </BackgroundImage>
                             :
-                                value
+                                typeof children !== "undefined" ?
+                                    children
+                                :
+                                    value
 
                         }
                     </View>
