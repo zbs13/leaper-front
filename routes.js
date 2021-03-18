@@ -46,14 +46,14 @@ export const FAVORITES_withBottomMenu = [
 
 export const FRIENDS_withBottomMenu = [
     {
-        name: global.screens.HOME,
+        name: global.screens.FRIENDS,
         component: ListFriendsScreen
     }
 ]
 
 export const ADD_withBottomMenu = [
     {
-        name: global.screens.HOME,
+        name: global.screens.ADD,
         component: AddListScreen
     }
 ]

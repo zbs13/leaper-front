@@ -20,6 +20,8 @@ export default global = {
         GREEN_SUCCESS_TEXT: '#32682B',
         RED_ERROR: '#B75A5A',
         RED_ERROR_TEXT: '#6A2626',
+        RED_NOTIFS: "#FF6363",
+        WHITE: "#FFFFFF"
     },
     listSports : (lang) => ( 
         [

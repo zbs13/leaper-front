@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
-import { fetchEvents } from '../context/actions/events';
+import { fetchMyEvents } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 
 const useEvents = () => {
@@ -10,12 +10,11 @@ const useEvents = () => {
   } = useContext(EventsContext);
 
   const actions = {
-    fetchAll: function () {
-      return fetchEvents().then((data) => {
-        console.log("FETCH EVENT => ", data)
+    fetchAllMy: function () {
+      return fetchMyEvents().then((data) => {
         return response(data, function(res){
           dispatch({
-            type: "UPDATE_EVENTS",
+            type: "UPDATE_MY_EVENTS",
             payload: res
           });
         })
@@ -27,7 +26,7 @@ const useEvents = () => {
   };
 
   const selectors = {
-    getAll: () => eventsState.groups,
+    getAllMy: () => eventsState.my_events,
   };
 
   return { selectors, actions };

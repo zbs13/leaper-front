@@ -97,3 +97,45 @@ export const miniLoader = StyleSheet.create({
         top: 0
     }
 })
+
+export const home = StyleSheet.create({
+    view: {
+        margin: 20
+    },  
+    cardContainer: {
+        width: "100%",
+        height: 150,
+        backgroundColor: global.colors.WHITE,
+        borderRadius: 5,
+        shadowColor: global.colors.LIGHT_GREY,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+})
+
+export const tag = StyleSheet.create({
+    container: {
+        padding: 5,
+        minWidth: 30,
+        height: 30,
+        borderRadius: 50,
+        backgroundColor: "red"
+    },
+    groupsEvents: {
+        backgroundColor: global.colors.LIGHT_GREY
+    },
+    groupsEventsText: {
+        color: global.colors.ANTHRACITE
+    },
+    notifs: {
+        backgroundColor: global.colors.RED_NOTIFS,
+    },
+    notifsText: {
+        color: global.colors.WHITE
+    }
+})

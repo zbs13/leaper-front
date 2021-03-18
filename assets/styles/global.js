@@ -33,11 +33,23 @@ export default globalStyles = StyleSheet.create({
     flexBetween: {
         justifyContent: "space-between"
     },
+    flexAround: {
+        justifyContent: "space-around"
+    },
     justifyCenter: {
         justifyContent: "center"
     },
+    justifyEnd: {
+        alignItems: "flex-end"
+    },
     alignCenter: {
         alignItems: "center"
+    },
+    alignStretch: {
+        alignItems: "stretch"
+    },  
+    alignAround: {
+        alignContent: "space-around"
     },
     c_main: {
         color: global.colors.MAIN_COLOR

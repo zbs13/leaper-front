@@ -12,6 +12,8 @@ const l = {
         SEARCH: "Recherche",
         ERROR_API: "Oups, une erreur est survenue",
         USER_ALREADY_EXISTS: "Cet utilisateur existe déja",
+        MY_GROUPS: "Mes groupes",
+        MY_EVENTS: "Mes évènements",
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
@@ -117,6 +119,8 @@ const l = {
         SEARCH: "Search",
         ERROR_API: "Oops, an error has occurred !",
         USER_ALREADY_EXISTS: "This user already exists",
+        MY_GROUPS: "My groups",
+        MY_EVENTS: "My events",
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },

@@ -6,7 +6,6 @@ import AddListScreenManager from '../../screensManager/AddListScreenManager';
 import ListFriendsScreenManager from '../../screensManager/ListFriendsScreenManager';
 import NotificationsScreenManager from '../../screensManager/NotificationsScreenManager';
 import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreenManager';
-import global from '../../providers/global';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 

@@ -1,4 +1,5 @@
 export const initialState = {
+    my_events: [],
     events: []
 };
   
@@ -7,10 +8,10 @@ export const initialState = {
    */
   export const reducer = (state, action) => {
     switch (action.type) {
-      case "UPDATE_EVENTS":
+      case "UPDATE_MY_EVENTS":
         return {
             ...state,
-            events: action.payload
+            my_events: action.payload
         };
       default:
         return state;
