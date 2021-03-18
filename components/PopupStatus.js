@@ -37,7 +37,7 @@ export default function PopupStatus() {
                         <View key={_popup.id} style={[popup.error, globalStyles.p_5, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween]}>
                             <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                                 <Ionicons style={[popup.icon, popup.icon_error]} name="bug-outline" />
-                                <Text style={popup.error_text}>{t(selectors.getLang()).ERROR_API}</Text>
+                                <Text style={popup.error_text}>{_popup.message || t(selectors.getLang()).ERROR_API}</Text>
                             </View>
                             <View>
                                 <Cta onPress={() => actions.removePopupStatus(_popup.id)}

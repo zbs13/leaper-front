@@ -3,17 +3,9 @@ import {
   initialState as appInitialState,
   reducer as appReducer,
 } from "./reducers/app";
+import combineReducers from "./combine";
 
 const AppContext = createContext(null);
-
-function combineReducers(reducerDict) {
-  return function (state = {}, action) {
-    return Object.keys(reducerDict).reduce((stateGlobal, curr) => {
-      let slice = reducerDict[curr](state[curr], action);
-      return { ...stateGlobal, [curr]: slice };
-    }, state);
-  };
-}
 
 const reducers = combineReducers({
   app: appReducer
