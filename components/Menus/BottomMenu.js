@@ -9,8 +9,6 @@ import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreen
 import global from '../../providers/global';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import MyEventsScreenManager from '../../screensManager/MyEventsScreenManager';
-import MyGroupsScreenManager from '../../screensManager/MyGroupsScreenManager';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +18,6 @@ export default function BottomMenu() {
 
     return (
       <Tab.Navigator
-        initialRouteName={global.screens.HOME}
         screenOptions={({ route }) => ({
             tabBarIcon: ({ color, size }) => {
               let iconName;
@@ -51,10 +48,10 @@ export default function BottomMenu() {
         inactiveTintColor: 'gray',
       }}
       >
-        <Tab.Screen name={t(selectors.getLang()).ADD} component={AddListScreenManager}/>
-        <Tab.Screen name={t(selectors.getLang()).FRIENDS} component={ListFriendsScreenManager}/>
+        <Tab.Screen name={t(selectors.getLang()).ADD} component={AddListScreenManager} />
+        <Tab.Screen name={t(selectors.getLang()).FRIENDS} component={ListFriendsScreenManager} />
         <Tab.Screen name={t(selectors.getLang()).HOME} component={HomeScreenManager} />
-        <Tab.Screen name={t(selectors.getLang()).NOTIFICATIONS} component={NotificationsScreenManager} options={{ tabBarBadge: 3 }} />
+        <Tab.Screen name={t(selectors.getLang()).NOTIFICATIONS} component={NotificationsScreenManager} options={{ tabBarBadge: 3}} />
         <Tab.Screen name={t(selectors.getLang()).FAVORITES} component={ListFavoritesScreenManager} />
       </Tab.Navigator>
     );

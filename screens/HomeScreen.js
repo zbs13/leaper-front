@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import MyGroupsEventsCard from '../components/cards/MyGroupsEventsCard';
 import { GroupsProvider } from "../context/groupsContext";
 import { EventsProvider } from "../context/eventsContext";
+import { Button } from 'react-native';
 
 export default function HomeScreen({navigation}) {
 
@@ -24,6 +25,10 @@ export default function HomeScreen({navigation}) {
           <View>
             <MyGroupsEventsCard navigation={navigation} type="groups"/>
             <MyGroupsEventsCard navigation={navigation} type="events"/>
+            <Button 
+            title="TESSSST"
+              onPress={() => navigation.navigate("test")}
+            />
           </View>
         </GroupsProvider>
       </EventsProvider>

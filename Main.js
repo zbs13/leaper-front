@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { Platform, Text } from 'react-native';
+import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
-import LeftToggleMenu from './components/menus/LeftToggleMenu';
 import Search from './components/Search';
 import HomeLoader from './components/loaders/HomeLoader';
 import PopupStatus from './components/PopupStatus';
+import AppScreenManager from './screensManager/AppScreenManager';
 
 export default function Main() {
 
@@ -45,7 +45,7 @@ export default function Main() {
     if(state.isLoaded){
         return (
             <>
-                <LeftToggleMenu />
+                <AppScreenManager />
                 {selectors.getSearchBar() !== null 
                     ?
                         <Search type={selectors.getSearchBar()} />

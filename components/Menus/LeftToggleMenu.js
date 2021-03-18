@@ -5,8 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomMenu from './BottomMenu';
 import global from '../../providers/global';
 import useApp from '../../hooks/useApp';
-import MyEventsScreenManager from '../../screensManager/MyEventsScreenManager';
-import MyGroupsScreenManager from '../../screensManager/MyGroupsScreenManager';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,6 +22,7 @@ export default function LeftToggleMenu() {
                             name= {value.name}
                             component={typeof value.component === "undefined" ? SportEventScreenManager : value.component === global.screens.HOME ? BottomMenu : null} 
                             options={{
+                    
                                 title: value.name,
                                 drawerIcon: ({focused, size}) => (
                                     <Ionicons
@@ -37,8 +36,6 @@ export default function LeftToggleMenu() {
                     )  
                 })
             }
-            <Drawer.Screen name="MyGroups" component={MyGroupsScreenManager} />
-            <Drawer.Screen name="MyEvents" component={MyEventsScreenManager} />
         </Drawer.Navigator>
     );
 }
