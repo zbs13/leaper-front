@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import GroupsContext from "../context/groupsContext";
-import { fetchGroups } from '../context/actions/groups';
+import { fetchMyGroups } from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 
 const useGroups = () => {
@@ -10,12 +10,11 @@ const useGroups = () => {
   } = useContext(GroupsContext);
 
   const actions = {
-    fetchAll: function () {
-      console.log("FETCH");
-      return fetchGroups().then((data) => {
+    fetchAllMy: function () {
+      return fetchMyGroups().then((data) => {
         return response(data, function(res){
           dispatch({
-            type: "UPDATE_GROUPS",
+            type: "UPDATE_MY_GROUPS",
             payload: res
           });
         })
@@ -27,7 +26,7 @@ const useGroups = () => {
   };
 
   const selectors = {
-    getAll: () => groupsState.groups,
+    getAllMy: () => groupsState.my_groups,
   };
 
   return { selectors, actions };

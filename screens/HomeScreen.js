@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { ScrollView } from 'react-native';
 import MyGroupsEventsCard from '../components/cards/MyGroupsEventsCard';
 import { GroupsProvider } from "../context/groupsContext";
 import { EventsProvider } from "../context/eventsContext";
@@ -9,10 +9,10 @@ export default function HomeScreen({navigation}) {
     return (
       <EventsProvider>
         <GroupsProvider>
-          <View>
+          <ScrollView>
             <MyGroupsEventsCard navigation={navigation} type="groups"/>
             <MyGroupsEventsCard navigation={navigation} type="events"/>
-          </View>
+          </ScrollView>
         </GroupsProvider>
       </EventsProvider>
     );

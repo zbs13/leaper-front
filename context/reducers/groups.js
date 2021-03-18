@@ -1,4 +1,5 @@
 export const initialState = {
+    my_groups: [],
     groups: []
 };
   
@@ -7,10 +8,10 @@ export const initialState = {
    */
   export const reducer = (state, action) => {
     switch (action.type) {
-      case "UPDATE_GROUPS":
+      case "UPDATE_MY_GROUPS":
         return {
             ...state,
-            groups: action.payload
+            my_groups: action.payload
         };
       default:
         return state;

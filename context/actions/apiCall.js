@@ -109,7 +109,6 @@ export async function req(type, req, vars = null, waitMessage = null, needAuth =
 }
 
 export function response(data, callback){
-    console.log("response => ", data)
     if(typeof data.isError !== "undefined"){
         if(data.isError){
             return data;
@@ -121,7 +120,6 @@ export function response(data, callback){
 }
 
 export function manageResponseUI(data, lang, callbackSuccess, callbackError){
-    console.log("manageResponseUI => ", data);
     if(typeof data.isError !== "undefined"){
         let message;
         switch(data.type){

@@ -7,7 +7,6 @@ export default function TestScreen({navigation}) {
 
     const { actions } = useApp();
     const [a, setA] = useState([]);
-    console.log(a);
 
     const b = async () => {
       let res = await actions.fetchUserParameters();
