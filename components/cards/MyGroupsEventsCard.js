@@ -12,13 +12,13 @@ import t from '../../providers/lang/translations';
 import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
 import TagNbNotifs from '../tags/TagNbNotifs';
 import ImageIcon from '../icons/ImageIcon';
-import MiniLoader from "../loaders/MiniLoader";
+import GroupsEventsCardLoader from "../loaders/GroupsEventsCardLoader";
 
-export default function MyGroupsEventsCards({type, navigation}) {
+export default function MyGroupsEventsCards({ type, navigation }) {
 
-    const {actions: actionsGroups, selectors: selectorsGroups} = useGroups();
-    const {actions: actionsEvents, selectors: selectorsEvents} = useEvents();
-    const {actions: actionsApp, selectors: selectorsApp} = useApp();
+    const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
+    const { actions: actionsEvents, selectors: selectorsEvents } = useEvents();
+    const { actions: actionsApp, selectors: selectorsApp } = useApp();
 
     const [groupEvent, setGroupEvent] = useState({
         isLoaded: false,
@@ -32,55 +32,55 @@ export default function MyGroupsEventsCards({type, navigation}) {
     let action;
     let selector;
     let nb;
-    if(type === "groups"){
+    if (type === "groups") {
         action = actionsGroups;
         selector = selectorsGroups;
         nb = "nbGroups";
-    }else if(type === "events"){
+    } else if (type === "events") {
         action = actionsEvents;
         selector = selectorsEvents;
         nb = "nbEvents";
     }
     useEffect(() => {
         action.fetchAllMy().then((data) => {
-            manageResponseUI(data, 
+            manageResponseUI(data,
                 lang,
-                function(res){
+                function (res) {
                     setGroupEvent({
                         ...groupEvent,
-                        isLoaded: true,
+                        isLoaded: false,
                         [nb]: res.length
                     })
                 },
-                function(error){
+                function (error) {
                     actionsApp.addPopupStatus(error);
                     setGroupEvent({
                         ...groupEvent,
                         isLoaded: false
                     })
                 })
-        }) 
+        })
     }, [])
 
-    if(groupEvent.isLoaded){
+    if (groupEvent.isLoaded) {
         return (
             <View style={home.view}>
                 <Cta
                     onPress={() => navigation.navigate(type === "groups" ? global.screens.MY_GROUPS : global.screens.MY_EVENTS)}
                     _style={home.cardContainer}
                     underlayColor={global.colors.WHITE}
-                    >
+                >
                     <View style={[globalStyles.p_10, globalStyles.h_100, globalStyles.flexAround, globalStyles.alignStretch, globalStyles.flex, globalStyles.alignAround]}>
                         <View style={[globalStyles.flexRow, globalStyles.flexBetween]}>
                             <TagNbGroupsEvents>
                                 {type === "groups" ? groupEvent.nbGroups : groupEvent.nbEvents}
                             </TagNbGroupsEvents>
                             <TagNbNotifs>
-                                    {type === "groups" ? 
-                                        groupEvent.nbNotifsGroups
-                                        : 
-                                            groupEvent.nbNotifsEvents
-                                    }
+                                {type === "groups" ?
+                                    groupEvent.nbNotifsGroups
+                                    :
+                                    groupEvent.nbNotifsEvents
+                                }
                             </TagNbNotifs>
                         </View>
                         <View>
@@ -88,7 +88,7 @@ export default function MyGroupsEventsCards({type, navigation}) {
                         </View>
                         <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
                             {(selector.getAllMy()).map((value, index) => {
-                                if(index > groupEvent[nb] - 11){
+                                if (index > groupEvent[nb] - 11) {
                                     return <ImageIcon key={index} src={value.src} />
                                 }
                             })}
@@ -100,13 +100,9 @@ export default function MyGroupsEventsCards({type, navigation}) {
                 </Cta>
             </View>
         );
-    }else{
+    } else {
         return (
-            <View style={home.view}>
-                <View style={[home.cardContainer, globalStyles.alignCenter]}>
-                   <MiniLoader />
-                </View>
-            </View>
+            <GroupsEventsCardLoader /> 
         );
     }
 }
