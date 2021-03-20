@@ -48,7 +48,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
                 function (res) {
                     setGroupEvent({
                         ...groupEvent,
-                        isLoaded: false,
+                        isLoaded: true,
                         [nb]: res.length
                     })
                 },
@@ -102,7 +102,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
         );
     } else {
         return (
-            <GroupsEventsCardLoader /> 
+            <GroupsEventsCardLoader />
         );
     }
 }
