@@ -1,13 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeScreenManager from '../screensManager/HomeScreenManager';
-import AddListScreenManager from '../screensManager/AddListScreenManager';
-import ListFriendsScreenManager from '../screensManager/ListFriendsScreenManager';
-import NotificationsScreenManager from '../screensManager/NotificationsScreenManager';
-import ListFavoritesScreenManager from '../screensManager/ListFavoritesScreenManager';
-import t from '../providers/lang/translations';
-import useApp from '../hooks/useApp';
+import HomeScreenManager from '../../screensManager/HomeScreenManager';
+import AddListScreenManager from '../../screensManager/AddListScreenManager';
+import ListFriendsScreenManager from '../../screensManager/ListFriendsScreenManager';
+import NotificationsScreenManager from '../../screensManager/NotificationsScreenManager';
+import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreenManager';
+import t from '../../providers/lang/translations';
+import useApp from '../../hooks/useApp';
 
 const Tab = createBottomTabNavigator();
 

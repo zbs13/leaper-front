@@ -1,10 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import SportEventScreenManager from '../screensManager/SportEventScreenManager';
+import SportEventScreenManager from '../../screensManager/SportEventScreenManager';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomMenu from './BottomMenu';
-import global from '../providers/global';
-import useApp from '../hooks/useApp';
+import global from '../../providers/global';
+import useApp from '../../hooks/useApp';
 
 const Drawer = createDrawerNavigator();
 
