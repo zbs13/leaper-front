@@ -11,7 +11,7 @@ export default function AppScreenManager() {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name={global.screens.HOME} component={BottomMenu} options={{headerShown: false}} />
+            <Stack.Screen name={global.screens.HOME} component={BottomMenu} options={{ headerShown: false }} />
             {
                 withCustomHeaderOnly.map((value, index) => {
                     return <Stack.Screen key={index} name={value.name} component={value.component} options={value.header} />

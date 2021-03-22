@@ -1,11 +1,11 @@
 import global from "./providers/global";
 import HomeScreen from "./screens/HomeScreen";
-import NotificationsScreen from "./screens/NotificationsScreen";
-import ListFavoritesScreen from "./screens/ListFavoritesScreen";
-import ListFriendsScreen from "./screens/ListFriendsScreen";
+import NotificationsScreen from "./src/screens/NotificationsScreen";
+import ListFavoritesScreen from "./src/screens/ListFavoritesScreen";
+import ListFriendsScreen from "./src/screens/ListFriendsScreen";
 import AddListScreen from "./screens/AddListScreen";
-import MyEventsScreen from "./screens/MyEventsScreen";
-import MyGroupsScreen from "./screens/MyGroupsScreen";
+import MyEventsScreen from "./src/screens/MyEventsScreen";
+import MyGroupsScreen from "./src/screens/MyGroupsScreen";
 import TestScreen from "./screens/TestScreen";
 import headerType from "./components/headers/headers";
 
@@ -26,7 +26,7 @@ export const HOME_withBottomMenu = [
     {
         name: "test",
         component: TestScreen,
-        header: ({navigation}) => (headerType.back(navigation, "aaa"))
+        header: ({ navigation }) => (headerType.back(navigation, "aaa"))
     }
 ]
 
@@ -63,6 +63,6 @@ export const withCustomHeaderOnly = [
     {
         name: "test",
         component: TestScreen,
-        header: ({navigation}) => (headerType.back(navigation, "aaa"))
+        header: ({ navigation }) => (headerType.back(navigation, "aaa"))
     }
 ]

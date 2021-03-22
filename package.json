@@ -4,12 +4,13 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
+    "web": "react-scripts start",
     "eject": "expo eject",
     "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
@@ -39,7 +40,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "jest": "^26.6.3",
+    "react-scripts": "^4.0.3",
     "react-test-renderer": "^17.0.1"
   },
   "private": true,
@@ -48,6 +49,18 @@
     "automock": false,
     "testMatch": [
       "**/?(*.)+(spec|test).(js|ts|tsx)"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

@@ -11,7 +11,7 @@ export default function AddListScreenManager() {
         <Stack.Navigator>
             {
                 ADD_withBottomMenu.map((value, index) => {
-                    return <Stack.Screen key={index} name={value.name} component={value.component} options={typeof value.header === "undefined" ? ({navigation}) => (headerType.main(navigation)) : value.header}/>
+                    return <Stack.Screen key={index} name={value.name} component={value.component} options={typeof value.header === "undefined" ? ({ navigation }) => (headerType.main(navigation)) : value.header} />
                 })
             }
         </Stack.Navigator>

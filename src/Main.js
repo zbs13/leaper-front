@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useApp from './hooks/useApp';
-import Search from './components/Search';
-import HomeLoader from './components/loaders/HomeLoader';
-import PopupStatus from './components/PopupStatus';
+import useApp from '../hooks/useApp';
+import Search from '../components/Search';
+import HomeLoader from '../components/loaders/HomeLoader';
+import PopupStatus from '../components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 
 export default function Main() {
@@ -14,16 +14,16 @@ export default function Main() {
         isLoaded: false
     });
 
-    const {actions, selectors} = useApp();
+    const { actions, selectors } = useApp();
     useEffect(() => {
-        if(Platform.OS === 'ios'){
+        if (Platform.OS === 'ios') {
             actions.updateUserParameters({
                 os: 'ios'
             })
         }
 
         AsyncStorage.getItem("lang").then(val => {
-            if(val !== state.lang){
+            if (val !== state.lang) {
                 AsyncStorage.setItem("lang", "en").then(() => {
                     setState({
                         lang: "en",
@@ -33,7 +33,7 @@ export default function Main() {
                         lang: "en"
                     })
                 });
-            }else{
+            } else {
                 setState({
                     ...state,
                     isLoaded: true
@@ -42,21 +42,21 @@ export default function Main() {
         })
     }, [])
 
-    if(state.isLoaded){
+    if (state.isLoaded) {
         return (
             <>
                 <AppScreenManager />
-                {selectors.getSearchBar() !== null 
+                {selectors.getSearchBar() !== null
                     ?
-                        <Search type={selectors.getSearchBar()} />
+                    <Search type={selectors.getSearchBar()} />
                     :
-                        null
+                    null
                 }
                 <PopupStatus />
             </>
         );
-    }else{
-        return(
+    } else {
+        return (
             <HomeLoader />
         )
     }
