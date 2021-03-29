@@ -10,6 +10,8 @@ import global from '../../providers/global';
 import Logo from '../logo/Logo';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 
+import globalStyles from '../../assets/styles/global';
+
 
 export default function LeftToggleMenu(props) {
 
@@ -35,58 +37,29 @@ export default function LeftToggleMenu(props) {
         </View>
         <BottomSheet visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()} >
         <View style={styles.container}>
-          {/* <View
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}>
-              <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, marginBottom: 10 }} >
-                  <Text style={{ textAlign: 'center', padding: 20, fontSize: 20 }}>
-                      {props.title}
-                  </Text>
-              </View>
-              <View style={{ flex: 1, flexDirection: 'column' }}>
-                  {      
-                    global.listSports(selectors.getLang()).map((value, index) => {
-                        return (
-                          <Button onPress={() => {}} 
-                          title={value.name}
-                          icon={
-                            <Ionicons
-                                  name= {value.icon}
-                                  //size={size}
-                                 //color={focused ? '#BDE023' : '#ccc'}
-                            />
-                          }
-                          />
-                        )  
-                    })
-                  }
-              <Button onPress={() => {toggleBottomNavigationView()}} title={t(selectors.getLang()).CANCEL} />
-              </View>
-          </View> */}
-
         <ScrollBottomSheet 
           componentType="FlatList"
-          snapPoints={[128, '50%', windowHeight - 200]}
+          snapPoints={[128, '50%', windowHeight - 700]}
           initialSnapIndex={2}
           renderHandle={() => (
             <View style={styles.header}>
               <View style={styles.panelHandle} />
-
               <Button onPress={() => {toggleBottomNavigationView()}} title={t(selectors.getLang()).CANCEL} />
             </View>
           )}
           data={global.listSports(selectors.getLang()).map((value) => value)}
           renderItem={({ item }) => (
             <View style={styles.item} >
-              <Ionicons
-                name= {item.icon}
-                //size={size}
-                //color={focused ? '#BDE023' : '#ccc'}
-              />
-              <Text> {item.name}</Text>
+              <View style={globalStyles.flex, globalStyles.flexRow}>
+                <Ionicons
+                  name= {item.icon}
+                  size={40}
+                  style={{marginRight: 30}}
+                />
+                <View style={globalStyles.justifyCenter}>
+                  <Text style={globalStyles.title_size}> {item.name}</Text>
+                </View>
+              </View>
             </View>
           )}
           contentContainerStyle={styles.contentContainerStyle}
@@ -105,7 +78,6 @@ export default function LeftToggleMenu(props) {
       justifyContent: 'center',
       alignItems: 'center',
     },
-
     container: {
       flex: 1,
     },
@@ -121,16 +93,18 @@ export default function LeftToggleMenu(props) {
       borderTopRightRadius: 20
     },
     panelHandle: {
-      width: 40,
+      width: 50,
       height: 2,
       backgroundColor: 'rgba(0,0,0,0.3)',
-      borderRadius: 4
+      borderRadius: 4,
+      marginBottom: 20
     },
     item: {
-      padding: 20,
+      padding: 10,
       justifyContent: 'center',
       backgroundColor: 'white',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       marginVertical: 10,
     },
+
   });
