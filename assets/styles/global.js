@@ -39,6 +39,9 @@ export default globalStyles = StyleSheet.create({
     justifyCenter: {
         justifyContent: "center"
     },
+    justifyStart: {
+        justifyContent: "flex-start"
+    },
     justifyEnd: {
         alignItems: "flex-end"
     },

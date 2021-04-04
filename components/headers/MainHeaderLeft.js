@@ -1,22 +1,35 @@
 import React from 'react';
 import { View } from 'react-native';
-import Logo from '../logo/Logo';
 import globalStyles from '../../assets/styles/global';
-import { header, logo } from '../../assets/styles/styles';
-import Cta from '../Cta';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import global from '../../providers/global';
+import LeftToggleMenu from '../menus/LeftToggleMenu';
+
+
+import useApp from '../../hooks/useApp';
+import t from '../../providers/lang/translations';
 
 export default function MainHeaderLeft({navigation}) {
 
+    const  {selectors} = useApp();
+
     return (
         <View style={[globalStyles.m_10, globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
-            <Cta _style={[header.headerIcons]} 
-                onPress={() => navigation.openDrawer()}
-                value={<Ionicons style={header.headerIcons} name="reorder-four-outline" />}
-                underlayColor={global.colors.LIGHT_GREY}
+            <LeftToggleMenu
+            arrayValue= {
+                [
+                    {
+                        value: t(selectors.getLang()).CREATE_GROUP,
+                        link: ""
+                    },{
+                        value: t(selectors.getLang()).CREATE_EVENT,
+                        link: ""
+                    },{
+                        value: t(selectors.getLang()).ADD_CONTACT_PERSON,
+                        link: ""
+                    }
+                ]
+            }  
+            title={t(selectors.getLang()).ADD} 
             />
-            <Logo _style={logo.header} />
         </View>
     );
 }
