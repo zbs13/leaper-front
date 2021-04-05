@@ -6,12 +6,14 @@ import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
 import useApp from '../../hooks/useApp';
+import RightToggleMenu from '../menus/RightToggleMenu';
 
 /**
  * main header right component
  * 
  * @returns 
  */
+
 export default function MainHeaderRight() {
 
     const {actions} = useApp();
@@ -33,10 +35,7 @@ export default function MainHeaderRight() {
                 value={<Ionicons style={header.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
-            <Cta _style={[header.headerProfilePic, globalStyles.m_10]} 
-                onPress={() => alert("bbaab")}
-                backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
-            />
+            <RightToggleMenu></RightToggleMenu>
         </View>
     );
 }
