@@ -139,3 +139,49 @@ export const tag = StyleSheet.create({
         color: global.colors.WHITE
     }
 })
+
+export const toggleLeftMenu = StyleSheet.create({
+    bottomNavigationView: {
+        backgroundColor: '#fff',
+        width: '100%',
+        height: 350,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    container: {
+        flex: 1,
+    },
+    contentContainerStyle: {
+        padding: 16,
+        backgroundColor: '#F3F4F9',
+    },
+    header: {
+        alignItems: 'center',
+        backgroundColor: 'white',
+        paddingVertical: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
+    },
+    panelHandle: {
+        width: 50,
+        height: 2,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        borderRadius: 4,
+        marginBottom: 20
+    },
+    item: {
+        padding: 10,
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+        marginVertical: 10,
+    },
+});
+
+export const pageTitle = StyleSheet.create({
+    main: {
+        color: global.colors.ANTHRACITE,
+        fontSize: 25,
+        fontWeight: "bold"
+    }
+});

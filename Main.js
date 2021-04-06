@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
-import Search from './components/Search';
+import Search from './components/search/Search';
 import HomeLoader from './components/loaders/HomeLoader';
 import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';

@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import global from '../../providers/global';
 
 export default globalStyles = StyleSheet.create({
+    mpm: {
+        margin: 5
+    },  
     p_5: {
         padding: 5
     },

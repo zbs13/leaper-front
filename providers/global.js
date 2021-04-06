@@ -26,10 +26,6 @@ export default global = {
     listSports : (lang) => ( 
         [
             {
-                name: 'Home',
-                icon: 'md-home',
-                component: 'Home'
-            },{
                 name: t(lang).sports.BIATHLON,
                 icon: 'md-stopwatch',
                 id: 1

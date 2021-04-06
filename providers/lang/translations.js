@@ -14,6 +14,9 @@ const l = {
         USER_ALREADY_EXISTS: "Cet utilisateur existe déja",
         MY_GROUPS: "Mes groupes",
         MY_EVENTS: "Mes évènements",
+        CLOSE: "Fermer",
+        EVENTS: "Evènements",
+        FIND_EVENT_BY: "Chercher un évènement par",
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
@@ -121,6 +124,9 @@ const l = {
         USER_ALREADY_EXISTS: "This user already exists",
         MY_GROUPS: "My groups",
         MY_EVENTS: "My events",
+        CLOSE: "Close",
+        EVENTS: "Events",
+        FIND_EVENT_BY: "Find an event by",
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },

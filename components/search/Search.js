@@ -1,12 +1,10 @@
-import React, { useEffect, createRef, useState } from 'react';
+import React, { createRef, useState } from 'react';
 import { Text, View, Modal } from 'react-native';
-import { SearchBar } from 'react-native-elements';
-import useApp from '../hooks/useApp';
-import Cta from './Cta';
-import t from '../providers/lang/translations';
-import globalStyles from '../assets/styles/global';
-import{ cta, text } from '../assets/styles/styles';
-import global from '../providers/global';
+import SB from './SearchBar';
+import useApp from '../../hooks/useApp';
+import t from '../../providers/lang/translations';
+import globalStyles from '../../assets/styles/global';
+import{ text } from '../../assets/styles/styles';
 
 export default function Search({type}) {
 
@@ -17,12 +15,6 @@ export default function Search({type}) {
     });
 
     const searchBarRef = createRef();
-
-    useEffect(() => {
-        setTimeout(() => {
-            searchBarRef.current.focus();
-        }, 400);
-    }, [])
 
     let updateValue = (value) => {
         setSearch({
@@ -52,25 +44,20 @@ export default function Search({type}) {
                 }}
             >
                 <View>
-                    <SearchBar
+                    <SB
                         placeholder={placeholder}
                         onChangeText={updateValue}
                         value={search.value}
-                        platform={selectors.getOS()}
-                        ref={searchBarRef}
+                        _ref={searchBarRef}
+                        cancelButtonTitle={t(selectors.getLang()).CANCEL}
+                        onCancel={() => {
+                            actions.updateUserParameters({
+                                searchBar: null
+                            })
+                        }}
                     />
                     <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter, globalStyles.p_5]}>
                         <Text style={text.searchTitle}>{t(selectors.getLang()).SEARCH} : "{search.value}"</Text>
-                        <Cta 
-                            onPress={() => {
-                                actions.updateUserParameters({
-                                    searchBar: null
-                                })
-                            }} 
-                            value={t(selectors.getLang()).CANCEL}
-                            _style={[cta.main, cta.first]}
-                            underlayColor={global.colors.LIGHT_GREY}
-                        />
                     </View>
                 </View>
             </Modal>
