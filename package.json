@@ -53,6 +53,6 @@
       "**/?(*.)+(spec|test).(js|ts|tsx)"
     ]
   },
-  "name": "leaper-front",
+  "name": "leaper",
   "version": "1.0.0"
 }

@@ -1,0 +1,7 @@
+mail : leaperappinc@gmail.com
+password : Le Leaper_75
+
+Bitrise :
+username : Leaper
+mail : leaperappinc@gmail.com
+mdp : Le Bitrise_75
