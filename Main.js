@@ -6,6 +6,8 @@ import Search from './components/search/Search';
 import HomeLoader from './components/loaders/HomeLoader';
 import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
+import { GroupsProvider } from "./context/groupsContext";
+import { EventsProvider } from "./context/eventsContext";
 
 export default function Main() {
 
@@ -45,7 +47,11 @@ export default function Main() {
     if(state.isLoaded){
         return (
             <>
-                <AppScreenManager />
+                <EventsProvider>
+                    <GroupsProvider>
+                        <AppScreenManager />
+                    </GroupsProvider>
+                </EventsProvider>
                 {selectors.getSearchBar() !== null 
                     ?
                         <Search type={selectors.getSearchBar()} />

@@ -6,7 +6,7 @@ import useApp from '../../hooks/useApp';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import Cta from '../Cta';
 import global from '../../providers/global';
-import { home } from '../../assets/styles/styles';
+import { home, card } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import t from '../../providers/lang/translations';
 import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
@@ -67,7 +67,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
             <View style={home.view}>
                 <Cta
                     onPress={() => navigation.navigate(type === "groups" ? global.screens.MY_GROUPS : global.screens.MY_EVENTS)}
-                    _style={home.cardContainer}
+                    _style={card.cardContainer}
                     underlayColor={global.colors.WHITE}
                 >
                     <View style={[globalStyles.p_10, globalStyles.h_100, globalStyles.flexAround, globalStyles.alignStretch, globalStyles.flex, globalStyles.alignAround]}>

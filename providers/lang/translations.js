@@ -16,7 +16,10 @@ const l = {
         MY_EVENTS: "Mes évènements",
         CLOSE: "Fermer",
         EVENTS: "Evènements",
+        FILTERS: "Filtres",
         FIND_EVENT_BY: "Chercher un évènement par",
+        JOIN: "Rejoindre",
+        RESULTS: "Résultats",
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
@@ -127,6 +130,9 @@ const l = {
         CLOSE: "Close",
         EVENTS: "Events",
         FIND_EVENT_BY: "Find an event by",
+        FILTERS: "Filters",
+        JOIN: "Join",
+        RESULTS: "Results",
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },

@@ -23,6 +23,7 @@ export default global = {
         RED_NOTIFS: "#FF6363",
         WHITE: "#FFFFFF"
     },
+    MAX_RESULT_PER_LOADED_PAGE: 20,
     listSports : (lang) => ( 
         [
             {

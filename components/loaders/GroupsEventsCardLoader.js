@@ -2,13 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 import { Placeholder, Fade, PlaceholderMedia, PlaceholderLine } from 'rn-placeholder';
 import globalStyles from '../../assets/styles/global';
-import { home } from '../../assets/styles/styles';
+import { home, card } from '../../assets/styles/styles';
 
 export default function GroupsEventsCardLoader() {
     return (
         <View style={home.view}>
             <View
-                style={home.cardContainer}
+                style={card.cardContainer}
             >
                 <View style={[globalStyles.p_10, globalStyles.h_100, globalStyles.flexAround, globalStyles.alignStretch, globalStyles.flex, globalStyles.alignAround]}>
                     <Placeholder

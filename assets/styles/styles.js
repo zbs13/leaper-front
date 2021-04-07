@@ -101,6 +101,13 @@ export const miniLoader = StyleSheet.create({
 export const home = StyleSheet.create({
     view: {
         margin: 20
+    }  
+})
+
+export const card = StyleSheet.create({
+    view: {
+        marginTop: 10,
+        marginBottom: 10
     },  
     cardContainer: {
         width: "100%",
@@ -116,6 +123,10 @@ export const home = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
+    pic: {
+        width: "100%",
+        aspectRatio: 1
+    }
 })
 
 export const tag = StyleSheet.create({
