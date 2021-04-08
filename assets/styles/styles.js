@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import global from '../../providers/global';
 
 export const header = StyleSheet.create({
@@ -194,5 +194,44 @@ export const pageTitle = StyleSheet.create({
         color: global.colors.ANTHRACITE,
         fontSize: 25,
         fontWeight: "bold"
+    },
+    second: {
+        color: global.colors.ANTHRACITE,
+        fontSize: 20,
     }
 });
+
+export const filtersModal = StyleSheet.create({
+    ctaTitle: {
+        borderTopLeftRadius: 5, 
+        borderTopRightRadius: 5, 
+        height: 40, 
+        backgroundColor: global.colors.MAIN_COLOR,
+        shadowColor: global.colors.LIGHT_GREY,
+        shadowOffset: {
+          width: 0,
+          height: 0
+        },
+        shadowRadius: 20,
+        shadowOpacity: 1.0,
+        elevation: 1
+    },
+    contentContainer: {
+        backgroundColor: global.colors.WHITE,
+        borderWidth: 1,
+        borderColor: global.colors.MAIN_COLOR,
+        height: Dimensions.get("window").height / 2 - 40,
+        padding: 5
+    }
+})
+
+export const fields = StyleSheet.create({
+    text: {
+        backgroundColor: "transparent",
+        padding: 5,
+        height: 50,
+        fontSize: 15,
+        borderBottomWidth: 2,
+        borderBottomColor: global.colors.MAIN_COLOR
+    }
+})

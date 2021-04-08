@@ -5,7 +5,7 @@ import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
 import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
-import { randId, ellipsisText } from '../../utils';
+import { randId, ellipsisText } from '../../utils/utils';
 import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';

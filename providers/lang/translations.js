@@ -20,6 +20,9 @@ const l = {
         FIND_EVENT_BY: "Chercher un évènement par",
         JOIN: "Rejoindre",
         RESULTS: "Résultats",
+        PLACE_FILTER_PLACEHOLDER: "Adresse, ville, pays, code postal...",
+        FILTER_BY: "Filtrer par",
+        FIELD_INCORRECT_VALUES: "Ce champ contient des caractères interdit",
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
@@ -133,6 +136,9 @@ const l = {
         FILTERS: "Filters",
         JOIN: "Join",
         RESULTS: "Results",
+        PLACE_FILTER_PLACEHOLDER: "Address, city, country, postal code...",
+        FILTER_BY: "Filter by",
+        FIELD_INCORRECT_VALUES: "This field contains forbidden caracters",
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },

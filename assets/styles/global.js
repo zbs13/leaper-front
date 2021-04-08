@@ -15,6 +15,9 @@ export default globalStyles = StyleSheet.create({
     m_10: {
         margin: 10
     },
+    mb_10: {
+        marginBottom: 10
+    },
     br_50: {
         borderRadius: 50
     },
