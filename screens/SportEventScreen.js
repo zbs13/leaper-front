@@ -13,6 +13,7 @@ import EventCardLoader from '../components/loaders/EventCardLoader';
 import Cta from '../components/Cta';
 import { cta } from '../assets/styles/styles';
 import { RefreshViewList } from '../components/RefreshView';
+import FiltersModal from '../components/modals/FiltersModal';
 
 export default function SportEventScreen({navigation, route}) {
 
@@ -42,6 +43,13 @@ export default function SportEventScreen({navigation, route}) {
     fetchData();
   }, []);
 
+  function setCriteria(newCriteria){
+    setSes({
+      ...ses,
+      criteria: {...newCriteria}
+    })
+  }
+
   function fetchData(){
     actionsEvent.fetchByCriteria(ses.criteria).then((data) => {
       manageResponseUI(data,
@@ -62,7 +70,6 @@ export default function SportEventScreen({navigation, route}) {
     })
   }
 
-  
   return (
     <View style={globalStyles.mpm}>
       <Title>
@@ -76,12 +83,14 @@ export default function SportEventScreen({navigation, route}) {
           containerStyle={{backgroundColor: "transparent"}}
           cancelButtonProps={{color: global.colors.MAIN_COLOR}}
       />
-      <View style={globalStyles.justifyEnd}>
+      {/* <View style={globalStyles.justifyEnd}>
         <Cta 
           _style={[cta.main, cta.first]}
           value={t(selectorsApp.getLang()).FILTERS}
+          onPress={() => sheetRef.current.snapTo(20)}
         />
-      </View>
+      </View> */}
+      <FiltersModal setCriteria={setCriteria} />
       <View>
         <Text>{t(selectorsApp.getLang()).RESULTS} : {selectorsEvent.getNbFetchedByCriteria()}</Text>
       </View>

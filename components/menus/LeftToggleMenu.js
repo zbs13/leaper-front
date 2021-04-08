@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, Button  } from 'react-native';
-import { BottomSheet } from 'react-native-btr';
+import { View, Text, Button, Modal  } from 'react-native';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import { header, logo, toggleLeftMenu } from '../../assets/styles/styles';
@@ -32,9 +31,10 @@ export default function LeftToggleMenu({navigation}) {
             />
             <Logo _style={logo.header} />
         </View>
-        <BottomSheet visible={visible} 
-          onBackButtonPress={() => toggleBottomNavigationView()} 
-          onBackdropPress={() => toggleBottomNavigationView()}
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={visible}
         >
           <View style={toggleLeftMenu.container}>
             <ScrollBottomSheet 
@@ -73,7 +73,7 @@ export default function LeftToggleMenu({navigation}) {
               contentContainerStyle={toggleLeftMenu.contentContainerStyle}
             />
           </View>
-        </BottomSheet>
+        </Modal>
       </View>
     );
   }

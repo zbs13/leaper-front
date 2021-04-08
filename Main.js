@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { Platform } from 'react-native';
+import { Platform, StatusBar, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
-import Search from './components/search/Search';
+import SearchModal from './components/modals/SearchModal';
 import HomeLoader from './components/loaders/HomeLoader';
 import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
+import { deviceYearClass, modelName } from 'expo-device';
 
 export default function Main() {
 
@@ -17,13 +18,15 @@ export default function Main() {
     });
 
     const {actions, selectors} = useApp();
+
+    const STATUS_BAR_HEIGHT = Platform.OS === "ios" ? deviceYearClass >= 2017 && modelName !== "iPhone 8" && modelName !== "iPhone 8 Plus" ? 44 : 30 : StatusBar.currentHeight;
+
     useEffect(() => {
         if(Platform.OS === 'ios'){
             actions.updateUserParameters({
                 os: 'ios'
             })
         }
-
         AsyncStorage.getItem("lang").then(val => {
             if(val !== state.lang){
                 AsyncStorage.setItem("lang", "en").then(() => {
@@ -47,6 +50,13 @@ export default function Main() {
     if(state.isLoaded){
         return (
             <>
+                <View style={{ height: STATUS_BAR_HEIGHT }}>
+                    <StatusBar
+                        animated={true}
+                        backgroundColor="transparent"
+                        barStyle="dark-content"
+                    />
+                </View>
                 <EventsProvider>
                     <GroupsProvider>
                         <AppScreenManager />
@@ -54,7 +64,7 @@ export default function Main() {
                 </EventsProvider>
                 {selectors.getSearchBar() !== null 
                     ?
-                        <Search type={selectors.getSearchBar()} />
+                        <SearchModal type={selectors.getSearchBar()} />
                     :
                         null
                 }

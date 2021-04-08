@@ -1,12 +1,12 @@
 import React, { createRef, useState } from 'react';
 import { Text, View, Modal } from 'react-native';
-import SB from './SearchBar';
+import SB from '../search/SearchBar';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';
 import globalStyles from '../../assets/styles/global';
 import{ text } from '../../assets/styles/styles';
 
-export default function Search({type}) {
+export default function SearchModal({type}) {
 
     const {actions, selectors} = useApp();
     const [search, setSearch] = useState({
