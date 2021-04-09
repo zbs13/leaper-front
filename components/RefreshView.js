@@ -1,5 +1,6 @@
 import React from 'react';
 import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, FlatList } from 'react-native';
+import NoData from './NoData';
 
 export const RefreshViewScroll = ({children, _style, onRefresh}) => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -27,7 +28,7 @@ export const RefreshViewScroll = ({children, _style, onRefresh}) => {
   );
 }
 
-export const RefreshViewList = ({children, _style, onRefresh, data, renderItem, onEndReached}) => {
+export const RefreshViewList = ({children, _style, onRefresh, data, noDataMessage, renderItem, onEndReached}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const refreshAction = React.useCallback(async() => {
@@ -41,6 +42,7 @@ export const RefreshViewList = ({children, _style, onRefresh, data, renderItem, 
       contentContainerStyle={_style}
       data={data}
       renderItem={renderItem}
+      ListEmptyComponent={() => <NoData message={noDataMessage} />}
       keyExtractor={(data, index) => index.toString()}
       onEndReachedThreshold={0.3}
       onEndReached={onEndReached}

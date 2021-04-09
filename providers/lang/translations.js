@@ -27,6 +27,7 @@ const l = {
         DATE: "Date",
         DATES: "Dates",
         PLACE: "Lieu",
+        NO_DATA: "Aucun résultat",
         fields: {
             PASSWORD: "Mot de passe",
             MAIL: "Mail",
@@ -168,6 +169,7 @@ const l = {
         DATE: "Date",
         DATES: "Dates",
         PLACE: "Place",
+        NO_DATA: "No results",
         fields: {
             PASSWORD: "Password",
             MAIL: "eMail",
