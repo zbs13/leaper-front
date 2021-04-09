@@ -5,7 +5,7 @@ import { pageTitle } from '../assets/styles/styles';
 export default function Title({children, type}) {
 
     return (
-        <Text style={type === "second" ? pageTitle.second : pageTitle.main}>
+        <Text style={type === "second" ? pageTitle.second : type === "third" ? pageTitle.third : pageTitle.main}>
             {children}
         </Text>
     );

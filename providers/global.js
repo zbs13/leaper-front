@@ -14,6 +14,7 @@ export default global = {
     },
     colors: {
         MAIN_COLOR: '#BDE023',
+        LIGHT_MAIN_COLOR: "#DDEF91",
         ANTHRACITE: "#293231",
         LIGHT_GREY: '#C6C6C6',
         GREEN_SUCCESS: '#BDE023',
@@ -24,6 +25,16 @@ export default global = {
         WHITE: "#FFFFFF"
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
+    validator: {
+        PASSWORD_MIN_LENGTH: 7,
+        regex : {
+            PASSWORD_REQUIRMENT_NUM: /[(0-9)]/,
+            PASSWORD_REQUIRMENT_MAJ: /[(A-Z)]/,
+            ONLY_LETTERS: /[^A-Za-z]/,
+            USERNAME: /[^A-Za-z0-9_*!$^]/,
+            MAIL: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        }
+    },
     listSports : (lang) => ( 
         [
             {

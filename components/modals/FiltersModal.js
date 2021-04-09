@@ -3,13 +3,13 @@ import { View, Text } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Cta from '../Cta';
 import useApp from '../../hooks/useApp';
-import { filtersModal } from '../../assets/styles/styles';
+import { filtersModal, calendarFilter } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyles from "../../assets/styles/global";
 import Field from '../fields/Field';
 import t from '../../providers/lang/translations';
-
 import Title from '../Title';
+
 export default function FiltersModal({setCriteria}){
 
     const sheetRef = React.useRef(null);
@@ -18,8 +18,9 @@ export default function FiltersModal({setCriteria}){
     return (
         <BottomSheet
             ref={sheetRef}
-            snapPoints={[35, "50%"]}
+            snapPoints={[35, "70%"]}
             initialSnap={0}
+            enabledInnerScrolling={true}
             renderHeader={() => (
                 <Cta _style={filtersModal.ctaTitle}
                     onPress={() => sheetRef.current.snapTo(1)}
@@ -42,6 +43,15 @@ export default function FiltersModal({setCriteria}){
                         onChange={(val) => setCriteria({place: val})}
                         icon="pin-outline"
                     />
+                    <View style={calendarFilter.container}>
+                        <Field type="calendar-period" 
+                            label={t(selectors.getLang()).DATE}
+                            onChange={(startDate, endDate) => setCriteria({
+                                startDate: startDate,
+                                endDate: endDate
+                            })}
+                        />
+                    </View>
                 </View>
             )}
         />

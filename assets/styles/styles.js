@@ -198,6 +198,10 @@ export const pageTitle = StyleSheet.create({
     second: {
         color: global.colors.ANTHRACITE,
         fontSize: 20,
+    },
+    third: {
+        color: global.colors.ANTHRACITE,
+        fontSize: 18,
     }
 });
 
@@ -220,7 +224,7 @@ export const filtersModal = StyleSheet.create({
         backgroundColor: global.colors.WHITE,
         borderWidth: 1,
         borderColor: global.colors.MAIN_COLOR,
-        height: Dimensions.get("window").height / 2 - 40,
+        height: Dimensions.get("window").height * 0.70 - 40,
         padding: 5
     }
 })
@@ -233,5 +237,17 @@ export const fields = StyleSheet.create({
         fontSize: 15,
         borderBottomWidth: 2,
         borderBottomColor: global.colors.MAIN_COLOR
+    }
+})
+
+export const calendarFilter = StyleSheet.create({
+    container: {
+        height: 320, 
+        marginTop: 10, 
+        marginBottom: 10,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: global.colors.LIGHT_GREY,
+        borderTopColor: global.colors.LIGHT_GREY,
     }
 })
