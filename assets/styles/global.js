@@ -15,6 +15,12 @@ export default globalStyles = StyleSheet.create({
     m_10: {
         margin: 10
     },
+    mt_10: {
+        marginTop: 10
+    },
+    mt_20: {
+        marginTop: 20
+    },
     mb_10: {
         marginBottom: 10
     },
