@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import global from '../../providers/global';
 
 export const header = StyleSheet.create({
@@ -101,6 +101,13 @@ export const miniLoader = StyleSheet.create({
 export const home = StyleSheet.create({
     view: {
         margin: 20
+    }  
+})
+
+export const card = StyleSheet.create({
+    view: {
+        marginTop: 10,
+        marginBottom: 10
     },  
     cardContainer: {
         width: "100%",
@@ -116,6 +123,10 @@ export const home = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
+    pic: {
+        width: "100%",
+        aspectRatio: 1
+    }
 })
 
 export const tag = StyleSheet.create({
@@ -137,5 +148,106 @@ export const tag = StyleSheet.create({
     },
     notifsText: {
         color: global.colors.WHITE
+    }
+})
+
+export const toggleLeftMenu = StyleSheet.create({
+    bottomNavigationView: {
+        backgroundColor: '#fff',
+        width: '100%',
+        height: 350,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    container: {
+        flex: 1,
+    },
+    contentContainerStyle: {
+        padding: 16,
+        backgroundColor: '#F3F4F9',
+    },
+    header: {
+        alignItems: 'center',
+        backgroundColor: 'white',
+        paddingVertical: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
+    },
+    panelHandle: {
+        width: 50,
+        height: 2,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        borderRadius: 4,
+        marginBottom: 20
+    },
+    item: {
+        padding: 10,
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+        marginVertical: 10,
+    },
+});
+
+export const pageTitle = StyleSheet.create({
+    main: {
+        color: global.colors.ANTHRACITE,
+        fontSize: 25,
+        fontWeight: "bold"
+    },
+    second: {
+        color: global.colors.ANTHRACITE,
+        fontSize: 20,
+    },
+    third: {
+        color: global.colors.ANTHRACITE,
+        fontSize: 18,
+    }
+});
+
+export const filtersModal = StyleSheet.create({
+    ctaTitle: {
+        borderTopLeftRadius: 5, 
+        borderTopRightRadius: 5, 
+        height: 40, 
+        backgroundColor: global.colors.MAIN_COLOR,
+        shadowColor: global.colors.LIGHT_GREY,
+        shadowOffset: {
+          width: 0,
+          height: 0
+        },
+        shadowRadius: 20,
+        shadowOpacity: 1.0,
+        elevation: 1
+    },
+    contentContainer: {
+        backgroundColor: global.colors.WHITE,
+        borderWidth: 1,
+        borderColor: global.colors.MAIN_COLOR,
+        height: Dimensions.get("window").height * 0.70 - 40,
+        padding: 5
+    }
+})
+
+export const fields = StyleSheet.create({
+    text: {
+        backgroundColor: "transparent",
+        padding: 5,
+        height: 50,
+        fontSize: 15,
+        borderBottomWidth: 2,
+        borderBottomColor: global.colors.MAIN_COLOR
+    }
+})
+
+export const calendarFilter = StyleSheet.create({
+    container: {
+        height: 320, 
+        marginTop: 10, 
+        marginBottom: 10,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: global.colors.LIGHT_GREY,
+        borderTopColor: global.colors.LIGHT_GREY,
     }
 })

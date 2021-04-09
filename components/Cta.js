@@ -23,7 +23,7 @@ export default function Cta({_style, onPress, underlayColor, value, backgroundIm
                 underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}>
                     <View>
                         {typeof value === "string" ?
-                            <Text style={color}>{value}</Text>
+                            <Text style={[color, globalStyles.ta_c]}>{value}</Text>
                         : 
                             typeof backgroundImage !== "undefined" && typeof value === "undefined" ?
                                 <BackgroundImage

@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 const l = {
     fr: {
         ADD: "Ajouter",
@@ -14,8 +16,42 @@ const l = {
         USER_ALREADY_EXISTS: "Cet utilisateur existe déja",
         MY_GROUPS: "Mes groupes",
         MY_EVENTS: "Mes évènements",
+        CLOSE: "Fermer",
+        EVENTS: "Evènements",
+        FILTERS: "Filtres",
+        FIND_EVENT_BY: "Chercher un évènement par",
+        JOIN: "Rejoindre",
+        RESULTS: "Résultats",
+        PLACE_FILTER_PLACEHOLDER: "Adresse, ville, pays, code postal...",
+        FILTER_BY: "Filtrer par",
+        DATE: "Date",
+        DATES: "Dates",
+        PLACE: "Lieu",
+        fields: {
+            PASSWORD: "Mot de passe",
+            MAIL: "Mail",
+            USERNAME : "Nom d'utilisateur",
+            FIRSTNAME : "Prénom",
+            LASTNAME : "Nom",
+            FIELD_INCORRECT_VALUES: "Ce champ contient des caractères interdit",
+            FIELD_INCORRECT_PASSWORD: "Le mot de passe doit contenir au moins 7 caractères, un numéro et une majuscule",
+            FIELD_INCORRECT_MAIL: "Le format du mail est invalide",
+            FIELD_INCORRECT_MAX_LENGTH: "La valeur dépasse la longueur autorisée",
+            FIELD_INCORRECT_MIN_LENGTH: "La valeur ne contient pas assez de caractères",
+            FIELD_INCORRECT_LETTERS_ONLY: "Ce champ ne doit contenir que des lettres",
+            MONTHS: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+            SHORT_MONTHS: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
+            DAYS: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+            SHORT_DAYS: ['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'],
+            TODAY: "Aujourd'hui"
+        },
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
+        },
+        formats: {
+            date: (date) => {
+                return format(new Date(date), 'dd/MM/yyyy');
+            }
         },
         sports: {
             BIATHLON: "Biathlon",
@@ -121,8 +157,42 @@ const l = {
         USER_ALREADY_EXISTS: "This user already exists",
         MY_GROUPS: "My groups",
         MY_EVENTS: "My events",
+        CLOSE: "Close",
+        EVENTS: "Events",
+        FIND_EVENT_BY: "Find an event by",
+        FILTERS: "Filters",
+        JOIN: "Join",
+        RESULTS: "Results",
+        PLACE_FILTER_PLACEHOLDER: "Address, city, country, postal code...",
+        FILTER_BY: "Filter by",
+        DATE: "Date",
+        DATES: "Dates",
+        PLACE: "Place",
+        fields: {
+            PASSWORD: "Password",
+            MAIL: "eMail",
+            USERNAME : "Username",
+            FIRSTNAME : "Firstname",
+            LASTNAME : "Lastname",
+            FIELD_INCORRECT_VALUES: "This field contains forbidden caracters",
+            FIELD_INCORRECT_PASSWORD: "The password must contain at least 7 caracters, 1 number and 1 capital letter",
+            FIELD_INCORRECT_MAIL: "Mail format is not valid",
+            FIELD_INCORRECT_MAX_LENGTH: "Value exceeds allowable length",
+            FIELD_INCORRECT_MIN_LENGTH: "The value does not contain enough caracters",
+            FIELD_INCORRECT_LETTERS_ONLY: "This field must only contain letters",
+            MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            SHORT_MONTHS: ['Jan.','Feb.','Mar.','Apr.','May','Jun.','Jul.','Aug.','Sept.','Oct.','Nov.','Dec.'],
+            DAYS: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            SHORT_DAYS: ['Sun.','Mon.','Tues.','Wed.','Thu.','Fri.','Sat.'],
+            TODAY: "Today"
+        },
         search: {
             GLOBAL: "Search a sport, an event, a group..."
+        },
+        formats: {
+            date: (date) => {
+                return format(new Date(date), 'yyyy-MM-dd');
+            }
         },
         sports: {
             BIATHLON: "Biathlon",

@@ -27,7 +27,7 @@ export const RefreshViewScroll = ({children, _style, onRefresh}) => {
   );
 }
 
-export const RefreshViewList = ({children, _style, onRefresh, data, renderItem, keyExtractor}) => {
+export const RefreshViewList = ({children, _style, onRefresh, data, renderItem, onEndReached}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const refreshAction = React.useCallback(async() => {
@@ -37,22 +37,22 @@ export const RefreshViewList = ({children, _style, onRefresh, data, renderItem, 
   }, [onRefresh]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        contentContainerStyle={_style}
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={refreshAction}
-          />
-        }
-      >
-        {children}
-      </FlatList>
-    </SafeAreaView>
+    <FlatList
+      contentContainerStyle={_style}
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(data, index) => index.toString()}
+      onEndReachedThreshold={0.3}
+      onEndReached={onEndReached}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={refreshAction}
+        />
+      }
+    >
+      {children}
+    </FlatList>
   );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Button } from 'react-native';
-import PopupBottom from '../components/PopupBottom';
+import OptionsModal from '../components/modals/OptionsModal';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
 
@@ -19,7 +19,7 @@ export default function AddListScreen({navigation}) {
             <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
                 {t(selectors.getLang()).ADD_CONTACT_PERSON}
             </Text>
-            <PopupBottom arrayValue= {
+            <OptionsModal arrayValue= {
                 [
                     {
                         value: t(selectors.getLang()).CREATE_GROUP,
