@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
-import { fetchMyEvents, fetchByCriteria } from '../context/actions/events';
+import { fetchMyEvents, fetchByCriteria, fetchById } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 
 const useEvents = () => {
@@ -32,13 +32,24 @@ const useEvents = () => {
           });
         })
       });
+    },
+    fetchById: function(id) {
+      return fetchById(id).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_EVENTS_BY_ID",
+            payload: res
+          });
+        })
+      });
     }
   };
 
   const selectors = {
     getAllMy: () => eventsState.my_events,
     getFetchedByCriteria: () => eventsState.fetchedByCriteria,
-    getNbFetchedByCriteria: () => eventsState.nbFetchedByCriteria
+    getNbFetchedByCriteria: () => eventsState.nbFetchedByCriteria,
+    getFetchedById: () => eventsState.fetchedById,
   };
 
   return { selectors, actions };

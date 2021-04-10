@@ -1,7 +1,8 @@
 export const initialState = {
     my_events: [],
     fetchedByCriteria: [],
-    nbFetchedByCriteria: 0
+    nbFetchedByCriteria: 0,
+    fetchedById: {}
 };
   
   /**
@@ -18,6 +19,11 @@ export const initialState = {
         return {
           ...state,
           fetchedByCriteria: action.payload
+        };
+      case "UPDATE_EVENTS_BY_ID":
+        return {
+          ...state,
+          fetchedById: action.payload
         }
       default:
         return state;

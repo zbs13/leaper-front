@@ -183,3 +183,41 @@ export const fetchByCriteria = (criteria) => {
         }]
     });
 }
+
+export const fetchById = (id) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {
+            id: 7,
+            name: "l'event 3",
+            description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+            sportId: 2,
+            postalCode: 93340,
+            location: {
+                latitude: 48.90049103281167, 
+                longitude: 2.510714120997393
+            },
+            address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
+            startHour: "22:30",
+            endHour: "23:00",
+            date: "2021-05-12",
+            users: [{
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            },{
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            },{
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            },{
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            },{
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            },{
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            }],
+            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+        }
+    })
+}

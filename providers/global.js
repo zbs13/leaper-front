@@ -10,7 +10,8 @@ export default global = {
         SETTINGS: "Settings",
         SPORT_EVENTS: "SportEvents",
         MY_GROUPS: "MyGroups",
-        MY_EVENTS: "MyEvents"
+        MY_EVENTS: "MyEvents",
+        SPORT_EVENT_DETAILS: "SportEventDetails"
     },
     colors: {
         MAIN_COLOR: '#BDE023',

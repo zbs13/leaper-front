@@ -28,6 +28,13 @@ const l = {
         DATES: "Dates",
         PLACE: "Lieu",
         NO_DATA: "Aucun résultat",
+        HERE_EVENT_PLACE: "C'est ici que l'évènement aura lieu",
+        OK: "Ok",
+        CONFIRM_JOIN_EVENT: "Vous vous apprétez à rejoindre cet évènement",
+        ADDRESS: "Adresse",
+        HOURS: "Heures",
+        FROM: "de",
+        TO: "à",
         fields: {
             PASSWORD: "Mot de passe",
             MAIL: "Mail",
@@ -52,6 +59,9 @@ const l = {
         formats: {
             date: (date) => {
                 return format(new Date(date), 'dd/MM/yyyy');
+            },
+            hour: (hour) => {
+                return hour;
             }
         },
         sports: {
@@ -170,6 +180,13 @@ const l = {
         DATES: "Dates",
         PLACE: "Place",
         NO_DATA: "No results",
+        HERE_EVENT_PLACE: "This is here event take place",
+        OK: "Ok",
+        CONFIRM_JOIN_EVENT: "You are going to join this event",
+        ADDRESS: "Address",
+        HOURS: "Hours",
+        FROM: "from",
+        TO: "to",
         fields: {
             PASSWORD: "Password",
             MAIL: "eMail",
@@ -194,6 +211,15 @@ const l = {
         formats: {
             date: (date) => {
                 return format(new Date(date), 'yyyy-MM-dd');
+            },
+            hour: (hour) => {
+                hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
+                if (hour.length > 1) {
+                    hour = hour.slice(1);
+                    hour[5] = +hour[0] < 12 ? ' AM' : ' PM';
+                    hour[0] = +hour[0] % 12 || 12;
+                }
+                return hour.join('');
             }
         },
         sports: {

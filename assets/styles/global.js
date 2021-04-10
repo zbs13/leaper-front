@@ -24,6 +24,9 @@ export default globalStyles = StyleSheet.create({
     mb_10: {
         marginBottom: 10
     },
+    mb_50: {
+        marginBottom: 50
+    },
     br_50: {
         borderRadius: 50
     },
@@ -33,8 +36,14 @@ export default globalStyles = StyleSheet.create({
     h_100: {
         height: "100%"
     },
+    mh_100: {
+        minHeight: "100%"
+    },
     ta_c: {
         textAlign: "center"
+    },
+    ta_j: {
+        textAlign: "justify"
     },
     ta_r: {
         textAlign: "right"
