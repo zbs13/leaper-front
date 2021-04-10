@@ -71,6 +71,22 @@ export default function RightToggleMenu(props) {
                 title='A propos'
               />
             </View>
+            <View style= {styles.settings}>
+              <Separator />
+              <Button 
+                icon={
+                  <Ionicons
+                    name= 'log-out-outline'            
+                    size={40}
+                    style={{marginRight: 30}}
+                  />
+                }
+                buttonStyle={styles.buttonStyle}
+                titleStyle={styles.buttonFont}
+                onPress={() => {}}
+                title='Déconnexion'
+              />
+            </View>
           </View>
         </BottomSheet>
       </View>
