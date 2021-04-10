@@ -18,7 +18,7 @@ export default function EventCards({ navigation, item }) {
     return (
         <View style={card.view}>
             <Cta
-                onPress={() => navigation.navigate(global.screens.MY_GROUPS)}
+                onPress={() => navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {eventTitle: item.name, eventId: item.id})}
                 _style={card.cardContainer}
                 underlayColor={global.colors.WHITE}
             >
@@ -30,8 +30,8 @@ export default function EventCards({ navigation, item }) {
                         <ImageIcon _style={card.pic} src={item.src} />
                     </View>
                     <View style={[globalStyles.flexColumn, globalStyles.p_5, {flex: 3}]}>
-                        <Text style={[globalStyles.f_bold]}>{ellipsisText(item.name, 50)}</Text>
-                        <Text>{ellipsisText(item.description, 80)}</Text>
+                        <Text style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{ellipsisText(item.name, 50)}</Text>
+                        <Text style={[globalStyles.c_anth, globalStyles.ta_j]}>{ellipsisText(item.description, 80)}</Text>
                         <View style={globalStyles.flexRow}>
                             {item.users.map((val, idx) => idx > item.users.length - 6 ? <ImageIcon key={randId()} src={val.src} /> : null)}
                             {item.users.length > 5 ? <TagNbGroupsEvents>+{item.users.length - 5}</TagNbGroupsEvents> : null}
@@ -42,6 +42,10 @@ export default function EventCards({ navigation, item }) {
                             onPress={() => alert("aaa")}
                             _style={[cta.main, cta.first]}
                             value={t(selectors.getLang()).JOIN}
+                            confirm={{
+                                title: item.name,
+                                content: t(selectors.getLang()).CONFIRM_JOIN_EVENT
+                            }}
                         />
                         <Text style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
                             <Ionicons name="location-outline" size={20}/>

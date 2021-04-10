@@ -39,10 +39,14 @@ export const logo = StyleSheet.create({
 
 export const cta = StyleSheet.create({
     main: {
-        borderRadius: 20,
         padding: 10
     },
     first: {
+        borderRadius: 20,
+        backgroundColor: global.colors.MAIN_COLOR,
+        color: global.colors.ANTHRACITE,
+    },
+    first_nr: {
         backgroundColor: global.colors.MAIN_COLOR,
         color: global.colors.ANTHRACITE,
     }
@@ -249,5 +253,20 @@ export const calendarFilter = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: global.colors.LIGHT_GREY,
         borderTopColor: global.colors.LIGHT_GREY,
+    }
+})
+
+export const eventDetailsMap = StyleSheet.create({
+    container: {
+        width: "100%", 
+        height: 300
+    }
+})
+
+export const ctaJoinEventDetails = StyleSheet.create({
+    container: {
+        position: "absolute", 
+        bottom: 0, 
+        width: "100%"
     }
 })
