@@ -11,13 +11,15 @@ export default global = {
         SPORT_EVENTS: "SportEvents",
         MY_GROUPS: "MyGroups",
         MY_EVENTS: "MyEvents",
-        SPORT_EVENT_DETAILS: "SportEventDetails"
+        SPORT_EVENT_DETAILS: "SportEventDetails",
+        TCHAT: "Tchat"
     },
     colors: {
         MAIN_COLOR: '#BDE023',
         LIGHT_MAIN_COLOR: "#DDEF91",
         ANTHRACITE: "#293231",
         LIGHT_GREY: '#C6C6C6',
+        VERY_LIGHT_GREY: '#EAEAEA',
         GREEN_SUCCESS: '#BDE023',
         GREEN_SUCCESS_TEXT: '#32682B',
         RED_ERROR: '#B75A5A',

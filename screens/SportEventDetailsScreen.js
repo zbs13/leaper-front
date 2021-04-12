@@ -24,13 +24,13 @@ export default function SportEventDetailsScreen({navigation, route}) {
 
     useEffect(() => {
         navigation.setOptions({
-          headerTitle: route.params.eventTitle,
+          headerTitle: route.params.title,
         });
         fetchEventDetails();
     }, []);
 
     function fetchEventDetails(){
-        actionsEvent.fetchById(route.params.eventId).then((data) => {
+        actionsEvent.fetchById(route.params.id).then((data) => {
           manageResponseUI(data,
               lang,
               function (res) {
@@ -60,13 +60,13 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                 latitude={details.location.latitude}
                                 longitude={details.location.longitude}
                                 pinColor={global.colors.MAIN_COLOR}
-                                title={route.params.eventTitle}
+                                title={route.params.title}
                                 description={t(lang).HERE_EVENT_PLACE}
                             />
                         </Map>
                     </View>
                     <View style={[globalStyles.m_10, globalStyles.flexColumn, globalStyles.mb_50]}>
-                        <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{route.params.eventTitle}</Title>
+                        <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{route.params.title}</Title>
                         <View style={[globalStyles.flexRow, globalStyles.m_10]}>
                             <View style={[globalStyles.flexColumn, {flex: 1}]}>
                                 <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
@@ -102,7 +102,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                         <Cta value={t(lang).JOIN} 
                             _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
                             confirm={{
-                                title: route.params.eventTitle,
+                                title: route.params.title,
                                 content: t(lang).CONFIRM_JOIN_EVENT
                             }}
                             onPress={() => console.log("aaa")}

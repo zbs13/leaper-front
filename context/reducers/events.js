@@ -2,6 +2,7 @@ export const initialState = {
     my_events: [],
     fetchedByCriteria: [],
     nbFetchedByCriteria: 0,
+    nbFetchedMy: 0,
     fetchedById: {}
 };
   

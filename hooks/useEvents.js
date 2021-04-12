@@ -10,8 +10,8 @@ const useEvents = () => {
   } = useContext(EventsContext);
 
   const actions = {
-    fetchAllMy: function () {
-      return fetchMyEvents().then((data) => {
+    fetchAllMy: function (offset) {
+      return fetchMyEvents(offset).then((data) => {
         return response(data, function(res){
           dispatch({
             type: "UPDATE_MY_EVENTS",
@@ -49,6 +49,7 @@ const useEvents = () => {
     getAllMy: () => eventsState.my_events,
     getFetchedByCriteria: () => eventsState.fetchedByCriteria,
     getNbFetchedByCriteria: () => eventsState.nbFetchedByCriteria,
+    getNbMyFetched: () => eventsState.nbFetchedMy,
     getFetchedById: () => eventsState.fetchedById,
   };
 
