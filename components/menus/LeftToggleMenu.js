@@ -53,8 +53,8 @@ export default function LeftToggleMenu({navigation}) {
                 <Cta onPress={() => {
                     toggleBottomNavigationView()
                     navigation.navigate(global.screens.SPORT_EVENTS, {sportId: item.id, name: item.name})
-                  }
-                }
+                  }}
+                  underlayColor="transparent"
                 >
                   <View style={toggleLeftMenu.item}>
                     <View style={globalStyles.flex, globalStyles.flexRow}>

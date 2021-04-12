@@ -35,6 +35,10 @@ const l = {
         HOURS: "Heures",
         FROM: "de",
         TO: "à",
+        DETAILS: "Détails",
+        LEAVE_THIS_EVENT: "Quitter cet évènement",
+        LEAVE_EVENT: "Quitter l'évènement",
+        SURE_TO_LEAVE_EVENT: "Vous êtes sur le point de quitter l'évènement",
         fields: {
             PASSWORD: "Mot de passe",
             MAIL: "Mail",
@@ -187,6 +191,10 @@ const l = {
         HOURS: "Hours",
         FROM: "from",
         TO: "to",
+        DETAILS: "Details",
+        LEAVE_THIS_EVENT: "Leave this event",
+        LEAVE_EVENT: "Leave event",
+        SURE_TO_LEAVE_EVENT: "You are going to leave the event",
         fields: {
             PASSWORD: "Password",
             MAIL: "eMail",

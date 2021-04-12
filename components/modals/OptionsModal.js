@@ -1,46 +1,78 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
+import Cta from '../Cta';
+import globalStyles from '../../assets/styles/global';
+import global from '../../providers/global';
+import { cta, optionsModal } from '../../assets/styles/styles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-export default function OptionsModal(props) {
+export default function OptionsModal({title = null, options, buttonSize = null, buttonColor = null, icon = null, children = null, isActive = true}) {
 
     const  {selectors} = useApp();
 
     const [visible, setVisible] = useState(false);
-    const toggleBottomNavigationView = () => {
+    const toggleModalView = () => {
       setVisible(!visible);
     };
+
+    let height = (title !== null ? 80 : 0) + 65 + 51.5 * options.length
+
     return (
       <View>
-        <Button onPress={toggleBottomNavigationView} title="Afficher un bottomSheet" />
-        <BottomSheet visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()} >
-          <View style={styles.bottomNavigationView}>
+        {children !== null ?
+          React.cloneElement(children, isActive ? {onLongPress: () => toggleModalView()} : {})
+        :
+          <Cta
+            onPress={() => toggleModalView()}
+            _style={[cta.main]}
+            underlayColor="transparent"
+          >
+            <View style={globalStyles.alignCenter}>
+                <Ionicons color={buttonColor !== null ? buttonColor : global.colors.ANTHRACITE} name={icon !== null ? icon : "ellipsis-vertical-outline"} size={buttonSize !== null ? buttonSize : 30} />
+            </View>
+          </Cta>
+        }
+        <BottomSheet visible={visible} onBackButtonPress={() => toggleModalView()} onBackdropPress={() => toggleModalView()} >
+          <View style={[{height: height}, optionsModal.container, globalStyles.justifyCenter, globalStyles.alignCenter]}>
             <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}>
-                <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, marginBottom: 10 }} >
-                    <Text style={{ textAlign: 'center', padding: 20, fontSize: 20 }}>
-                        {props.title}
-                    </Text>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'column' }}>
+              style={[{flex: 1}, globalStyles.w_100, globalStyles.flexColumn, globalStyles.flexBetween]}>
+                { title !== null ?
+                    <View style={optionsModal.containerTitle} >
+                        <Text style={[globalStyles.ta_c, optionsModal.title]}>
+                            {title}
+                        </Text>
+                    </View>
+                  : 
+                    null
+                }
+                <View style={[{ flex: 1 }, globalStyles.flexColumn]}>
                     {
-                    props.arrayValue.map((value, index) => {
-                      return (
-                      <Text key={index} style={{ textAlign: 'center', padding: 20, fontSize: 20 }}>
-                        {value.value}
-                      </Text>
+                      options.map((params, index) => 
+                        <View key={index}>
+                          <Cta
+                            onPress={() => {
+                              params.action();
+                              toggleModalView();
+                            }}
+                            underlayColor={global.colors.VERY_LIGHT_GREY}
+                            confirm={typeof params.confirm !== undefined ? params.confirm : null}
+                            _style={[cta.main, globalStyles.ta_l, optionsModal.optionCta, typeof params.style === "object" ? params.style : {}]}
+                            value={params.value}
+                            icon={typeof params.icon !== "undefined" ? params.icon : null}
+                            iconSize={30}
+                            iconColor={params.iconColor !== null ? params.iconColor : null}
+                          />
+                        </View>
                       )
-                    })
                     }
-                    <Button onPress={() => {toggleBottomNavigationView()}
-                    } title={t(selectors.getLang()).CANCEL} />
+                    <Cta
+                      onPress={() => toggleModalView()}
+                      value={t(selectors.getLang()).CANCEL}
+                      _style={[globalStyles.mt_20, globalStyles.m_10, optionsModal.cancel]}
+                    />
                 </View>
               
             </View>
@@ -49,13 +81,3 @@ export default function OptionsModal(props) {
       </View>
     );
   }
-
-  const styles = StyleSheet.create({
-    bottomNavigationView: {
-      backgroundColor: '#fff',
-      width: '100%',
-      height: 350,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });

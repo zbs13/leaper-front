@@ -3,6 +3,7 @@ import MyEventsScreen from "./screens/MyEventsScreen";
 import SportEventScreen from "./screens/SportEventScreen";
 import MyGroupsScreen from "./screens/MyGroupsScreen";
 import SportEventDetailsScreen from "./screens/SportEventDetailsScreen";
+import TchatScreen from "./screens/TchatScreen";
 import TestScreen from "./screens/TestScreen";
 import headerType from "./components/headers/headers";
 
@@ -33,6 +34,11 @@ export const withCustomHeaderOnly = [
     {
         name: global.screens.SPORT_EVENT_DETAILS,
         component: SportEventDetailsScreen,
+        header: ({navigation}) => (headerType.back(navigation, ""))
+    },
+    {
+        name: global.screens.TCHAT,
+        component: TchatScreen,
         header: ({navigation}) => (headerType.back(navigation, ""))
     }
 ]

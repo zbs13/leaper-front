@@ -270,3 +270,30 @@ export const ctaJoinEventDetails = StyleSheet.create({
         width: "100%"
     }
 })
+
+export const optionsModal = StyleSheet.create({
+    container: {
+      backgroundColor: global.colors.WHITE,
+      width: '100%',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10
+    },
+    containerTitle: {
+      borderBottomColor: global.colors.LIGHT_GREY, 
+      borderBottomWidth: 1, 
+      marginBottom: 10
+    },
+    title: {
+      padding: 20, 
+      fontSize: 20, 
+      color: global.colors.ANTHRACITE
+    },
+    optionCta: {
+      color: global.colors.ANTHRACITE, 
+      fontSize: 20
+    },
+    cancel: {
+      color: global.colors.MAIN_COLOR, 
+      fontSize: 20
+    }
+});
