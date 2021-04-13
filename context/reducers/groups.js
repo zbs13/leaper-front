@@ -1,6 +1,7 @@
 export const initialState = {
     my_groups: [],
-    groups: []
+    nbFetchedMy: 0,
+    fetchedById: {}
 };
   
   /**
@@ -13,6 +14,11 @@ export const initialState = {
             ...state,
             my_groups: action.payload
         };
+      case "UPDATE_GROUPS_BY_ID":
+        return {
+          ...state,
+          fetchedById: action.payload
+        }
       default:
         return state;
     }

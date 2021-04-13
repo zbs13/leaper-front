@@ -3,7 +3,7 @@ import { View, Text, Button, Modal  } from 'react-native';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import { header, logo, toggleLeftMenu } from '../../assets/styles/styles';
-import Cta from '../Cta';
+import Cta from '../cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
 import Logo from '../logo/Logo';

@@ -8,7 +8,7 @@ import Map, { MapPin } from '../components/maps/Map';
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 import globalStyles from '../assets/styles/global';
-import Cta from '../components/Cta';
+import Cta from '../components/cta/Cta';
 import { RefreshViewScroll } from '../components/RefreshView';
 import Title from '../components/Title';
 import EventDetailsLoader from '../components/loaders/EventDetailsLoader';

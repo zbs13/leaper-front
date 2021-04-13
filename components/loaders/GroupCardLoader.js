@@ -4,16 +4,13 @@ import { Placeholder, Fade, PlaceholderMedia, PlaceholderLine } from 'rn-placeho
 import globalStyles from '../../assets/styles/global';
 import { card } from '../../assets/styles/styles';
 
-export default function EventCardLoader() {
+export default function GroupCardLoader() {
     return (
         <View style={card.view}>
             <View
                 style={[card.cardContainer, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween, globalStyles.justifyStart]}
             >
-                <View style={[globalStyles.flexColumn, globalStyles.m_10, {flex: 1}]}>
-                    <Placeholder Animation={Fade} >
-                        <PlaceholderLine />
-                    </Placeholder>
+                <View style={[globalStyles.m_10, {flex: 1}]}>
                     <Placeholder
                         Animation={Fade}
                         Left={() => <PlaceholderMedia isRound={true} size={90} />}
@@ -41,9 +38,6 @@ export default function EventCardLoader() {
                         Animation={Fade}
                         Left={PlaceholderLine}
                     />
-                    <Placeholder Animation={Fade} >
-                        <PlaceholderLine />
-                    </Placeholder>
                 </View>
             </View>
         </View>

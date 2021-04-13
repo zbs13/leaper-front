@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import Cta from '../Cta';
+import Cta from '../cta/Cta';
 import globalStyles from '../../assets/styles/global';
 import global from '../../providers/global';
 import { cta, optionsModal } from '../../assets/styles/styles';
