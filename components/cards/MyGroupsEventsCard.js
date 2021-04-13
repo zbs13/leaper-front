@@ -4,7 +4,7 @@ import useGroups from '../../hooks/useGroups';
 import useEvents from '../../hooks/useEvents';
 import useApp from '../../hooks/useApp';
 import { manageResponseUI } from '../../context/actions/apiCall';
-import Cta from '../Cta';
+import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import { home, card } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';

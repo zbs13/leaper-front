@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
-import Cta from '../Cta';
+import Cta from '../cta/Cta';
 import useApp from '../../hooks/useApp';
 import { filtersModal, calendarFilter } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';

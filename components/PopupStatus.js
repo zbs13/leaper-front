@@ -5,7 +5,7 @@ import { popup } from './../assets/styles/styles';
 import globalStyles from './../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import t from "../providers/lang/translations";
-import Cta from './Cta';
+import Cta from './cta/Cta';
 
 export default function PopupStatus() {
 

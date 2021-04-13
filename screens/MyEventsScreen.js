@@ -11,6 +11,9 @@ import EventCard from '../components/cards/EventCard';
 import EventCardLoader from '../components/loaders/EventCardLoader';
 import { RefreshViewList } from '../components/RefreshView';
 import Title from '../components/Title';
+import Cta from '../components/cta/Cta';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { cta } from '../assets/styles/styles';
 
 export default React.memo(function MyEventsScreen({navigation}) {
 
@@ -48,24 +51,28 @@ export default React.memo(function MyEventsScreen({navigation}) {
     <View style={globalStyles.mpm}>
         <Title>{t(selectorsApp.getLang()).MY_EVENTS}</Title>
         <SB
-          placeholder={t(selectorsApp.getLang()).FIND_EVENT_BY}
+          placeholder={t(selectorsApp.getLang()).FIND_AN_EVENT}
           onChangeText={(val) => setMes({...mes, searchValue: val})}
           value={mes.searchValue}
           cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}
           containerStyle={{backgroundColor: "transparent"}}
           cancelButtonProps={{color: global.colors.MAIN_COLOR}}
       />
-      <View>
+      <View style={[globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
         <Text style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsEvent.getNbMyFetched()}</Text>
+        <Cta
+            onPress={() => navigation.navigate("Home")}
+            underlayColor={global.colors.LIGHT_GREY}
+            _style={[cta.main, cta.first]}
+        >
+            <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />
+        </Cta>
       </View>
       { isLoaded ?
         <RefreshViewList 
           data={selectorsEvent.getAllMy()}
           onRefresh={() => fetchData()}
-          onEndReached={() => {
-            setMes({...mes, offset: mes.offset += global.MAX_RESULT_PER_LOADED_PAGE});
-            fetchData();
-          }}
+          onEndReached={() => setMes({...mes, offset: mes.offset += global.MAX_RESULT_PER_LOADED_PAGE})}
           renderItem={({item}) => (
             <EventCard navigation={navigation} 
               isMyEvent={true}

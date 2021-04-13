@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View } from 'react-native';
-import Cta from '../Cta';
+import Cta from '../cta/Cta';
 import { header } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
