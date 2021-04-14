@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text, Image, StyleSheet } from 'react-native';
 import { tchatBar } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import useApp from '../../hooks/useApp';
@@ -29,19 +29,16 @@ export default function TchatBar({onSend}){
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
         });
     
-        // console.log(result);
-    
-        // if (!result.cancelled) {
-        //     setImage(result.uri);
-        // }
+        if (!result.cancelled) {
+            setTchatState({...tchatState, attachment: result.uri});
+        }
     };
 
     return(
-        <View style={[globalStyles.flexRow, globalStyles.alignCenter, tchatBar.container]}>
+        <View style={[globalStyles.flexRow, globalStyles.alignEnd, tchatBar.container]}>
             <View style={{flex: 0.5}}>
                 <OptionsModal 
                     icon="attach-outline"
@@ -67,19 +64,44 @@ export default function TchatBar({onSend}){
                 />
             </View>
             <View style={{flex: 2}}>
+                {tchatState.attachment !== "" ?
+                    <View style={[globalStyles.w_100, {backgroundColor: global.colors.VERY_LIGHT_GREY}]}>
+                        <Image
+                            style={styles.tinyLogo}
+                            source={{uri: tchatState.attachment}}
+                            resizeMode="contain"
+                        />
+                    </View>
+                :
+                    null
+                }
                 <TextInput 
                     multiline
-                    onChangeText={(value) => setTchatState({textValue: value})}
+                    onChangeText={(value) => setTchatState({...tchatState, textValue: value})}
                     value={tchatState.textValue}
                     placeholder={t(selectors.getLang()).WRITE_A_MESSAGE}
                     style={tchatBar.input}
                 />
             </View>
-            <View style={[{flex: 0.5}, globalStyles.alignCenter]}>
+            <View style={[{flex: 0.5}, globalStyles.p_5, globalStyles.alignCenter]}>
                     <Cta onPress={() => alert("non")}>
-                        <Ionicons name="send-outline" color={global.colors.ANTHRACITE} size={30}/>
+                        <Ionicons name="send" color={global.colors.MAIN_COLOR} size={30}/>
                     </Cta>
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+      paddingTop: 50,
+    },
+    tinyLogo: {
+      width: "100%",
+      height: 200,
+    },
+    logo: {
+      width: 66,
+      height: 58,
+    },
+  });

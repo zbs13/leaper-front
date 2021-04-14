@@ -82,6 +82,9 @@ export default globalStyles = StyleSheet.create({
     alignCenter: {
         alignItems: "center"
     },
+    alignEnd: {
+        alignItems: "flex-end"
+    },
     alignStretch: {
         alignItems: "stretch"
     },  
