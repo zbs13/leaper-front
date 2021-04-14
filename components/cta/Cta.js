@@ -29,7 +29,7 @@ export default function Cta({
     const [dialogVisible, setDialogVisible] = useState(false);
     const {selectors} = useApp();
 
-    let color = {};
+    let color = {color: global.colors.ANTHRACITE};
     let fontSize = {};
     let textAlign = {};
     if(Array.isArray(_style)){
@@ -47,7 +47,9 @@ export default function Cta({
             }
         })
     }else if(typeof _style === "object"){
-        color = typeof _style.color !== "undefined" ? {color: _style.color} : {};
+        if(typeof _style.color !== "undefined"){
+            color = {color: _style.color};
+        }
         fontSize = typeof _style.fontSize !== "undefined" ? {fontSize: _style.fontSize} : {};
         textAlign = typeof _style.textAlign !== "undefined" ? {textAlign: _style.textAlign} : {};
     }
@@ -107,12 +109,13 @@ export default function Cta({
 
     function swipeableMenu(progress, dragX, side){
         let options = side === "left" ? swipeableLeftOptions : swipeableRightOptions
+        let style = side === "left" ? {borderRightWidth: 1, borderRightColor: global.colors.LIGHT_MAIN_COLOR} : {borderLeftWidth: 1, borderLeftColor: global.colors.LIGHT_MAIN_COLOR}
         return (
             <View style={[globalStyles.flexRow, globalStyles.h_100]}>
                 {options.map((param, idx) => 
                     <View key={idx}>
                         <Cta 
-                            _style={[cta.first_nr, param.style, globalStyles.p_10, globalStyles.h_100, globalStyles.justifyCenter]} 
+                            _style={[style, cta.first_nr, param.style, globalStyles.p_10, globalStyles.h_100, globalStyles.justifyCenter]} 
                             onPress={param.action}
                             value={typeof param.value !== "undefined" ? param.value : null}
                             confirm={typeof param.confirm !== "undefined" ? param.confirm : null}
@@ -124,7 +127,7 @@ export default function Cta({
                             swipeableRightOptions={null}
                         >
                             {typeof param.icon !== "undefined" && typeof param.value === "undefined" ?
-                                <Ionicons name={param.icon} size={typeof param.iconSize !== "undefined" ? param.iconSize : 30} color={param.iconColor !== null ? param.iconColor : global.colors.ANTHRACITE} />
+                                <Ionicons name={param.icon} size={typeof param.iconSize !== "undefined" ? param.iconSize : 30} color={typeof param.iconColor !== "undefined" ? param.iconColor : global.colors.ANTHRACITE} />
                             :
                                 null
                             }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
 import SearchModal from './components/modals/SearchModal';
@@ -57,11 +57,24 @@ export default function Main() {
                         barStyle="dark-content"
                     />
                 </View>
-                <EventsProvider>
-                    <GroupsProvider>
-                        <AppScreenManager />
-                    </GroupsProvider>
-                </EventsProvider>
+                {(Platform.OS === 'ios') ?
+                    <KeyboardAvoidingView
+                        behavior="padding"
+                        style={{flex: 1}}
+                    >
+                        <EventsProvider>
+                            <GroupsProvider>
+                                <AppScreenManager />
+                            </GroupsProvider>
+                        </EventsProvider>
+                    </KeyboardAvoidingView>
+                :
+                    <EventsProvider>
+                        <GroupsProvider>
+                            <AppScreenManager />
+                        </GroupsProvider>
+                    </EventsProvider>
+                }
                 {selectors.getSearchBar() !== null 
                     ?
                         <SearchModal type={selectors.getSearchBar()} />

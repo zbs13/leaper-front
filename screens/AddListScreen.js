@@ -10,10 +10,10 @@ export default function AddListScreen({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
-                {t(selectors.getLang()).CREATE_GROUP}
+                {t(selectors.getLang()).group.CREATE_GROUP}
             </Text>
             <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
-                {t(selectors.getLang()).CREATE_EVENT}
+                {t(selectors.getLang()).event.CREATE_EVENT}
             </Text>
             <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
                 {t(selectors.getLang()).ADD_CONTACT_PERSON}

@@ -71,10 +71,10 @@ export default React.memo(function SportEventScreen({navigation, route}) {
   return (
     <View style={globalStyles.mpm}>
       {/* <Title>
-        {t(selectorsApp.getLang()).EVENTS} : {sport}
+        {t(selectorsApp.getLang()).event.EVENTS} : {sport}
       </Title> */}
       <SB
-          placeholder={t(selectorsApp.getLang()).FIND_EVENT_BY + " : " + sport}
+          placeholder={t(selectorsApp.getLang()).event.FIND_EVENT_BY + " : " + sport}
           onChangeText={(val) => setSes({...ses, searchValue: val})}
           value={ses.searchValue}
           cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}

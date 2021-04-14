@@ -12,6 +12,7 @@ import Cta from '../components/cta/Cta';
 import { RefreshViewScroll } from '../components/RefreshView';
 import Title from '../components/Title';
 import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function SportEventDetailsScreen({navigation, route}) {
 
@@ -51,6 +52,11 @@ export default function SportEventDetailsScreen({navigation, route}) {
                     _style={[globalStyles.flexColumn, globalStyles.mh_100]}
                     onRefresh={() => fetchEventDetails()}
                 >
+                    <View style={{position: "absolute", zIndex: 1, top: 10, right: 10}}>
+                        <Cta onPress={() => alert("mettre en fav")}>
+                            <Ionicons name="star-outline" size={30} color={global.colors.ANTHRACITE}/>
+                        </Cta>
+                    </View>
                     <View style={eventDetailsMap.container}>
                         <Map
                             latitude={details.location.latitude}
@@ -61,7 +67,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                 longitude={details.location.longitude}
                                 pinColor={global.colors.MAIN_COLOR}
                                 title={route.params.title}
-                                description={t(lang).HERE_EVENT_PLACE}
+                                description={t(lang).event.HERE_EVENT_PLACE}
                             />
                         </Map>
                     </View>
@@ -103,7 +109,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                             _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
                             confirm={{
                                 title: route.params.title,
-                                content: t(lang).CONFIRM_JOIN_EVENT
+                                content: t(lang).event.CONFIRM_JOIN_EVENT
                             }}
                             onPress={() => console.log("aaa")}
                         />

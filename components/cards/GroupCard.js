@@ -22,8 +22,8 @@ export default function GroupCard({ navigation, item, isMyGroup = false }) {
             color: global.colors.WHITE
         },
         confirm: {
-            title: t(selectors.getLang()).LEAVE_GROUP,
-            content: `${t(selectors.getLang()).SURE_TO_LEAVE_GROUP} ${item.name}`,
+            title: t(selectors.getLang()).group.LEAVE_GROUP,
+            content: `${t(selectors.getLang()).group.SURE_TO_LEAVE_GROUP} ${item.name}`,
         },
         icon: "log-out-outline",
         iconColor: global.colors.WHITE,
@@ -34,7 +34,7 @@ export default function GroupCard({ navigation, item, isMyGroup = false }) {
         title: ellipsisText(item.name, 30),
         options: [
             {
-                value: t(selectors.getLang()).LEAVE_THIS_GROUP,
+                value: t(selectors.getLang()).group.LEAVE_THIS_GROUP,
                 ...mainOptions
             }
         ] 
@@ -51,7 +51,7 @@ export default function GroupCard({ navigation, item, isMyGroup = false }) {
                 {...options}
             >
                 <Cta
-                    onPress={() => navigation.navigate(isMyGroup ? global.screens.TCHAT : global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id, isEvent: true})}
+                    onPress={() => navigation.navigate(isMyGroup ? global.screens.TCHAT : null, {title: item.name, id: item.id, isEvent: false})}
                     _style={card.cardContainer}
                     underlayColor={global.colors.WHITE}
                     swipeableRightOptions={swipeableOptions}

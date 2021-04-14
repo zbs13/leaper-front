@@ -6,6 +6,9 @@ export default globalStyles = StyleSheet.create({
         flex: 1,
         margin: 5
     },  
+    pos_a: {
+        position: "absolute"
+    },
     p_5: {
         padding: 5
     },
@@ -78,6 +81,9 @@ export default globalStyles = StyleSheet.create({
     },
     alignCenter: {
         alignItems: "center"
+    },
+    alignEnd: {
+        alignItems: "flex-end"
     },
     alignStretch: {
         alignItems: "stretch"

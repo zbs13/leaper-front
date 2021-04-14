@@ -84,7 +84,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
                             </TagNbNotifs>
                         </View>
                         <View>
-                            <Text style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).MY_GROUPS.toUpperCase() : t(lang).MY_EVENTS.toUpperCase()}</Text>
+                            <Text style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Text>
                         </View>
                         <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
                             {(selector.getAllMy()).map((value, index) => {

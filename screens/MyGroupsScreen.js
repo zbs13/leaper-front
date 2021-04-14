@@ -49,9 +49,9 @@ export default React.memo(function MyGroupsScreen({navigation}) {
 
   return (
     <View style={globalStyles.mpm}>
-        <Title>{t(selectorsApp.getLang()).MY_GROUPS}</Title>
+        <Title>{t(selectorsApp.getLang()).group.MY_GROUPS}</Title>
         <SB
-          placeholder={t(selectorsApp.getLang()).FIND_A_GROUP}
+          placeholder={t(selectorsApp.getLang()).group.FIND_A_GROUP}
           onChangeText={(val) => setMgs({...mgs, searchValue: val})}
           value={mgs.searchValue}
           cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}
