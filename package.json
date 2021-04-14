@@ -37,6 +37,7 @@
     "react-native-dialog": "^6.2.0",
     "react-native-elements": "^3.2.0",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-maps": "^0.27.1",
     "react-native-reanimated": "^1.13.3",
     "react-native-screens": "^2.15.2",
@@ -45,7 +46,8 @@
     "react-navigation": "^4.4.3",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "rn-placeholder": "^3.0.3",
-    "subscriptions-transport-ws": "^0.9.18"
+    "subscriptions-transport-ws": "^0.9.18",
+    "expo-image-picker": "~9.2.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

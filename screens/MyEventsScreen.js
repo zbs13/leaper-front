@@ -49,9 +49,9 @@ export default React.memo(function MyEventsScreen({navigation}) {
 
   return (
     <View style={globalStyles.mpm}>
-        <Title>{t(selectorsApp.getLang()).MY_EVENTS}</Title>
+        <Title>{t(selectorsApp.getLang()).event.MY_EVENTS}</Title>
         <SB
-          placeholder={t(selectorsApp.getLang()).FIND_AN_EVENT}
+          placeholder={t(selectorsApp.getLang()).event.FIND_AN_EVENT}
           onChangeText={(val) => setMes({...mes, searchValue: val})}
           value={mes.searchValue}
           cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}

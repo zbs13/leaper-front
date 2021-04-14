@@ -54,8 +54,8 @@ export default function OptionsModal({title = null, options, buttonSize = null, 
                         <View key={index}>
                           <Cta
                             onPress={() => {
-                              params.action();
                               toggleModalView();
+                              params.action();
                             }}
                             underlayColor={global.colors.VERY_LIGHT_GREY}
                             confirm={typeof params.confirm !== undefined ? params.confirm : null}
@@ -63,7 +63,7 @@ export default function OptionsModal({title = null, options, buttonSize = null, 
                             value={params.value}
                             icon={typeof params.icon !== "undefined" ? params.icon : null}
                             iconSize={30}
-                            iconColor={params.iconColor !== null ? params.iconColor : null}
+                            iconColor={typeof params.iconColor !== "undefined" ? params.iconColor : null}
                           />
                         </View>
                       )

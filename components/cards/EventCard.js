@@ -16,10 +16,15 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
     
     const {selectors} = useApp();
 
-    const addOptions = {
+    const detailsOptions = {
         value: t(selectors.getLang()).DETAILS,
-        action: () => alert("aaaa"),
+        action: () => navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id}),
         icon: "add-outline",
+    };
+
+    const favMainOptions = {
+        action: () => alert("aaaa"),
+        icon: "star-outline"
     };
 
     const logOutMainOptions = {
@@ -28,8 +33,8 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
             color: global.colors.WHITE
         },
         confirm: {
-            title: t(selectors.getLang()).LEAVE_EVENT,
-            content: `${t(selectors.getLang()).SURE_TO_LEAVE_EVENT} ${item.name}`,
+            title: t(selectors.getLang()).event.LEAVE_EVENT,
+            content: `${t(selectors.getLang()).event.SURE_TO_LEAVE_EVENT} ${item.name}`,
         },
         icon: "log-out-outline",
         iconColor: global.colors.WHITE,
@@ -39,15 +44,19 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
     const options = {
         title: ellipsisText(item.name, 30),
         options: [
-            addOptions,
+            detailsOptions,
             {
-                value: t(selectors.getLang()).LEAVE_THIS_EVENT,
+                value: t(selectors.getLang()).BOOKMARK_THIS_PLACE,
+                ...favMainOptions
+            },
+            {
+                value: t(selectors.getLang()).event.LEAVE_THIS_EVENT,
                 ...logOutMainOptions
             }
         ] 
     };
 
-    const swipeableOptions = [addOptions, logOutMainOptions];
+    const swipeableOptions = [detailsOptions, favMainOptions, logOutMainOptions];
     
     return (
         <View style={card.view}>
@@ -87,7 +96,7 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
                                     value={t(selectors.getLang()).JOIN}
                                     confirm={{
                                         title: item.name,
-                                        content: t(selectors.getLang()).CONFIRM_JOIN_EVENT
+                                        content: t(selectors.getLang()).event.CONFIRM_JOIN_EVENT
                                     }}
                                 />
                             }

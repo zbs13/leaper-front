@@ -297,3 +297,23 @@ export const optionsModal = StyleSheet.create({
       fontSize: 20
     }
 });
+
+export const tchatBar = StyleSheet.create({
+    container: {
+        backgroundColor: global.colors.WHITE,
+        position: "absolute", 
+        bottom: 0, 
+        left: 0,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderColor: global.colors.MAIN_COLOR,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
+    },
+    input: {
+        padding: 10,
+        backgroundColor: global.colors.VERY_LIGHT_GREY,
+        borderRadius: 5
+    }
+});
