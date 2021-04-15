@@ -13,6 +13,7 @@ import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
 import TagNbNotifs from '../tags/TagNbNotifs';
 import ImageIcon from '../icons/ImageIcon';
 import GroupsEventsCardLoader from "../loaders/GroupsEventsCardLoader";
+import Txt from '../Txt';
 
 /**
  * group or event card to summarize groups/events where user is in
@@ -95,7 +96,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
                             </TagNbNotifs>
                         </View>
                         <View>
-                            <Text style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Text>
+                            <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Txt>
                         </View>
                         <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
                             {(selector.getAllMy()).map((value, index) => {

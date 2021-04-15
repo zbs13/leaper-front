@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
 import useApp from '../hooks/useApp';
 import { eventDetailsMap, cta, ctaJoinEventDetails } from '../assets/styles/styles';
@@ -13,6 +13,7 @@ import { RefreshViewScroll } from '../components/RefreshView';
 import Title from '../components/Title';
 import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Txt from '../components/Txt';
 
 /**
  * 
@@ -84,34 +85,34 @@ export default function SportEventDetailsScreen({navigation, route}) {
                         <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{route.params.title}</Title>
                         <View style={[globalStyles.flexRow, globalStyles.m_10]}>
                             <View style={[globalStyles.flexColumn, {flex: 1}]}>
-                                <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
                                     {t(lang).ADDRESS} :
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
                                     {details.address}
-                                </Text>
+                                </Txt>
                             </View>
                             <View style={[globalStyles.flexColumn, {flex: 1}]} >
-                                <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
                                     {t(lang).DATE} :
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
                                     {t(lang).formats.date(details.date)}
-                                </Text>
+                                </Txt>
                             </View>
                             <View style={[globalStyles.flexColumn, {flex: 1}]} >
-                                <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
                                     {t(lang).HOURS} :
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
                                     {t(lang).FROM} : {t(lang).formats.hour(details.startHour)}
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
                                     {t(lang).TO} : {t(lang).formats.hour(details.endHour)}
-                                </Text>
+                                </Txt>
                             </View>
                         </View>
-                        <Text style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Text>
+                        <Txt _style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Txt>
                     </View>
                     <View style={ctaJoinEventDetails.container}>
                         <Cta value={t(lang).JOIN} 

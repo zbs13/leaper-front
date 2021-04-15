@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import AppContext from "../context/appContext";
 import { fetchUserParameters, updateUserParameters } from '../context/actions/app';
+import { randId } from '../utils/utils';
 
 const useApp = () => {
   const {
@@ -35,7 +36,7 @@ const useApp = () => {
       })
     },
     addPopupStatus: function({type, message}) {
-      let id = Date.now();
+      let id = randId();
       dispatch({
         type: "ADD_POPUP_STATUS",
         payload: {

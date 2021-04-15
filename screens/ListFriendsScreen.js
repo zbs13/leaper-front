@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import Txt from '../components/Txt';
 
 /**
  * friends list screen
@@ -9,7 +10,7 @@ export default function ListFriendsScreen() {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Liste groupe d'amis</Text>
+            <Txt>Liste groupe d'amis</Txt>
         </View>
     );
   };

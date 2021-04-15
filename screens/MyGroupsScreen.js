@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import useGroups from '../hooks/useGroups';
 import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
@@ -14,6 +14,7 @@ import Title from '../components/Title';
 import Cta from '../components/cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { cta } from '../assets/styles/styles';
+import Txt from '../components/Txt';
 
 /**
  * my groups screen
@@ -68,7 +69,7 @@ export default React.memo(function MyGroupsScreen({navigation}) {
           cancelButtonProps={{color: global.colors.MAIN_COLOR}}
       />
       <View style={[globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
-        <Text style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsGroups.getNbMyFetched()}</Text>
+        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsGroups.getNbMyFetched()}</Txt>
         <Cta
             onPress={() => navigation.navigate("Home")}
             underlayColor={global.colors.LIGHT_GREY}

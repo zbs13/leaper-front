@@ -309,12 +309,28 @@ export const tchatBar = StyleSheet.create({
         borderRightWidth: 1,
         borderColor: global.colors.MAIN_COLOR,
         borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        borderTopRightRadius: 10,
+        padding: 5
     },
     input: {
         padding: 10,
         backgroundColor: global.colors.VERY_LIGHT_GREY,
         borderRadius: 5
+    },
+    imagePreviewContainer: {
+        backgroundColor: global.colors.VERY_LIGHT_GREY,
+        borderRadius: 5
+    },
+    imagePreview: {
+        width: "100%",
+        height: 200
+    },
+    imagePreviewDelete: {
+        position: "absolute",
+        zIndex: 1,
+        top: 0,
+        right: 0,
+        margin: 10
     }
 });
 export const settings =  StyleSheet.create({

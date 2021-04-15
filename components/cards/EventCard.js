@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
@@ -11,6 +11,7 @@ import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
+import Txt from '../Txt';
 
 /**
  * Event Cards
@@ -97,12 +98,12 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
                         style={[card.cardContainer, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween]}
                     >
                         <View style={[globalStyles.flexColumn, {flex: 1}]}>
-                            <Text style={globalStyles.ta_c}>{global.listSports(selectors.getLang())[item.sportId - 1].name}</Text>
+                            <Txt _style={globalStyles.ta_c}>{global.listSports(selectors.getLang())[item.sportId - 1].name}</Txt>
                             <ImageIcon _style={card.pic} src={item.src} />
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>
-                            <Text style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{ellipsisText(item.name, 50)}</Text>
-                            <Text style={[globalStyles.c_anth, globalStyles.ta_j]}>{ellipsisText(item.description, 80)}</Text>
+                            <Txt ellipsis={50} _style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{item.name}</Txt>
+                            <Txt ellipsis={80} _style={[globalStyles.c_anth, globalStyles.ta_j]}>{item.description}</Txt>
                             <ListUsersIconCards users={item.users} />
                         </View>
                         <View style={[globalStyles.m_10, globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround]}>
@@ -123,10 +124,10 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
                                     }}
                                 />
                             }
-                            <Text style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
+                            <Txt _style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
                                 <Ionicons name="location-outline" size={20}/>
                                 {item.postalCode}
-                            </Text>
+                            </Txt>
                         </View>
                     </View>
                 </Cta>

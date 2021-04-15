@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
 import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
@@ -11,7 +11,7 @@ import EventCard from '../components/cards/EventCard';
 import EventCardLoader from '../components/loaders/EventCardLoader';
 import { RefreshViewList } from '../components/RefreshView';
 import FiltersModal from '../components/modals/FiltersModal';
-import { ellipsisText } from '../utils/utils';
+import Txt from '../components/Txt';
 
 /**
  * Sport event screen
@@ -98,34 +98,34 @@ export default React.memo(function SportEventScreen({navigation, route}) {
       />
       <FiltersModal setCriteria={setCriteria} />
       <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
-        <Text style={[globalStyles.f_bold, globalStyles.c_anth, {flex: 1}]}>
+        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth, {flex: 1}]}>
           {t(selectorsApp.getLang()).FILTERS} :
-        </Text>
+        </Txt>
         <View style={[globalStyles.flexColumn, {flex: 1}]}>
-          <Text style={globalStyles.c_anth}>
+          <Txt _style={globalStyles.c_anth}>
             {t(selectorsApp.getLang()).PLACE} :
-          </Text>
-          <Text style={globalStyles.c_anth}>
-            {ellipsisText(ses.criteria.place, 20) || "-"}
-          </Text>
+          </Txt>
+          <Txt ellipsis={20} _style={globalStyles.c_anth}>
+            {ses.criteria.place || "-"}
+          </Txt>
         </View>
         <View style={[globalStyles.flexColumn, {flex: 1}]}>
-          <Text style={globalStyles.c_anth}>
+          <Txt _style={globalStyles.c_anth}>
             {t(selectorsApp.getLang()).DATES} :
-          </Text>
-          <Text style={globalStyles.c_anth}>
+          </Txt>
+          <Txt _style={globalStyles.c_anth}>
             {ses.criteria.startDate !== null ? t(selectorsApp.getLang()).formats.date(ses.criteria.startDate.dateString) : "-"}
-          </Text>
+          </Txt>
           {ses.criteria.endDate !== null ?
-            <Text style={globalStyles.c_anth}>
+            <Txt _style={globalStyles.c_anth}>
               {t(selectorsApp.getLang()).formats.date(ses.criteria.endDate.dateString)}
-            </Text>
+            </Txt>
           : null
           }
         </View>
       </View>
       <View>
-        <Text style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsEvent.getNbFetchedByCriteria()}</Text>
+        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsEvent.getNbFetchedByCriteria()}</Txt>
       </View>
       { isLoaded ?
         <RefreshViewList 

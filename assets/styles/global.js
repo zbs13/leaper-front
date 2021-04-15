@@ -105,5 +105,11 @@ export default globalStyles = StyleSheet.create({
     },
     title_size: {
         fontSize: 20
+    },
+    separator: {
+        margin: 5,
+        width: 2,
+        height: "70%",
+        backgroundColor: global.colors.LIGHT_GREY
     }
 });

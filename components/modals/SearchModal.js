@@ -1,10 +1,11 @@
 import React, { createRef, useState } from 'react';
-import { Text, View, Modal } from 'react-native';
+import { View, Modal } from 'react-native';
 import SB from '../search/SearchBar';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';
 import globalStyles from '../../assets/styles/global';
 import{ text } from '../../assets/styles/styles';
+import Txt from '../Txt';
 
 /**
  * search modal
@@ -63,7 +64,7 @@ export default function SearchModal({type}) {
                         }}
                     />
                     <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter, globalStyles.p_5]}>
-                        <Text style={text.searchTitle}>{t(selectors.getLang()).SEARCH} : "{search.value}"</Text>
+                        <Txt _style={text.searchTitle}>{t(selectors.getLang()).SEARCH} : "{search.value}"</Txt>
                     </View>
                 </View>
             </Modal>

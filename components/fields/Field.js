@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { fields } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,6 +11,7 @@ import { getDatesBetweenTwoDates } from '../../utils/utils';
 import {CalendarList, LocaleConfig} from 'react-native-calendars';
 import { addDays, format } from 'date-fns';
 import Title from '../Title';
+import Txt from '../Txt';
 
 /**
  * Fields management => text, password, calendar, username...
@@ -470,9 +471,9 @@ export default function Field({
                 }
                 <View style={{width: icon !== null ? "90%" : "100%", position: "relative"}}>
                     {placeholder !== null ?
-                        <Text style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
+                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
                             {placeholder}
-                        </Text>
+                        </Txt>
                     :
                         null
                     }
@@ -485,7 +486,7 @@ export default function Field({
                     || fieldState.errorLettersOnly
                     || fieldState.errorUsername
                     ?
-                        <Text style={{color: global.colors.RED_ERROR}}>
+                        <Txt _style={{color: global.colors.RED_ERROR}}>
                             {fieldState.errorXSS || fieldState.errorUsername ?
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_VALUES
                             : fieldState.errorPassword ?
@@ -499,7 +500,7 @@ export default function Field({
                             : 
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_LETTERS_ONLY
                             }
-                        </Text>
+                        </Txt>
                     :
                         null
                     }

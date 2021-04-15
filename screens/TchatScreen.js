@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import useApp from '../hooks/useApp';
 import global from '../providers/global';
 import OptionsModal from '../components/modals/OptionsModal';
@@ -7,6 +7,7 @@ import t from '../providers/lang/translations';
 import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Txt from '../components/Txt';
 
 /**
  * tchat screen
@@ -86,7 +87,7 @@ export default function TchatScreen({navigation, route}) {
     <View style={globalStyles.h_100}>
       <KeyboardAwareScrollView>
         <View>
-          <Text>dddd</Text>
+          <Txt>dddd</Txt>
         </View>
       </KeyboardAwareScrollView>
       <View>

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableHighlight, Animated } from 'react-native';
+import { View, TouchableHighlight } from 'react-native';
 import BackgroundImage from '../BackgroundImage';
 import globalStyles from '../../assets/styles/global';
-import Dialog from "react-native-dialog";
-import t from '../../providers/lang/translations';
-import useApp from '../../hooks/useApp';
+import DialogPopup from '../DialogPopup';
 import global from '../../providers/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { cta } from '../../assets/styles/styles';
+import Txt from '../Txt';
 
 /**
  * all Cta management => usual cta or with swipeable options...
@@ -45,7 +44,6 @@ export default function Cta({
 }) {
 
     const [dialogVisible, setDialogVisible] = useState(false);
-    const {selectors} = useApp();
 
     let color = {color: global.colors.ANTHRACITE};
     let fontSize = {};
@@ -96,10 +94,10 @@ export default function Cta({
                             icon !== null ?
                                 <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                                     <Ionicons style={{marginRight: 5}} name={icon} size={iconSize !== null ? iconSize : 20} color={iconColor !== null ? iconColor : global.colors.ANTHRACITE} />
-                                    <Text style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Text>
+                                    <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                                 </View>
                             :
-                                <Text style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Text>
+                                <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                         : 
                             typeof backgroundImage !== "undefined" && typeof value === "undefined" ?
                                 <BackgroundImage
@@ -115,23 +113,20 @@ export default function Cta({
                         }
                     </View>
                 </TouchableHighlight>
-                <Dialog.Container visible={dialogVisible}>
-                    {confirm !== null && typeof confirm.title !== "undefined" ?
-                        <Dialog.Title>
-                            {confirm.title}
-                        </Dialog.Title>
-                    :
-                        null
-                    }
-                    <Dialog.Description>
-                        {confirm !== null ? confirm.content : ""}
-                    </Dialog.Description>
-                    <Dialog.Button color={global.colors.MAIN_COLOR} label={t(selectors.getLang()).CANCEL} onPress={() => setDialogVisible(false)}/>
-                    <Dialog.Button color={global.colors.MAIN_COLOR} label={t(selectors.getLang()).OK} onPress={() => {
-                        setDialogVisible(false);
-                        onPress();
-                    }}/>
-                </Dialog.Container>
+                {confirm !== null ?
+                    <DialogPopup 
+                        dialogVisible={dialogVisible}
+                        title={typeof confirm.title !== "undefined" ? confirm.title : null}
+                        content={confirm.content}
+                        onAcceptPress={() => {
+                            setDialogVisible(false);
+                            onPress();
+                        }}
+                        onCancelPress={() => setDialogVisible(false)}
+                    />
+                :
+                    null
+                }
             </View>
         )
     }

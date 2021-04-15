@@ -31,3 +31,15 @@ export const getDatesBetweenTwoDates = function(start, end) {
     }
     return arr;
 };
+
+/**
+ * return an uri's extension
+ * 
+ * @param {string} uri uri to get ext
+ * @returns {string} extension
+ */
+ export const ext = function(uri) {
+    let arr = uri.split(".");
+    let extIdx = arr.length - 1;
+    return arr[extIdx].toLowerCase();
+};

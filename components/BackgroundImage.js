@@ -8,12 +8,12 @@ import { ImageBackground } from 'react-native';
  * @param {function|object} image {uri: ...} OR require(...)
  * @returns 
  */
-export default function BackgroundImage({_style, image, children}) {
+export default function BackgroundImage({_style, image, children, resizeMode = null}) {
     return (
         <ImageBackground
             source={image} 
-            style={{width: '100%', height: '100%'}} 
-            resizeMode='cover'
+            style={{width: '100%', height: '100%', justifyContent: "center"}} 
+            resizeMode={resizeMode !== null ? resizeMode : 'cover'}
             imageStyle={_style} >
                 {children}
         </ImageBackground>

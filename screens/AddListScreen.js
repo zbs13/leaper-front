@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, Button } from 'react-native';
+import { View, Button } from 'react-native';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
+import Txt from '../components/Txt';
 
 /**
  * add list screen
@@ -15,15 +16,15 @@ export default function AddListScreen({navigation}) {
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
+            <Txt _style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
                 {t(selectors.getLang()).group.CREATE_GROUP}
-            </Text>
-            <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
+            </Txt>
+            <Txt _style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
                 {t(selectors.getLang()).event.CREATE_EVENT}
-            </Text>
-            <Text style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
+            </Txt>
+            <Txt _style={{ textAlign: 'center', padding: 20, fontSize: 20}}>
                 {t(selectors.getLang()).ADD_CONTACT_PERSON}
-            </Text>
+            </Txt>
             <Button  
                     style={{ paddingLeft: 10 }}  
                     onPress={() => navigation.openDrawer()}
