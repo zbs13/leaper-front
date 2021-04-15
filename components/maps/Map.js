@@ -2,7 +2,23 @@ import React from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import global from '../../providers/global';
 
-export default function Map({latitude, longitude, latitudeDelta = null, longitudeDelta = null, children}) {
+/**
+ * Map
+ * 
+ * @param {number} latitude map latitude
+ * @param {number} longitude map longitude
+ * @param {number|null} latitudeDelta map latitude delta
+ * @param {number|null} longitudeDelta map longitude delta
+ * @param {object} children children
+ * @returns 
+ */
+export default function Map({
+  latitude, 
+  longitude, 
+  latitudeDelta = null, 
+  longitudeDelta = null, 
+  children
+}) {
 
   return (
     <MapView
@@ -19,7 +35,23 @@ export default function Map({latitude, longitude, latitudeDelta = null, longitud
   );
 }
 
-export function MapPin({latitude, longitude, pinColor = null, title = null, description = null}) {
+/**
+ * Map pin/mark
+ * 
+ * @param {number} latitude pin latitude
+ * @param {number} longitude pin longitude
+ * @param {string|null} pinColor pin color
+ * @param {string|null} title pin title
+ * @param {string|null} description pin description
+ * @returns 
+ */
+export function MapPin({
+  latitude, 
+  longitude, 
+  pinColor = null, 
+  title = null, 
+  description = null
+}) {
 
 return (
   <Marker

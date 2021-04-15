@@ -13,6 +13,13 @@ import { RefreshViewList } from '../components/RefreshView';
 import FiltersModal from '../components/modals/FiltersModal';
 import { ellipsisText } from '../utils/utils';
 
+/**
+ * Sport event screen
+ * 
+ * @param {object} navigation for routing 
+ * @param {object} route params => route.params -> sportId
+ * @returns 
+ */
 export default React.memo(function SportEventScreen({navigation, route}) {
 
   const sport = route.params.name 
@@ -44,6 +51,11 @@ export default React.memo(function SportEventScreen({navigation, route}) {
     fetchData();
   }, [ses]);
 
+  /**
+   * set new criterias
+   * 
+   * @param {object} newCriteria new criterias
+   */
   function setCriteria(newCriteria){
     setSes({
       ...ses,
@@ -54,6 +66,9 @@ export default React.memo(function SportEventScreen({navigation, route}) {
     })
   }
 
+  /**
+   * fetch events by criterias
+   */
   function fetchData(){
     actionsEvent.fetchByCriteria(ses.criteria).then((data) => {
       manageResponseUI(data,

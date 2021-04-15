@@ -1,6 +1,11 @@
 import React from 'react';
 import { Text, View, Button } from 'react-native';
 
+/**
+ * notifications screen
+ * 
+ * @returns 
+ */
 export default function NotificationsScreen({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

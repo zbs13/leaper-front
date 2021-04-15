@@ -7,6 +7,17 @@ import { getMainDefinition } from 'apollo-utilities';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import t from '../../providers/lang/translations';
 
+/**
+ * main graphql request method
+ * 
+ * @param {string} type request method => subscription, query, mutation
+ * @param {*} req graphql request
+ * @param {object|null} vars request variables
+ * @param {string|null} waitMessage wait message before rendering result
+ * @param {boolean} needAuth is beiing authentificated needed for request
+ * @param {function} callback function called after rendering result
+ * @returns 
+ */
 export async function req(type, req, vars = null, waitMessage = null, needAuth = false, callback = null){
     
     if(type === 'subscription'){
@@ -108,6 +119,13 @@ export async function req(type, req, vars = null, waitMessage = null, needAuth =
     }
 }
 
+/**
+ * return result or error according to response
+ * 
+ * @param {object} data response to check
+ * @param {function} callback function called after success rendering
+ * @returns {object} error or response
+ */
 export function response(data, callback){
     if(typeof data.isError !== "undefined"){
         if(data.isError){
@@ -119,6 +137,14 @@ export function response(data, callback){
     return data;
 }
 
+/**
+ * manage reponse on UI according to response method return
+ * 
+ * @param {object} data response to check 
+ * @param {string} lang lang for response message translation
+ * @param {function} callbackSuccess function called if success
+ * @param {function} callbackError function called if error
+ */
 export function manageResponseUI(data, lang, callbackSuccess, callbackError){
     if(typeof data.isError !== "undefined"){
         let message;

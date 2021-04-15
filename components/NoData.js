@@ -6,6 +6,12 @@ import useApp from '../hooks/useApp';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../providers/global';
 
+/**
+ * component if no data
+ * 
+ * @param {string} message message to display if no data 
+ * @returns 
+ */
 export default function NoData({message = null}) {
 
     const {selectors} = useApp();

@@ -2,6 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 import BackgroundImage from "../BackgroundImage";
 
+/**
+ * icon with background image
+ * 
+ * @param {string} src image source
+ * @param {object|null} _style style
+ * @returns 
+ */
 export default function ImageIcon({src, _style = null}) {
 
     return (

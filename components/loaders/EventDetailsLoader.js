@@ -4,6 +4,11 @@ import { Placeholder, Fade, PlaceholderMedia, PlaceholderLine } from 'rn-placeho
 import globalStyles from '../../assets/styles/global';
 import { eventDetailsMap } from '../../assets/styles/styles';
 
+/**
+ * event details loader
+ * 
+ * @returns 
+ */
 export default function EventDetailsLoader() {
     return (
         <View>

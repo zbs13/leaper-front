@@ -3,6 +3,12 @@ import { Text, View, Button } from 'react-native';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
 
+/**
+ * add list screen
+ * 
+ * @param {object} navigation for routing 
+ * @returns 
+ */
 export default function AddListScreen({navigation}) {
 
     const  {selectors} = useApp();

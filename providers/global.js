@@ -18,6 +18,7 @@ export default global = {
         MAIN_COLOR: '#BDE023',
         LIGHT_MAIN_COLOR: "#DDEF91",
         ANTHRACITE: "#293231",
+        GREY: "#9E9E9E",
         LIGHT_GREY: '#C6C6C6',
         VERY_LIGHT_GREY: '#EAEAEA',
         GREEN_SUCCESS: '#BDE023',

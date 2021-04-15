@@ -15,6 +15,12 @@ import Cta from '../components/cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { cta } from '../assets/styles/styles';
 
+/**
+ * my events screen
+ * 
+ * @param {object} navigation for routing
+ * @returns
+ */
 export default React.memo(function MyEventsScreen({navigation}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
@@ -33,6 +39,9 @@ export default React.memo(function MyEventsScreen({navigation}) {
     fetchData();
   }, [mes]);
 
+  /**
+   * fetch all my events
+   */
   function fetchData(){
     actionsEvent.fetchAllMy(mes.offset).then((data) => {
       manageResponseUI(data,

@@ -8,9 +8,14 @@ import NotificationsScreenManager from '../../screensManager/NotificationsScreen
 import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreenManager';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
+import global from '../../providers/global';
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * bottom menu
+ * @returns 
+ */
 export default function BottomMenu() {
 
   const { selectors } = useApp();
@@ -43,8 +48,8 @@ export default function BottomMenu() {
         }
       })}
       tabBarOptions={{
-        activeTintColor: '#BDE023',
-        inactiveTintColor: 'gray',
+        activeTintColor: global.colors.MAIN_COLOR,
+        inactiveTintColor: global.colors.GREY,
       }}
     >
       <Tab.Screen name={t(selectors.getLang()).ADD} component={AddListScreenManager} />

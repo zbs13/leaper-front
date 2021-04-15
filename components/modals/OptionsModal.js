@@ -9,7 +9,27 @@ import global from '../../providers/global';
 import { cta, optionsModal } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function OptionsModal({title = null, options, buttonSize = null, buttonColor = null, icon = null, children = null, isActive = true}) {
+/**
+ * options modal
+ * 
+ * @param {string|null} title options modal title
+ * @param {object} options options in modal => confirm, style, value, icon, iconColor
+ * @param {number|null} buttonSize button size
+ * @param {string|null} buttonColor button color
+ * @param {string|null} icon icon name
+ * @param {component} children
+ * @param {boolean} isActive true if modal is active
+ * @returns 
+ */
+export default function OptionsModal({
+  title = null, 
+  options, 
+  buttonSize = null, 
+  buttonColor = null, 
+  icon = null, 
+  children = null, 
+  isActive = true
+}) {
 
     const  {selectors} = useApp();
 
@@ -18,6 +38,9 @@ export default function OptionsModal({title = null, options, buttonSize = null, 
       setVisible(!visible);
     };
 
+    /**
+     * calc options modal height according to number of options
+     */
     let height = (title !== null ? 80 : 0) + 65 + 51.5 * options.length
 
     return (

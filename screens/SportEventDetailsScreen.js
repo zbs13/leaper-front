@@ -14,6 +14,12 @@ import Title from '../components/Title';
 import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+/**
+ * 
+ * @param {object} navigation for routing
+ * @param {object} route params => route.params -> title, id
+ * @returns 
+ */
 export default function SportEventDetailsScreen({navigation, route}) {
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
@@ -30,6 +36,9 @@ export default function SportEventDetailsScreen({navigation, route}) {
         fetchEventDetails();
     }, []);
 
+    /**
+     * fetch event details by id
+     */
     function fetchEventDetails(){
         actionsEvent.fetchById(route.params.id).then((data) => {
           manageResponseUI(data,

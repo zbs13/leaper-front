@@ -12,7 +12,29 @@ import {CalendarList, LocaleConfig} from 'react-native-calendars';
 import { addDays, format } from 'date-fns';
 import Title from '../Title';
 
-export default function Field({type, placeholder = null, onChange, defaultValue, label = null, icon = null, min = 0, max = 255}){
+/**
+ * Fields management => text, password, calendar, username...
+ * 
+ * @param {string} type field type => firstname, lastname, password, username, text, calendar-period 
+ * @param {string|null} placeholder field placeholder
+ * @param {function} onChange function calling each time value change 
+ * @param {string} defaultValue default value in field
+ * @param {string|null} label value to be displayed as field title
+ * @param {string|null} icon icon name 
+ * @param {number} min min char allowed
+ * @param {number} max max char allowed
+ * @returns 
+ */
+export default function Field({
+    type, 
+    placeholder = null, 
+    onChange, 
+    defaultValue, 
+    label = null, 
+    icon = null, 
+    min = 0, 
+    max = 255
+}){
 
     const {selectors} = useApp();
 
@@ -37,6 +59,9 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         onChange(fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay)
     }, [fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay])
 
+    /**
+     * calendar config
+     */
     LocaleConfig.locales[selectors.getLang()] = {
         monthNames: t(selectors.getLang()).fields.MONTHS,
         monthNamesShort: t(selectors.getLang()).fields.SHORT_MONTHS,
@@ -46,6 +71,11 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
       };
     LocaleConfig.defaultLocale = selectors.getLang();
 
+    /**
+     * set state is field focused
+     * 
+     * @param {boolean} isFocus true if field is focus
+     */
     function isFocus(isFocus){
         setFieldState({
             ...fieldState,
@@ -53,6 +83,11 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         })
     }
 
+    /**
+     * function called while value changed
+     * 
+     * @param {string} val new value after change
+     */
     function onChangeValue(val){
         let isValid = Validator.checkXSS(val);
 
@@ -123,6 +158,11 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         }
     }
 
+    /**
+     * function called while password value changed
+     * 
+     * @param {string} val new value after change
+     */
     function onChangePassword(val){
         let isValid = Validator.checkPassword(val);
         if(isValid){
@@ -141,6 +181,11 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         }
     }
 
+    /**
+     * function called while mail value changed
+     * 
+     * @param {string} val new value after change
+     */
     function onChangeMail(val){
         let isValid = Validator.checkMail(val);
         let isMaxLengthOk = Validator.checkMaxLength(val, 100);
@@ -168,6 +213,11 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         }
     }
 
+    /**
+     * function called if a calendar day is pressed
+     * 
+     * @param {object} day calendar day object
+     */
     function onCalendarDayPress(day){
         let _day;
         if(fieldState.calendarPeriod.isStartDay){
@@ -236,6 +286,9 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         }
     }
 
+    /**
+     * function called if a calendar day is long pressed
+     */
     function onCalendarDayLongPress(){
         setFieldState({
             ...fieldState,
@@ -248,6 +301,10 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         onChange(null, null);
     }
 
+    /**
+     * component returned for text
+     * @returns 
+     */
     function _Text(){
         return (
             <TextInput 
@@ -260,6 +317,10 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         )
     }
 
+    /**
+     * component returned for password
+     * @returns 
+     */
     function _Password(){
         let attr = {};
         if(selectors.getOS() === "android"){
@@ -280,6 +341,10 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         )
     }
 
+    /**
+     * component returned for mail
+     * @returns 
+     */
     function _Mail(){
         let attr = {};
         if(selectors.getOS() === "android"){
@@ -300,6 +365,10 @@ export default function Field({type, placeholder = null, onChange, defaultValue,
         )
     }
 
+    /**
+     * component returned for period calendar
+     * @returns 
+     */
     function _CalendarPeriod(){
         let datesBetween = {}
         if(fieldState.calendarPeriod.startDay !== null && fieldState.calendarPeriod.endDay !== null){

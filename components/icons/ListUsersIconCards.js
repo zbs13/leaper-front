@@ -4,6 +4,12 @@ import { randId } from '../../utils/utils';
 import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
 import ImageIcon from '../icons/ImageIcon';
 
+/**
+ * create users icon in cards
+ * 
+ * @param {object} users users list 
+ * @returns 
+ */
 export default function ListUsersIconCards({users}) {
 
     return (

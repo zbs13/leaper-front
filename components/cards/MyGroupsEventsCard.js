@@ -14,6 +14,13 @@ import TagNbNotifs from '../tags/TagNbNotifs';
 import ImageIcon from '../icons/ImageIcon';
 import GroupsEventsCardLoader from "../loaders/GroupsEventsCardLoader";
 
+/**
+ * group or event card to summarize groups/events where user is in
+ * 
+ * @param {string} type if for group card = "groups" else if for event card = "events" 
+ * @param {object} navigation navigation object for routing
+ * @returns 
+ */
 export default function MyGroupsEventsCards({ type, navigation }) {
 
     const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
@@ -41,6 +48,10 @@ export default function MyGroupsEventsCards({ type, navigation }) {
         selector = selectorsEvents;
         nb = "nbEvents";
     }
+
+    /**
+     * page is loading => get groups/events where user is in 
+     */
     useEffect(() => {
         action.fetchAllMy().then((data) => {
             manageResponseUI(data,

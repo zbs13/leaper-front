@@ -4,6 +4,12 @@ import { TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { header } from './../assets/styles/styles';
 
+/**
+ * navigation back icon
+ * 
+ * @param {object} navigation for routing 
+ * @returns 
+ */
 export default function NavigationBackIcon({navigation}) {
   return (
     <View>

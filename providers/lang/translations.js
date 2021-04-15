@@ -357,6 +357,12 @@ const l = {
     }
 }
 
+/**
+ * to target good translation according to language
+ * 
+ * @param {string} lang "fr" or "en"
+ * @return {object} translations for targeted language
+ */
 export default t = (lang) => {
     return l[lang];
 }
