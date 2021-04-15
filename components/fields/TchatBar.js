@@ -10,6 +10,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Cta from '../cta/Cta';
 import * as ImagePicker from 'expo-image-picker';
 
+/**
+ * tchat bar
+ * 
+ * @param {function} onSend function called if message sended 
+ * @returns 
+ */
 export default function TchatBar({onSend}){
 
     const {selectors} = useApp();
@@ -19,6 +25,10 @@ export default function TchatBar({onSend}){
         attachment: ""
     })
 
+    /**
+     * pick image in gallery
+     * @returns 
+     */
     async function pickImage(){
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {

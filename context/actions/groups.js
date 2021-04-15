@@ -1,3 +1,9 @@
+/**
+ * fetch my groups according to offset
+ * 
+ * @param {number} offset offset for getting results  
+ * @returns 
+ */
 export const fetchMyGroups = (offset) => {
     return fetch("https://sdgdfghrdh.fr").then().catch(() => {
         return [{
@@ -98,6 +104,12 @@ export const fetchMyGroups = (offset) => {
     });
 }
 
+/**
+ * fetch my groups by id
+ * 
+ * @param {number} id group id  
+ * @returns 
+ */
 export const fetchById = (id) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {

@@ -4,6 +4,11 @@ import { Placeholder, Fade, PlaceholderMedia, PlaceholderLine } from 'rn-placeho
 import globalStyles from '../../assets/styles/global';
 import { card } from '../../assets/styles/styles';
 
+/**
+ * event card loader
+ * 
+ * @returns 
+ */
 export default function EventCardLoader() {
     return (
         <View style={card.view}>

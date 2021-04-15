@@ -6,6 +6,12 @@ import t from '../../providers/lang/translations';
 import globalStyles from '../../assets/styles/global';
 import{ text } from '../../assets/styles/styles';
 
+/**
+ * search modal
+ * 
+ * @param {string} type search modal type => global 
+ * @returns 
+ */
 export default function SearchModal({type}) {
 
     const {actions, selectors} = useApp();

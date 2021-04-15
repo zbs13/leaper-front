@@ -1,10 +1,19 @@
 import React from 'react';
 import { Animated, Easing} from 'react-native';
 
+/**
+ * Spin animation
+ * 
+ * @param {object} _style style for view container 
+ * @returns 
+ */
 export default function Spin({children, _style}) {
 
     const spinValue = new Animated.Value(0);
 
+    /**
+     * Animation loop
+     */
     Animated.loop(
         Animated.timing(
             spinValue,

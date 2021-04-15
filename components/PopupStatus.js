@@ -7,12 +7,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import t from "../providers/lang/translations";
 import Cta from './cta/Cta';
 
+/**
+ * Popup status
+ * 
+ * @returns 
+ */
 export default function PopupStatus() {
 
     const {selectors, actions} = useApp();
 
     const popupStatus = selectors.getPopupsStatus();
 
+    /**
+     * popup to display according to popup type
+     * @returns
+     */
     let popupsToDisplay = () => {
         let popupJSX = [];
         for(let _popup of popupStatus){

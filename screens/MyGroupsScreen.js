@@ -15,6 +15,12 @@ import Cta from '../components/cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { cta } from '../assets/styles/styles';
 
+/**
+ * my groups screen
+ * 
+ * @param {object} navigation for routing
+ * @returns 
+ */
 export default React.memo(function MyGroupsScreen({navigation}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
@@ -33,6 +39,9 @@ export default React.memo(function MyGroupsScreen({navigation}) {
     fetchData();
   }, [mgs]);
 
+  /**
+   * fetch all my groups
+   */
   function fetchData(){
     actionsGroups.fetchAllMy(mgs.offset).then((data) => {
       manageResponseUI(data,

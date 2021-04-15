@@ -7,6 +7,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
 import useApp from '../../hooks/useApp';
 
+/**
+ * main header right component
+ * 
+ * @returns 
+ */
 export default function MainHeaderRight() {
 
     const {actions} = useApp();

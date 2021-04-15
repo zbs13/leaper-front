@@ -2,6 +2,14 @@ import React from 'react';
 import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, FlatList } from 'react-native';
 import NoData from './NoData';
 
+/**
+ * refresh view for scrollable view
+ * 
+ * @param {component} children children 
+ * @param {object} _style style
+ * @param {function} onRefresh function called on refresh view
+ * @returns 
+ */
 export const RefreshViewScroll = ({children, _style, onRefresh}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -28,7 +36,27 @@ export const RefreshViewScroll = ({children, _style, onRefresh}) => {
   );
 }
 
-export const RefreshViewList = ({children, _style, onRefresh, data, noDataMessage, renderItem, onEndReached}) => {
+/**
+ * refresh view for list view
+ * 
+ * @param {component} children children 
+ * @param {object} _style style
+ * @param {function} onRefresh function called on refresh view
+ * @param {object} data object with datas
+ * @param {string} noDataMessage message if no data 
+ * @param {function} renderItem function rendering
+ * @param {function} onEndReached function called if list scroll ended
+ * @returns 
+ */
+export const RefreshViewList = ({
+  children, 
+  _style, 
+  onRefresh, 
+  data, 
+  noDataMessage, 
+  renderItem, 
+  onEndReached
+}) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const refreshAction = React.useCallback(async() => {

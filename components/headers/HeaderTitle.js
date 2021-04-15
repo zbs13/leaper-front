@@ -2,6 +2,12 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import globalStyles from '../../assets/styles/global';
 
+/**
+ * Header title
+ * 
+ * @param {string} title title 
+ * @returns 
+ */
 export default function HeaderTitle({title}) {
   return (
     <View>

@@ -1,3 +1,9 @@
+/**
+ * fetch my events according to offset
+ * 
+ * @param {number} offset offset for getting results
+ * @returns 
+ */
 export const fetchMyEvents = (offset) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
@@ -90,6 +96,12 @@ export const fetchMyEvents = (offset) => {
     });
 }
 
+/**
+ * fetch my events by criterias
+ * 
+ * @param {object} criteria criterias
+ * @returns 
+ */
 export const fetchByCriteria = (criteria) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
@@ -252,6 +264,12 @@ export const fetchByCriteria = (criteria) => {
     });
 }
 
+/**
+ * fetch events by id
+ * 
+ * @param {number} id event id 
+ * @returns 
+ */
 export const fetchById = (id) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {

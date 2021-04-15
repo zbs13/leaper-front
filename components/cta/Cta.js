@@ -10,6 +10,24 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { cta } from '../../assets/styles/styles';
 
+/**
+ * all Cta management => usual cta or with swipeable options...
+ * 
+ * @param {object} _style _style for cta
+ * @param {function} onPress function to call after pressing cta 
+ * @param {function|null} onLongPress function to call after a long pressing on cta
+ * @param {string|null} underlayColor background color while pressing cta 
+ * @param {string} value value displayed on cta
+ * @param {object|null} confirm object with paramters for confirm popup before calling onPress function => title, content
+ * @param {object|function} backgroundImage background image for cta => {uri: ...} OR require(...)
+ * @param {component|null} children children component 
+ * @param {string} icon icon name 
+ * @param {number} iconSize icon size
+ * @param {string} iconColor icon color
+ * @param {object} swipeableRightOptions right swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
+ * @param {object} swipeableLeftOptions left swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
+ * @returns 
+ */
 export default function Cta({
     _style, 
     onPress, 
@@ -32,6 +50,13 @@ export default function Cta({
     let color = {color: global.colors.ANTHRACITE};
     let fontSize = {};
     let textAlign = {};
+    /**
+     * check if _style has :
+     * - color => put color to text
+     * - fontSize => put fontSize to text
+     * - textAlign => put textAlign to text 
+     * Necessary to put style attribute to good component
+     */
     if(Array.isArray(_style)){
         _style.map(obj => {
             if(typeof obj === "object"){
@@ -54,6 +79,10 @@ export default function Cta({
         textAlign = typeof _style.textAlign !== "undefined" ? {textAlign: _style.textAlign} : {};
     }
 
+    /**
+     * main Cta render
+     * @returns 
+     */
     function ctaRender(){
         return (
             <View>
@@ -107,6 +136,14 @@ export default function Cta({
         )
     }
 
+    /**
+     * swipeable menu conf (call if swipeableLeftOptions or swipeableRightOptions are not null)
+     * 
+     * @param {number} progress 
+     * @param {number} dragX 
+     * @param {string} side if swipeableLeftOptions not null = "left" else if swipeableRightOptions not null = "right"
+     * @returns 
+     */
     function swipeableMenu(progress, dragX, side){
         let options = side === "left" ? swipeableLeftOptions : swipeableRightOptions
         let style = side === "left" ? {borderRightWidth: 1, borderRightColor: global.colors.LIGHT_MAIN_COLOR} : {borderLeftWidth: 1, borderLeftColor: global.colors.LIGHT_MAIN_COLOR}

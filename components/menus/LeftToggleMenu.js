@@ -8,10 +8,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
 import Logo from '../logo/Logo';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
-
 import globalStyles from '../../assets/styles/global';
 
-
+/**
+ * left menu (sports)
+ * 
+ * @param {object} navigation for routing 
+ * @returns 
+ */
 export default function LeftToggleMenu({navigation}) {
 
     const  {selectors} = useApp();

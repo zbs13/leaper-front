@@ -4,6 +4,11 @@ import MiniLogo from '../logo/MiniLogo';
 import { miniLoader, logo } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 
+/**
+ * mini loader with logo
+ * 
+ * @returns 
+ */
 export default function MiniLoader() {
 
   return (

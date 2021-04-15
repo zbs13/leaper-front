@@ -12,21 +12,38 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 
+/**
+ * Event Cards
+ * 
+ * @param {object} navigation navigation object for routing
+ * @param {object} item event object => id, name, sportId, description, src, users, postalCode
+ * @param {boolean} isMyEvent true if user is in event else false
+ * @returns 
+ */
 export default function EventCard({ navigation, item, isMyEvent = false }) {
     
     const {selectors} = useApp();
 
+    /**
+     * details options for option modal
+     */
     const detailsOptions = {
         value: t(selectors.getLang()).DETAILS,
         action: () => navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id}),
         icon: "add-outline",
     };
 
+    /**
+     * main fav options for option modal
+     */
     const favMainOptions = {
         action: () => alert("aaaa"),
         icon: "star-outline"
     };
 
+    /**
+     * main leave event option for option modal
+     */
     const logOutMainOptions = {
         style: {
             backgroundColor: global.colors.RED_ERROR,
@@ -41,6 +58,9 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
         action: () => navigation.navigate("Home", {caca: "caca"})
     };
 
+    /**
+     * all options for options modal
+     */
     const options = {
         title: ellipsisText(item.name, 30),
         options: [
@@ -56,6 +76,9 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
         ] 
     };
 
+    /**
+     * options for cta swipeable menu
+     */
     const swipeableOptions = [detailsOptions, favMainOptions, logOutMainOptions];
     
     return (

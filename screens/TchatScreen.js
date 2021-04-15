@@ -8,6 +8,13 @@ import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+/**
+ * tchat screen
+ * 
+ * @param {object} navigation for routing 
+ * @param {object} route params => route.params -> title, id, isEvent
+ * @returns 
+ */
 export default function TchatScreen({navigation, route}) {
 
   const title = route.params.title; 

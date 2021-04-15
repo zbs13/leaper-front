@@ -12,10 +12,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 
+/**
+ * group card
+ * 
+ * @param {object} navigation navigation object for routing
+ * @param {object} item group object => id, name, description, src, users 
+ * @param {boolean} isMyGroup true if user is in group else false
+ * @returns 
+ */
 export default function GroupCard({ navigation, item, isMyGroup = false }) {
     
     const {selectors} = useApp();
 
+    /**
+     * main options in options modal (for swipeable option)
+     */
     const mainOptions = {
         style: {
             backgroundColor: global.colors.RED_ERROR,
@@ -30,6 +41,9 @@ export default function GroupCard({ navigation, item, isMyGroup = false }) {
         action: () => navigation.navigate("Home", {caca: "caca"})
     }
 
+    /**
+     * options for options modal
+     */
     const options = {
         title: ellipsisText(item.name, 30),
         options: [
@@ -40,6 +54,9 @@ export default function GroupCard({ navigation, item, isMyGroup = false }) {
         ] 
     }
 
+    /**
+     * options for cta swipeable options
+     */
     const swipeableOptions = [{
         ...mainOptions
     }]

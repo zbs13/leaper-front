@@ -1,14 +1,17 @@
-// export const fetchBoards = () =>
-//   fetch("http://localhost:3002/boards").then((res) => res.json());
+/**
+ * fetch user paramters
+ * @returns 
+ */
 export const fetchUserParameters = () => {
     return fetch("https://sdgdfghrdh.fr").then().catch(() => {
         return "failed"
     });
-    // return {
-    //     lang: "en"
-    // }
 }
 
+/**
+ * update user parameters
+ * @returns 
+ */
 export const updateUserParameters = () => {
     return {
         lang: "en"

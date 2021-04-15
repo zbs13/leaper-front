@@ -10,6 +10,12 @@ import Field from '../fields/Field';
 import t from '../../providers/lang/translations';
 import Title from '../Title';
 
+/**
+ * filters modal
+ * 
+ * @param {function} setCriteria callback to set criteria
+ * @returns 
+ */
 export default function FiltersModal({setCriteria}){
 
     const sheetRef = React.useRef(null);

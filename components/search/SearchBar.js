@@ -3,6 +3,12 @@ import { SearchBar } from 'react-native-elements';
 import global from '../../providers/global';
 import useApp from '../../hooks/useApp';
 
+/**
+ * search bar
+ * 
+ * @param {object} props search bar props => _ref, placeholder, onChangeText, value, cancelButtonTitle, onCancel
+ * @returns 
+ */
 export default function SB(props) {
 
     const {selectors} = useApp();

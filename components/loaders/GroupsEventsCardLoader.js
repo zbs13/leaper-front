@@ -4,6 +4,11 @@ import { Placeholder, Fade, PlaceholderMedia, PlaceholderLine } from 'rn-placeho
 import globalStyles from '../../assets/styles/global';
 import { home, card } from '../../assets/styles/styles';
 
+/**
+ * groups/events card loader
+ * 
+ * @returns 
+ */
 export default function GroupsEventsCardLoader() {
     return (
         <View style={home.view}>

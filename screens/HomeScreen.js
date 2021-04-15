@@ -2,6 +2,12 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import MyGroupsEventsCard from '../components/cards/MyGroupsEventsCard';
 
+/**
+ * home screen
+ * 
+ * @param {object} navigation for routing 
+ * @returns 
+ */
 export default function HomeScreen({navigation}) {
 
     return (

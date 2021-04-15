@@ -4,6 +4,13 @@ import { pageTitle } from '../assets/styles/styles';
 import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 
+/**
+ * UI titles
+ * 
+ * @param {component} children children component
+ * @param {string} type title type => "first", "second", or "third"
+ * @returns 
+ */
 export default function Title({children, type = null}) {
 
     return (
