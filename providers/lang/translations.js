@@ -177,7 +177,8 @@ const l = {
         settings: {
             PROFIL: 'Gestion du profil',
             APPLY: 'Gestion de l\'application',
-            ABOUT: 'A propos'
+            ABOUT: 'A propos',
+            TITLE: 'Paramètres'
         }
     },
     en: {
@@ -358,12 +359,13 @@ const l = {
             PARAGLIDING: "Paragliding",
             QUAD_BIKING: "Quad biking",
             CAR_RALLY: "Car rally"
+        },
+        settings: {
+            PROFIL: 'Profile settings',
+            APPLY: 'Application settings',
+            ABOUT: 'About',
+            TITLE: 'Settings'
         }
-    },
-    settings: {
-        PROFIL: 'Profile settings',
-        APPLY: 'Application settings',
-        ABOUT: 'About'
     }
 }
 

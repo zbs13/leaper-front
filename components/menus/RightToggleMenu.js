@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
-import { View, StyleSheet,Text } from 'react-native';
+import { View,Text } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import { header } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import global from '../../providers/global';
 import { Avatar, Title} from 'react-native-paper';
 import Cta from '../Cta';
 import globalStyles from '../../assets/styles/global';
 import { Button } from 'react-native-elements'
+import { settings } from '../../assets/styles/styles'
 
+import t from '../../providers/lang/translations';
+import useApp from '../../hooks/useApp';
 
 import { Image } from 'react-native';
 import profilImage from '../../assets/img/profil/profil1.jpg';
@@ -16,7 +18,7 @@ const imageUri = Image.resolveAssetSource(profilImage).uri
 
 export default function RightToggleMenu(props) {
 
-
+    const  {selectors} = useApp();
 
     const [visible, setVisible] = useState(false);
     const toggleBottomNavigationView = () => {
@@ -27,9 +29,8 @@ export default function RightToggleMenu(props) {
         profilePic: null
     });
     const Separator = () => (
-      <View style={styles.separator} />
+      <View style={settings.separator} />
     );
-    
 
     return (
       <View>
@@ -38,51 +39,52 @@ export default function RightToggleMenu(props) {
             backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
         />
         <BottomSheet  visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()}>
-          <View style={styles.bg}>
-            <Text style={styles.titleParams}>Paramètres</Text>
+          <View style={settings.bg}>
+            <Text style={settings.titleParams}>{t(selectors.getLang()).settings.TITLE}</Text>
             <Separator />
-            <View style={styles.pic}>
+            <View style={settings.pic}>
               <Avatar.Image
+                style={settings.borderPic}
                 source={{uri: imageUri}}
-                size={150}
+                size={100}
               />
-              <Title style= {styles.name}>
+              <Title style= {settings.name}>
                 Michelle Lebelle
               </Title>
             </View>
             
-            <View style= {styles.settings}>
+            <View style= {settings.settings}>
               <Button   
-                buttonStyle={styles.buttonStyle}
-                titleStyle={styles.buttonFont}
+                buttonStyle={settings.buttonStyle}
+                titleStyle={settings.buttonFont}
                 onPress={() => {}}
-                title='Gestion du profil'
+                title={t(selectors.getLang()).settings.PROFIL}
               />
               <Button 
-                buttonStyle={styles.buttonStyle}
-                titleStyle={styles.buttonFont}  
+                buttonStyle={settings.buttonStyle}
+                titleStyle={settings.buttonFont}  
                 onPress={() => {}}
-                title='Gestion de l application '
+                title={t(selectors.getLang()).settings.APPLY}
               />
               <Button 
-                buttonStyle={styles.buttonStyle}
-                titleStyle={styles.buttonFont}
+                buttonStyle={settings.buttonStyle}
+                titleStyle={settings.buttonFont}
                 onPress={() => {}}
-                title='A propos'
+                title={t(selectors.getLang()).settings.ABOUT}
               />
             </View>
-            <View style= {styles.settings}>
+            <View style= {[settings.settings, settings.buttonLogout]}>
               <Separator />
               <Button 
                 icon={
                   <Ionicons
                     name= 'log-out-outline'            
-                    size={40}
+                    size={30}
                     style={{marginRight: 30}}
                   />
                 }
-                buttonStyle={styles.buttonStyle}
-                titleStyle={styles.buttonFont}
+                buttonStyle={settings.buttonStyle}
+                titleStyle={settings.buttonFont}
                 onPress={() => {}}
                 title='Déconnexion'
               />
@@ -92,39 +94,3 @@ export default function RightToggleMenu(props) {
       </View>
     );
   }
-
-  const styles = StyleSheet.create({
-    bg: {
-      backgroundColor: 'white',
-      height: 750, 
-      display: "flex"
-    },
-    pic: {
-      alignContent: "center",
-      alignItems: "center",
-      marginTop: 30
-    },
-    titleParams:{
-      fontSize: 33,
-      margin: 10
-    },
-    settings:{
-      marginTop: 50
-    },
-    buttonStyle: {
-      backgroundColor: 'white',
-      margin: 10
-    },
-    buttonFont: {
-      color: "black",
-      fontSize: 25,
-    },
-    separator: {
-      marginVertical: 8,
-      borderBottomColor: '#737373',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-    },
-    name: {
-      fontSize: 25
-    }
-  });

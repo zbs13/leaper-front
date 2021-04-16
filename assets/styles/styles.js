@@ -317,3 +317,49 @@ export const tchatBar = StyleSheet.create({
         borderRadius: 5
     }
 });
+export const settings =  StyleSheet.create({
+    bg: {
+      backgroundColor: 'white',
+      height: 750, 
+      display: "flex"
+    },
+    borderPic: {
+      borderRadius: 100,
+      width: 106,
+      height: 106,
+      borderWidth: 3,
+      borderColor: global.colors.MAIN_COLOR
+    },
+    pic: {
+      alignContent: "center",
+      alignItems: "center",
+      marginTop: 30,
+    },
+    titleParams:{
+      fontSize: 25,
+      margin: 10
+    },
+    settings:{
+      marginTop: 50
+    },
+    buttonStyle: {
+      backgroundColor: 'white',
+      margin: 10
+    },
+    buttonFont: {
+      color: "black",
+      fontSize: 15,
+    },
+    separator: {
+      marginVertical: 8,
+      borderBottomColor: '#737373',
+      borderBottomWidth: StyleSheet.hairlineWidth,
+    },
+    name: {
+      fontSize: 15
+    },
+    buttonLogout: {
+        marginTop: 170
+    }
+
+  });
