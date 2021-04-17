@@ -31,7 +31,7 @@ export default function SB(props) {
           cancelButtonTitle={props.cancelButtonTitle}
           containerStyle={{backgroundColor: "transparent"}}
           cancelButtonProps={{color: global.colors.MAIN_COLOR}}
-          onCancel={props.onCancel}
+          onCancel={props.onCancel !== undefined ? props.onCancel : () => {}}
       />
     );
 }

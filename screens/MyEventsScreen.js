@@ -82,7 +82,7 @@ export default React.memo(function MyEventsScreen({navigation}) {
         <RefreshViewList 
           data={selectorsEvent.getAllMy()}
           onRefresh={() => fetchData()}
-          onEndReached={() => setMes({...mes, offset: mes.offset += global.MAX_RESULT_PER_LOADED_PAGE})}
+          onEndReached={() => setMes({...mes, offset: mes.offset + global.MAX_RESULT_PER_LOADED_PAGE})}
           renderItem={({item}) => (
             <EventCard navigation={navigation} 
               isMyEvent={true}

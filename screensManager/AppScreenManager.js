@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 export default function AppScreenManager() {
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Home">
             <Stack.Screen name={global.screens.HOME} component={BottomMenu} options={{ headerShown: false }} />
             {
                 withCustomHeaderOnly.map((value, index) => {

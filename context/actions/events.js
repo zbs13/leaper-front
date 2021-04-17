@@ -307,3 +307,95 @@ export const fetchById = (id) => {
         }
     })
 }
+
+/**
+ * fetch messages in event
+ * 
+ * @param {number} id event id 
+ * @param {number} offset offset for getting results
+ * @returns 
+ */
+ export const fetchMessages = (id, offset) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return [{
+            id: 1,
+            content: "ta mere la pute",
+            attachment: {
+                size: 11000,
+                name: "le mega file",
+                type: "image",
+                uri: "https://cdn.discordapp.com/attachments/500026022150930443/830803906027454514/1585832659398.png"
+            },
+            sentBy: {
+                id: 1,
+                firstname: "Lucas",
+                lastname: "Estrade",
+                username: "lucasestrade",
+                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+            },
+            date: "2021-03-12 21:03:54"
+        },{
+            id: 2,
+            content: "ta mere la pute 2",
+            attachment: {
+                size: 11000,
+                name: "le mega file",
+                type: "video",
+                uri: "https://media.tenor.co/videos/e34c8f6730986f42163745064476eb46/mp4"
+            },
+            sentBy: {
+                id: 1,
+                firstname: "Lucas",
+                lastname: "Estrade",
+                username: "lucasestrade",
+                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+            },
+            date: "2021-03-12 21:03:54"
+        },{
+            id: 3,
+            content: "ta mere la pute",
+            attachment: {
+                size: 11000,
+                name: "le mega file",
+                type: "image",
+                uri: "https://tenor.com/byHW4.gif"
+            },
+            sentBy: {
+                id: 1,
+                firstname: "Lucas",
+                lastname: "Estrade",
+                username: "lucasestrade",
+                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+            },
+            date: "2021-03-12 21:03:54"
+        },{
+            id: 4,
+            content: "ta mere la pute",
+            attachment: {},
+            sentBy: {
+                id: 1,
+                firstname: "Lucas",
+                lastname: "Estrade",
+                username: "lucasestrade",
+                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+            },
+            date: "2021-03-12 21:03:54"
+        },{
+            id: 5,
+            content: "ta mere la pute",
+            attachment: {},
+            sentBy: {
+                id: 1,
+                firstname: "Lucas",
+                lastname: "Estrade",
+                username: "lucasestrade",
+                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+            },
+            date: "2021-03-12 21:03:54"
+        },]
+    })
+}

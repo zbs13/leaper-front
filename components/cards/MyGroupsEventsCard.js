@@ -38,7 +38,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
 
     let lang = selectorsApp.getLang();
     let action;
-    let selector;
+    var selector;
     let nb;
     if (type === "groups") {
         action = actionsGroups;
@@ -99,7 +99,7 @@ export default function MyGroupsEventsCards({ type, navigation }) {
                             <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Txt>
                         </View>
                         <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
-                            {(selector.getAllMy()).map((value, index) => {
+                            {selector.getAllMy().map((value, index) => {
                                 if (index > groupEvent[nb] - 11) {
                                     return <ImageIcon key={index} src={value.src} />
                                 }

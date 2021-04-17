@@ -43,3 +43,13 @@ export const getDatesBetweenTwoDates = function(start, end) {
     let extIdx = arr.length - 1;
     return arr[extIdx].toLowerCase();
 };
+
+/**
+ * convert bytes to kbytes
+ * 
+ * @param {number} bytes bytes to convert
+ * @returns {string} converted bytes to kBytes
+ */
+ export const convertBytesToKBytes = function(bytes) {
+    return Math.round((bytes / 1000) * 100) / 100;
+};

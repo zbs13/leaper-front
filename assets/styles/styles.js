@@ -1,3 +1,4 @@
+import { cacheSlot } from '@apollo/client/cache';
 import { StyleSheet, Dimensions } from 'react-native';
 import global from '../../providers/global';
 
@@ -301,9 +302,7 @@ export const optionsModal = StyleSheet.create({
 export const tchatBar = StyleSheet.create({
     container: {
         backgroundColor: global.colors.WHITE,
-        position: "absolute", 
-        bottom: 0, 
-        left: 0,
+        bottom: 0,
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
@@ -379,3 +378,52 @@ export const settings =  StyleSheet.create({
     }
 
   });
+
+export const messageCard = StyleSheet.create({
+    container: {
+        margin: 5
+    },
+    content: {
+        marginLeft: 5,
+        padding: 10,
+        borderRadius: 5,
+        maxWidth: Dimensions.get('window').width - 55
+    },
+    contentMy: {
+        backgroundColor: global.colors.MAIN_COLOR,
+    },
+    contentNotMy: {
+        backgroundColor: global.colors.VERY_LIGHT_GREY,
+    },
+    profilePicContainer: {
+        height: 40, 
+        width: 40
+    },
+    profilePic: {
+        borderRadius: 50
+    },
+    date: {
+        fontSize: 11,
+        fontStyle: "italic",
+        color: global.colors.GREY
+    },
+    firstname: {
+        fontSize: 13
+    }
+});
+
+export const video = StyleSheet.create({
+    container: {
+        alignSelf: 'center',
+        width: 320,
+        height: 200,
+    }
+});
+
+export const image = StyleSheet.create({
+    container: {
+        alignSelf: 'center',
+        width: 320,
+        height: 200,
+    }
+});

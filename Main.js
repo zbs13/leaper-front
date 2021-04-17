@@ -63,24 +63,16 @@ export default function Main() {
                         barStyle="dark-content"
                     />
                 </View>
-                {(Platform.OS === 'ios') ?
-                    <KeyboardAvoidingView
-                        behavior="padding"
-                        style={{flex: 1}}
-                    >
-                        <EventsProvider>
-                            <GroupsProvider>
-                                <AppScreenManager />
-                            </GroupsProvider>
-                        </EventsProvider>
-                    </KeyboardAvoidingView>
-                :
+                <KeyboardAvoidingView
+                    behavior={(Platform.OS === 'ios') ? "padding" : ""}
+                    style={{flex: 1}}
+                >
                     <EventsProvider>
                         <GroupsProvider>
                             <AppScreenManager />
                         </GroupsProvider>
                     </EventsProvider>
-                }
+                </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
                     ?
                         <SearchModal type={selectors.getSearchBar()} />

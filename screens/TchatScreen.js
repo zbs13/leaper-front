@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import useApp from '../hooks/useApp';
 import global from '../providers/global';
 import OptionsModal from '../components/modals/OptionsModal';
 import t from '../providers/lang/translations';
 import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Txt from '../components/Txt';
+import useEvents from '../hooks/useEvents';
+import useGroups from '../hooks/useGroups';
+import { manageResponseUI } from '../context/actions/apiCall';
+import MessageCard from '../components/cards/MessageCard';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 /**
  * tchat screen
@@ -23,7 +26,14 @@ export default function TchatScreen({navigation, route}) {
   const isEvent = route.params.isEvent;
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
+  const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
+  const { actions: actionsGroup, selectors: selectorsGroup } = useGroups();
 
+  const scrollViewRef = React.useRef();
+
+  const [ts, setTs] = useState({
+    offset: 0
+  })
   const [isLoaded, setIsLoaded] = useState(false);
 
   let lang = selectorsApp.getLang();
@@ -33,8 +43,38 @@ export default function TchatScreen({navigation, route}) {
       headerTitle: title,
       headerRight: () => headerMenu()
     });
-  }, []);
+    getMessages();
+  }, [ts.offset]);
 
+  let action = actionsGroup;
+  let selector = selectorsGroup;
+  if(isEvent){
+    action = actionsEvent;
+    selector = selectorsEvent;
+  }
+
+  /**
+   * fetch group/event messages
+   */
+  function getMessages(){
+    action.fetchMessages(id, ts.offset).then((data) => {
+      manageResponseUI(data,
+          lang,
+          function (res) {
+            setIsLoaded(true);
+          },
+          function (error) {
+              actionsApp.addPopupStatus(error);
+              setIsLoaded(false)
+          })
+    })
+  }
+
+  /**
+   * header right menu (options)
+   * 
+   * @returns 
+   */
   function headerMenu(){
     return (
       <View>
@@ -84,15 +124,25 @@ export default function TchatScreen({navigation, route}) {
   }
 
   return (
-    <View style={globalStyles.h_100}>
-      <KeyboardAwareScrollView>
-        <View>
-          <Txt>dddd</Txt>
-        </View>
+    <>
+      <KeyboardAwareScrollView 
+        style={[globalStyles.w_100]} 
+        onScrollBeginDrag={() => Keyboard.dismiss()} 
+        ref={scrollViewRef} 
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })} 
+        onKeyboardDidShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+        onKeyboardWillShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+        extraScrollHeight={-225}
+      >
+        {isLoaded ?
+          selector.getMessages().map((message, index) => <View key={index}><MessageCard navigation={navigation} message={message} /></View>)
+        :
+          <></>
+        }
       </KeyboardAwareScrollView>
       <View>
-        <TchatBar onSend={() => alert("aa")} />
+        <TchatBar onChangeInput={() => scrollViewRef.current.scrollToEnd({ animated: true })} onSend={() => alert("aa")} />
       </View>
-    </View>
+    </>
   );
 }

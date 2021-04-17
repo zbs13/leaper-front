@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TextInput, View, Image, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { TextInput, View, Text } from 'react-native';
 import { tchatBar } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import useApp from '../../hooks/useApp';
@@ -10,9 +10,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Cta from '../cta/Cta';
 import { pickDocument, pickMedia } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
-import { Video, AVPlaybackStatus } from 'expo-av';
-import BackgroundImage from '../BackgroundImage';
-import Txt from '../Txt';
+import FileDisplay from '../FileDisplay';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 /**
  * tchat bar
@@ -20,7 +19,7 @@ import Txt from '../Txt';
  * @param {function} onSend function called if message sended 
  * @returns 
  */
-export default function TchatBar({onSend}){
+export default function TchatBar({onSend, onChangeInput}){
 
     const {selectors, actions} = useApp();
 
@@ -35,8 +34,13 @@ export default function TchatBar({onSend}){
         content: "d"
     })
 
+    useEffect(() => {
+        onChangeInput();
+    }, [tchatState.attachment]);
+
     return(
-        <View style={[globalStyles.alignEnd, globalStyles.w_100, tchatBar.container]}>
+        <View style={[globalStyles.alignEnd, globalStyles.w_100, tchatBar.container, globalStyles.flexColumn]}>
+            
             <DialogPopup 
                 dialogVisible={pickImageRestrictionPopup.isVisible}
                 title={pickImageRestrictionPopup.title}
@@ -44,7 +48,7 @@ export default function TchatBar({onSend}){
                 onCancelPress={() => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: false})}
                 onAcceptPress={() => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: false})}
             />
-            {tchatState.attachment !== null && typeof tchatState.attachment.type !== "undefined" ?
+            {tchatState.attachment !== null && typeof tchatState.attachment.type !== "undefined" ? 
                 <View style={[globalStyles.w_100, tchatBar.imagePreviewContainer]}>
                     <View style={tchatBar.imagePreviewDelete}>
                         <Cta
@@ -54,43 +58,7 @@ export default function TchatBar({onSend}){
                             <Ionicons name="close-outline" size={25} color={global.colors.ANTHRACITE}/>
                         </Cta>
                     </View>
-                    {tchatState.attachment.type === "video" ?
-                        <Video
-                            style={styles.video}
-                            source={{
-                                uri: tchatState.attachment.uri,
-                            }}
-                            useNativeControls
-                            resizeMode="contain"
-                        />
-                    :
-                        tchatState.attachment.type === "image" ?
-                            <Image
-                                style={tchatBar.imagePreview}
-                                source={{
-                                    uri: tchatState.attachment.uri
-                                }}
-                                resizeMode="contain"
-                            />
-                        :
-                            <View style={[globalStyles.flexRow, globalStyles.alignCenter, globalStyles.p_5]}>
-                                <View style={{width: 50}}>
-                                    <BackgroundImage
-                                        image={require("../../assets/img/icons/file-icon.png")}
-                                        resizeMode="contain"
-                                    >
-                                        <Txt _style={[globalStyles.ta_c, globalStyles.c_anth]}>{tchatState.attachment.type}</Txt>
-                                    </BackgroundImage>
-                                </View>
-                                <View>
-                                    <Txt ellipsis={25} _style={globalStyles.c_anth}>{tchatState.attachment.name}</Txt>
-                                </View>
-                                <View style={globalStyles.separator} />
-                                <View>
-                                    <Txt ellipsis={25} _style={globalStyles.c_anth}>{tchatState.attachment.size}</Txt>
-                                </View>
-                            </View>
-                    }
+                    <FileDisplay file={tchatState.attachment} isPreview={true}/>
                 </View>
             :
                 null
@@ -136,9 +104,10 @@ export default function TchatBar({onSend}){
                         value={tchatState.textValue}
                         placeholder={t(selectors.getLang()).WRITE_A_MESSAGE}
                         style={tchatBar.input}
+                        onChange={onChangeInput}
                     />
                 </View>
-                <View style={[globalStyles.m_10, globalStyles.alignCenter, {display: tchatState.textValue !== "" || tchatState.attachment !== null ? "flex" : "none"}]}>
+                <View style={[globalStyles.m_10, globalStyles.alignCenter, {display: tchatState.textValue.trim() !== "" || tchatState.attachment !== null ? "flex" : "none"}]}>
                     <Cta onPress={() => alert("non")}>
                         <Ionicons name="send" color={global.colors.MAIN_COLOR} size={30}/>
                     </Cta>
@@ -147,11 +116,3 @@ export default function TchatBar({onSend}){
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    video: {
-      alignSelf: 'center',
-      width: 320,
-      height: 200,
-    },
-});
