@@ -197,7 +197,7 @@ export const tag = StyleSheet.create({
 
 export const toggleLeftMenu = StyleSheet.create({
     bottomNavigationView: {
-        backgroundColor: '#fff',
+        backgroundColor: global.colors.WHITE,
         width: '100%',
         height: 350,
         justifyContent: 'center',
@@ -208,7 +208,7 @@ export const toggleLeftMenu = StyleSheet.create({
     },
     contentContainerStyle: {
         padding: 16,
-        backgroundColor: '#F3F4F9',
+        backgroundColor: global.colors.WHITE,
     },
     header: {
         alignItems: 'center',
@@ -417,7 +417,7 @@ export const settings =  StyleSheet.create({
     },
     separator: {
       marginVertical: 8,
-      borderBottomColor: '#737373',
+      borderBottomColor: global.colors.GREY,
       borderBottomWidth: StyleSheet.hairlineWidth,
     },
     name: {
