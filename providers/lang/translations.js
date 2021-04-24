@@ -33,7 +33,12 @@ const l = {
         MUTE: "Mettre en sourdine",
         PEOPLE_LIST: "Liste des personnes",
         SHARED_CONTENT: "Contenu partagé",
-        WRITE_A_MESSAGE: "Ecrire un message...",
+        COPY_TEXT: "Copier le texte",
+        message: {
+            WRITE_A_MESSAGE: "Ecrire un message...",
+            DELETE_MESSAGE: "Supprimer le message",
+            PIN_MESSAGE: "Epingler le message"
+        },
         group: {
             LEAVE_THIS_GROUP: "Quitter ce groupe",
             LEAVE_GROUP: "Quitter le groupe",
@@ -213,7 +218,12 @@ const l = {
         MUTE: "Mute",
         PEOPLE_LIST: "People list",
         SHARED_CONTENT: "Shared content",
-        WRITE_A_MESSAGE: "Write a message...",
+        COPY_TEXT: "Copy text",
+        message: {
+            WRITE_A_MESSAGE: "Write a message...",
+            DELETE_MESSAGE: "Delete message",
+            PIN_MESSAGE: "Pin message"
+        },
         group: {
             ADD_TO_GROUP: "Add to group",
             SURE_TO_LEAVE_GROUP: "You are going to leave the group",

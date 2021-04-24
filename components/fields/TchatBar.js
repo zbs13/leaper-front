@@ -102,7 +102,7 @@ export default function TchatBar({onSend, onChangeInput}){
                         multiline
                         onChangeText={(value) => setTchatState({...tchatState, textValue: value})}
                         value={tchatState.textValue}
-                        placeholder={t(selectors.getLang()).WRITE_A_MESSAGE}
+                        placeholder={t(selectors.getLang()).message.WRITE_A_MESSAGE}
                         style={tchatBar.input}
                         onChange={onChangeInput}
                     />

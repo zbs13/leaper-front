@@ -5,6 +5,10 @@ import globalStyles from '../../assets/styles/global';
 import Txt from '../Txt';
 import BackgroundImage from '../BackgroundImage';
 import FileDisplay from '../FileDisplay';
+import OptionsModal from '../modals/OptionsModal';
+import useApp from '../../hooks/useApp';
+import t from '../../providers/lang/translations';
+import Cta from '../cta/Cta';
 
 /**
  * message card
@@ -17,6 +21,8 @@ export default function MessageCard({navigation, message}) {
 
     console.log(message);
     let myId = 2;
+
+    const {selectors} = useApp();
 
     /**
      * profile pic part
@@ -54,18 +60,44 @@ export default function MessageCard({navigation, message}) {
      * @returns 
      */
     function contentPart(){
+        const options = {
+            options: [
+                {
+                    value: t(selectors.getLang()).COPY_TEXT,
+                    icon: "copy-outline",
+                    action: () => alert("message copié")
+                },
+                {
+                    value: t(selectors.getLang()).message.DELETE_MESSAGE,
+                    icon: "trash-outline",
+                    action: () => alert("message supprimé")
+                },
+                {
+                    value: t(selectors.getLang()).message.PIN_MESSAGE,
+                    icon: "pricetag-outline",
+                    action: () => alert("message epinglé")
+                },
+            ]
+        }
+
         return(
-            <View style={[globalStyles.flexColumn, myId === message.sentBy.id ? globalStyles.w_100 : {}, myId === message.sentBy.id ? globalStyles.alignEnd : {}]}>
-                {myId !== message.sentBy.id ?
-                    <Txt _style={[globalStyles.p_5, messageCard.firstname]} ellipsis={30}>{message.sentBy.firstname}</Txt>
-                :
-                    null
-                }
-                <View style={[messageCard.content, myId === message.sentBy.id ? messageCard.contentMy : messageCard.contentNotMy]}>
-                    <Txt _style={[messageCard.date, myId === message.sentBy.id ? globalStyles.ta_r : {}]}>{message.date}</Txt>
-                    {displayContent()}
-                </View>
-            </View>
+            <OptionsModal
+                {...options}
+            >
+                <Cta>
+                    <View style={[globalStyles.flexColumn, myId === message.sentBy.id ? globalStyles.w_100 : {}, myId === message.sentBy.id ? globalStyles.alignEnd : {}]}>
+                        {myId !== message.sentBy.id ?
+                            <Txt _style={[globalStyles.p_5, messageCard.firstname]} ellipsis={30}>{message.sentBy.firstname}</Txt>
+                        :
+                            null
+                        }
+                        <View style={[messageCard.content, myId === message.sentBy.id ? messageCard.contentMy : messageCard.contentNotMy]}>
+                            <Txt _style={[messageCard.date, myId === message.sentBy.id ? globalStyles.ta_r : {}]}>{message.date}</Txt>
+                            {displayContent()}
+                        </View>
+                    </View>
+                </Cta>
+            </OptionsModal>
         )
     }
 

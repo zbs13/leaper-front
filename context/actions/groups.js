@@ -192,7 +192,7 @@ export const fetchById = (id) => {
                 size: 11000,
                 name: "le mega file",
                 type: "image",
-                uri: "https://tenor.com/byHW4.gif" //https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif
+                uri: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
             },
             sentBy: {
                 id: 1,
