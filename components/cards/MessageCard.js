@@ -19,7 +19,6 @@ import Cta from '../cta/Cta';
  */
 export default function MessageCard({navigation, message}) {
 
-    console.log(message);
     let myId = 2;
 
     const {selectors} = useApp();

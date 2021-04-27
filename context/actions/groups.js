@@ -7,7 +7,7 @@
 export const fetchMyGroups = (offset) => {
     return fetch("https://sdgdfghrdh.fr").then().catch(() => {
         return [{
-            groupId: 1,
+            id: 1,
             name: "le groupe 1",
             description: "yaaaa",
             users: [{
@@ -26,7 +26,7 @@ export const fetchMyGroups = (offset) => {
             src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
         },
         {
-            groupId: 2,
+            id: 2,
             name: "le groupe 2",
             description: "yaaaa",
             users: [{
@@ -45,7 +45,7 @@ export const fetchMyGroups = (offset) => {
             src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
         },
         {
-            groupId: 3,
+            id: 3,
             name: "le groupe 3",
             description: "yaaaa",
             users: [{
@@ -64,7 +64,7 @@ export const fetchMyGroups = (offset) => {
             src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
         },
         {
-            groupId: 4,
+            id: 4,
             name: "le groupe 4",
             description: "yaaaa",
             users: [{
@@ -83,7 +83,7 @@ export const fetchMyGroups = (offset) => {
             src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
         },
         {
-            groupId: 5,
+            id: 5,
             name: "le groupe 5",
             description: "yaaaa",
             users: [{
@@ -120,18 +120,105 @@ export const fetchById = (id) => {
             id: 7,
             name: "le groupe 3",
             description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+            owner: {
+                id: 1
+            },
             users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+                id: 1,
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                roles: [{
+                    group: {
+                        id: 7
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        }
+                    ]
+                }],
             },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+                id: 1,
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                roles: [{
+                    group: {
+                        id: 1
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        }
+                    ]
+                }],
             },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+                id: 1,
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                roles: [{
+                    group: {
+                        id: 1
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        }
+                    ]
+                }],
             },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+                id: 1,
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                roles: [{
+                    group: {
+                        id: 1
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        }
+                    ]
+                }],
             },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+                id: 1,
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                roles: [{
+                    group: {
+                        id: 1
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        }
+                    ]
+                }],
             },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+                id: 2,
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                roles: [{
+                    group: {
+                        id: 5
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        }
+                    ]
+                }],
             }],
             src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
         }

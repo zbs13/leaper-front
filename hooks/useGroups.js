@@ -10,6 +10,12 @@ const useGroups = () => {
   } = useContext(GroupsContext);
 
   const actions = {
+    /**
+     * fetch all my groups
+     * 
+     * @param {number} offset from position in db 
+     * @returns 
+     */
     fetchAllMy: function (offset = 0) {
       return fetchMyGroups(offset).then((data) => {
         return response(data, function(res){
@@ -21,9 +27,12 @@ const useGroups = () => {
         })
       });
     },
-    updateAll: function(data){
-      
-    },
+    /**
+     * fetch group by id
+     * 
+     * @param {string} id group id
+     * @returns 
+     */
     fetchById: function(id) {
       return fetchById(id).then((data) => {
         return response(data, function(res){
@@ -34,6 +43,13 @@ const useGroups = () => {
         })
       });
     },
+    /**
+     * fetch group messages
+     * 
+     * @param {string} id group id
+     * @param {number} offset from position in db
+     * @returns 
+     */
     fetchMessages: function(id, offset){
       return fetchMessages(id, offset).then((data) => {
         return response(data, function(res){
@@ -44,6 +60,52 @@ const useGroups = () => {
           });
         })
       });
+    },
+    /**
+     * fetch group datas + messages + my rights by id
+     * 
+     * @param {string} id group id
+     * @param {number} offset from position in db
+     */
+    fetchAllById: async function(id, offset){
+      let respFBI = await actions.fetchById(id);
+      let respFM = await actions.fetchMessages(id, offset);
+      if(typeof respFBI.isError !== "undefined" || typeof respFM.isError !== "undefined"){
+        if(respFBI.isError || respFM.isError){
+            return {"error": true};
+        }
+      }
+
+    /**
+     * 
+     */
+      const myId = 2;
+      /**
+      * 
+      */
+      let rightsArr = [];
+      if(respFBI.owner.id === myId){
+        rightsArr = [1, 2, 3, 4];
+      }else{
+        respFBI.users.map((user, index) => {
+          if(user.id === myId){
+            user.roles.map((role, index) => {
+              if(role.group.id === id){
+                for(let right of role.rights){
+                  rightsArr.push(right.id);
+                }
+              }
+            })
+          }
+        })
+      }
+
+      dispatch({
+        type: "UPDATE_MY_RIGHTS",
+        payload: rightsArr
+      });
+
+      return {};
     }
   };
 
@@ -51,7 +113,9 @@ const useGroups = () => {
     getAllMy: () => groupsState.my_groups,
     getNbMyFetched: () => groupsState.nbFetchedMy,
     getFetchedById: () => groupsState.fetchedById,
-    getMessages: () => groupsState.messages
+    getMessages: () => groupsState.messages,
+    getMyRights: () => groupsState.myRights,
+    hasRight: (right) => groupsState.myRights.includes(right)
   };
 
   return { selectors, actions };

@@ -24,7 +24,7 @@ export default function TchatScreen({navigation, route}) {
   const title = route.params.title; 
   const id = route.params.id;
   const isEvent = route.params.isEvent;
-
+  
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
   const { actions: actionsGroup, selectors: selectorsGroup } = useGroups();
@@ -39,12 +39,15 @@ export default function TchatScreen({navigation, route}) {
   let lang = selectorsApp.getLang();
 
   useEffect(() => {
+    fetchAllById();
+  }, [ts.offset]);
+
+  useEffect(() => {
     navigation.setOptions({
       headerTitle: title,
       headerRight: () => headerMenu()
     });
-    getMessages();
-  }, [ts.offset]);
+  }, [isLoaded])
 
   let action = actionsGroup;
   let selector = selectorsGroup;
@@ -56,17 +59,17 @@ export default function TchatScreen({navigation, route}) {
   /**
    * fetch group/event messages
    */
-  function getMessages(){
-    action.fetchMessages(id, ts.offset).then((data) => {
-      manageResponseUI(data,
-          lang,
-          function (res) {
-            setIsLoaded(true);
-          },
-          function (error) {
-              actionsApp.addPopupStatus(error);
-              setIsLoaded(false)
-          })
+  function fetchAllById(){
+    action.fetchAllById(id, ts.offset).then((resp) => {
+      manageResponseUI(resp,
+        lang,
+        function (res) {
+          setIsLoaded(true);
+        },
+        function (error) {
+            actionsApp.addPopupStatus(error);
+            setIsLoaded(false)
+        })
     })
   }
 
@@ -76,48 +79,53 @@ export default function TchatScreen({navigation, route}) {
    * @returns 
    */
   function headerMenu(){
+    let mainOptions = [
+      {
+        value: t(selectorsApp.getLang()).MUTE,
+        icon: "notifications-off-outline",
+        action: () => alert("mettre en sourdine")
+      },
+      {
+        value: t(selectorsApp.getLang()).PEOPLE_LIST,
+        icon: "people-outline",
+        action: () => alert("liste personnes")
+      },
+      {
+        value: t(selectorsApp.getLang()).SHARED_CONTENT,
+        icon: "images-outline",
+        action: () => alert("contenu partager")
+      },
+      {
+        value: isEvent ? t(selectorsApp.getLang()).event.LEAVE_THIS_EVENT : t(selectorsApp.getLang()).group.LEAVE_THIS_GROUP,
+        icon: "log-out-outline",
+        iconColor: global.colors.WHITE,
+        style: {
+          backgroundColor: global.colors.RED_ERROR,
+          color: global.colors.WHITE
+        },
+        confirm: {
+          title: isEvent ? t(selectorsApp.getLang()).event.LEAVE_EVENT : t(selectorsApp.getLang()).event.LEAVE_GROUP,
+          content: `${isEvent ? t(selectorsApp.getLang()).event.SURE_TO_LEAVE_EVENT : t(selectorsApp.getLang()).group.SURE_TO_LEAVE_GROUP} ${title}`
+        },
+        action: () => alert("Quitter")
+      },
+    ];
+
+    if(selector.hasRight(global.rights.ADD_USER)){
+      mainOptions.splice(1, 0, {
+        value: isEvent ? t(selectorsApp.getLang()).event.ADD_TO_EVENT : t(selectorsApp.getLang()).group.ADD_TO_GROUP,
+        icon: "person-add-outline",
+        action: () => alert("ajouter a la conv")
+      })
+    }
+
     return (
       <View>
           <OptionsModal 
             title={t(selectorsApp.getLang()).PARAMETERS}
             icon="ellipsis-horizontal-outline"
             buttonColor={global.colors.MAIN_COLOR}
-            options={[
-              {
-                value: t(selectorsApp.getLang()).MUTE,
-                icon: "notifications-off-outline",
-                action: () => alert("mettre en sourdine")
-              },
-              {
-                value: isEvent ? t(selectorsApp.getLang()).event.ADD_TO_EVENT : t(selectorsApp.getLang()).group.ADD_TO_GROUP,
-                icon: "person-add-outline",
-                action: () => alert("ajouter a la conv")
-              },
-              {
-                value: t(selectorsApp.getLang()).PEOPLE_LIST,
-                icon: "people-outline",
-                action: () => alert("liste personnes")
-              },
-              {
-                value: t(selectorsApp.getLang()).SHARED_CONTENT,
-                icon: "images-outline",
-                action: () => alert("contenu partager")
-              },
-              {
-                value: isEvent ? t(selectorsApp.getLang()).event.LEAVE_THIS_EVENT : t(selectorsApp.getLang()).group.LEAVE_THIS_GROUP,
-                icon: "log-out-outline",
-                iconColor: global.colors.WHITE,
-                style: {
-                  backgroundColor: global.colors.RED_ERROR,
-                  color: global.colors.WHITE
-                },
-                confirm: {
-                  title: isEvent ? t(selectorsApp.getLang()).event.LEAVE_EVENT : t(selectorsApp.getLang()).event.LEAVE_GROUP,
-                  content: `${isEvent ? t(selectorsApp.getLang()).event.SURE_TO_LEAVE_EVENT : t(selectorsApp.getLang()).group.SURE_TO_LEAVE_GROUP} ${title}`
-                },
-                action: () => alert("Quitter")
-              },
-            ]}
+            options={mainOptions}
           />
       </View>
     )

@@ -2,7 +2,8 @@ export const initialState = {
     my_groups: [],
     nbFetchedMy: 0,
     fetchedById: {},
-    messages: []
+    messages: [],
+    myRights: []
 };
   
   /**
@@ -30,6 +31,11 @@ export const initialState = {
         return {
           ...state,
           messages: _val
+        };
+      case "UPDATE_MY_RIGHTS":
+        return {
+          ...state,
+          myRights: action.payload
         };
       default:
         return state;
