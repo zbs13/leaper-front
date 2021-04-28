@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { messageCard } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Txt from '../Txt';
@@ -9,19 +9,37 @@ import OptionsModal from '../modals/OptionsModal';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';
 import Cta from '../cta/Cta';
+import global from '../../providers/global';
+import useEvents from '../../hooks/useEvents';
+import useGroups from '../../hooks/useGroups';
 
 /**
  * message card
  * 
  * @param {object} navigation navigation object for routing
- * @param {object} message message => id, attachment, content, date, sentBy 
+ * @param {object} message message => id, attachment, content, date, sentBy
+ * @param {boolean} isEvent is an event message
  * @returns 
  */
-export default function MessageCard({navigation, message}) {
+export default function MessageCard({navigation, message, isEvent}) {
 
+    /**
+     * myId
+     */
     let myId = 2;
+    /**
+     * 
+     */
+    const isMyMessage = myId === message.sentBy.id
 
-    const {selectors} = useApp();
+    const {selectors: selectorsApp} = useApp();
+    const { selectors: selectorsEvent } = useEvents();
+    const { selectors: selectorsGroup } = useGroups();
+
+    let selector = selectorsGroup;
+    if(isEvent){
+      selector = selectorsEvent;
+    }
 
     /**
      * profile pic part
@@ -59,55 +77,63 @@ export default function MessageCard({navigation, message}) {
      * @returns 
      */
     function contentPart(){
-        const options = {
+        let options = {
             options: [
                 {
-                    value: t(selectors.getLang()).COPY_TEXT,
+                    value: t(selectorsApp.getLang()).COPY_TEXT,
                     icon: "copy-outline",
                     action: () => alert("message copié")
                 },
                 {
-                    value: t(selectors.getLang()).message.DELETE_MESSAGE,
-                    icon: "trash-outline",
-                    action: () => alert("message supprimé")
-                },
-                {
-                    value: t(selectors.getLang()).message.PIN_MESSAGE,
+                    value: t(selectorsApp.getLang()).message.PIN_MESSAGE,
                     icon: "pricetag-outline",
                     action: () => alert("message epinglé")
                 },
             ]
         }
 
+        /**
+         * if connected user got "delete message" right or owner of message
+         */
+        if(selector.hasRight(global.rights.DELETE_MESSAGE) || isMyMessage){
+            options.options.splice(1, 0, {
+                value: t(selectorsApp.getLang()).message.DELETE_MESSAGE,
+                icon: "trash-outline",
+                action: () => alert("ajouter a la conv")
+            })
+        }
+
         return(
-            <OptionsModal
-                {...options}
-            >
-                <Cta>
-                    <View style={[globalStyles.flexColumn, myId === message.sentBy.id ? globalStyles.w_100 : {}, myId === message.sentBy.id ? globalStyles.alignEnd : {}]}>
-                        {myId !== message.sentBy.id ?
-                            <Txt _style={[globalStyles.p_5, messageCard.firstname]} ellipsis={30}>{message.sentBy.firstname}</Txt>
-                        :
-                            null
-                        }
-                        <View style={[messageCard.content, myId === message.sentBy.id ? messageCard.contentMy : messageCard.contentNotMy]}>
-                            <Txt _style={[messageCard.date, myId === message.sentBy.id ? globalStyles.ta_r : {}]}>{message.date}</Txt>
-                            {displayContent()}
+            <View style={isMyMessage ? globalStyles.w_100 : {}}>
+                <OptionsModal
+                    {...options}
+                >
+                    <Cta>
+                        <View style={[globalStyles.flexColumn, isMyMessage ? globalStyles.w_100 : {}, isMyMessage ? globalStyles.alignEnd : {}]}>
+                            {!isMyMessage ?
+                                <Txt _style={[globalStyles.p_5, messageCard.firstname]} ellipsis={30}>{message.sentBy.firstname}</Txt>
+                            :
+                                null
+                            }
+                            <View style={[messageCard.content, isMyMessage ? messageCard.contentMy : messageCard.contentNotMy]}>
+                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{message.date}</Txt>
+                                {displayContent()}
+                            </View>
                         </View>
-                    </View>
-                </Cta>
-            </OptionsModal>
+                    </Cta>
+                </OptionsModal>
+            </View>
         )
     }
 
     return (
         <View style={[messageCard.container, globalStyles.flexRow]}>
-            {myId === message.sentBy.id ?
+            {isMyMessage ?
                 contentPart()
             :
                 profilePart()
             }
-            {myId === message.sentBy.id ?
+            {isMyMessage ?
                 null
             :
                 contentPart()

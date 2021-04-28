@@ -117,7 +117,7 @@ export const fetchById = (id) => {
         }
     }).catch(() => {
         return {
-            id: 7,
+            id: 1,
             name: "le groupe 3",
             description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
             owner: {
@@ -156,7 +156,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 2,
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
                     group: {
@@ -168,6 +168,22 @@ export const fetchById = (id) => {
                         },
                         {
                             id: 2
+                        }
+                    ]
+                },
+                {
+                    group: {
+                        id: 2
+                    },
+                    rights: [
+                        {
+                            id: 1
+                        },
+                        {
+                            id: 2
+                        },
+                        {
+                            id: 3
                         }
                     ]
                 }],
@@ -208,15 +224,9 @@ export const fetchById = (id) => {
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
                     group: {
-                        id: 5
+                        id: 1
                     },
                     rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
                     ]
                 }],
             }],

@@ -23,8 +23,8 @@ export const initialState = {
         };
       case "UPDATE_EVENTS_BY_CRITERIA":
         let _val = action.payload;
-        if(action.offset !== 0)
-          _val = state.fetchedByCriteria.push(_val)
+        // if(action.offset !== 0)
+        //   _val = state.fetchedByCriteria.push(_val)
         return {
           ...state,
           fetchedByCriteria: _val

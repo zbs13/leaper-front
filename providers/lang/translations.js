@@ -34,6 +34,7 @@ const l = {
         PEOPLE_LIST: "Liste des personnes",
         SHARED_CONTENT: "Contenu partagé",
         COPY_TEXT: "Copier le texte",
+        EDIT_INFOS: "Modifier les informations",
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
             DELETE_MESSAGE: "Supprimer le message",
@@ -219,6 +220,7 @@ const l = {
         PEOPLE_LIST: "People list",
         SHARED_CONTENT: "Shared content",
         COPY_TEXT: "Copy text",
+        EDIT_INFOS: "Edit information",
         message: {
             WRITE_A_MESSAGE: "Write a message...",
             DELETE_MESSAGE: "Delete message",

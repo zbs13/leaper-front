@@ -50,6 +50,10 @@ export const cta = StyleSheet.create({
     first_nr: {
         backgroundColor: global.colors.MAIN_COLOR,
         color: global.colors.ANTHRACITE,
+    },
+    b_red_nr: {
+        backgroundColor: global.colors.RED_ERROR,
+        color: global.colors.WHITE,
     }
 });
 

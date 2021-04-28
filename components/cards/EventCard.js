@@ -30,7 +30,7 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
      */
     const detailsOptions = {
         value: t(selectors.getLang()).DETAILS,
-        action: () => navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id}),
+        action: () => navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id, isMyEvent: isMyEvent}),
         icon: "add-outline",
     };
 

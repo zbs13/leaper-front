@@ -14,6 +14,7 @@ import Title from '../components/Title';
 import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
+import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
 
 /**
  * 
@@ -23,6 +24,9 @@ import Txt from '../components/Txt';
  */
 export default function SportEventDetailsScreen({navigation, route}) {
 
+    const isMyEvent = route.params.isMyEvent;
+    const title = route.params.title;
+
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
     const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
 
@@ -31,11 +35,15 @@ export default function SportEventDetailsScreen({navigation, route}) {
     const lang = selectorsApp.getLang();
 
     useEffect(() => {
-        navigation.setOptions({
-          headerTitle: route.params.title,
-        });
         fetchEventDetails();
     }, []);
+
+    useEffect(() => {
+        navigation.setOptions({
+          headerTitle: title,
+          headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions navigation={navigation} isEvent={true} geTitle={title} /> : null
+        });
+    }, [isLoaded]);
 
     /**
      * fetch event details by id
@@ -76,13 +84,13 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                 latitude={details.location.latitude}
                                 longitude={details.location.longitude}
                                 pinColor={global.colors.MAIN_COLOR}
-                                title={route.params.title}
+                                title={title}
                                 description={t(lang).event.HERE_EVENT_PLACE}
                             />
                         </Map>
                     </View>
                     <View style={[globalStyles.m_10, globalStyles.flexColumn, globalStyles.mb_50]}>
-                        <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{route.params.title}</Title>
+                        <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{title}</Title>
                         <View style={[globalStyles.flexRow, globalStyles.m_10]}>
                             <View style={[globalStyles.flexColumn, {flex: 1}]}>
                                 <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
@@ -115,14 +123,25 @@ export default function SportEventDetailsScreen({navigation, route}) {
                         <Txt _style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Txt>
                     </View>
                     <View style={ctaJoinEventDetails.container}>
-                        <Cta value={t(lang).JOIN} 
-                            _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
-                            confirm={{
-                                title: route.params.title,
-                                content: t(lang).event.CONFIRM_JOIN_EVENT
-                            }}
-                            onPress={() => console.log("aaa")}
-                        />
+                        {isMyEvent ?
+                            <Cta value={t(lang).event.LEAVE_THIS_EVENT} 
+                                _style={[cta.main, cta.b_red_nr, globalStyles.f_bold]}
+                                confirm={{
+                                    title: title,
+                                    content: t(lang).event.SURE_TO_LEAVE_EVENT
+                                }}
+                                onPress={() => console.log("quitter event")}
+                            />
+                        :
+                            <Cta value={t(lang).JOIN} 
+                                _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                confirm={{
+                                    title: title,
+                                    content: t(lang).event.CONFIRM_JOIN_EVENT
+                                }}
+                                onPress={() => console.log("join event")}
+                            />
+                        }
                     </View>
                 </RefreshViewScroll>
             :

@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { View, Keyboard } from 'react-native';
 import useApp from '../hooks/useApp';
-import global from '../providers/global';
-import OptionsModal from '../components/modals/OptionsModal';
-import t from '../providers/lang/translations';
 import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
 import useEvents from '../hooks/useEvents';
 import useGroups from '../hooks/useGroups';
 import { manageResponseUI } from '../context/actions/apiCall';
 import MessageCard from '../components/cards/MessageCard';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
+import TchatLoader from '../components/loaders/TchatLoader';
 
 /**
  * tchat screen
@@ -45,7 +44,7 @@ export default function TchatScreen({navigation, route}) {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: title,
-      headerRight: () => headerMenu()
+      headerRight: () => <HeaderRightGroupEventOptions navigation={navigation} isEvent={isEvent} geTitle={title} />
     });
   }, [isLoaded])
 
@@ -65,70 +64,13 @@ export default function TchatScreen({navigation, route}) {
         lang,
         function (res) {
           setIsLoaded(true);
+          scrollViewRef.current.scrollToEnd({ animated: true })
         },
         function (error) {
             actionsApp.addPopupStatus(error);
             setIsLoaded(false)
         })
     })
-  }
-
-  /**
-   * header right menu (options)
-   * 
-   * @returns 
-   */
-  function headerMenu(){
-    let mainOptions = [
-      {
-        value: t(selectorsApp.getLang()).MUTE,
-        icon: "notifications-off-outline",
-        action: () => alert("mettre en sourdine")
-      },
-      {
-        value: t(selectorsApp.getLang()).PEOPLE_LIST,
-        icon: "people-outline",
-        action: () => alert("liste personnes")
-      },
-      {
-        value: t(selectorsApp.getLang()).SHARED_CONTENT,
-        icon: "images-outline",
-        action: () => alert("contenu partager")
-      },
-      {
-        value: isEvent ? t(selectorsApp.getLang()).event.LEAVE_THIS_EVENT : t(selectorsApp.getLang()).group.LEAVE_THIS_GROUP,
-        icon: "log-out-outline",
-        iconColor: global.colors.WHITE,
-        style: {
-          backgroundColor: global.colors.RED_ERROR,
-          color: global.colors.WHITE
-        },
-        confirm: {
-          title: isEvent ? t(selectorsApp.getLang()).event.LEAVE_EVENT : t(selectorsApp.getLang()).event.LEAVE_GROUP,
-          content: `${isEvent ? t(selectorsApp.getLang()).event.SURE_TO_LEAVE_EVENT : t(selectorsApp.getLang()).group.SURE_TO_LEAVE_GROUP} ${title}`
-        },
-        action: () => alert("Quitter")
-      },
-    ];
-
-    if(selector.hasRight(global.rights.ADD_USER)){
-      mainOptions.splice(1, 0, {
-        value: isEvent ? t(selectorsApp.getLang()).event.ADD_TO_EVENT : t(selectorsApp.getLang()).group.ADD_TO_GROUP,
-        icon: "person-add-outline",
-        action: () => alert("ajouter a la conv")
-      })
-    }
-
-    return (
-      <View>
-          <OptionsModal 
-            title={t(selectorsApp.getLang()).PARAMETERS}
-            icon="ellipsis-horizontal-outline"
-            buttonColor={global.colors.MAIN_COLOR}
-            options={mainOptions}
-          />
-      </View>
-    )
   }
 
   return (
@@ -143,9 +85,9 @@ export default function TchatScreen({navigation, route}) {
         extraScrollHeight={-225}
       >
         {isLoaded ?
-          selector.getMessages().map((message, index) => <View key={index}><MessageCard navigation={navigation} message={message} /></View>)
+          selector.getMessages().map((message, index) => <View key={index}><MessageCard navigation={navigation} message={message} isEvent={isEvent} /></View>)
         :
-          <></>
+          <TchatLoader />
         }
       </KeyboardAwareScrollView>
       <View>

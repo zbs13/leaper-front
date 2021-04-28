@@ -15,6 +15,9 @@ export default globalStyles = StyleSheet.create({
     p_10: {
         padding: 10
     },
+    m_5: {
+        margin: 5
+    },
     m_10: {
         margin: 10
     },

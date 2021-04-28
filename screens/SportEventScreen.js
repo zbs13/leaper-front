@@ -22,7 +22,7 @@ import Txt from '../components/Txt';
  */
 export default React.memo(function SportEventScreen({navigation, route}) {
 
-  const sport = route.params.name 
+  const sport = route.params.name;
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();

@@ -40,6 +40,34 @@ const useGroups = () => {
             type: "UPDATE_GROUPS_BY_ID",
             payload: res
           });
+          /**
+           * 
+           */
+            const myId = 2;
+            /**
+            * 
+            */
+            let rightsArr = [];
+            if(res.owner.id === myId){
+              rightsArr = [1, 2, 3, 4];
+            }else{
+              res.users.map((user, index) => {
+                if(user.id === myId){
+                  user.roles.map((role, index) => {
+                    if(role.group.id === id){
+                      for(let right of role.rights){
+                        rightsArr.push(right.id);
+                      }
+                    }
+                  })
+                }
+              })
+            }
+
+            dispatch({
+              type: "UPDATE_MY_RIGHTS",
+              payload: rightsArr
+            });
         })
       });
     },
@@ -75,35 +103,6 @@ const useGroups = () => {
             return {"error": true};
         }
       }
-
-    /**
-     * 
-     */
-      const myId = 2;
-      /**
-      * 
-      */
-      let rightsArr = [];
-      if(respFBI.owner.id === myId){
-        rightsArr = [1, 2, 3, 4];
-      }else{
-        respFBI.users.map((user, index) => {
-          if(user.id === myId){
-            user.roles.map((role, index) => {
-              if(role.group.id === id){
-                for(let right of role.rights){
-                  rightsArr.push(right.id);
-                }
-              }
-            })
-          }
-        })
-      }
-
-      dispatch({
-        type: "UPDATE_MY_RIGHTS",
-        payload: rightsArr
-      });
 
       return {};
     }

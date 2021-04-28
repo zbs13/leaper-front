@@ -32,7 +32,7 @@ export default global = {
         REMOVE_USER: 1,
         ADD_USER: 2,
         DELETE_MESSAGE: 3,
-        UPDATE_INFOS: 4
+        EDIT_INFOS: 4
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
     validator: {

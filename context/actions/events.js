@@ -283,7 +283,7 @@ export const fetchById = (id) => {
             sportId: 2,
             postalCode: 93340,
             owner: {
-                id: 1
+                id: 2
             },
             location: {
                 latitude: 48.90049103281167, 
@@ -464,7 +464,7 @@ export const fetchById = (id) => {
             content: "ta mere la pute",
             attachment: {},
             sentBy: {
-                id: 1,
+                id: 2,
                 firstname: "Lucas",
                 lastname: "Estrade",
                 username: "lucasestrade",
