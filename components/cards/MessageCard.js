@@ -12,6 +12,7 @@ import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
+import { messageDateFormat } from '../../utils/utils';
 
 /**
  * message card
@@ -116,7 +117,7 @@ export default function MessageCard({navigation, message, isEvent}) {
                                 null
                             }
                             <View style={[messageCard.content, isMyMessage ? messageCard.contentMy : messageCard.contentNotMy]}>
-                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{message.date}</Txt>
+                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{messageDateFormat(message.date, selectorsApp.getLang())}</Txt>
                                 {displayContent()}
                             </View>
                         </View>

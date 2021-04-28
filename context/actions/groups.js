@@ -264,7 +264,7 @@ export const fetchById = (id) => {
                 username: "lucasestrade",
                 profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
             },
-            date: "2021-03-12 21:03:54"
+            date: "2020-04-28 10:03:54"
         },{
             id: 2,
             content: "ta mere la pute 2",
@@ -382,7 +382,7 @@ export const fetchById = (id) => {
                 username: "lucasestrade",
                 profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
             },
-            date: "2021-03-12 21:03:54"
+            date: "2021-04-27 04:03:54"
         },{
             id: 11,
             content: "ta mere la pute pkeeozg jkeozg jrog jri gjrig jrigjeripog jerig jerig jrg irej iorj giorej gior gjrei gjrei gjrig jri gjri gjri fle plf pel fpel fpefl pef lep flepl fpezl fpelf epflez^plzplgplgprkgpok oko kgork gork gork",
@@ -394,7 +394,7 @@ export const fetchById = (id) => {
                 username: "lucasestrade",
                 profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
             },
-            date: "2021-03-12 21:03:54"
+            date: "2021-04-28 14:03:54"
         },{
             id: 12,
             content: "non",
@@ -406,7 +406,7 @@ export const fetchById = (id) => {
                 username: "lucasestrade",
                 profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
             },
-            date: "2021-03-12 21:03:54"
+            date: "2021-04-28 10:03:54"
         }]
     })
 }

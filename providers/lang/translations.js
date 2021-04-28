@@ -84,12 +84,18 @@ const l = {
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
-        formats: {
-            date: (date) => {
-                return format(new Date(date), 'dd/MM/yyyy');
-            },
-            hour: (hour) => {
-                return hour;
+        datetime: {
+            TODAY_AT: "Aujourd'hui à",
+            AT_MAJ: "À",
+            AT_MIN: "à",
+            YESTERDAY_AT: "Hier à",
+            formats: {
+                date: (date) => {
+                    return format(new Date(date), 'dd/MM/yyyy');
+                },
+                hour: (hour) => {
+                    return hour;
+                }
             }
         },
         sports: {
@@ -270,18 +276,24 @@ const l = {
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },
-        formats: {
-            date: (date) => {
-                return format(new Date(date), 'yyyy-MM-dd');
-            },
-            hour: (hour) => {
-                hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
-                if (hour.length > 1) {
-                    hour = hour.slice(1);
-                    hour[5] = +hour[0] < 12 ? ' AM' : ' PM';
-                    hour[0] = +hour[0] % 12 || 12;
+        datetime: {
+            TODAY_AT: "Today at",
+            AT_MAJ: "At",
+            AT_MIN: "at",
+            YESTERDAY_AT: "Yesterday at",
+            formats: {
+                date: (date) => {
+                    return format(new Date(date), 'yyyy-MM-dd');
+                },
+                hour: (hour) => {
+                    hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
+                    if (hour.length > 1) {
+                        hour = hour.slice(1);
+                        hour[5] = +hour[0] < 12 ? ' AM' : ' PM';
+                        hour[0] = +hour[0] % 12 || 12;
+                    }
+                    return hour.join('');
                 }
-                return hour.join('');
             }
         },
         sports: {

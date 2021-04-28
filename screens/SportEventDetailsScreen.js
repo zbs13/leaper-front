@@ -105,7 +105,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                     {t(lang).DATE} :
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).formats.date(details.date)}
+                                    {t(lang).datetime.formats.date(details.date)}
                                 </Txt>
                             </View>
                             <View style={[globalStyles.flexColumn, {flex: 1}]} >
@@ -113,10 +113,10 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                     {t(lang).HOURS} :
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).FROM} : {t(lang).formats.hour(details.startHour)}
+                                    {t(lang).FROM} : {t(lang).datetime.formats.hour(details.startHour)}
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).TO} : {t(lang).formats.hour(details.endHour)}
+                                    {t(lang).TO} : {t(lang).datetime.formats.hour(details.endHour)}
                                 </Txt>
                             </View>
                         </View>

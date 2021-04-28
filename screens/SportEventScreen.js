@@ -114,11 +114,11 @@ export default React.memo(function SportEventScreen({navigation, route}) {
             {t(selectorsApp.getLang()).DATES} :
           </Txt>
           <Txt _style={globalStyles.c_anth}>
-            {ses.criteria.startDate !== null ? t(selectorsApp.getLang()).formats.date(ses.criteria.startDate.dateString) : "-"}
+            {ses.criteria.startDate !== null ? t(selectorsApp.getLang()).datetime.formats.date(ses.criteria.startDate.dateString) : "-"}
           </Txt>
           {ses.criteria.endDate !== null ?
             <Txt _style={globalStyles.c_anth}>
-              {t(selectorsApp.getLang()).formats.date(ses.criteria.endDate.dateString)}
+              {t(selectorsApp.getLang()).datetime.formats.date(ses.criteria.endDate.dateString)}
             </Txt>
           : null
           }

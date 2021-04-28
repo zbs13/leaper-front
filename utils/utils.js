@@ -1,4 +1,5 @@
-import { format } from 'date-fns';
+import { format, isToday, parseISO, isYesterday } from 'date-fns';
+import t from '../providers/lang/translations';
 
 /**
  * generate an uniq id
@@ -53,3 +54,20 @@ export const getDatesBetweenTwoDates = function(start, end) {
  export const convertBytesToKBytes = function(bytes) {
     return Math.round((bytes / 1000) * 100) / 100;
 };
+
+/**
+ * format date for messages
+ * 
+ * @param {string} date message date to format
+ * @param {string} lang lang for format
+ */
+export const messageDateFormat = function(date, lang) {
+    let formDate = parseISO(date);
+    if(isToday(formDate)){
+        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+    }else if(isYesterday(formDate)){
+        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+    }
+
+    return `${t(lang).datetime.formats.date(format(formDate, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+}
