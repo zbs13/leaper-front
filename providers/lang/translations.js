@@ -35,6 +35,9 @@ const l = {
         SHARED_CONTENT: "Contenu partagé",
         COPY_TEXT: "Copier le texte",
         EDIT_INFOS: "Modifier les informations",
+        COPY_ATTACHMENT_LINK: "Copier le lien de la pièce jointe",
+        SAVE_ATTACHMENT: "Sauvegarder la pièce jointe",
+        COPY_TO_CLIPBOARD: "Copié dans le presse-papiers",
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
             DELETE_MESSAGE: "Supprimer le message",
@@ -227,6 +230,9 @@ const l = {
         SHARED_CONTENT: "Shared content",
         COPY_TEXT: "Copy text",
         EDIT_INFOS: "Edit information",
+        COPY_ATTACHMENT_LINK: "Copy attachment link",
+        SAVE_ATTACHMENT: "Save attachment",
+        COPY_TO_CLIPBOARD: "Copy to clipboard",
         message: {
             WRITE_A_MESSAGE: "Write a message...",
             DELETE_MESSAGE: "Delete message",
@@ -283,7 +289,7 @@ const l = {
             YESTERDAY_AT: "Yesterday at",
             formats: {
                 date: (date) => {
-                    return format(new Date(date), 'yyyy-MM-dd');
+                    return format(new Date(date), 'dd/MM/yyyy');
                 },
                 hour: (hour) => {
                     hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];

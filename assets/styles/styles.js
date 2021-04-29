@@ -85,6 +85,12 @@ export const popup = StyleSheet.create({
     error_text: {
         color: global.colors.RED_ERROR_TEXT
     },
+    info: {
+        backgroundColor: global.colors.LIGHT_GREY
+    },
+    info_text: {
+        color: global.colors.ANTHRACITE
+    },
     wait: {
         backgroundColor: global.colors.ANTHRACITE
     },
@@ -97,6 +103,9 @@ export const popup = StyleSheet.create({
     },
     icon_error: {
         color: global.colors.RED_ERROR_TEXT
+    },
+    icon_info: {
+        color: global.colors.ANTHRACITE
     }
 })
 
@@ -424,6 +433,11 @@ export const video = StyleSheet.create({
     }
 });
 
+export const uri = StyleSheet.create({
+    main: {
+        color: global.colors.URI
+    }
+});
 export const image = StyleSheet.create({
     container: {
         alignSelf: 'center',

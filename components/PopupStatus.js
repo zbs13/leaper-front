@@ -22,16 +22,25 @@ export default function PopupStatus() {
     return (
         <View style={popup.global}>
             {popupStatus.map((_popup, idx) => {
-                console.log(_popup)
                 return (
-                <View key={_popup.id} style={[_popup.type === "error" ? popup.error : popup.success, globalStyles.p_5, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween]}>
+                <View 
+                    key={_popup.id} 
+                    style={[_popup.type === "error" ? popup.error : _popup.type === "success" ? popup.success : popup.info, globalStyles.p_5, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween]}>
                     <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
-                        <Ionicons style={[popup.icon, _popup.type === "error" ? popup.icon_error : popup.icon_success]} name={_popup.type === "error" ? "bug-outline" : "checkmark-circle-outline"} />
-                        <Txt _style={_popup.type === "error" ? popup.error_text : popup.success_text}>{_popup.message || t(selectors.getLang()).ERROR_API}</Txt>
+                        <Ionicons 
+                            style={[popup.icon, _popup.type === "error" ? popup.icon_error : _popup.type === "success" ? popup.icon_success : popup.icon_info]} 
+                            name={_popup.type === "error" ? "bug-outline" : _popup.type === "success" ? "checkmark-circle-outline" : "information-circle-outline"} />
+                        <Txt 
+                            _style={_popup.type === "error" ? popup.error_text : _popup.type === "success" ? popup.success_text : popup.info_text}
+                        >
+                            {_popup.message || t(selectors.getLang()).ERROR_API}
+                        </Txt>
                     </View>
                     <View>
-                        <Cta onPress={() => actions.removePopupStatus(_popup.id)}
-                            value={<Ionicons style={[popup.icon, _popup.type === "error" ? popup.icon_error : popup.icon_success]} name="close-outline" />}
+                        <Cta 
+                            onPress={() => actions.removePopupStatus(_popup.id)}
+                            value={<Ionicons style={[popup.icon, _popup.type === "error" ? popup.icon_error : _popup.type === "success" ? popup.icon_success : popup.icon_info]} 
+                            name="close-outline" />}
                         />
                     </View>
                 </View>

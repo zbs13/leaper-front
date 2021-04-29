@@ -1,6 +1,9 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { ext } from '../utils/utils';
+import { ext, randId } from '../utils/utils';
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import { Platform } from 'react-native';
 
 /**
  * pick image/video in phone gallery
@@ -56,3 +59,35 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
             onFailCallback();
     }
 };
+
+/**
+ * save a file to phone storage
+ * 
+ * @param {string} uri uri of file to save
+ * @param {function} onProgress call while file downloading
+ */
+export async function saveFileOnPhone(uri, onProgress){
+    let filename = `file_${randId()}.${ext(uri)}`;
+    const fileUri = `${FileSystem.documentDirectory}${filename}`;
+    let downloadObject = FileSystem.createDownloadResumable(
+        uri,
+        fileUri,
+        {},
+        onProgress
+    );
+    const dlFile = await downloadObject.downloadAsync();
+    if (dlFile.status != 200) {
+        console.log("erreur dl");
+    }else{
+        // if image or video => save to phone library // different parameters according to os
+        if(Platform.OS === "ios"){
+            if(dlFile.mimeType.startsWith("image") || dlFile.mimeType.startsWith("video")){
+                MediaLibrary.saveToLibraryAsync(dlFile.uri);
+            }
+        }else{
+            if(dlFile.headers["content-type"].startsWith("image") || dlFile.headers["content-type"].startsWith("video")){
+                MediaLibrary.saveToLibraryAsync(dlFile.uri);
+            }
+        }
+    }
+}

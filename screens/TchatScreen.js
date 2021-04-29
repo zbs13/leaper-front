@@ -79,7 +79,7 @@ export default function TchatScreen({navigation, route}) {
         style={[globalStyles.w_100]} 
         onScrollBeginDrag={() => Keyboard.dismiss()} 
         ref={scrollViewRef} 
-        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })} 
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         onKeyboardDidShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         onKeyboardWillShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         extraScrollHeight={-225}

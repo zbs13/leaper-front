@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { tchatBar } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import useApp from '../../hooks/useApp';
@@ -10,8 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Cta from '../cta/Cta';
 import { pickDocument, pickMedia } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
-import FileDisplay from '../FileDisplay';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import FileDisplay from '../display/FileDisplay';
 
 /**
  * tchat bar

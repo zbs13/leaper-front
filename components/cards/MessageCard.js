@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View } from 'react-native';
+import Clipboard from 'expo-clipboard';
 import { messageCard } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Txt from '../Txt';
 import BackgroundImage from '../BackgroundImage';
-import FileDisplay from '../FileDisplay';
+import FileDisplay from '../display/FileDisplay';
 import OptionsModal from '../modals/OptionsModal';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';
@@ -13,6 +14,8 @@ import global from '../../providers/global';
 import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
 import { messageDateFormat } from '../../utils/utils';
+import ContentDisplay from '../display/ContentDisplay';
+import { saveFileOnPhone } from '../../utils/phoneFunct';
 
 /**
  * message card
@@ -33,9 +36,15 @@ export default function MessageCard({navigation, message, isEvent}) {
      */
     const isMyMessage = myId === message.sentBy.id
 
-    const {selectors: selectorsApp} = useApp();
+    const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
+
+    const [onProgressDl, setOnProgressDl] = useState({
+        onProgress: false,
+        downloaded: 0,
+        expectedToDl: 0
+    })
 
     let selector = selectorsGroup;
     if(isEvent){
@@ -64,11 +73,11 @@ export default function MessageCard({navigation, message, isEvent}) {
         return(
             <View>
                 {typeof message.attachment === "object" && Object.entries(message.attachment).length !== 0 ?
-                    <FileDisplay file={message.attachment} />
+                    <FileDisplay file={message.attachment} dlOnProgress={onProgressDl.onProgress} dlStatus={{downloaded: onProgressDl.downloaded, expectedToDl: onProgressDl.expectedToDl}}/>
                 :
                     null
                 }
-                <Txt _style={globalStyles.ta_j}>{message.content}</Txt>
+                <ContentDisplay content={message.content} />
             </View>
         )
     }
@@ -80,11 +89,6 @@ export default function MessageCard({navigation, message, isEvent}) {
     function contentPart(){
         let options = {
             options: [
-                {
-                    value: t(selectorsApp.getLang()).COPY_TEXT,
-                    icon: "copy-outline",
-                    action: () => alert("message copié")
-                },
                 {
                     value: t(selectorsApp.getLang()).message.PIN_MESSAGE,
                     icon: "pricetag-outline",
@@ -101,6 +105,60 @@ export default function MessageCard({navigation, message, isEvent}) {
                 value: t(selectorsApp.getLang()).message.DELETE_MESSAGE,
                 icon: "trash-outline",
                 action: () => alert("ajouter a la conv")
+            })
+        }
+
+        /**
+         * if text not void
+         */
+         if(message.content !== "" && message.content !== null){
+            options.options.splice(1, 0, {
+                value: t(selectorsApp.getLang()).COPY_TEXT,
+                icon: "copy-outline",
+                action: () => {
+                    Clipboard.setString(message.content);
+                    actionsApp.addPopupStatus({
+                        type: "info",
+                        message: t(selectorsApp.getLang()).COPY_TO_CLIPBOARD,
+                    });
+                }
+            })
+        }
+
+        /**
+         * if attachment not void
+         */
+         if(message.attachment.type !== undefined && message.attachment !== null){
+            options.options.splice(1, 0, {
+                value: t(selectorsApp.getLang()).COPY_ATTACHMENT_LINK,
+                icon: "copy-outline",
+                action: () => {
+                    Clipboard.setString(message.attachment.uri);
+                    actionsApp.addPopupStatus({
+                        type: "info",
+                        message: t(selectorsApp.getLang()).COPY_TO_CLIPBOARD,
+                    });
+                }
+            })
+            options.options.splice(1, 0, {
+                value: t(selectorsApp.getLang()).SAVE_ATTACHMENT,
+                icon: "save-outline",
+                action: () => saveFileOnPhone(message.attachment.uri, 
+                    ({totalBytesWritten, totalBytesExpectedToWrite }) => {
+                        if(totalBytesWritten !== totalBytesExpectedToWrite){
+                            setOnProgressDl({
+                                onProgress: true,
+                                downloaded: totalBytesWritten,
+                                expectedToDl: totalBytesExpectedToWrite
+                            })
+                        }else{
+                            setOnProgressDl({
+                                onProgress: false,
+                                downloaded: 0,
+                                expectedToDl: 0
+                            })
+                        }
+                    })
             })
         }
 

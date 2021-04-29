@@ -11,13 +11,16 @@ import { ellipsisText } from '../utils/utils';
  * @param {string} color text color
  * @returns 
  */
-export default function Txt({children, ellipsis = null, color = null, _style = {}}) {
+export default function Txt({children, ellipsis = null, color = null, _style = {}, onPress = null}) {
 
     let globalStyle = {color: color !== null ? color : global.colors.ANTHRACITE};
     let __style = _style instanceof Array ? [globalStyle, ..._style] : [globalStyle, _style]
 
     return (
-        <Text style={__style}>
+        <Text
+            style={__style}
+            onPress={onPress}
+        >
             {ellipsis !== null ?
                 ellipsisText(children, ellipsis)
             :

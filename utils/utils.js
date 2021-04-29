@@ -1,5 +1,6 @@
 import { format, isToday, parseISO, isYesterday } from 'date-fns';
 import t from '../providers/lang/translations';
+import global from '../providers/global';
 
 /**
  * generate an uniq id
@@ -60,6 +61,7 @@ export const getDatesBetweenTwoDates = function(start, end) {
  * 
  * @param {string} date message date to format
  * @param {string} lang lang for format
+ * @returns {string} correct date format
  */
 export const messageDateFormat = function(date, lang) {
     let formDate = parseISO(date);
@@ -70,4 +72,14 @@ export const messageDateFormat = function(date, lang) {
     }
 
     return `${t(lang).datetime.formats.date(format(formDate, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+}
+
+/**
+ * check if value is an uri
+ * 
+ * @param {string} value value to check
+ * @returns {boolean} true if value is an uri
+ */
+export const isUri = function(value){
+    return value.match(global.validator.regex.URI);
 }
