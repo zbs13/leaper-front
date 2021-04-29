@@ -64,20 +64,18 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
  * save a file to phone storage
  * 
  * @param {string} uri uri of file to save
- * @param {function} onProgress call while file downloading
+ * @param {function} onError call if save failed
  */
-export async function saveFileOnPhone(uri, onProgress){
+export async function saveFileOnPhone(uri, onError){
     let filename = `file_${randId()}.${ext(uri)}`;
     const fileUri = `${FileSystem.documentDirectory}${filename}`;
     let downloadObject = FileSystem.createDownloadResumable(
         uri,
-        fileUri,
-        {},
-        onProgress
+        fileUri
     );
     const dlFile = await downloadObject.downloadAsync();
     if (dlFile.status != 200) {
-        console.log("erreur dl");
+        onError();
     }else{
         // if image or video => save to phone library // different parameters according to os
         if(Platform.OS === "ios"){

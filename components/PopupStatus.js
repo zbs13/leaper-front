@@ -33,7 +33,7 @@ export default function PopupStatus() {
                         <Txt 
                             _style={_popup.type === "error" ? popup.error_text : _popup.type === "success" ? popup.success_text : popup.info_text}
                         >
-                            {_popup.message || t(selectors.getLang()).ERROR_API}
+                            {_popup.message || t(selectors.getLang()).errors.ERROR_API}
                         </Txt>
                     </View>
                     <View>

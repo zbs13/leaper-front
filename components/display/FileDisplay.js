@@ -11,11 +11,9 @@ import Txt from '../Txt';
  * 
  * @param {object} file file parameters => uri, size, name, type
  * @param {boolean} isPreview is displayed as a preview or not 
- * @param {boolean} dlOnProgress true if file is downloading
- * @param {object|null} dlStatus needed for file loader => Object: {downloaded: <size already downloaded>, expectedToDl: <final size expected to dl>}
  * @returns 
  */
-export default function FileDisplay({file, isPreview = false, dlOnProgress = false, dlStatus = null}){
+export default function FileDisplay({file, isPreview = false}){
 
     const [fileState, setFileState] = useState({
         isImageLoading: true,
@@ -24,18 +22,6 @@ export default function FileDisplay({file, isPreview = false, dlOnProgress = fal
 
     return (
         <>
-            {
-                dlOnProgress ?
-                    <View>
-                        <View style={{width: 200, height: 50}}>
-                            <View style={{backgroundColor: "red", height: 50, width: 200 / dlStatus.expectedToDl / dlStatus.downloaded}}>
-
-                            </View>
-                        </View>
-                    </View>
-                :
-                    null
-            }
             {file.type === "video" ?
                 <Video
                     style={video.container}

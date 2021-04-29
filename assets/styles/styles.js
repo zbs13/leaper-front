@@ -438,7 +438,35 @@ export const uri = StyleSheet.create({
         color: global.colors.URI
     }
 });
-export const image = StyleSheet.create({
+
+export const fileDownload = StyleSheet.create({
+    block: {
+        position: "absolute", 
+        zIndex: 1, width: "100%", 
+        height: "100%", 
+        justifyContent: "center", 
+        alignItems: "center"
+    },
+    loaderBlock: {
+        width: 100, 
+        height: 100, 
+        borderRadius: 50, 
+        borderWidth: 2, 
+        borderColor: global.colors.ANTHRACITE, 
+        alignItems: "center", 
+        justifyContent: "center"
+    },
+    innerLoader: {
+        backgroundColor: global.colors.MAIN_COLOR, 
+        height: "100%", 
+        borderRadius: 50
+    },
+    pourcent: {
+        position: "absolute", 
+        fontWeight: "bold", 
+        fontSize: 18
+    },
+});export const image = StyleSheet.create({
     container: {
         alignSelf: 'center',
         width: 320,

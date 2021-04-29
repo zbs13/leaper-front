@@ -10,7 +10,6 @@ const l = {
         CANCEL: "Annuler",
         ADD_CONTACT_PERSON: "Ajouter un contact",
         SEARCH: "Recherche",
-        ERROR_API: "Oups, une erreur est survenue",
         USER_ALREADY_EXISTS: "Cet utilisateur existe déja",
         CLOSE: "Fermer",
         FILTERS: "Filtres",
@@ -38,6 +37,13 @@ const l = {
         COPY_ATTACHMENT_LINK: "Copier le lien de la pièce jointe",
         SAVE_ATTACHMENT: "Sauvegarder la pièce jointe",
         COPY_TO_CLIPBOARD: "Copié dans le presse-papiers",
+        success: {
+            SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
+        },
+        errors: {
+            ERROR_API: "Oups, une erreur est survenue",
+            ERROR_DOWNLOAD_FILE: "Une erreur est survenue lors du téléchargement",
+        },
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
             DELETE_MESSAGE: "Supprimer le message",
@@ -205,7 +211,6 @@ const l = {
         CANCEL: "Cancel",
         ADD_CONTACT_PERSON: "Add a contact person",
         SEARCH: "Search",
-        ERROR_API: "Oops, an error has occurred !",
         USER_ALREADY_EXISTS: "This user already exists",
         CLOSE: "Close",
         FILTERS: "Filters",
@@ -233,6 +238,13 @@ const l = {
         COPY_ATTACHMENT_LINK: "Copy attachment link",
         SAVE_ATTACHMENT: "Save attachment",
         COPY_TO_CLIPBOARD: "Copy to clipboard",
+        success: {
+            SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
+        },
+        errors: {
+            ERROR_API: "Oops, an error has occurred !",
+            ERROR_DOWNLOAD_FILE: "Error while downloading file",
+        },
         message: {
             WRITE_A_MESSAGE: "Write a message...",
             DELETE_MESSAGE: "Delete message",

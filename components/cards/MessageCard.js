@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { messageCard } from '../../assets/styles/styles';
@@ -40,12 +40,6 @@ export default function MessageCard({navigation, message, isEvent}) {
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
 
-    const [onProgressDl, setOnProgressDl] = useState({
-        onProgress: false,
-        downloaded: 0,
-        expectedToDl: 0
-    })
-
     let selector = selectorsGroup;
     if(isEvent){
       selector = selectorsEvent;
@@ -73,7 +67,7 @@ export default function MessageCard({navigation, message, isEvent}) {
         return(
             <View>
                 {typeof message.attachment === "object" && Object.entries(message.attachment).length !== 0 ?
-                    <FileDisplay file={message.attachment} dlOnProgress={onProgressDl.onProgress} dlStatus={{downloaded: onProgressDl.downloaded, expectedToDl: onProgressDl.expectedToDl}}/>
+                    <FileDisplay file={message.attachment} />
                 :
                     null
                 }
@@ -143,22 +137,13 @@ export default function MessageCard({navigation, message, isEvent}) {
             options.options.splice(1, 0, {
                 value: t(selectorsApp.getLang()).SAVE_ATTACHMENT,
                 icon: "save-outline",
-                action: () => saveFileOnPhone(message.attachment.uri, 
-                    ({totalBytesWritten, totalBytesExpectedToWrite }) => {
-                        if(totalBytesWritten !== totalBytesExpectedToWrite){
-                            setOnProgressDl({
-                                onProgress: true,
-                                downloaded: totalBytesWritten,
-                                expectedToDl: totalBytesExpectedToWrite
-                            })
-                        }else{
-                            setOnProgressDl({
-                                onProgress: false,
-                                downloaded: 0,
-                                expectedToDl: 0
-                            })
-                        }
-                    })
+                action: () => saveFileOnPhone(message.attachment.uri,
+                    () => {
+                        actionsApp.addPopupStatus({
+                            type: "error",
+                            message: t(selectorsApp.getLang()).errors.ERROR_DOWNLOAD_FILE
+                        })
+                    }),
             })
         }
 
