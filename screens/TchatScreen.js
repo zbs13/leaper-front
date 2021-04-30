@@ -83,6 +83,7 @@ export default function TchatScreen({navigation, route}) {
         onKeyboardDidShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         onKeyboardWillShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         extraScrollHeight={-225}
+        removeClippedSubviews
       >
         {isLoaded ?
           selector.getMessages().map((message, index) => <View key={index}><MessageCard navigation={navigation} message={message} isEvent={isEvent} /></View>)
