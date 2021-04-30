@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { messageCard } from '../../assets/styles/styles';
@@ -15,7 +15,7 @@ import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
 import { messageDateFormat } from '../../utils/utils';
 import ContentDisplay from '../display/ContentDisplay';
-import { saveFileOnPhone } from '../../utils/phoneFunct';
+import { saveFileOnPhone, shareFile } from '../../utils/phoneFunct';
 
 /**
  * message card
@@ -40,6 +40,8 @@ export default function MessageCard({navigation, message, isEvent}) {
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
 
+    const [isSharing, setIsSharing] = useState(false);
+
     let selector = selectorsGroup;
     if(isEvent){
       selector = selectorsEvent;
@@ -61,13 +63,15 @@ export default function MessageCard({navigation, message, isEvent}) {
 
     /**
      * display message content according to its parameters => message text, media or doc
+     * 
+     * @param {object} options file options 
      * @returns 
      */
-    function displayContent(){
+    function displayContent(options){
         return(
             <View>
                 {typeof message.attachment === "object" && Object.entries(message.attachment).length !== 0 ?
-                    <FileDisplay file={message.attachment} />
+                    <FileDisplay file={message.attachment} options={options}/>
                 :
                     null
                 }
@@ -109,13 +113,7 @@ export default function MessageCard({navigation, message, isEvent}) {
             options.options.splice(1, 0, {
                 value: t(selectorsApp.getLang()).COPY_TEXT,
                 icon: "copy-outline",
-                action: () => {
-                    Clipboard.setString(message.content);
-                    actionsApp.addPopupStatus({
-                        type: "info",
-                        message: t(selectorsApp.getLang()).COPY_TO_CLIPBOARD,
-                    });
-                }
+                action: () => Clipboard.setString(message.content)
             })
         }
 
@@ -123,18 +121,12 @@ export default function MessageCard({navigation, message, isEvent}) {
          * if attachment not void
          */
          if(message.attachment.type !== undefined && message.attachment !== null){
-            options.options.splice(1, 0, {
+            options.options.splice(1, 0, ...[{
                 value: t(selectorsApp.getLang()).COPY_ATTACHMENT_LINK,
                 icon: "copy-outline",
-                action: () => {
-                    Clipboard.setString(message.attachment.uri);
-                    actionsApp.addPopupStatus({
-                        type: "info",
-                        message: t(selectorsApp.getLang()).COPY_TO_CLIPBOARD,
-                    });
-                }
-            })
-            options.options.splice(1, 0, {
+                action: () => Clipboard.setString(message.attachment.uri)
+            },
+            {
                 value: t(selectorsApp.getLang()).SAVE_ATTACHMENT,
                 icon: "save-outline",
                 action: () => saveFileOnPhone(message.attachment.uri,
@@ -144,7 +136,24 @@ export default function MessageCard({navigation, message, isEvent}) {
                             message: t(selectorsApp.getLang()).errors.ERROR_DOWNLOAD_FILE
                         })
                     }),
-            })
+            },
+            {
+                value: t(selectorsApp.getLang()).SHARE_ATTACHMENT,
+                icon: "share-social-outline",
+                disabled: isSharing,
+                action: () => {
+                    setIsSharing(true);
+                    shareFile(message.attachment.uri,
+                        () => {
+                            actionsApp.addPopupStatus({
+                                type: "error",
+                                message: t(selectorsApp.getLang()).errors.ERROR_SHARE_FILE
+                            })
+                        },
+                        () => setIsSharing(false)
+                    )
+                }
+            }])
         }
 
         return(
@@ -161,7 +170,7 @@ export default function MessageCard({navigation, message, isEvent}) {
                             }
                             <View style={[messageCard.content, isMyMessage ? messageCard.contentMy : messageCard.contentNotMy]}>
                                 <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{messageDateFormat(message.date, selectorsApp.getLang())}</Txt>
-                                {displayContent()}
+                                {displayContent(options)}
                             </View>
                         </View>
                     </Cta>

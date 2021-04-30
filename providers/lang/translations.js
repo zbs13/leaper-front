@@ -36,13 +36,21 @@ const l = {
         EDIT_INFOS: "Modifier les informations",
         COPY_ATTACHMENT_LINK: "Copier le lien de la pièce jointe",
         SAVE_ATTACHMENT: "Sauvegarder la pièce jointe",
+        SHARE_ATTACHMENT: "Partager la pièce jointe",
         COPY_TO_CLIPBOARD: "Copié dans le presse-papiers",
+        NO_GRANTED_ACCESS: "Accès non accordé",
+        PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "L'accès à la bibliothèque du téléphone n'est pas autorisé. Vous pouvez accorder l'accès dans les paramètres du téléphone",
+        CAMERA: "Caméra",
+        PHOTO_VIDEO_LIBRARY: "Bibliothèque photos/vidéos",
+        FILE: "Fichier",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
         },
         errors: {
             ERROR_API: "Oups, une erreur est survenue",
-            ERROR_DOWNLOAD_FILE: "Une erreur est survenue lors du téléchargement",
+            ERROR_DOWNLOAD_FILE: "Une erreur est survenue lors du téléchargement du fichier",
+            ERROR_IMPORTING_FILE: "Une erreur est survenue lors de l'importation du document",
+            ERROR_SHARE_FILE: "Une erreur est survenue lors du partage du fichier"
         },
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
@@ -237,13 +245,21 @@ const l = {
         EDIT_INFOS: "Edit information",
         COPY_ATTACHMENT_LINK: "Copy attachment link",
         SAVE_ATTACHMENT: "Save attachment",
+        SHARE_ATTACHMENT: "Share attachment",
         COPY_TO_CLIPBOARD: "Copy to clipboard",
+        NO_GRANTED_ACCESS: "No granted access",
+        PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "Access to phone library not granted. You can granted the access in phone settings",
+        CAMERA: "Camera",
+        PHOTO_VIDEO_LIBRARY: "Photo/video library",
+        FILE: "File",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
         },
         errors: {
             ERROR_API: "Oops, an error has occurred !",
-            ERROR_DOWNLOAD_FILE: "Error while downloading file",
+            ERROR_DOWNLOAD_FILE: "An error occured while downloading file",
+            ERROR_IMPORTING_FILE: "An error occured while importing file",
+            ERROR_SHARE_FILE: "An error occured while sharing file"
         },
         message: {
             WRITE_A_MESSAGE: "Write a message...",

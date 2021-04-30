@@ -7,7 +7,8 @@ export default globalStyles = StyleSheet.create({
         margin: 5
     },  
     pos_a: {
-        position: "absolute"
+        position: "absolute",
+        zIndex: 1
     },
     p_5: {
         padding: 5

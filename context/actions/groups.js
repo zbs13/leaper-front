@@ -301,8 +301,13 @@ export const fetchById = (id) => {
             date: "2021-03-12 21:03:54"
         },{
             id: 4,
-            content: "ta mere la pute",
-            attachment: {},
+            content: "voila le pdf",
+            attachment: {
+                size: 51422,
+                name: "le pdf ifjie jfeijfi ejfiej feij feif jeifjeifjeiiiie fj i",
+                type: "pdf",
+                uri: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
+            },
             sentBy: {
                 id: 1,
                 firstname: "Lucas",

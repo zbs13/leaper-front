@@ -25,6 +25,7 @@ import Txt from '../Txt';
  * @param {string} iconColor icon color
  * @param {object} swipeableRightOptions right swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
  * @param {object} swipeableLeftOptions left swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
+ * @param {boolean} disabled is cta disabled
  * @returns 
  */
 export default function Cta({
@@ -40,7 +41,8 @@ export default function Cta({
     iconSize = null, 
     iconColor = null, 
     swipeableRightOptions = null,
-    swipeableLeftOptions = null
+    swipeableLeftOptions = null,
+    disabled = false
 }) {
 
     const [dialogVisible, setDialogVisible] = useState(false);
@@ -88,6 +90,7 @@ export default function Cta({
                     onPress={confirm !== null ? () => setDialogVisible(true) : onPress} 
                     underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
                     onLongPress={onLongPress !== null ? onLongPress : null}
+                    disabled={disabled}
                 >
                     <View>
                         {typeof value === "string" ?

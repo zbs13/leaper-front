@@ -77,6 +77,7 @@ export default function OptionsModal({
                       options.map((params, index) => 
                         <View key={index}>
                           <Cta
+                            disabled={params.disabled !== undefined ? params.disabled : false}
                             onPress={() => {
                               toggleModalView();
                               params.action();

@@ -466,10 +466,18 @@ export const fileDownload = StyleSheet.create({
         fontWeight: "bold", 
         fontSize: 18
     },
-});export const image = StyleSheet.create({
+});
+
+export const image = StyleSheet.create({
     container: {
         alignSelf: 'center',
         width: 320,
         height: 200,
     }
 });
+
+export const fullscreen = StyleSheet.create({
+    cta: {
+        color: global.colors.WHITE
+    }
+})

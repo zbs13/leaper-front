@@ -29,8 +29,8 @@ export default function TchatBar({onSend, onChangeInput}){
 
     const [pickImageRestrictionPopup, setPickImageRestrictionPopup] = useState({
         isVisible: false,
-        title: "e",
-        content: "d"
+        title: t(selectors.getLang()).NO_ACCESS_GRANTED,
+        content: t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA
     })
 
     useEffect(() => {
@@ -39,7 +39,6 @@ export default function TchatBar({onSend, onChangeInput}){
 
     return(
         <View style={[globalStyles.alignEnd, globalStyles.w_100, tchatBar.container, globalStyles.flexColumn]}>
-            
             <DialogPopup 
                 dialogVisible={pickImageRestrictionPopup.isVisible}
                 title={pickImageRestrictionPopup.title}
@@ -69,12 +68,12 @@ export default function TchatBar({onSend, onChangeInput}){
                         options={
                             [
                                 {
-                                    value: "Caméra",
+                                    value: t(selectors.getLang()).CAMERA,
                                     icon: "camera-outline",
                                     action: () => alert("aa")
                                 },
                                 {
-                                    value: "Bibliothèque photos/vidéos",
+                                    value: t(selectors.getLang()).PHOTO_VIDEO_LIBRARY,
                                     icon: "images-outline",
                                     action: () => pickMedia(
                                         (res) => setTchatState({...tchatState, attachment: res}),
@@ -82,13 +81,13 @@ export default function TchatBar({onSend, onChangeInput}){
                                     )
                                 },
                                 {
-                                    value: "Document",
+                                    value: t(selectors.getLang()).FILE,
                                     icon: "document-outline",
                                     action: () => pickDocument(
                                         (res) => setTchatState({...tchatState, attachment: res}),
                                         () => actions.addPopupStatus({
                                             type: "error",
-                                            message: "ta mere la pute rayan"
+                                            message: t(selectors.getLang()).errors.ERROR_IMPORTING_FILE
                                         })
                                     )
                                 },

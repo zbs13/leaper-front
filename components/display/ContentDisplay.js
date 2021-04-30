@@ -6,7 +6,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { uri } from '../../assets/styles/styles';
 
 /**
- * display to right format according to string content => ex: if content contains uri so display a preview of it
+ * display to right format according to string content => ex: if content contains uri format so interpret it as a link
  * 
  * @param {string} content text content
  * @returns 

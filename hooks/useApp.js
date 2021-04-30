@@ -10,6 +10,11 @@ const useApp = () => {
   } = useContext(AppContext);
 
   const actions = {
+    /**
+     * fetch user parameters
+     * 
+     * @returns 
+     */
     fetchUserParameters: function () {
       return fetchUserParameters().then((data) => {
         // dispatch({
@@ -23,6 +28,11 @@ const useApp = () => {
     //     payload: datas
     // })
     },
+    /**
+     * update user parameters
+     * 
+     * @param {object} datas parameters to update
+     */
     updateUserParameters: function (datas) {
     //     updateUserParameters(datas).then((data) =>
     //         dispatch({
@@ -35,6 +45,12 @@ const useApp = () => {
         payload: datas
       })
     },
+    /**
+     * create an app status popup => error, success, info 
+     * 
+     * @param {string} type popup type => error, success, info
+     * @param {string} message message to display in popup
+     */
     addPopupStatus: function({type, message}) {
       let id = randId();
       dispatch({
