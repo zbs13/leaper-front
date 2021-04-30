@@ -33,12 +33,14 @@
     "expo-file-system": "~9.3.0",
     "expo-image-picker": "~9.2.0",
     "expo-media-library": "~10.0.0",
+    "expo-sharing": "~8.5.0",
     "expo-splash-screen": "~0.8.0",
     "expo-status-bar": "~1.0.3",
     "expo-web-browser": "~8.6.0",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "react": "16.13.1",
+    "react-devtools": "^4.13.0",
     "react-dom": "16.13.1",
     "react-modal-resizable-draggable": "^0.1.4",
     "react-native": "0.63.4",
@@ -62,8 +64,7 @@
     "react-navigation": "^4.4.3",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "rn-placeholder": "^3.0.3",
-    "subscriptions-transport-ws": "^0.9.18",
-    "expo-sharing": "~8.5.0"
+    "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

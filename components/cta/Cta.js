@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import { View, Pressable } from 'react-native';
 import BackgroundImage from '../BackgroundImage';
 import globalStyles from '../../assets/styles/global';
 import DialogPopup from '../DialogPopup';
@@ -86,7 +86,7 @@ export default function Cta({
     function ctaRender(){
         return (
             <View>
-                <TouchableHighlight style={_style} 
+                <Pressable style={_style} 
                     onPress={confirm !== null ? () => setDialogVisible(true) : onPress} 
                     underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
                     onLongPress={onLongPress !== null ? onLongPress : null}
@@ -115,7 +115,7 @@ export default function Cta({
 
                         }
                     </View>
-                </TouchableHighlight>
+                </Pressable>
                 {confirm !== null ?
                     <DialogPopup 
                         dialogVisible={dialogVisible}
