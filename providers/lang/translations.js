@@ -208,7 +208,8 @@ const l = {
             PROFIL: 'Gestion du profil',
             APPLY: 'Gestion de l\'application',
             ABOUT: 'A propos',
-            TITLE: 'Paramètres'
+            TITLE: 'Paramètres',
+            LOG_OUT: "Déconnexion"
         }
     },
     en: {
@@ -424,7 +425,8 @@ const l = {
             PROFIL: 'Profile settings',
             APPLY: 'Application settings',
             ABOUT: 'About',
-            TITLE: 'Settings'
+            TITLE: 'Settings',
+            LOG_OUT: "Log out"
         }
     }
 }

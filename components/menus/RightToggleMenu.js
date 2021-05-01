@@ -1,19 +1,17 @@
 import React, {useState} from 'react';
-import { View,Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import { header } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Avatar, Title} from 'react-native-paper';
-import Cta from '../Cta';
+import Cta from '../cta/Cta';
 import globalStyles from '../../assets/styles/global';
 import { Button } from 'react-native-elements'
 import { settings } from '../../assets/styles/styles'
-
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-
-import { Image } from 'react-native';
 import profilImage from '../../assets/img/profil/profil1.jpg';
+
 const imageUri = Image.resolveAssetSource(profilImage).uri
 
 export default function RightToggleMenu(props) {
@@ -36,7 +34,7 @@ export default function RightToggleMenu(props) {
       <View>
         <Cta _style={[header.headerProfilePic, globalStyles.m_10]} 
             onPress={toggleBottomNavigationView}
-            backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
+            backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/icons/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
         />
         <BottomSheet  visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()}>
           <View style={settings.bg}>
@@ -86,7 +84,7 @@ export default function RightToggleMenu(props) {
                 buttonStyle={settings.buttonStyle}
                 titleStyle={settings.buttonFont}
                 onPress={() => {}}
-                title='Déconnexion'
+                title={t(selectors.getLang()).settings.LOG_OUT}
               />
             </View>
           </View>

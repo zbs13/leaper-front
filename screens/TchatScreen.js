@@ -81,7 +81,7 @@ export default function TchatScreen({navigation, route}) {
   return (
     <>
       {isLoaded ?
-        <View style={[globalStyles.flexRow, globalStyles.w_100]}>
+        <View style={[globalStyles.flexRow, globalStyles.w_100, {backgroundColor: global.colors.WHITE}]}>
           {
             isEvent ?
             <View style={{flex: 1}}>
