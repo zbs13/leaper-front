@@ -332,6 +332,11 @@ const l = {
         },
         welcomeLanguageSelection: {
             SELECT_A_LANGUAGE: "Choisissez une langue"
+        },
+        settingsApp: {
+            TITLE: 'Paramètre de l\'application ',
+            NOTIFICATIONS: 'Notifications',
+            LANGUAGE: 'Langue'
         }
     },
     en: {
@@ -671,6 +676,11 @@ const l = {
         },
         welcomeLanguageSelection: {
             SELECT_A_LANGUAGE: "Select a language"
+        },
+        settingsApp: {
+            TITLE: 'Settings App ',
+            NOTIFICATIONS: 'Notifications',
+            LANGUAGE: 'Language'
         }
     }
 }

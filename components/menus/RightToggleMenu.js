@@ -6,8 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Avatar, Title} from 'react-native-paper';
 import Cta from '../cta/Cta';
 import globalStyles from '../../assets/styles/global';
-import { Button } from 'react-native-elements'
-import { settings } from '../../assets/styles/styles'
+import { Button } from 'react-native-elements';
+import { settings } from '../../assets/styles/styles';
+
+import global from '../../providers/global';
+
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
@@ -15,7 +18,13 @@ import defaultProfilePic from '../../assets/img/icons/default_profile_pic.png';
 
 const imageUri = Image.resolveAssetSource(defaultProfilePic).uri
 
-export default function RightToggleMenu(props) {
+/**
+ * right menu (settings)
+ * 
+ * @param {object} navigation for routing 
+ * @returns 
+ */
+export default function RightToggleMenu({navigation}) {
 
     const {selectors} = useApp();
     const {actions: actionsUser, selectors: selectorsUser} = useUsers();
@@ -67,12 +76,15 @@ export default function RightToggleMenu(props) {
                 onPress={() => {}}
                 title={t(selectors.getLang()).settings.PROFIL}
               />
-              <Button 
-                buttonStyle={settings.buttonStyle}
-                titleStyle={settings.buttonFont}  
-                onPress={() => {}}
-                title={t(selectors.getLang()).settings.APPLY}
-              />
+              <Cta
+                _style= {[settings.buttonStyle, settings.buttonFont]}
+                value={t(selectors.getLang()).settings.APPLY}
+                onPress={() => {
+                  toggleBottomNavigationView()
+                  navigation.navigate(global.screens.APP_SETTINGS)
+                }}
+                underlayColor="transparent"
+              ></Cta>
               <Button 
                 buttonStyle={settings.buttonStyle}
                 titleStyle={settings.buttonFont}

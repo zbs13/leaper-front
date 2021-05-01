@@ -401,7 +401,7 @@ export const settings =  StyleSheet.create({
       marginTop: 30,
     },
     titleParams:{
-      fontSize: 25,
+      fontSize: 30,
       margin: 10
     },
     settings:{
@@ -413,7 +413,7 @@ export const settings =  StyleSheet.create({
     },
     buttonFont: {
       color: "black",
-      fontSize: 15,
+      fontSize: 20,
     },
     separator: {
       marginVertical: 8,
