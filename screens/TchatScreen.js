@@ -10,6 +10,11 @@ import MessageCard from '../components/cards/MessageCard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
 import TchatLoader from '../components/loaders/TchatLoader';
+import Cta from '../components/cta/Cta';
+import Txt from '../components/Txt';
+import t from '../providers/lang/translations';
+import global from '../providers/global';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /**
  * tchat screen
@@ -75,6 +80,62 @@ export default function TchatScreen({navigation, route}) {
 
   return (
     <>
+      {isLoaded ?
+        <View style={[globalStyles.flexRow, globalStyles.w_100]}>
+          {
+            isEvent ?
+            <View style={{flex: 1}}>
+                <Cta 
+                  backgroundImage={require("../assets/img/backgrounds/map.png")} 
+                  onPress={() => navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {id: id, title: title, isMyEvent: true})} 
+                  _style={[globalStyles.h_50p]}
+                >
+                  <Txt _style={[globalStyles.ta_c]}>
+                    {t(selectorsApp.getLang()).SEE_DETAILS}
+                  </Txt>
+                </Cta>
+              </View>
+            :
+              null
+          }
+          <View style={{flex: 1}}>
+            <Cta
+              onPress={() => alert("zez")} 
+              _style={globalStyles.h_50p}
+            >
+              <View style={[globalStyles.h_100, globalStyles.alignCenter, globalStyles.justifyCenter]}>
+                <Ionicons name="images-outline" size={25}/>
+              </View>
+            </Cta>
+          </View>
+          <View style={{flex: 1}}>
+            <Cta
+              onPress={() => alert("zez")} 
+              _style={globalStyles.h_50p}
+            >
+              <View style={[globalStyles.h_100, globalStyles.alignCenter, globalStyles.justifyCenter]}>
+                <Ionicons name="people-outline" size={25}/>
+              </View>
+            </Cta>
+          </View>
+          {selector.hasRight(global.rights.ADD_USER) ?
+            <View style={{flex: 1}}>
+              <Cta
+                onPress={() => alert("zez")} 
+                _style={globalStyles.h_50p}
+              >
+                <View style={[globalStyles.h_100, globalStyles.alignCenter, globalStyles.justifyCenter]}>
+                  <Ionicons name="person-add-outline" size={25}/>
+                </View>
+              </Cta>
+            </View>
+          :
+            null
+          }
+        </View>
+      :
+        null
+      }
       <KeyboardAwareScrollView 
         style={[globalStyles.w_100]} 
         onScrollBeginDrag={() => Keyboard.dismiss()} 

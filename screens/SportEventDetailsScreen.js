@@ -19,16 +19,17 @@ import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroup
 /**
  * 
  * @param {object} navigation for routing
- * @param {object} route params => route.params -> title, id
+ * @param {object} route params => route.params -> title, isMyEvent, id
  * @returns 
  */
 export default function SportEventDetailsScreen({navigation, route}) {
 
     const isMyEvent = route.params.isMyEvent;
     const title = route.params.title;
+    const id = route.params.id;
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
-    const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
+    const { actions: actionsEvent } = useEvents();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -49,7 +50,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
      * fetch event details by id
      */
     function fetchEventDetails(){
-        actionsEvent.fetchById(route.params.id).then((data) => {
+        actionsEvent.fetchById(id).then((data) => {
           manageResponseUI(data,
               lang,
               function (res) {

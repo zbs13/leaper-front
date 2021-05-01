@@ -88,7 +88,7 @@ export default function Cta({
             <View>
                 <Pressable style={_style} 
                     onPress={confirm !== null ? () => setDialogVisible(true) : onPress} 
-                    underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
+                    // underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
                     onLongPress={onLongPress !== null ? onLongPress : null}
                     disabled={disabled}
                 >
@@ -102,10 +102,11 @@ export default function Cta({
                             :
                                 <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                         : 
-                            typeof backgroundImage !== "undefined" && typeof value === "undefined" ?
+                            typeof backgroundImage !== "undefined" ?
                                 <BackgroundImage
                                     image={backgroundImage} 
                                     _style={globalStyles.br_50}>
+                                        {children === undefined ? null : children}
                                 </BackgroundImage>
                             :
                                 typeof children !== "undefined" ?

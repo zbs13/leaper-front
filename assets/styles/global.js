@@ -46,6 +46,9 @@ export default globalStyles = StyleSheet.create({
     mh_100: {
         minHeight: "100%"
     },
+    h_50p: {
+        height: 50
+    },  
     ta_c: {
         textAlign: "center"
     },
