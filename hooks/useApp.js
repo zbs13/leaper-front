@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import AppContext from "../context/appContext";
 import { fetchUserParameters, updateUserParameters } from '../context/actions/app';
+import { randId } from '../utils/utils';
 
 const useApp = () => {
   const {
@@ -9,6 +10,11 @@ const useApp = () => {
   } = useContext(AppContext);
 
   const actions = {
+    /**
+     * fetch user parameters
+     * 
+     * @returns 
+     */
     fetchUserParameters: function () {
       return fetchUserParameters().then((data) => {
         // dispatch({
@@ -22,6 +28,11 @@ const useApp = () => {
     //     payload: datas
     // })
     },
+    /**
+     * update user parameters
+     * 
+     * @param {object} datas parameters to update
+     */
     updateUserParameters: function (datas) {
     //     updateUserParameters(datas).then((data) =>
     //         dispatch({
@@ -34,8 +45,14 @@ const useApp = () => {
         payload: datas
       })
     },
+    /**
+     * create an app status popup => error, success, info 
+     * 
+     * @param {string} type popup type => error, success, info
+     * @param {string} message message to display in popup
+     */
     addPopupStatus: function({type, message}) {
-      let id = Date.now();
+      let id = randId();
       dispatch({
         type: "ADD_POPUP_STATUS",
         payload: {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
 import useApp from '../hooks/useApp';
 import { eventDetailsMap, cta, ctaJoinEventDetails } from '../assets/styles/styles';
@@ -13,34 +13,44 @@ import { RefreshViewScroll } from '../components/RefreshView';
 import Title from '../components/Title';
 import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Txt from '../components/Txt';
+import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
 
 /**
  * 
  * @param {object} navigation for routing
- * @param {object} route params => route.params -> title, id
+ * @param {object} route params => route.params -> title, isMyEvent, id
  * @returns 
  */
 export default function SportEventDetailsScreen({navigation, route}) {
 
+    const isMyEvent = route.params.isMyEvent;
+    const title = route.params.title;
+    const id = route.params.id;
+
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
-    const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
+    const { actions: actionsEvent } = useEvents();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const lang = selectorsApp.getLang();
 
     useEffect(() => {
-        navigation.setOptions({
-          headerTitle: route.params.title,
-        });
         fetchEventDetails();
     }, []);
+
+    useEffect(() => {
+        navigation.setOptions({
+          headerTitle: title,
+          headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions navigation={navigation} isEvent={true} geTitle={title} /> : null
+        });
+    }, [isLoaded]);
 
     /**
      * fetch event details by id
      */
     function fetchEventDetails(){
-        actionsEvent.fetchById(route.params.id).then((data) => {
+        actionsEvent.fetchById(id).then((data) => {
           manageResponseUI(data,
               lang,
               function (res) {
@@ -75,53 +85,64 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                 latitude={details.location.latitude}
                                 longitude={details.location.longitude}
                                 pinColor={global.colors.MAIN_COLOR}
-                                title={route.params.title}
+                                title={title}
                                 description={t(lang).event.HERE_EVENT_PLACE}
                             />
                         </Map>
                     </View>
                     <View style={[globalStyles.m_10, globalStyles.flexColumn, globalStyles.mb_50]}>
-                        <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{route.params.title}</Title>
+                        <Title style={[globalStyles.c_anth, globalStyles.ta_j]}>{title}</Title>
                         <View style={[globalStyles.flexRow, globalStyles.m_10]}>
                             <View style={[globalStyles.flexColumn, {flex: 1}]}>
-                                <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
                                     {t(lang).ADDRESS} :
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
                                     {details.address}
-                                </Text>
+                                </Txt>
                             </View>
                             <View style={[globalStyles.flexColumn, {flex: 1}]} >
-                                <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
                                     {t(lang).DATE} :
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
-                                    {t(lang).formats.date(details.date)}
-                                </Text>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
+                                    {t(lang).datetime.formats.date(details.date)}
+                                </Txt>
                             </View>
                             <View style={[globalStyles.flexColumn, {flex: 1}]} >
-                                <Text style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
                                     {t(lang).HOURS} :
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
-                                    {t(lang).FROM} : {t(lang).formats.hour(details.startHour)}
-                                </Text>
-                                <Text style={[globalStyles.c_anth]}>
-                                    {t(lang).TO} : {t(lang).formats.hour(details.endHour)}
-                                </Text>
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
+                                    {t(lang).FROM} : {t(lang).datetime.formats.hour(details.startHour)}
+                                </Txt>
+                                <Txt _style={[globalStyles.c_anth]}>
+                                    {t(lang).TO} : {t(lang).datetime.formats.hour(details.endHour)}
+                                </Txt>
                             </View>
                         </View>
-                        <Text style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Text>
+                        <Txt _style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Txt>
                     </View>
                     <View style={ctaJoinEventDetails.container}>
-                        <Cta value={t(lang).JOIN} 
-                            _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
-                            confirm={{
-                                title: route.params.title,
-                                content: t(lang).event.CONFIRM_JOIN_EVENT
-                            }}
-                            onPress={() => console.log("aaa")}
-                        />
+                        {isMyEvent ?
+                            <Cta value={t(lang).event.LEAVE_THIS_EVENT} 
+                                _style={[cta.main, cta.b_red_nr, globalStyles.f_bold]}
+                                confirm={{
+                                    title: title,
+                                    content: t(lang).event.SURE_TO_LEAVE_EVENT
+                                }}
+                                onPress={() => console.log("quitter event")}
+                            />
+                        :
+                            <Cta value={t(lang).JOIN} 
+                                _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                confirm={{
+                                    title: title,
+                                    content: t(lang).event.CONFIRM_JOIN_EVENT
+                                }}
+                                onPress={() => console.log("join event")}
+                            />
+                        }
                     </View>
                 </RefreshViewScroll>
             :

@@ -1,3 +1,4 @@
+import { cacheSlot } from '@apollo/client/cache';
 import { StyleSheet, Dimensions } from 'react-native';
 import global from '../../providers/global';
 
@@ -49,6 +50,10 @@ export const cta = StyleSheet.create({
     first_nr: {
         backgroundColor: global.colors.MAIN_COLOR,
         color: global.colors.ANTHRACITE,
+    },
+    b_red_nr: {
+        backgroundColor: global.colors.RED_ERROR,
+        color: global.colors.WHITE,
     }
 });
 
@@ -80,6 +85,12 @@ export const popup = StyleSheet.create({
     error_text: {
         color: global.colors.RED_ERROR_TEXT
     },
+    info: {
+        backgroundColor: global.colors.LIGHT_GREY
+    },
+    info_text: {
+        color: global.colors.ANTHRACITE
+    },
     wait: {
         backgroundColor: global.colors.ANTHRACITE
     },
@@ -92,6 +103,9 @@ export const popup = StyleSheet.create({
     },
     icon_error: {
         color: global.colors.RED_ERROR_TEXT
+    },
+    icon_info: {
+        color: global.colors.ANTHRACITE
     }
 })
 
@@ -301,20 +315,34 @@ export const optionsModal = StyleSheet.create({
 export const tchatBar = StyleSheet.create({
     container: {
         backgroundColor: global.colors.WHITE,
-        position: "absolute", 
-        bottom: 0, 
-        left: 0,
+        bottom: 0,
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderColor: global.colors.MAIN_COLOR,
         borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        borderTopRightRadius: 10,
+        padding: 5
     },
     input: {
         padding: 10,
         backgroundColor: global.colors.VERY_LIGHT_GREY,
         borderRadius: 5
+    },
+    imagePreviewContainer: {
+        backgroundColor: global.colors.VERY_LIGHT_GREY,
+        borderRadius: 5
+    },
+    imagePreview: {
+        width: "100%",
+        height: 200
+    },
+    imagePreviewDelete: {
+        position: "absolute",
+        zIndex: 1,
+        top: 0,
+        right: 0,
+        margin: 10
     }
 });
 export const settings =  StyleSheet.create({
@@ -363,3 +391,93 @@ export const settings =  StyleSheet.create({
     }
 
   });
+
+export const messageCard = StyleSheet.create({
+    container: {
+        margin: 5
+    },
+    content: {
+        marginLeft: 5,
+        padding: 10,
+        borderRadius: 5,
+        maxWidth: Dimensions.get('window').width - 55
+    },
+    contentMy: {
+        backgroundColor: global.colors.MAIN_COLOR,
+    },
+    contentNotMy: {
+        backgroundColor: global.colors.VERY_LIGHT_GREY,
+    },
+    profilePicContainer: {
+        height: 40, 
+        width: 40
+    },
+    profilePic: {
+        borderRadius: 50
+    },
+    date: {
+        fontSize: 11,
+        fontStyle: "italic",
+        color: global.colors.GREY
+    },
+    firstname: {
+        fontSize: 13
+    }
+});
+
+export const video = StyleSheet.create({
+    container: {
+        alignSelf: 'center',
+        width: 320,
+        height: 200,
+    }
+});
+
+export const uri = StyleSheet.create({
+    main: {
+        color: global.colors.URI
+    }
+});
+
+export const fileDownload = StyleSheet.create({
+    block: {
+        position: "absolute", 
+        zIndex: 1, width: "100%", 
+        height: "100%", 
+        justifyContent: "center", 
+        alignItems: "center"
+    },
+    loaderBlock: {
+        width: 100, 
+        height: 100, 
+        borderRadius: 50, 
+        borderWidth: 2, 
+        borderColor: global.colors.ANTHRACITE, 
+        alignItems: "center", 
+        justifyContent: "center"
+    },
+    innerLoader: {
+        backgroundColor: global.colors.MAIN_COLOR, 
+        height: "100%", 
+        borderRadius: 50
+    },
+    pourcent: {
+        position: "absolute", 
+        fontWeight: "bold", 
+        fontSize: 18
+    },
+});
+
+export const image = StyleSheet.create({
+    container: {
+        alignSelf: 'center',
+        width: 320,
+        height: 200,
+    }
+});
+
+export const fullscreen = StyleSheet.create({
+    cta: {
+        color: global.colors.WHITE
+    }
+})

@@ -8,6 +8,7 @@ import globalStyles from '../../assets/styles/global';
 import global from '../../providers/global';
 import { cta, optionsModal } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Txt from '../Txt';
 
 /**
  * options modal
@@ -64,9 +65,9 @@ export default function OptionsModal({
               style={[{flex: 1}, globalStyles.w_100, globalStyles.flexColumn, globalStyles.flexBetween]}>
                 { title !== null ?
                     <View style={optionsModal.containerTitle} >
-                        <Text style={[globalStyles.ta_c, optionsModal.title]}>
+                        <Txt _style={[globalStyles.ta_c, optionsModal.title]}>
                             {title}
-                        </Text>
+                        </Txt>
                     </View>
                   : 
                     null
@@ -76,6 +77,7 @@ export default function OptionsModal({
                       options.map((params, index) => 
                         <View key={index}>
                           <Cta
+                            disabled={params.disabled !== undefined ? params.disabled : false}
                             onPress={() => {
                               toggleModalView();
                               params.action();

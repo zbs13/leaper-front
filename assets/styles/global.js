@@ -7,13 +7,17 @@ export default globalStyles = StyleSheet.create({
         margin: 5
     },  
     pos_a: {
-        position: "absolute"
+        position: "absolute",
+        zIndex: 1
     },
     p_5: {
         padding: 5
     },
     p_10: {
         padding: 10
+    },
+    m_5: {
+        margin: 5
     },
     m_10: {
         margin: 10
@@ -42,6 +46,9 @@ export default globalStyles = StyleSheet.create({
     mh_100: {
         minHeight: "100%"
     },
+    h_50p: {
+        height: 50
+    },  
     ta_c: {
         textAlign: "center"
     },
@@ -105,5 +112,11 @@ export default globalStyles = StyleSheet.create({
     },
     title_size: {
         fontSize: 20
+    },
+    separator: {
+        margin: 5,
+        width: 2,
+        height: "70%",
+        backgroundColor: global.colors.LIGHT_GREY
     }
 });

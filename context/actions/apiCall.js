@@ -153,7 +153,7 @@ export function manageResponseUI(data, lang, callbackSuccess, callbackError){
                 message = t(lang).USER_ALREADY_EXISTS;
                 break;
             default:
-                message = t(lang).ERROR_API;
+                message = t(lang).errors.ERROR_API;
         }
         callbackError({
             type: "error",

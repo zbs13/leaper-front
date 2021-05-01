@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Cta from '../cta/Cta';
 import useApp from '../../hooks/useApp';
@@ -9,6 +9,7 @@ import globalStyles from "../../assets/styles/global";
 import Field from '../fields/Field';
 import t from '../../providers/lang/translations';
 import Title from '../Title';
+import Txt from '../Txt';
 
 /**
  * filters modal
@@ -34,7 +35,7 @@ export default function FiltersModal({setCriteria}){
                 >
                     <View style={[globalStyles.flexRow, globalStyles.justifyCenter, globalStyles.alignCenter, globalStyles.h_100]}>
                         <Ionicons size={20} name="options-outline" />
-                        <Text style={[{fontSize: 20}, globalStyles.p_5]}>{t(selectors.getLang()).FILTERS}</Text>
+                        <Txt _style={[{fontSize: 20}, globalStyles.p_5]}>{t(selectors.getLang()).FILTERS}</Txt>
                     </View>
                 </Cta>
             )}

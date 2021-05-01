@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, Button, Modal  } from 'react-native';
+import { View, Button, Modal  } from 'react-native';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import { header, logo, toggleLeftMenu } from '../../assets/styles/styles';
@@ -9,6 +9,7 @@ import global from '../../providers/global';
 import Logo from '../logo/Logo';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import globalStyles from '../../assets/styles/global';
+import Txt from '../Txt';
 
 /**
  * left menu (sports)
@@ -68,7 +69,7 @@ export default function LeftToggleMenu({navigation}) {
                         style={{marginRight: 30}}
                       />
                       <View style={globalStyles.justifyCenter}>
-                        <Text style={globalStyles.title_size}> {item.name}</Text>
+                        <Txt _style={globalStyles.title_size}> {item.name}</Txt>
                       </View>
                     </View>
                   </View>

@@ -39,7 +39,6 @@ export const RefreshViewScroll = ({children, _style, onRefresh}) => {
 /**
  * refresh view for list view
  * 
- * @param {component} children children 
  * @param {object} _style style
  * @param {function} onRefresh function called on refresh view
  * @param {object} data object with datas
@@ -49,7 +48,6 @@ export const RefreshViewScroll = ({children, _style, onRefresh}) => {
  * @returns 
  */
 export const RefreshViewList = ({
-  children, 
   _style, 
   onRefresh, 
   data, 
@@ -73,6 +71,7 @@ export const RefreshViewList = ({
       ListEmptyComponent={() => <NoData message={noDataMessage} />}
       keyExtractor={(data, index) => index.toString()}
       onEndReachedThreshold={0.3}
+      removeClippedSubviews
       onEndReached={onEndReached}
       refreshControl={
         <RefreshControl
@@ -80,9 +79,7 @@ export const RefreshViewList = ({
           onRefresh={refreshAction}
         />
       }
-    >
-      {children}
-    </FlatList>
+    />
   );
 }
 

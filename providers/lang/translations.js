@@ -10,7 +10,6 @@ const l = {
         CANCEL: "Annuler",
         ADD_CONTACT_PERSON: "Ajouter un contact",
         SEARCH: "Recherche",
-        ERROR_API: "Oups, une erreur est survenue",
         USER_ALREADY_EXISTS: "Cet utilisateur existe déja",
         CLOSE: "Fermer",
         FILTERS: "Filtres",
@@ -28,12 +27,37 @@ const l = {
         FROM: "de",
         TO: "à",
         DETAILS: "Détails",
+        SEE_DETAILS: "Voir détails",
         BOOKMARK_THIS_PLACE: "Mettre le lieu en favori",
         PARAMETERS: "Paramètres",
         MUTE: "Mettre en sourdine",
         PEOPLE_LIST: "Liste des personnes",
         SHARED_CONTENT: "Contenu partagé",
-        WRITE_A_MESSAGE: "Ecrire un message...",
+        COPY_TEXT: "Copier le texte",
+        EDIT_INFOS: "Modifier les informations",
+        COPY_ATTACHMENT_LINK: "Copier le lien de la pièce jointe",
+        SAVE_ATTACHMENT: "Sauvegarder la pièce jointe",
+        SHARE_ATTACHMENT: "Partager la pièce jointe",
+        COPY_TO_CLIPBOARD: "Copié dans le presse-papiers",
+        NO_GRANTED_ACCESS: "Accès non accordé",
+        PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "L'accès à la bibliothèque du téléphone n'est pas autorisé. Vous pouvez accorder l'accès dans les paramètres du téléphone",
+        CAMERA: "Caméra",
+        PHOTO_VIDEO_LIBRARY: "Bibliothèque photos/vidéos",
+        FILE: "Fichier",
+        success: {
+            SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
+        },
+        errors: {
+            ERROR_API: "Oups, une erreur est survenue",
+            ERROR_DOWNLOAD_FILE: "Une erreur est survenue lors du téléchargement du fichier",
+            ERROR_IMPORTING_FILE: "Une erreur est survenue lors de l'importation du document",
+            ERROR_SHARE_FILE: "Une erreur est survenue lors du partage du fichier"
+        },
+        message: {
+            WRITE_A_MESSAGE: "Ecrire un message...",
+            DELETE_MESSAGE: "Supprimer le message",
+            PIN_MESSAGE: "Epingler le message"
+        },
         group: {
             LEAVE_THIS_GROUP: "Quitter ce groupe",
             LEAVE_GROUP: "Quitter le groupe",
@@ -78,12 +102,18 @@ const l = {
         search: {
             GLOBAL: "Rechercher un sport, un évènement, un groupe..."
         },
-        formats: {
-            date: (date) => {
-                return format(new Date(date), 'dd/MM/yyyy');
-            },
-            hour: (hour) => {
-                return hour;
+        datetime: {
+            TODAY_AT: "Aujourd'hui à",
+            AT_MAJ: "À",
+            AT_MIN: "à",
+            YESTERDAY_AT: "Hier à",
+            formats: {
+                date: (date) => {
+                    return format(new Date(date), 'dd/MM/yyyy');
+                },
+                hour: (hour) => {
+                    return hour;
+                }
             }
         },
         sports: {
@@ -178,7 +208,8 @@ const l = {
             PROFIL: 'Gestion du profil',
             APPLY: 'Gestion de l\'application',
             ABOUT: 'A propos',
-            TITLE: 'Paramètres'
+            TITLE: 'Paramètres',
+            LOG_OUT: "Déconnexion"
         }
     },
     en: {
@@ -190,7 +221,6 @@ const l = {
         CANCEL: "Cancel",
         ADD_CONTACT_PERSON: "Add a contact person",
         SEARCH: "Search",
-        ERROR_API: "Oops, an error has occurred !",
         USER_ALREADY_EXISTS: "This user already exists",
         CLOSE: "Close",
         FILTERS: "Filters",
@@ -208,12 +238,37 @@ const l = {
         FROM: "from",
         TO: "to",
         DETAILS: "Details",
+        SEE_DETAILS: "See details",
         BOOKMARK_THIS_PLACE: "Bookmark this place",
         PARAMETERS: "Parameters",
         MUTE: "Mute",
         PEOPLE_LIST: "People list",
         SHARED_CONTENT: "Shared content",
-        WRITE_A_MESSAGE: "Write a message...",
+        COPY_TEXT: "Copy text",
+        EDIT_INFOS: "Edit information",
+        COPY_ATTACHMENT_LINK: "Copy attachment link",
+        SAVE_ATTACHMENT: "Save attachment",
+        SHARE_ATTACHMENT: "Share attachment",
+        COPY_TO_CLIPBOARD: "Copy to clipboard",
+        NO_GRANTED_ACCESS: "No granted access",
+        PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "Access to phone library not granted. You can granted the access in phone settings",
+        CAMERA: "Camera",
+        PHOTO_VIDEO_LIBRARY: "Photo/video library",
+        FILE: "File",
+        success: {
+            SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
+        },
+        errors: {
+            ERROR_API: "Oops, an error has occurred !",
+            ERROR_DOWNLOAD_FILE: "An error occured while downloading file",
+            ERROR_IMPORTING_FILE: "An error occured while importing file",
+            ERROR_SHARE_FILE: "An error occured while sharing file"
+        },
+        message: {
+            WRITE_A_MESSAGE: "Write a message...",
+            DELETE_MESSAGE: "Delete message",
+            PIN_MESSAGE: "Pin message"
+        },
         group: {
             ADD_TO_GROUP: "Add to group",
             SURE_TO_LEAVE_GROUP: "You are going to leave the group",
@@ -258,18 +313,24 @@ const l = {
         search: {
             GLOBAL: "Search a sport, an event, a group..."
         },
-        formats: {
-            date: (date) => {
-                return format(new Date(date), 'yyyy-MM-dd');
-            },
-            hour: (hour) => {
-                hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
-                if (hour.length > 1) {
-                    hour = hour.slice(1);
-                    hour[5] = +hour[0] < 12 ? ' AM' : ' PM';
-                    hour[0] = +hour[0] % 12 || 12;
+        datetime: {
+            TODAY_AT: "Today at",
+            AT_MAJ: "At",
+            AT_MIN: "at",
+            YESTERDAY_AT: "Yesterday at",
+            formats: {
+                date: (date) => {
+                    return format(new Date(date), 'dd/MM/yyyy');
+                },
+                hour: (hour) => {
+                    hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
+                    if (hour.length > 1) {
+                        hour = hour.slice(1);
+                        hour[5] = +hour[0] < 12 ? ' AM' : ' PM';
+                        hour[0] = +hour[0] % 12 || 12;
+                    }
+                    return hour.join('');
                 }
-                return hour.join('');
             }
         },
         sports: {
@@ -364,7 +425,8 @@ const l = {
             PROFIL: 'Profile settings',
             APPLY: 'Application settings',
             ABOUT: 'About',
-            TITLE: 'Settings'
+            TITLE: 'Settings',
+            LOG_OUT: "Log out"
         }
     }
 }

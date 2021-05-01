@@ -25,7 +25,6 @@ export default function BottomMenu() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-
           switch (route.name) {
             case t(selectors.getLang()).HOME:
               iconName = 'ios-home';

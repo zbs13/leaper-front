@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableHighlight, Animated } from 'react-native';
+import { View, Pressable } from 'react-native';
 import BackgroundImage from '../BackgroundImage';
 import globalStyles from '../../assets/styles/global';
-import Dialog from "react-native-dialog";
-import t from '../../providers/lang/translations';
-import useApp from '../../hooks/useApp';
+import DialogPopup from '../DialogPopup';
 import global from '../../providers/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { cta } from '../../assets/styles/styles';
+import Txt from '../Txt';
 
 /**
  * all Cta management => usual cta or with swipeable options...
@@ -26,6 +25,7 @@ import { cta } from '../../assets/styles/styles';
  * @param {string} iconColor icon color
  * @param {object} swipeableRightOptions right swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
  * @param {object} swipeableLeftOptions left swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
+ * @param {boolean} disabled is cta disabled
  * @returns 
  */
 export default function Cta({
@@ -41,11 +41,11 @@ export default function Cta({
     iconSize = null, 
     iconColor = null, 
     swipeableRightOptions = null,
-    swipeableLeftOptions = null
+    swipeableLeftOptions = null,
+    disabled = false
 }) {
 
     const [dialogVisible, setDialogVisible] = useState(false);
-    const {selectors} = useApp();
 
     let color = {color: global.colors.ANTHRACITE};
     let fontSize = {};
@@ -86,25 +86,27 @@ export default function Cta({
     function ctaRender(){
         return (
             <View>
-                <TouchableHighlight style={_style} 
+                <Pressable style={_style} 
                     onPress={confirm !== null ? () => setDialogVisible(true) : onPress} 
-                    underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
+                    // underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
                     onLongPress={onLongPress !== null ? onLongPress : null}
+                    disabled={disabled}
                 >
                     <View>
                         {typeof value === "string" ?
                             icon !== null ?
                                 <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                                     <Ionicons style={{marginRight: 5}} name={icon} size={iconSize !== null ? iconSize : 20} color={iconColor !== null ? iconColor : global.colors.ANTHRACITE} />
-                                    <Text style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Text>
+                                    <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                                 </View>
                             :
-                                <Text style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Text>
+                                <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                         : 
-                            typeof backgroundImage !== "undefined" && typeof value === "undefined" ?
+                            typeof backgroundImage !== "undefined" ?
                                 <BackgroundImage
                                     image={backgroundImage} 
                                     _style={globalStyles.br_50}>
+                                        {children === undefined ? null : children}
                                 </BackgroundImage>
                             :
                                 typeof children !== "undefined" ?
@@ -114,24 +116,21 @@ export default function Cta({
 
                         }
                     </View>
-                </TouchableHighlight>
-                <Dialog.Container visible={dialogVisible}>
-                    {confirm !== null && typeof confirm.title !== "undefined" ?
-                        <Dialog.Title>
-                            {confirm.title}
-                        </Dialog.Title>
-                    :
-                        null
-                    }
-                    <Dialog.Description>
-                        {confirm !== null ? confirm.content : ""}
-                    </Dialog.Description>
-                    <Dialog.Button color={global.colors.MAIN_COLOR} label={t(selectors.getLang()).CANCEL} onPress={() => setDialogVisible(false)}/>
-                    <Dialog.Button color={global.colors.MAIN_COLOR} label={t(selectors.getLang()).OK} onPress={() => {
-                        setDialogVisible(false);
-                        onPress();
-                    }}/>
-                </Dialog.Container>
+                </Pressable>
+                {confirm !== null ?
+                    <DialogPopup 
+                        dialogVisible={dialogVisible}
+                        title={typeof confirm.title !== "undefined" ? confirm.title : null}
+                        content={confirm.content}
+                        onAcceptPress={() => {
+                            setDialogVisible(false);
+                            onPress();
+                        }}
+                        onCancelPress={() => setDialogVisible(false)}
+                    />
+                :
+                    null
+                }
             </View>
         )
     }

@@ -26,7 +26,14 @@ export default global = {
         RED_ERROR: '#B75A5A',
         RED_ERROR_TEXT: '#6A2626',
         RED_NOTIFS: "#FF6363",
-        WHITE: "#FFFFFF"
+        WHITE: "#FFFFFF",
+        URI: "#4C5EBF"
+    },
+    rights: {
+        REMOVE_USER: 1,
+        ADD_USER: 2,
+        DELETE_MESSAGE: 3,
+        EDIT_INFOS: 4
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
     validator: {
@@ -36,7 +43,8 @@ export default global = {
             PASSWORD_REQUIRMENT_MAJ: /[(A-Z)]/,
             ONLY_LETTERS: /[^A-Za-z]/,
             USERNAME: /[^A-Za-z0-9_*!$^]/,
-            MAIL: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            MAIL: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            URI: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/gm
         }
     },
     listSports : (lang) => ( 
