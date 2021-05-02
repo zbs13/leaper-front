@@ -486,3 +486,45 @@ export const fetchById = (id) => {
         },]
     })
 }
+
+/**
+ * fetch shared content in event
+ * 
+ * @param {number} id event id 
+ * @param {number} offset offset for getting results
+ * @returns 
+ */
+export const fetchAllSharedContent = (id, offset) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return [
+            {
+                size: 11000,
+                name: "le mega file",
+                type: "image",
+                uri: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+            },
+            {
+                size: 11000,
+                name: "le mega file",
+                type: "image",
+                uri: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
+            },
+            {
+                size: 11000,
+                name: "le mega file",
+                type: "pdf",
+                uri: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
+            },
+            {
+                size: 11000,
+                name: "le mega file",
+                type: "video",
+                uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+            }
+        ]
+    })
+}

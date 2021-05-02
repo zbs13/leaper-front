@@ -44,6 +44,8 @@ const l = {
         CAMERA: "Caméra",
         PHOTO_VIDEO_LIBRARY: "Bibliothèque photos/vidéos",
         FILE: "Fichier",
+        SHARED_CONTENT: "Contenu partagé",
+        NO_SHARED_CONTENT: "Aucun contenu partagé",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
         },
@@ -255,6 +257,8 @@ const l = {
         CAMERA: "Camera",
         PHOTO_VIDEO_LIBRARY: "Photo/video library",
         FILE: "File",
+        SHARED_CONTENT: "Shared content",
+        NO_SHARED_CONTENT: "No shared content",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
         },

@@ -13,9 +13,10 @@ import useApp from '../../hooks/useApp';
  * @param {object} navigation for routing 
  * @param {boolean} isEvent is header right for an event or a group
  * @param {string} geTitle group/event title
+ * @param {number} geId group/event id
  * @returns 
  */
-export default function HeaderRightGroupEventOptions({navigation, isEvent = false, geTitle}) {
+export default function HeaderRightGroupEventOptions({navigation, isEvent = false, geTitle, geId}) {
 
     const { selectors: selectorsApp } = useApp();
     const { selectors: selectorsEvent } = useEvents();
@@ -40,7 +41,7 @@ export default function HeaderRightGroupEventOptions({navigation, isEvent = fals
         {
           value: t(selectorsApp.getLang()).SHARED_CONTENT,
           icon: "images-outline",
-          action: () => alert("contenu partager")
+          action: () => navigation.navigate(global.screens.SHARED_CONTENT, {id: geId, isEvent: isEvent})
         },
         {
           value: isEvent ? t(selectorsApp.getLang()).event.LEAVE_THIS_EVENT : t(selectorsApp.getLang()).group.LEAVE_THIS_GROUP,
