@@ -3,7 +3,8 @@ export const initialState = {
     nbFetchedMy: 0,
     fetchedById: {},
     messages: [],
-    myRights: []
+    myRights: [],
+    sharedContent: []
 };
   
   /**
@@ -36,6 +37,14 @@ export const initialState = {
         return {
           ...state,
           myRights: action.payload
+        };
+      case "UPDATE_GROUP_SHARED_CONTENT":
+        let __val = action.payload;
+        // if(action.offset !== 0)
+        //   __val = state.messages.push(__val)
+        return {
+          ...state,
+          sharedContent: __val
         };
       default:
         return state;

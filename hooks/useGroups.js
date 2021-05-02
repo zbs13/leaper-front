@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import GroupsContext from "../context/groupsContext";
-import { fetchMyGroups, fetchById, fetchMessages } from '../context/actions/groups';
+import { fetchMyGroups, fetchById, fetchMessages, fetchAllSharedContent } from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 
 const useGroups = () => {
@@ -105,6 +105,24 @@ const useGroups = () => {
       }
 
       return {};
+    },
+    /**
+     * fetch group shared content
+     * 
+     * @param {string} id group id
+     * @param {number} offset from position in db
+     * @returns 
+     */
+    fetchAllSharedContent: function(id, offset){
+      return fetchAllSharedContent(id, offset).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_GROUP_SHARED_CONTENT",
+            payload: res,
+            offset: offset
+          });
+        })
+      });
     }
   };
 
@@ -114,7 +132,8 @@ const useGroups = () => {
     getFetchedById: () => groupsState.fetchedById,
     getMessages: () => groupsState.messages,
     getMyRights: () => groupsState.myRights,
-    hasRight: (right) => groupsState.myRights.includes(right)
+    hasRight: (right) => groupsState.myRights.includes(right),
+    getSharedContent: () => groupsState.sharedContent
   };
 
   return { selectors, actions };

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
-import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages } from '../context/actions/events';
+import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages, fetchAllSharedContent } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 
 const useEvents = () => {
@@ -123,6 +123,24 @@ const useEvents = () => {
       }
 
       return {};
+    },
+    /**
+     * fetch event shared content
+     * 
+     * @param {string} id event id
+     * @param {number} offset from position in db
+     * @returns 
+     */
+     fetchAllSharedContent: function(id, offset){
+      return fetchAllSharedContent(id, offset).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_EVENT_SHARED_CONTENT",
+            payload: res,
+            offset: offset
+          });
+        })
+      });
     }
   };
 
@@ -134,7 +152,8 @@ const useEvents = () => {
     getFetchedById: () => eventsState.fetchedById,
     getMessages: () => eventsState.messages,
     getMyRights: () => eventsState.myRights,
-    hasRight: (right) => eventsState.myRights.includes(right)
+    hasRight: (right) => eventsState.myRights.includes(right),
+    getSharedContent: () => eventsState.sharedContent
   };
 
   return { selectors, actions };
