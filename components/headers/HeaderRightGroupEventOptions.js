@@ -77,7 +77,7 @@ export default function HeaderRightGroupEventOptions({navigation, isEvent = fals
         mainOptions.splice(1, 0, {
             value: t(selectorsApp.getLang()).EDIT_INFOS,
             icon: "create-outline",
-            action: () => alert("modifier infos")
+            action: () => navigation.navigate(global.screens.EDIT_GROUP_EVENT, {id: geId, isEvent: isEvent, infos: selector.getFetchedById()})
         })
     }
 

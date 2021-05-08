@@ -13,7 +13,8 @@ export default global = {
         MY_EVENTS: "MyEvents",
         SPORT_EVENT_DETAILS: "SportEventDetails",
         TCHAT: "Tchat",
-        SHARED_CONTENT: "SharedContent"
+        SHARED_CONTENT: "SharedContent",
+        EDIT_GROUP_EVENT: "EditGroupEvent"
     },
     colors: {
         MAIN_COLOR: '#BDE023',

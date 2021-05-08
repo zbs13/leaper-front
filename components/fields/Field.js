@@ -29,10 +29,16 @@ import Txt from '../Txt';
 export default function Field({
     type, 
     placeholder = null, 
-    onChange, 
+    onChange = null, 
     defaultValue, 
     label = null, 
     icon = null, 
+    items = null,
+    selectedKey = null,
+    onSelect = null,
+    keyExtractor = null,
+    labelExtractor = null,
+    itemRender = null,
     min = 0, 
     max = 255
 }){
@@ -40,6 +46,7 @@ export default function Field({
     const {selectors} = useApp();
 
     const [fieldState, setFieldState] = useState({
+        defaultValue: defaultValue,
         focus: false,
         fieldValue: "",
         errorXSS: false,
@@ -57,7 +64,9 @@ export default function Field({
     })
 
     useEffect(() => {
-        onChange(fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay)
+        if(onChange !== null){
+            onChange(fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay);
+        }
     }, [fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay])
 
     /**
@@ -104,8 +113,11 @@ export default function Field({
             max = 50;
         }
 
+        if(type === "textarea"){
+            max = null;
+        }
         let isMinLengthOk = Validator.checkMinLength(val, min);
-        let isMaxLengthOk = Validator.checkMaxLength(val, max);
+        let isMaxLengthOk = max !== null ? Validator.checkMaxLength(val, max) : true;
 
         if(isValid){
             if(isOnlyLetters){
@@ -115,6 +127,7 @@ export default function Field({
                             onChange(val);
                             setFieldState({
                                 ...fieldState,
+                                defaultValue: null,
                                 fieldValue: val,
                                 errorXSS: false,
                                 errorUsername: false,
@@ -125,6 +138,7 @@ export default function Field({
                         }else{
                             setFieldState({
                                 ...fieldState,
+                                defaultValue: null,
                                 fieldValue: val,
                                 errorUsername: true
                             })
@@ -132,6 +146,7 @@ export default function Field({
                     }else{
                         setFieldState({
                             ...fieldState,
+                            defaultValue: null,
                             fieldValue: val,
                             errorMaxLength: true
                         })
@@ -139,6 +154,7 @@ export default function Field({
                 }else{
                     setFieldState({
                         ...fieldState,
+                        defaultValue: null,
                         fieldValue: val,
                         errorMinLength: true
                     })
@@ -146,6 +162,7 @@ export default function Field({
             }else{
                 setFieldState({
                     ...fieldState,
+                    defaultValue: null,
                     fieldValue: val,
                     errorLettersOnly: true
                 })
@@ -153,6 +170,7 @@ export default function Field({
         }else{
             setFieldState({
                 ...fieldState,
+                defaultValue: null,
                 fieldValue: val,
                 errorXSS: true
             })
@@ -319,6 +337,24 @@ export default function Field({
     }
 
     /**
+     * component returned for textarea
+     * @returns 
+     */
+     function _TextArea(){
+        return (
+            <TextInput 
+                onChangeText={value => onChangeValue(value)}
+                defaultValue={defaultValue}
+                multiline
+                numberOfLines={10}
+                style={fields.textarea}
+                onFocus={() => isFocus(true)}
+                onBlur={() => isFocus(false)}
+            />
+        )
+    }
+
+    /**
      * component returned for password
      * @returns 
      */
@@ -363,6 +399,16 @@ export default function Field({
                 onFocus={() => isFocus(true)}
                 onBlur={() => isFocus(false)}
             />
+        )
+    }
+
+    /**
+     * component returned for select
+     * @returns 
+     */
+     function _Select(){
+        return (
+            <></>
         )
     }
 
@@ -415,6 +461,12 @@ export default function Field({
     switch(type){
         case "text":
             _return = _Text();
+            break; 
+        case "textarea":
+            _return = _TextArea();
+            break; 
+        case "select":
+            _return = _Select();
             break; 
         case "password":
             _return = _Password();
@@ -471,7 +523,7 @@ export default function Field({
                 }
                 <View style={{width: icon !== null ? "90%" : "100%", position: "relative"}}>
                     {placeholder !== null ?
-                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
+                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) || (fieldState.defaultValue !== "" && fieldState.defaultValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
                             {placeholder}
                         </Txt>
                     :

@@ -46,6 +46,7 @@ const l = {
         FILE: "Fichier",
         SHARED_CONTENT: "Contenu partagé",
         NO_SHARED_CONTENT: "Aucun contenu partagé",
+        EDITING: "Edition",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
         },
@@ -102,7 +103,8 @@ const l = {
             TODAY: "Aujourd'hui"
         },
         search: {
-            GLOBAL: "Rechercher un sport, un évènement, un groupe..."
+            GLOBAL: "Rechercher un sport, un évènement, un groupe...",
+            SEARCH_A_SPORT: "Chercher un sport"
         },
         datetime: {
             TODAY_AT: "Aujourd'hui à",
@@ -259,6 +261,7 @@ const l = {
         FILE: "File",
         SHARED_CONTENT: "Shared content",
         NO_SHARED_CONTENT: "No shared content",
+        EDITING: "Editing",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
         },
@@ -315,7 +318,8 @@ const l = {
             TODAY: "Today"
         },
         search: {
-            GLOBAL: "Search a sport, an event, a group..."
+            GLOBAL: "Search a sport, an event, a group...",
+            SEARCH_A_SPORT: "Search a sport"
         },
         datetime: {
             TODAY_AT: "Today at",

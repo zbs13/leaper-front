@@ -255,6 +255,15 @@ export const fields = StyleSheet.create({
         fontSize: 15,
         borderBottomWidth: 2,
         borderBottomColor: global.colors.MAIN_COLOR
+    },
+    textarea: {
+        backgroundColor: "transparent",
+        padding: 5,
+        marginTop: 10,
+        fontSize: 15,
+        borderBottomWidth: 2,
+        borderBottomColor: global.colors.MAIN_COLOR,
+        margin: 0
     }
 })
 
