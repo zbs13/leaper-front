@@ -15,6 +15,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.12",
     "@react-native-async-storage/async-storage": "^1.14.1",
+    "@react-native-community/datetimepicker": "3.0.4",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/drawer": "^5.12.3",
@@ -46,6 +47,7 @@
     "react-native": "0.63.4",
     "react-native-btr": "^1.1.5",
     "react-native-calendars": "^1.1255.0",
+    "react-native-datetimepicker-modal": "^1.0.1",
     "react-native-device-info": "^8.0.8",
     "react-native-dialog": "^6.2.0",
     "react-native-elements": "^3.2.0",

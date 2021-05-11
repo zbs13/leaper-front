@@ -490,3 +490,28 @@ export const fullscreen = StyleSheet.create({
         color: global.colors.WHITE
     }
 })
+
+export const select = StyleSheet.create({
+    cta: {
+        borderBottomWidth: 2, 
+        borderBottomColor: global.colors.MAIN_COLOR, 
+        padding: 10
+    },
+    list: {
+        height: 300, 
+        width: "100%", 
+        backgroundColor: global.colors.WHITE
+    },
+    separator: {
+        width: "100%", 
+        height: 2, 
+        backgroundColor: global.colors.VERY_LIGHT_GREY
+    }
+})
+
+export const fieldDate = StyleSheet.create({
+    container: {
+        height: 100, 
+        backgroundColor: global.colors.ANTHRACITE
+    }
+})

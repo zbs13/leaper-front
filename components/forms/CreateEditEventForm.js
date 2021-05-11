@@ -75,6 +75,22 @@ export default function CreateEditEventForm({
             <Field 
                 type="select"
                 label="Sport"
+                keyExtractor={(item) => item.id.toString()}
+                defaultSelectValue={(item) => item.id == sportId}
+                items={global.listSports(selectors.getLang())}
+                onChangeSelect={(item) => setGeValues({...geValues, sportId: item.id})}
+                renderItem={(item) => 
+                    <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
+                        <Ionicons name={item.icon} />
+                        <Txt>{item.name}</Txt>
+                    </View>
+                }
+            />
+            <Field 
+                type="date"
+                label="Date"
+                datetime={new Date(geValues.date)}
+                onChangeDate={(date) => setGeValues({...geValues, date: date})}
             />
         </View>
     )

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';

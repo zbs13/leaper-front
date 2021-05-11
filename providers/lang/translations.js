@@ -113,7 +113,12 @@ const l = {
             YESTERDAY_AT: "Hier à",
             formats: {
                 date: (date) => {
-                    return format(new Date(date), 'dd/MM/yyyy');
+                    if(date instanceof Date){
+                        date = date;
+                    }else{
+                        date = new Date(date);
+                    }
+                    return format(date, 'dd/MM/yyyy');
                 },
                 hour: (hour) => {
                     return hour;
@@ -328,7 +333,12 @@ const l = {
             YESTERDAY_AT: "Yesterday at",
             formats: {
                 date: (date) => {
-                    return format(new Date(date), 'dd/MM/yyyy');
+                    if(date instanceof Date){
+                        date = date;
+                    }else{
+                        date = new Date(date);
+                    }
+                    return format(date, 'dd/MM/yyyy');
                 },
                 hour: (hour) => {
                     hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];

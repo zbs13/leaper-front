@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { TextInput, View } from 'react-native';
-import { fields } from '../../assets/styles/styles';
+import React, { useState, useEffect, memo, useCallback } from 'react';
+import { TextInput, View, FlatList, SafeAreaView } from 'react-native';
+import { fields, select as dropdown, fieldDate} from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
@@ -12,6 +12,10 @@ import {CalendarList, LocaleConfig} from 'react-native-calendars';
 import { addDays, format } from 'date-fns';
 import Title from '../Title';
 import Txt from '../Txt';
+import { BottomSheet } from 'react-native-btr';
+import Cta from '../cta/Cta';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 /**
  * Fields management => text, password, calendar, username...
@@ -24,23 +28,35 @@ import Txt from '../Txt';
  * @param {string|null} icon icon name 
  * @param {number} min min char allowed
  * @param {number} max max char allowed
+ * @param {function|null} onChangeSelect function called on value change
+ * @param {function|null} keyExtractor key to extract for each items (unique id)
+ * @param {function|null} defaultSelectValue default selected value
+ * @param {object|null} items object with each items
+ * @param {function|null} renderItem render of each item
+ * @param {date|null} datetime default date
+ * @param {function|null} onChangeDate called when date is changed
  * @returns 
  */
-export default function Field({
+export default memo(function Field({
     type, 
     placeholder = null, 
-    onChange = null, 
+    onChange = null,
     defaultValue, 
     label = null, 
-    icon = null, 
-    items = null,
-    selectedKey = null,
-    onSelect = null,
-    keyExtractor = null,
-    labelExtractor = null,
-    itemRender = null,
+    icon = null,
     min = 0, 
-    max = 255
+    max = 255,
+    // if type = select :
+    onChangeSelect = null,
+    keyExtractor = null,
+    defaultSelectValue = null,
+    items = null,
+    renderItem = null,
+    /////
+    // if type = date :
+    datetime = null,
+    onChangeDate = null
+    /////
 }){
 
     const {selectors} = useApp();
@@ -62,6 +78,16 @@ export default function Field({
             endDay: null
         }
     })
+
+    const [select, setSelect] = useState({
+        isVisible: false,
+        selectedValue: null
+    });
+
+    const [dateState, setDateState] = useState({
+        isVisible: false,
+        date: datetime
+    });
 
     useEffect(() => {
         if(onChange !== null){
@@ -407,8 +433,90 @@ export default function Field({
      * @returns 
      */
      function _Select(){
+        const ITEM_HEIGHT = 40;
+        const getItemLayout = useCallback((data, index) => ({
+            length: ITEM_HEIGHT,
+            offset: ITEM_HEIGHT * index,
+            index
+        }),
+        [])
+
         return (
-            <></>
+            <>
+                <Cta onPress={() => setSelect({...select, isVisible: true})} >
+                    <View style={[dropdown.cta, globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
+                        {renderItem(select.selectedValue || items[items.findIndex(defaultSelectValue)])}
+                        <Ionicons name="chevron-down-outline" size={20} color={global.colors.ANTHRACITE}/>
+                    </View>
+                </Cta>
+                <BottomSheet 
+                    visible={select.isVisible}
+                    onBackButtonPress={() => setSelect({...select, isVisible: false})} 
+                    onBackdropPress={() => setSelect({...select, isVisible: false})}
+                >
+                    <SafeAreaView  style={dropdown.list}>
+                        <FlatList
+                            removeClippedSubviews
+                            data={items}
+                            renderItem={({item}) => <Cta onPress={() => {setSelect({isVisible: false, selectedValue: item}); onChangeSelect(item)}}><View style={[{height: ITEM_HEIGHT}, globalStyles.p_10, globalStyles.justifyCenter]}>{renderItem(item)}</View></Cta>}
+                            keyExtractor={keyExtractor}
+                            windowSize={15}
+                            maxToRenderPerBatch={11}
+                            getItemLayout={getItemLayout}
+                            ItemSeparatorComponent={() => <View style={dropdown.separator}></View>}
+                        />
+                    </SafeAreaView >
+                </BottomSheet>
+            </>
+        )
+    }
+
+    /**
+     * component returned for date
+     * @returns 
+     */
+     function _Date(){
+         /**
+          * date picker component
+          * @returns 
+          */
+        function datePicker(){
+            return(
+                <DateTimePicker
+                    value={dateState.date || new Date()}
+                    mode="date"
+                    onChange={(event, date) => {
+                        if(date !== undefined){
+                            setDateState({date: date, isVisible: false});
+                            onChangeDate(date);
+                            
+                        }else{
+                            setDateState({...dateState, isVisible: false})
+                        }
+                    }}
+                    style={{flex: 1}}
+                    locale={selectors.getLang()}
+                />
+            )
+        }
+
+        return (
+            <>
+                <Cta value={t(selectors.getLang()).datetime.formats.date(dateState.date)} onPress={() => setDateState({...dateState, isVisible: true})} />
+                {Platform.OS === "ios" ?
+                    <BottomSheet 
+                        visible={dateState.isVisible}
+                        onBackButtonPress={() => setDateState({...dateState, isVisible: false})} 
+                        onBackdropPress={() => setDateState({...dateState, isVisible: false})}
+                    >
+                        <View style={[globalStyles.w_100, fieldDate.container, globalStyles.justifyCenter]}>
+                            {datePicker()}
+                        </View>
+                    </BottomSheet>
+                :
+                    dateState.isVisible && datePicker()
+                }
+            </>
         )
     }
 
@@ -468,6 +576,9 @@ export default function Field({
         case "select":
             _return = _Select();
             break; 
+        case "date":
+            _return = _Date();
+            break;
         case "password":
             _return = _Password();
             icon = "lock-closed-outline"
@@ -560,4 +671,4 @@ export default function Field({
             </View>
         </View>
     )
-}
+})
