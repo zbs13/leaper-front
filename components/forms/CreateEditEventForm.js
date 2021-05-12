@@ -53,45 +53,89 @@ export default function CreateEditEventForm({
     });
 
     return(
-        <View>
-            <Field 
-                type="text"
-                defaultValue={nameValue}
-                placeholder="name"
-                onChange={(value) => setGeValues({
-                    ...geValues,
-                    name: value
-                })}
-            />
-            <Field 
-                type="textarea"
-                defaultValue={descriptionValue}
-                placeholder="description"
-                onChange={(value) => setGeValues({
-                    ...geValues,
-                    description: value
-                })}
-            />
-            <Field 
-                type="select"
-                label="Sport"
-                keyExtractor={(item) => item.id.toString()}
-                defaultSelectValue={(item) => item.id == sportId}
-                items={global.listSports(selectors.getLang())}
-                onChangeSelect={(item) => setGeValues({...geValues, sportId: item.id})}
-                renderItem={(item) => 
-                    <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
-                        <Ionicons name={item.icon} />
-                        <Txt>{item.name}</Txt>
-                    </View>
-                }
-            />
-            <Field 
-                type="date"
-                label="Date"
-                datetime={new Date(geValues.date)}
-                onChangeDate={(date) => setGeValues({...geValues, date: date})}
-            />
+        <View style={globalStyles.m_5}>
+            <View style={globalStyles.mb_10}>
+                <Field 
+                    type="text"
+                    min={3}
+                    label={t(selectors.getLang()).GENERAL}
+                    labelIcon="information-circle-outline"
+                    defaultValue={nameValue}
+                    placeholder={t(selectors.getLang()).NAME}
+                    onChange={(value) => setGeValues({
+                        ...geValues,
+                        name: value
+                    })}
+                />
+            </View>
+            <View style={globalStyles.mb_10}>
+                <Field 
+                    type="textarea"
+                    defaultValue={descriptionValue}
+                    placeholder={t(selectors.getLang()).DESCRIPTION}
+                    onChange={(value) => setGeValues({
+                        ...geValues,
+                        description: value
+                    })}
+                />
+            </View>
+            <View style={globalStyles.mb_10}>
+                <Field 
+                    type="address"
+                    placeholder={t(selectors.getLang()).ADDRESS}
+                    defaultValue={addressValue}
+                    onChange={(value) => console.log(value)}
+                />
+            </View>
+            <View style={globalStyles.mb_10}>
+                <Field 
+                    type="select"
+                    label={t(selectors.getLang()).SPORT}
+                    labelIcon="basketball-outline"
+                    keyExtractor={(item) => item.id.toString()}
+                    defaultSelectValue={(item) => item.id == sportId}
+                    items={global.listSports(selectors.getLang())}
+                    onChangeSelect={(item) => setGeValues({...geValues, sportId: item.id})}
+                    renderItem={(item) => 
+                        <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
+                            <Ionicons name={item.icon} />
+                            <Txt>{item.name}</Txt>
+                        </View>
+                    }
+                />
+            </View>
+            <View style={globalStyles.mb_10}>
+                <Field 
+                    type="date"
+                    label={t(selectors.getLang()).DATE}
+                    greaterThan={new Date()}
+                    labelIcon="calendar-outline"
+                    datetime={geValues.date}
+                    onChangeDateTime={(date) => setGeValues({...geValues, date: date})}
+                />
+            </View>
+            <View style={globalStyles.flexRow}>
+                <View style={[globalStyles.mb_10, {flex: 1}]}>
+                    <Field 
+                        type="hour"
+                        label={t(selectors.getLang()).START}
+                        lessThan={geValues.endHour}
+                        labelIcon="time-outline"
+                        datetime={geValues.startHour}
+                        onChangeDateTime={(startHour) => setGeValues({...geValues, startHour: startHour})}
+                    />
+                </View>
+                <View style={[globalStyles.mb_10, {flex: 1}]}>
+                    <Field 
+                        type="hour"
+                        label={t(selectors.getLang()).END}
+                        greaterThan={geValues.startHour}
+                        labelIcon="time-outline"
+                        datetime={geValues.endHour}
+                        onChangeDateTime={(endHour) => setGeValues({...geValues, endHour: endHour})}
+                    />
+                </View>
+            </View>
         </View>
     )
 }

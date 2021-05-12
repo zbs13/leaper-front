@@ -1,4 +1,5 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
+const frLocale = require('date-fns/locale/fr');
 
 const l = {
     fr: {
@@ -47,6 +48,12 @@ const l = {
         SHARED_CONTENT: "Contenu partagé",
         NO_SHARED_CONTENT: "Aucun contenu partagé",
         EDITING: "Edition",
+        START: "Début",
+        END: "Fin",
+        SPORT: "Sport",
+        DESCRIPTION: "Description",
+        NAME: "Nom",
+        GENERAL: "Général",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
         },
@@ -96,6 +103,10 @@ const l = {
             FIELD_INCORRECT_MAX_LENGTH: "La valeur dépasse la longueur autorisée",
             FIELD_INCORRECT_MIN_LENGTH: "La valeur ne contient pas assez de caractères",
             FIELD_INCORRECT_LETTERS_ONLY: "Ce champ ne doit contenir que des lettres",
+            FIELD_INCORRECT_LESS_THAN_HOUR: "Cette heure doit être plus petite",
+            FIELD_INCORRECT_LESS_THAN_DATE: "Cette date doit être plus petite",
+            FIELD_INCORRECT_GREATER_THAN_HOUR: "Cette heure doit être plus grande",
+            FIELD_INCORRECT_GREATER_THAN_DATE: "Cette date doit être plus grande",
             MONTHS: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
             SHORT_MONTHS: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
             DAYS: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
@@ -113,15 +124,22 @@ const l = {
             YESTERDAY_AT: "Hier à",
             formats: {
                 date: (date) => {
-                    if(date instanceof Date){
-                        date = date;
-                    }else{
-                        date = new Date(date);
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
                     }
                     return format(date, 'dd/MM/yyyy');
                 },
+                readableDate: (date) => {
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
+                    }
+                    return format(date, 'EEEE, dd LLLL yyyy', {locale: frLocale});
+                },
                 hour: (hour) => {
-                    return hour;
+                    if(!(hour instanceof Date)){
+                        hour = parseISO(hour);
+                    }
+                    return format(hour, 'HH:mm');
                 }
             }
         },
@@ -267,6 +285,12 @@ const l = {
         SHARED_CONTENT: "Shared content",
         NO_SHARED_CONTENT: "No shared content",
         EDITING: "Editing",
+        START: "Start",
+        END: "End",
+        SPORT: "Sport",
+        DESCRIPTION: "Description",
+        NAME: "Name",
+        GENERAL: "General",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
         },
@@ -316,6 +340,10 @@ const l = {
             FIELD_INCORRECT_MAX_LENGTH: "Value exceeds allowable length",
             FIELD_INCORRECT_MIN_LENGTH: "The value does not contain enough caracters",
             FIELD_INCORRECT_LETTERS_ONLY: "This field must only contain letters",
+            FIELD_INCORRECT_LESS_THAN_HOUR: "This time should be smaller",
+            FIELD_INCORRECT_LESS_THAN_DATE: "This date should be smaller",
+            FIELD_INCORRECT_GREATER_THAN_HOUR: "This time should be greater",
+            FIELD_INCORRECT_GREATER_THAN_DATE: "This date should be greater",
             MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             SHORT_MONTHS: ['Jan.','Feb.','Mar.','Apr.','May','Jun.','Jul.','Aug.','Sept.','Oct.','Nov.','Dec.'],
             DAYS: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -333,15 +361,23 @@ const l = {
             YESTERDAY_AT: "Yesterday at",
             formats: {
                 date: (date) => {
-                    if(date instanceof Date){
-                        date = date;
-                    }else{
-                        date = new Date(date);
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
                     }
                     return format(date, 'dd/MM/yyyy');
                 },
+                readableDate: (date) => {
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
+                    }
+                    return format(date, 'EEEE, dd LLLL yyyy');
+                },
                 hour: (hour) => {
-                    hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
+                    if(!(hour instanceof Date)){
+                        hour = parseISO(hour);
+                    }
+                    hour = format(hour, 'HH:mm');
+                    hour = hour.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
                     if (hour.length > 1) {
                         hour = hour.slice(1);
                         hour[5] = +hour[0] < 12 ? ' AM' : ' PM';

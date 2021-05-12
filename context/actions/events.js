@@ -290,9 +290,9 @@ export const fetchById = (id) => {
                 longitude: 2.510714120997393
             },
             address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
-            startHour: "22:30",
-            endHour: "23:00",
-            date: "2021-05-12",
+            startHour: "2021-01-01 22:30:00",
+            endHour: "2021-01-01 23:30:00",
+            date: "2021-05-19 00:00:00",
             users: [{
                 id: 1,
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",

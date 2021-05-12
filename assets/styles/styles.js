@@ -513,5 +513,11 @@ export const fieldDate = StyleSheet.create({
     container: {
         height: 100, 
         backgroundColor: global.colors.ANTHRACITE
+    },
+    cta: {
+        borderBottomWidth: 2, 
+        borderBottomColor: global.colors.MAIN_COLOR, 
+        height: 40, 
+        textAlign: "left"
     }
 })

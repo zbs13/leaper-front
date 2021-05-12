@@ -7,9 +7,9 @@ import global from '../../providers/global';
 import Validator from '../../utils/validator';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import { getDatesBetweenTwoDates } from '../../utils/utils';
+import { getDatesBetweenTwoDates, lessThanHour, lessThanDate } from '../../utils/utils';
 import {CalendarList, LocaleConfig} from 'react-native-calendars';
-import { addDays, format } from 'date-fns';
+import { addDays, format, parseISO } from 'date-fns';
 import Title from '../Title';
 import Txt from '../Txt';
 import { BottomSheet } from 'react-native-btr';
@@ -23,8 +23,9 @@ import { Platform } from 'react-native';
  * @param {string} type field type => firstname, lastname, password, username, text, calendar-period 
  * @param {string|null} placeholder field placeholder
  * @param {function} onChange function calling each time value change 
- * @param {string} defaultValue default value in field
+ * @param {string|null} defaultValue default value in field
  * @param {string|null} label value to be displayed as field title
+ * @param {string|null} labelIcon icon name for label (ionicons)
  * @param {string|null} icon icon name 
  * @param {number} min min char allowed
  * @param {number} max max char allowed
@@ -33,16 +34,19 @@ import { Platform } from 'react-native';
  * @param {function|null} defaultSelectValue default selected value
  * @param {object|null} items object with each items
  * @param {function|null} renderItem render of each item
- * @param {date|null} datetime default date
- * @param {function|null} onChangeDate called when date is changed
+ * @param {string|null} datetime default date/hour
+ * @param {function|null} onChangeDateTime called when date/hour is changed
+ * @param {string|null} lessThan date/hour must be less than an other date/hour
+ * @param {string|null} greaterThan date/hour must be greater than an other date/hour
  * @returns 
  */
 export default memo(function Field({
     type, 
-    placeholder = null, 
+    placeholder = null,
     onChange = null,
-    defaultValue, 
+    defaultValue = null, 
     label = null, 
+    labelIcon = null,
     icon = null,
     min = 0, 
     max = 255,
@@ -53,10 +57,11 @@ export default memo(function Field({
     items = null,
     renderItem = null,
     /////
-    // if type = date :
+    // if type = date or hour :
     datetime = null,
-    onChangeDate = null
-    /////
+    onChangeDateTime = null,
+    lessThan = null,
+    greaterThan = null
 }){
 
     const {selectors} = useApp();
@@ -72,6 +77,10 @@ export default memo(function Field({
         errorMaxLength: false,
         errorMinLength: false,
         errorLettersOnly: false,
+        errorLessThanHour: false,
+        errorLessThanDate: false,
+        errorGreaterThanHour: false,
+        errorGreaterThanDate: false,
         calendarPeriod: {
             isStartDay: true,
             startDay: null,
@@ -84,9 +93,9 @@ export default memo(function Field({
         selectedValue: null
     });
 
-    const [dateState, setDateState] = useState({
+    const [dateTimeState, setDateTimeState] = useState({
         isVisible: false,
-        date: datetime
+        dateTime: datetime
     });
 
     useEffect(() => {
@@ -472,26 +481,77 @@ export default memo(function Field({
     }
 
     /**
-     * component returned for date
+     * component returned for date/hour
      * @returns 
      */
-     function _Date(){
+     function _DateTime(isHour = false){
          /**
-          * date picker component
+          * date/time picker component
           * @returns 
           */
-        function datePicker(){
+        function dateTimePicker(){
             return(
                 <DateTimePicker
-                    value={dateState.date || new Date()}
-                    mode="date"
-                    onChange={(event, date) => {
-                        if(date !== undefined){
-                            setDateState({date: date, isVisible: false});
-                            onChangeDate(date);
+                    value={(dateTimeState.dateTime instanceof Date ? dateTimeState.dateTime : parseISO(dateTimeState.dateTime)) || new Date()}
+                    mode={isHour ? "time" : "date"}
+                    onChange={(event, dateTime) => {
+                        if(dateTime !== undefined){
+                            if(lessThan !== null){
+                                if(!(lessThan instanceof Date)){
+                                    lessThan = parseISO(lessThan);
+                                }
+                                let lessThanHourDate = format(lessThan, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                let dateTimeHourDate = format(dateTime, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                if(isHour ? !lessThanHour(dateTimeHourDate, lessThanHourDate) : !lessThanDate(dateTimeHourDate, lessThanHourDate)){
+                                    setDateTimeState({...dateTimeState, isVisible: false})
+                                    isHour ? 
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorLessThanHour: true
+                                        })
+                                    :
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorLessThanDate: true
+                                        })
+                                    return;
+                                }
+                            }
+
+                            if(greaterThan !== null){
+                                if(!(greaterThan instanceof Date)){
+                                    greaterThan = parseISO(greaterThan);
+                                }
+                                let greaterThanHourDate = format(greaterThan, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                let dateTimeHourDate = format(dateTime, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                if(isHour ? lessThanHour(dateTimeHourDate, greaterThanHourDate) : lessThanDate(dateTimeHourDate, greaterThanHourDate)){
+                                    setDateTimeState({...dateTimeState, isVisible: false})
+                                    isHour ? 
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorGreaterThanHour: true
+                                        })
+                                    :
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorGreaterThanDate: true
+                                        })
+                                    return;
+                                }
+                            }
+                            
+                            setDateTimeState({dateTime: dateTime, isVisible: false});
+                            onChangeDateTime(format(dateTime, "yyyy-MM-dd HH:mm:ss"));
+                            setFieldState({
+                                ...fieldState,
+                                errorLessThanHour: false,
+                                errorLessThanDate: false,
+                                errorGreaterThanHour: false,
+                                errorGreaterThanDate: false
+                            })
                             
                         }else{
-                            setDateState({...dateState, isVisible: false})
+                            setDateTimeState({...dateTimeState, isVisible: false})
                         }
                     }}
                     style={{flex: 1}}
@@ -502,21 +562,46 @@ export default memo(function Field({
 
         return (
             <>
-                <Cta value={t(selectors.getLang()).datetime.formats.date(dateState.date)} onPress={() => setDateState({...dateState, isVisible: true})} />
+                <Cta 
+                    value={
+                        isHour ?
+                            t(selectors.getLang()).datetime.formats.hour(dateTimeState.dateTime || new Date())
+                        :
+                            t(selectors.getLang()).datetime.formats.readableDate(dateTimeState.dateTime || new Date())
+                    } 
+                    onPress={() => setDateTimeState({...dateTimeState, isVisible: true})} 
+                    _style={[fieldDate.cta, globalStyles.justifyCenter]}
+                />
                 {Platform.OS === "ios" ?
                     <BottomSheet 
-                        visible={dateState.isVisible}
-                        onBackButtonPress={() => setDateState({...dateState, isVisible: false})} 
-                        onBackdropPress={() => setDateState({...dateState, isVisible: false})}
+                        visible={dateTimeState.isVisible}
+                        onBackButtonPress={() => setDateTimeState({...dateTimeState, isVisible: false})} 
+                        onBackdropPress={() => setDateTimeState({...dateTimeState, isVisible: false})}
                     >
                         <View style={[globalStyles.w_100, fieldDate.container, globalStyles.justifyCenter]}>
-                            {datePicker()}
+                            {dateTimePicker()}
                         </View>
                     </BottomSheet>
                 :
-                    dateState.isVisible && datePicker()
+                    dateTimeState.isVisible && dateTimePicker()
                 }
             </>
+        )
+    }
+
+    /**
+     * component returned for address
+     * @returns 
+     */
+     function _Address(){
+        return (
+            <TextInput 
+                onChangeText={value => onChangeValue(value)}
+                style={fields.text}
+                defaultValue={defaultValue}
+                onFocus={() => isFocus(true)}
+                onBlur={() => isFocus(false)}
+            />
         )
     }
 
@@ -577,7 +662,13 @@ export default memo(function Field({
             _return = _Select();
             break; 
         case "date":
-            _return = _Date();
+            _return = _DateTime();
+            break;
+        case "hour":
+            _return = _DateTime(true);
+            break;
+        case "address":
+            _return = _Address();
             break;
         case "password":
             _return = _Password();
@@ -615,7 +706,14 @@ export default memo(function Field({
         <View style={globalStyles.flexColumn}>
             {
                 label !== null ?
-                    <View style={globalStyles.m_10}>
+                    <View style={[globalStyles.m_10, globalStyles.flexRow, globalStyles.alignCenter]}>
+                        {
+                            labelIcon !== null && (
+                                <View style={[globalStyles.mr_5, globalStyles.mb_10]}>
+                                    <Ionicons name={labelIcon} size={20} color={global.colors.ANTHRACITE}/>
+                                </View>
+                            )
+                        }
                         <Title type="third">
                             {label} :
                         </Title>
@@ -648,6 +746,10 @@ export default memo(function Field({
                     || fieldState.errorMinLength
                     || fieldState.errorLettersOnly
                     || fieldState.errorUsername
+                    || fieldState.errorLessThanHour
+                    || fieldState.errorLessThanDate
+                    || fieldState.errorGreaterThanHour
+                    || fieldState.errorGreaterThanDate
                     ?
                         <Txt _style={{color: global.colors.RED_ERROR}}>
                             {fieldState.errorXSS || fieldState.errorUsername ?
@@ -660,7 +762,15 @@ export default memo(function Field({
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_MAX_LENGTH
                             : fieldState.errorMinLength ?
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_MIN_LENGTH
-                            : 
+                            : fieldState.errorLessThanHour ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_HOUR
+                            : fieldState.errorLessThanDate ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_DATE
+                            : fieldState.errorGreaterThanHour ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_HOUR
+                            : fieldState.errorGreaterThanDate ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_DATE
+                            :
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_LETTERS_ONLY
                             }
                         </Txt>

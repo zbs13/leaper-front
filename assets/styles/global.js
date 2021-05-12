@@ -19,6 +19,9 @@ export default globalStyles = StyleSheet.create({
     m_5: {
         margin: 5
     },
+    mr_5: {
+        marginRight: 5
+    },
     m_10: {
         margin: 10
     },
