@@ -112,10 +112,9 @@ export const lessThanHour = function(lessValue, greaterValue){
  * 
  * @param {number} latitude latitude
  * @param {number} longitude longitude
+ * @param {function} callback function called after end of promise
  */
 export const getAddressByLatLng = function(latitude, longitude, callback){
-    console.log(latitude);
-    console.log(longitude);
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${global.map.GOOGLE_MAP_API_KEY}`,
         {
             method: 'GET',
@@ -126,9 +125,37 @@ export const getAddressByLatLng = function(latitude, longitude, callback){
         })
         .then((response) => response.json())
         .then(function(res){
-            callback(res);
+            if(res.results.length !== 0){
+                callback(res.results[0].formatted_address);
+            }
         })
         .catch(function(error){
-            callback(error);
+            callback({error: true});
+        })
+}
+
+/**
+ * get latitude + longitude (with google api) by address
+ * 
+ * @param {string} address address
+ * @param {function} callback function called after end of promise
+ */
+ export const getLatLngByAddress = function(address, callback){
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${global.map.GOOGLE_MAP_API_KEY}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then(function(res){
+            if(res.results.length !== 0){
+                callback({latitude: res.results[0].geometry.location.lat, longitude: res.results[0].geometry.location.lng});
+            }
+        })
+        .catch(function(error){
+            callback({error: true});
         })
 }

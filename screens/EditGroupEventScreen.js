@@ -37,6 +37,7 @@ export default function EditGroupEventScreen({navigation, route}) {
                         endHourValue={infos.endHour}
                         addressValue={infos.address}
                         locationValue={infos.location}
+                        picSrc={infos.src}
                     />
                 :
                     null

@@ -7,7 +7,7 @@ import global from '../../providers/global';
 import Validator from '../../utils/validator';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import { getDatesBetweenTwoDates, lessThanHour, lessThanDate, getAddressByLatLng } from '../../utils/utils';
+import { getDatesBetweenTwoDates, lessThanHour, lessThanDate, getAddressByLatLng, getLatLngByAddress } from '../../utils/utils';
 import {CalendarList, LocaleConfig} from 'react-native-calendars';
 import { addDays, format, parseISO } from 'date-fns';
 import Title from '../Title';
@@ -68,7 +68,7 @@ export default memo(function Field({
     location = null
 }){
 
-    const {selectors} = useApp();
+    const {actions, selectors} = useApp();
 
     const [fieldState, setFieldState] = useState({
         defaultValue: defaultValue,
@@ -254,11 +254,29 @@ export default memo(function Field({
     /**
      * called if address is changed
      * 
-     * @param {string} val address value
+     * @param {string} address address value
      */
-    function onChangeAddress(val){
-        console.log(val);
-        onChange(val, "zpodjeofj")
+    function onChangeAddress(address){
+        getLatLngByAddress(address,
+            function(location){
+                if(typeof location === "object"){
+                    if(location.error){
+                        actions.addPopupStatus({
+                            type: "error",
+                            message: t(selectors.getLang()).errors.ERROR_API
+                        })
+                        return;
+                    }
+                }
+                setFieldState({
+                    ...fieldState,
+                    defaultValue: null,
+                    fieldValue: address,
+                    location: location
+                })
+                onChange(address, location);
+            }
+        )
     }
 
     /**
@@ -638,12 +656,23 @@ export default memo(function Field({
                         onPress={(event) => {
                                 let coordinate = event.nativeEvent.coordinate;
                                 getAddressByLatLng(coordinate.latitude, coordinate.longitude,
-                                    function(val){
-                                        // setFieldState({
-                                        //     ...fieldState,
-                                        //     location: coordinate
-                                        // })
-                                        console.log(val);
+                                    function(address){
+                                        if(typeof address === "object"){
+                                            if(address.error){
+                                                actions.addPopupStatus({
+                                                    type: "error",
+                                                    message: t(selectors.getLang()).errors.ERROR_API
+                                                })
+                                                return;
+                                            }
+                                        }
+                                        setFieldState({
+                                            ...fieldState,
+                                            defaultValue: null,
+                                            fieldValue: address,
+                                            location: coordinate
+                                        })
+                                        onChange(address, coordinate);
                                     }
                                 )}
                         }

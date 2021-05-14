@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { TextInput, View, Text } from 'react-native';
-import { tchatBar } from '../../assets/styles/styles';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import globalStyles from '../../assets/styles/global';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';
-import OptionsModal from '../modals/OptionsModal';
 import Txt from '../Txt';
 import global from '../../providers/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Cta from '../cta/Cta';
-import { pickDocument, pickMedia } from '../../utils/phoneFunct';
-import DialogPopup from '../DialogPopup';
-import FileDisplay from '../display/FileDisplay';
 import Field from '../fields/Field';
+import BackgroundImage from '../BackgroundImage';
+import Cta from '../cta/Cta';
 
 /**
  * Create/edit event form
@@ -27,6 +23,7 @@ import Field from '../fields/Field';
  * @param {string} endHourValue event end hour
  * @param {string} addressValue event address
  * @param {object|null} locationValue address location => latitude, longitude
+ * @param {string|null} picSrc event picture
  * @returns 
  */
 export default function CreateEditEventForm({
@@ -40,6 +37,7 @@ export default function CreateEditEventForm({
     endHourValue = "",
     addressValue = "",
     locationValue = null,
+    picSrc = null
 }){
 
     const {selectors} = useApp();
@@ -51,11 +49,23 @@ export default function CreateEditEventForm({
         date: dateValue,
         startHour: startHourValue,
         endHour: endHourValue,
-        address: addressValue
+        address: addressValue,
+        location: locationValue,
+        pic: picSrc
     });
 
     return(
         <View style={globalStyles.m_5}>
+            <View>
+                <Cta 
+                    onPress={() => console.log("ezrdfz")} 
+                    _style={[globalStyles.justifyCenter, globalStyles.alignCenter]}
+                >
+                    <View style={[{width: 150, height: 150}, globalStyles.flex, globalStyles.alignCenter]}>
+                        <BackgroundImage isRound image={{uri: geValues.pic}} />
+                    </View>
+                </Cta>
+            </View>
             <View style={globalStyles.mb_10}>
                 <Field 
                     type="text"
@@ -86,7 +96,7 @@ export default function CreateEditEventForm({
                     type="address"
                     placeholder={t(selectors.getLang()).ADDRESS}
                     defaultValue={addressValue}
-                    onChange={(address, location) => console.log(location)}
+                    onChange={(address, location) => setGeValues({...geValues, address: address, location: location})}
                     location={locationValue}
                 />
             </View>
