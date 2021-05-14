@@ -18,7 +18,7 @@ import Field from '../fields/Field';
  * Create/edit event form
  * 
  * @param {boolean} isEdit is an edition of event
- * @param {number} eventId id of event to edit
+ * @param {number|null} eventId id of event to edit
  * @param {string} nameValue event name
  * @param {string} descriptionValue event description
  * @param {number} sportId sport id of event
@@ -26,6 +26,7 @@ import Field from '../fields/Field';
  * @param {string} startHourValue event start hour
  * @param {string} endHourValue event end hour
  * @param {string} addressValue event address
+ * @param {object|null} locationValue address location => latitude, longitude
  * @returns 
  */
 export default function CreateEditEventForm({
@@ -37,7 +38,8 @@ export default function CreateEditEventForm({
     dateValue = "",
     startHourValue = "",
     endHourValue = "",
-    addressValue = ""
+    addressValue = "",
+    locationValue = null,
 }){
 
     const {selectors} = useApp();
@@ -84,7 +86,8 @@ export default function CreateEditEventForm({
                     type="address"
                     placeholder={t(selectors.getLang()).ADDRESS}
                     defaultValue={addressValue}
-                    onChange={(value) => console.log(value)}
+                    onChange={(address, location) => console.log(location)}
+                    location={locationValue}
                 />
             </View>
             <View style={globalStyles.mb_10}>

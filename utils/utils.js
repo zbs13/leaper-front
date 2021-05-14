@@ -106,3 +106,29 @@ export const lessThanHour = function(lessValue, greaterValue){
  export const lessThanDate = function(lessValue, greaterValue){
     return isBefore(parseISO(lessValue), parseISO(greaterValue));
 }
+
+/**
+ * get exact address (with google api) by latitude and longitude
+ * 
+ * @param {number} latitude latitude
+ * @param {number} longitude longitude
+ */
+export const getAddressByLatLng = function(latitude, longitude, callback){
+    console.log(latitude);
+    console.log(longitude);
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${global.map.GOOGLE_MAP_API_KEY}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then(function(res){
+            callback(res);
+        })
+        .catch(function(error){
+            callback(error);
+        })
+}

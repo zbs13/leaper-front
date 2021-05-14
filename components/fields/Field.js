@@ -7,7 +7,7 @@ import global from '../../providers/global';
 import Validator from '../../utils/validator';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import { getDatesBetweenTwoDates, lessThanHour, lessThanDate } from '../../utils/utils';
+import { getDatesBetweenTwoDates, lessThanHour, lessThanDate, getAddressByLatLng } from '../../utils/utils';
 import {CalendarList, LocaleConfig} from 'react-native-calendars';
 import { addDays, format, parseISO } from 'date-fns';
 import Title from '../Title';
@@ -16,6 +16,7 @@ import { BottomSheet } from 'react-native-btr';
 import Cta from '../cta/Cta';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
+import Map, { MapPin } from '../maps/Map';
 
 /**
  * Fields management => text, password, calendar, username...
@@ -38,6 +39,7 @@ import { Platform } from 'react-native';
  * @param {function|null} onChangeDateTime called when date/hour is changed
  * @param {string|null} lessThan date/hour must be less than an other date/hour
  * @param {string|null} greaterThan date/hour must be greater than an other date/hour
+ * @param {object|null} location address location => latitude, longitude
  * @returns 
  */
 export default memo(function Field({
@@ -61,7 +63,9 @@ export default memo(function Field({
     datetime = null,
     onChangeDateTime = null,
     lessThan = null,
-    greaterThan = null
+    greaterThan = null,
+    // if type = address :
+    location = null
 }){
 
     const {selectors} = useApp();
@@ -85,7 +89,8 @@ export default memo(function Field({
             isStartDay: true,
             startDay: null,
             endDay: null
-        }
+        },
+        location: location
     })
 
     const [select, setSelect] = useState({
@@ -137,20 +142,27 @@ export default memo(function Field({
         let isValid = Validator.checkXSS(val);
 
         let isOnlyLetters = true;
-        if(type === "firstname" || type === "lastname"){
-            isOnlyLetters = Validator.checkOnlyLetters(val);
-            max = 50;
-        }
-
         let isUsernameValid = true;
-        if(type === "username"){
-            isUsernameValid = Validator.checkUsername(val);
-            max = 50;
+
+        switch(type){
+            case "firstname":
+            case "lastname":
+                isOnlyLetters = Validator.checkOnlyLetters(val);
+                min = 1;
+                max = 50;
+                break;
+            case "username":
+                isUsernameValid = Validator.checkUsername(val);
+                min = 1;
+                max = 50;
+                break;
+            case "textarea":
+                max = null;
+                break;
+            case "address":
+                min = 1;
         }
 
-        if(type === "textarea"){
-            max = null;
-        }
         let isMinLengthOk = Validator.checkMinLength(val, min);
         let isMaxLengthOk = max !== null ? Validator.checkMaxLength(val, max) : true;
 
@@ -159,7 +171,11 @@ export default memo(function Field({
                 if(isMinLengthOk){
                     if(isMaxLengthOk){
                         if(isUsernameValid){
-                            onChange(val);
+                            if(type === "address"){
+                                onChangeAddress(val);
+                            }else{
+                                onChange(val);
+                            }
                             setFieldState({
                                 ...fieldState,
                                 defaultValue: null,
@@ -233,6 +249,16 @@ export default memo(function Field({
                 errorPassword: true
             })
         }
+    }
+
+    /**
+     * called if address is changed
+     * 
+     * @param {string} val address value
+     */
+    function onChangeAddress(val){
+        console.log(val);
+        onChange(val, "zpodjeofj")
     }
 
     /**
@@ -595,13 +621,42 @@ export default memo(function Field({
      */
      function _Address(){
         return (
-            <TextInput 
-                onChangeText={value => onChangeValue(value)}
-                style={fields.text}
-                defaultValue={defaultValue}
-                onFocus={() => isFocus(true)}
-                onBlur={() => isFocus(false)}
-            />
+            <View>
+                <TextInput 
+                    onChangeText={value => onChangeValue(value)}
+                    style={fields.text}
+                    defaultValue={defaultValue}
+                    onFocus={() => isFocus(true)}
+                    onBlur={() => isFocus(false)}
+                />
+                <View style={{height: 200}}>
+                    <Map
+                        latitude={fieldState.location !== null ? fieldState.location.latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE} 
+                        longitude={fieldState.location !== null ? fieldState.location.longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE}
+                        latitudeDelta={fieldState.location !== null ? null : global.map.DEFAULT_NOT_ZOOM_LATITUDE_DELTA}
+                        longitudeDelta={fieldState.location !== null ? null : global.map.DEFAULT_NOT_ZOOM_LONGITUDE_DELTA}
+                        onPress={(event) => {
+                                let coordinate = event.nativeEvent.coordinate;
+                                getAddressByLatLng(coordinate.latitude, coordinate.longitude,
+                                    function(val){
+                                        // setFieldState({
+                                        //     ...fieldState,
+                                        //     location: coordinate
+                                        // })
+                                        console.log(val);
+                                    }
+                                )}
+                        }
+                    >
+                        {location !== null &&
+                            <MapPin 
+                                latitude={fieldState.location.latitude}
+                                longitude={fieldState.location.longitude}
+                            />
+                        }
+                    </Map>
+                </View>
+            </View>
         )
     }
 
@@ -770,7 +825,7 @@ export default memo(function Field({
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_HOUR
                             : fieldState.errorGreaterThanDate ?
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_DATE
-                            :
+                            : 
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_LETTERS_ONLY
                             }
                         </Txt>

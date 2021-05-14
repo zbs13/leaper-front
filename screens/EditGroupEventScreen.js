@@ -36,7 +36,7 @@ export default function EditGroupEventScreen({navigation, route}) {
                         startHourValue={infos.startHour}
                         endHourValue={infos.endHour}
                         addressValue={infos.address}
-                        optionNumberOfLines={1}
+                        locationValue={infos.location}
                     />
                 :
                     null
