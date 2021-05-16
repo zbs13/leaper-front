@@ -337,6 +337,9 @@ const l = {
             TITLE: 'Paramètre de l\'application ',
             NOTIFICATIONS: 'Notifications',
             LANGUAGE: 'Langue'
+        },
+        changeLanguage: {
+            TITLE: 'Français'
         }
     },
     en: {
@@ -681,6 +684,9 @@ const l = {
             TITLE: 'Settings App ',
             NOTIFICATIONS: 'Notifications',
             LANGUAGE: 'Language'
+        },
+        changeLanguage: {
+            TITLE: 'English'
         }
     }
 }

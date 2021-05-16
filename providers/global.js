@@ -25,7 +25,8 @@ export default global = {
         CREATE_EDIT_ROLE: "CreateEditRole",
         ALLOCATE_ROLE: "AllocateRole",
         ADD_PERSON: "AddPerson",
-        APP_SETTINGS: "AppSettings"
+        APP_SETTINGS: "AppSettings",
+        CHANGE_LANGUAGE: "ChangeLanguage"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

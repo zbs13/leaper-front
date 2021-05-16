@@ -10,9 +10,10 @@ import t from '../providers/lang/translations';
 /**
  * app settings screen
  * 
+ * @param {object} navigation for routing 
  * @returns 
  */
-export default function AppSettingsScreen() {
+export default function AppSettingsScreen({navigation}) {
 
     const  {selectors} = useApp();
 
@@ -28,7 +29,7 @@ export default function AppSettingsScreen() {
           />
           <Cta
             _style= {[globalStyles.mt_50, settings.buttonStyle, settings.buttonFont]}
-            onPress={() => {}}
+            onPress={() => {navigation.navigate(global.screens.CHANGE_LANGUAGE)}}
             value={t(selectors.getLang()).settingsApp.LANGUAGE}
             underlayColor="transparent"
           />

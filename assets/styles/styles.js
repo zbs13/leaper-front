@@ -408,7 +408,6 @@ export const settings =  StyleSheet.create({
       marginTop: 50
     },
     buttonStyle: {
-      backgroundColor: 'white',
       margin: 10
     },
     buttonFont: {
