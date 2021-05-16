@@ -30,6 +30,7 @@ import Map, { MapPin } from '../maps/Map';
  * @param {string|null} icon icon name 
  * @param {number} min min char allowed
  * @param {number} max max char allowed
+ * @param {function|null} isError called when field changed => parameter 1 is true if field is in error and false if not
  * @param {function|null} onChangeSelect function called on value change
  * @param {function|null} keyExtractor key to extract for each items (unique id)
  * @param {function|null} defaultSelectValue default selected value
@@ -52,6 +53,7 @@ export default memo(function Field({
     icon = null,
     min = 0, 
     max = 255,
+    isError = null,
     // if type = select :
     onChangeSelect = null,
     keyExtractor = null,
@@ -104,7 +106,7 @@ export default memo(function Field({
     });
 
     useEffect(() => {
-        if(onChange !== null){
+        if(type === "calendar-period" && onChange !== null){
             onChange(fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay);
         }
     }, [fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay])
@@ -186,6 +188,7 @@ export default memo(function Field({
                                 errorMinLength: false,
                                 errorLettersOnly: false
                             })
+                            isError !== null && isError(false)
                         }else{
                             setFieldState({
                                 ...fieldState,
@@ -193,6 +196,7 @@ export default memo(function Field({
                                 fieldValue: val,
                                 errorUsername: true
                             })
+                            isError !== null && isError(true)
                         }
                     }else{
                         setFieldState({
@@ -201,6 +205,7 @@ export default memo(function Field({
                             fieldValue: val,
                             errorMaxLength: true
                         })
+                        isError !== null && isError(true)
                     }
                 }else{
                     setFieldState({
@@ -209,6 +214,7 @@ export default memo(function Field({
                         fieldValue: val,
                         errorMinLength: true
                     })
+                    isError !== null && isError(true)
                 }
             }else{
                 setFieldState({
@@ -217,6 +223,7 @@ export default memo(function Field({
                     fieldValue: val,
                     errorLettersOnly: true
                 })
+                isError !== null && isError(true)
             }
         }else{
             setFieldState({
@@ -225,6 +232,7 @@ export default memo(function Field({
                 fieldValue: val,
                 errorXSS: true
             })
+            isError !== null && isError(true)
         }
     }
 
@@ -242,12 +250,14 @@ export default memo(function Field({
                 fieldValue: val,
                 errorPassword: false
             })
+            isError !== null && isError(false)
         }else{
             setFieldState({
                 ...fieldState,
                 fieldValue: val,
                 errorPassword: true
             })
+            isError !== null && isError(true)
         }
     }
 
@@ -265,6 +275,7 @@ export default memo(function Field({
                             type: "error",
                             message: t(selectors.getLang()).errors.ERROR_API
                         })
+                        isError !== null && isError(true)
                         return;
                     }
                 }
@@ -275,6 +286,7 @@ export default memo(function Field({
                     location: location
                 })
                 onChange(address, location);
+                isError !== null && isError(false);
             }
         )
     }
@@ -295,12 +307,14 @@ export default memo(function Field({
                     fieldValue: val,
                     errorMail: false
                 })
+                isError !== null && isError(false)
             }else{
                 setFieldState({
                     ...fieldState,
                     fieldValue: val,
                     errorMaxLength: true
                 })
+                isError !== null && isError(true)
             }
         }else{
             setFieldState({
@@ -308,6 +322,7 @@ export default memo(function Field({
                 fieldValue: val,
                 errorMail: true
             })
+            isError !== null && isError(true)
         }
     }
 
@@ -558,6 +573,7 @@ export default memo(function Field({
                                             ...fieldState,
                                             errorLessThanDate: true
                                         })
+                                    isError !== null && isError(true)
                                     return;
                                 }
                             }
@@ -580,6 +596,7 @@ export default memo(function Field({
                                             ...fieldState,
                                             errorGreaterThanDate: true
                                         })
+                                    isError !== null && isError(true)
                                     return;
                                 }
                             }
@@ -593,7 +610,7 @@ export default memo(function Field({
                                 errorGreaterThanHour: false,
                                 errorGreaterThanDate: false
                             })
-                            
+                            isError !== null && isError(false)
                         }else{
                             setDateTimeState({...dateTimeState, isVisible: false})
                         }

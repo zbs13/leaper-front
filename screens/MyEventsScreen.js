@@ -71,7 +71,7 @@ export default React.memo(function MyEventsScreen({navigation}) {
       <View style={[globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
         <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsEvent.getNbMyFetched()}</Txt>
         <Cta
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate(global.screens.CREATE_GROUP_EVENT, {isEvent: true})}
             underlayColor={global.colors.LIGHT_GREY}
             _style={[cta.main, cta.first]}
         >

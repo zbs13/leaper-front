@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import GroupsContext from "../context/groupsContext";
-import { fetchMyGroups, fetchById, fetchMessages, fetchAllSharedContent } from '../context/actions/groups';
+import { fetchMyGroups, fetchById, fetchMessages, fetchAllSharedContent, update, create } from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 
 const useGroups = () => {
@@ -122,6 +122,27 @@ const useGroups = () => {
             offset: offset
           });
         })
+      });
+    },
+    /**
+     * create a new group
+     * 
+     * @param {object} values all group values
+     */
+     create: function(values){
+      return create(values).then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * edit an event
+     * 
+     * @param {string} id group id to edit
+     * @param {object} values all group values
+     */
+     updateById: function(id, values){
+      return update(id, values).then((data) => {
+        return response(data);
       });
     }
   };

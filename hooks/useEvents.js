@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
-import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages, fetchAllSharedContent } from '../context/actions/events';
+import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages, fetchAllSharedContent, update, create } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 
 const useEvents = () => {
@@ -140,6 +140,27 @@ const useEvents = () => {
             offset: offset
           });
         })
+      });
+    },
+    /**
+     * create a new event
+     * 
+     * @param {object} values all event values
+     */
+    create: function(values){
+      return create(values).then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * edit an event
+     * 
+     * @param {string} id event id to edit
+     * @param {object} values all event values
+     */
+     updateById: function(id, values){
+      return update(id, values).then((data) => {
+        return response(data);
       });
     }
   };

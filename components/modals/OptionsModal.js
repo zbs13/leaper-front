@@ -20,6 +20,7 @@ import Txt from '../Txt';
  * @param {string|null} icon icon name
  * @param {component} children
  * @param {boolean} isActive true if modal is active
+ * @param {boolean} onPress true if toggle modal just onPress cta and not onLongPress
  * @returns 
  */
 export default function OptionsModal({
@@ -29,7 +30,8 @@ export default function OptionsModal({
   buttonColor = null, 
   icon = null, 
   children = null, 
-  isActive = true
+  isActive = true,
+  onPress = false
 }) {
 
     const  {selectors} = useApp();
@@ -47,7 +49,7 @@ export default function OptionsModal({
     return (
       <View>
         {children !== null ?
-          React.cloneElement(children, isActive ? {onLongPress: () => toggleModalView()} : {})
+          React.cloneElement(children, isActive ? onPress ? {onPress: () => toggleModalView()} : {onLongPress: () => toggleModalView()} : {})
         :
           <Cta
             onPress={() => toggleModalView()}

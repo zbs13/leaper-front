@@ -123,17 +123,17 @@ export async function req(type, req, vars = null, waitMessage = null, needAuth =
  * return result or error according to response
  * 
  * @param {object} data response to check
- * @param {function} callback function called after success rendering
+ * @param {function|null} callback function called after success rendering
  * @returns {object} error or response
  */
-export function response(data, callback){
+export function response(data, callback = null){
     if(typeof data.isError !== "undefined"){
         if(data.isError){
             return data;
         }
     }
 
-    callback(data);
+    callback !== null && callback(data);
     return data;
 }
 

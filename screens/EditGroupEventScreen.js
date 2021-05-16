@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import { View, ScrollView } from 'react-native';
-import Txt from '../components/Txt';
+import { View } from 'react-native';
 import CreateEditEventForm from '../components/forms/CreateEditEventForm';
+import CreateEditGroupForm from '../components/forms/CreateEditGroupForm';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
 
@@ -23,7 +23,7 @@ export default function EditGroupEventScreen({navigation, route}) {
     }, [])
 
     return (
-        <ScrollView>
+        <View>
             {
                 isEvent ?
                     <CreateEditEventForm 
@@ -40,9 +40,15 @@ export default function EditGroupEventScreen({navigation, route}) {
                         picSrc={infos.src}
                     />
                 :
-                    null
+                    <CreateEditGroupForm 
+                        isEdit
+                        groupId={id}
+                        nameValue={infos.name}
+                        descriptionValue={infos.description}
+                        picSrc={infos.src}
+                    />
             }
-        </ScrollView>
+        </View>
     );
   }
 

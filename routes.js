@@ -7,6 +7,7 @@ import SharedContentScreen from "./screens/SharedContentScreen";
 import TchatScreen from "./screens/TchatScreen";
 import TestScreen from "./screens/TestScreen";
 import EditGroupEventScreen from "./screens/EditGroupEventScreen";
+import CreateGroupEventScreen from "./screens/CreateGroupEventScreen";
 import headerType from "./components/headers/headers";
 
 // routes with home/custom Header and Bottom menu displayed
@@ -51,6 +52,11 @@ export const withCustomHeaderOnly = [
     {
         name: global.screens.EDIT_GROUP_EVENT,
         component: EditGroupEventScreen,
+        header: ({navigation}) => (headerType.back(navigation, ""))
+    },
+    {
+        name: global.screens.CREATE_GROUP_EVENT,
+        component: CreateGroupEventScreen,
         header: ({navigation}) => (headerType.back(navigation, ""))
     }
 ]

@@ -528,3 +528,34 @@ export const fetchAllSharedContent = (id, offset) => {
         ]
     })
 }
+
+/**
+ * update event
+ * 
+ * @param {string} id event id to update
+ * @param {object} datas datas to update
+ */
+export const update = (id, datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
+    })
+}
+
+/**
+ * create event
+ * 
+ * @param {object} datas datas to update
+ */
+ export const create = (datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
+    })
+}

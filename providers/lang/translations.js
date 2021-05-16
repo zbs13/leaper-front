@@ -54,8 +54,11 @@ const l = {
         DESCRIPTION: "Description",
         NAME: "Nom",
         GENERAL: "Général",
+        SAVE_CHANGES: "Sauvegarder les modifications",
         success: {
-            SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
+            SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
+            EDIT_SUCCESS: "Modifié avec succès",
+            CREATE_SUCCESS: "Créé avec succès"
         },
         errors: {
             ERROR_API: "Oups, une erreur est survenue",
@@ -76,7 +79,8 @@ const l = {
             MY_GROUPS: "Mes groupes",
             CONFIRM_JOIN_GROUP: "Vous vous apprétez à rejoindre ce groupe",
             CREATE_GROUP: "Créer un groupe",
-            ADD_TO_GROUP: "Ajouter au groupe"
+            ADD_TO_GROUP: "Ajouter au groupe",
+            CONFIRM_CREATE_GROUP: "Créer le groupe"
         },
         event: {
             LEAVE_THIS_EVENT: "Quitter cet évènement",
@@ -89,7 +93,8 @@ const l = {
             MY_EVENTS: "Mes évènements",
             FIND_AN_EVENT: "Chercher un évènement",
             CREATE_EVENT: "Créer un évènement",
-            ADD_TO_EVENT: "Ajouter à l'évènement"
+            ADD_TO_EVENT: "Ajouter à l'évènement",
+            CONFIRM_CREATE_EVENT: "Créer l'évènement"
         },
         fields: {
             PASSWORD: "Mot de passe",
@@ -292,8 +297,11 @@ const l = {
         DESCRIPTION: "Description",
         NAME: "Name",
         GENERAL: "General",
+        SAVE_CHANGES: "Save changes",
         success: {
-            SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
+            SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
+            EDIT_SUCCESS: "Successfully edited",
+            CREATE_SUCCESS: "Successfully created"
         },
         errors: {
             ERROR_API: "Oops, an error has occurred !",
@@ -314,7 +322,8 @@ const l = {
             CONFIRM_JOIN_GROUP: "You are going to join this group",
             FIND_A_GROUP: "Find a group",
             MY_GROUPS: "My groups",
-            CREATE_GROUP: "Create a group"
+            CREATE_GROUP: "Create a group",
+            CONFIRM_CREATE_GROUP: "Create group",
         },
         event: {
             EVENTS: "Events",
@@ -327,7 +336,8 @@ const l = {
             FIND_EVENT_BY: "Find an event by",
             MY_EVENTS: "My events",
             CREATE_EVENT: "Create an event",
-            HERE_EVENT_PLACE: "This is here event take place"
+            HERE_EVENT_PLACE: "This is here event take place",
+            CONFIRM_CREATE_EVENT: "Create event"
         },
         fields: {
             PASSWORD: "Password",
