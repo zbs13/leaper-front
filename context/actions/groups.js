@@ -121,7 +121,7 @@ export const fetchById = (id) => {
             name: "le groupe 3",
             description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
             owner: {
-                id: 1
+                id: 2
             },
             users: [{
                 id: 1,
@@ -457,5 +457,36 @@ export const fetchById = (id) => {
                 uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             }
         ]
+    })
+}
+
+/**
+ * update group
+ * 
+ * @param {string} id group id to update
+ * @param {object} datas datas to update
+ */
+ export const update = (id, datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
+    })
+}
+
+/**
+ * create group
+ * 
+ * @param {object} datas datas to update
+ */
+ export const create = (datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
     })
 }

@@ -1,4 +1,5 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
+const frLocale = require('date-fns/locale/fr');
 
 const l = {
     fr: {
@@ -46,8 +47,18 @@ const l = {
         FILE: "Fichier",
         SHARED_CONTENT: "Contenu partagé",
         NO_SHARED_CONTENT: "Aucun contenu partagé",
+        EDITING: "Edition",
+        START: "Début",
+        END: "Fin",
+        SPORT: "Sport",
+        DESCRIPTION: "Description",
+        NAME: "Nom",
+        GENERAL: "Général",
+        SAVE_CHANGES: "Sauvegarder les modifications",
         success: {
-            SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès"
+            SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
+            EDIT_SUCCESS: "Modifié avec succès",
+            CREATE_SUCCESS: "Créé avec succès"
         },
         errors: {
             ERROR_API: "Oups, une erreur est survenue",
@@ -68,7 +79,8 @@ const l = {
             MY_GROUPS: "Mes groupes",
             CONFIRM_JOIN_GROUP: "Vous vous apprétez à rejoindre ce groupe",
             CREATE_GROUP: "Créer un groupe",
-            ADD_TO_GROUP: "Ajouter au groupe"
+            ADD_TO_GROUP: "Ajouter au groupe",
+            CONFIRM_CREATE_GROUP: "Créer le groupe"
         },
         event: {
             LEAVE_THIS_EVENT: "Quitter cet évènement",
@@ -81,7 +93,8 @@ const l = {
             MY_EVENTS: "Mes évènements",
             FIND_AN_EVENT: "Chercher un évènement",
             CREATE_EVENT: "Créer un évènement",
-            ADD_TO_EVENT: "Ajouter à l'évènement"
+            ADD_TO_EVENT: "Ajouter à l'évènement",
+            CONFIRM_CREATE_EVENT: "Créer l'évènement"
         },
         fields: {
             PASSWORD: "Mot de passe",
@@ -95,6 +108,11 @@ const l = {
             FIELD_INCORRECT_MAX_LENGTH: "La valeur dépasse la longueur autorisée",
             FIELD_INCORRECT_MIN_LENGTH: "La valeur ne contient pas assez de caractères",
             FIELD_INCORRECT_LETTERS_ONLY: "Ce champ ne doit contenir que des lettres",
+            FIELD_INCORRECT_LESS_THAN_HOUR: "Cette heure doit être plus petite",
+            FIELD_INCORRECT_LESS_THAN_DATE: "Cette date doit être plus petite",
+            FIELD_INCORRECT_GREATER_THAN_HOUR: "Cette heure doit être plus grande",
+            FIELD_INCORRECT_GREATER_THAN_DATE: "Cette date doit être plus grande",
+            FIELD_INCORRECT_ADDRESS: "Adresse incorrect. Le champ est vide ou contient des caractères non valide ou bien l'adresse est trop longue",
             MONTHS: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
             SHORT_MONTHS: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
             DAYS: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
@@ -102,7 +120,8 @@ const l = {
             TODAY: "Aujourd'hui"
         },
         search: {
-            GLOBAL: "Rechercher un sport, un évènement, un groupe..."
+            GLOBAL: "Rechercher un sport, un évènement, un groupe...",
+            SEARCH_A_SPORT: "Chercher un sport"
         },
         datetime: {
             TODAY_AT: "Aujourd'hui à",
@@ -111,10 +130,22 @@ const l = {
             YESTERDAY_AT: "Hier à",
             formats: {
                 date: (date) => {
-                    return format(new Date(date), 'dd/MM/yyyy');
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
+                    }
+                    return format(date, 'dd/MM/yyyy');
+                },
+                readableDate: (date) => {
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
+                    }
+                    return format(date, 'EEEE, dd LLLL yyyy', {locale: frLocale});
                 },
                 hour: (hour) => {
-                    return hour;
+                    if(!(hour instanceof Date)){
+                        hour = parseISO(hour);
+                    }
+                    return format(hour, 'HH:mm');
                 }
             }
         },
@@ -259,8 +290,18 @@ const l = {
         FILE: "File",
         SHARED_CONTENT: "Shared content",
         NO_SHARED_CONTENT: "No shared content",
+        EDITING: "Editing",
+        START: "Start",
+        END: "End",
+        SPORT: "Sport",
+        DESCRIPTION: "Description",
+        NAME: "Name",
+        GENERAL: "General",
+        SAVE_CHANGES: "Save changes",
         success: {
-            SUCCESS_DOWNLOAD_FILE: "Download completed successfully"
+            SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
+            EDIT_SUCCESS: "Successfully edited",
+            CREATE_SUCCESS: "Successfully created"
         },
         errors: {
             ERROR_API: "Oops, an error has occurred !",
@@ -281,7 +322,8 @@ const l = {
             CONFIRM_JOIN_GROUP: "You are going to join this group",
             FIND_A_GROUP: "Find a group",
             MY_GROUPS: "My groups",
-            CREATE_GROUP: "Create a group"
+            CREATE_GROUP: "Create a group",
+            CONFIRM_CREATE_GROUP: "Create group",
         },
         event: {
             EVENTS: "Events",
@@ -294,7 +336,8 @@ const l = {
             FIND_EVENT_BY: "Find an event by",
             MY_EVENTS: "My events",
             CREATE_EVENT: "Create an event",
-            HERE_EVENT_PLACE: "This is here event take place"
+            HERE_EVENT_PLACE: "This is here event take place",
+            CONFIRM_CREATE_EVENT: "Create event"
         },
         fields: {
             PASSWORD: "Password",
@@ -308,6 +351,11 @@ const l = {
             FIELD_INCORRECT_MAX_LENGTH: "Value exceeds allowable length",
             FIELD_INCORRECT_MIN_LENGTH: "The value does not contain enough caracters",
             FIELD_INCORRECT_LETTERS_ONLY: "This field must only contain letters",
+            FIELD_INCORRECT_LESS_THAN_HOUR: "This time should be smaller",
+            FIELD_INCORRECT_LESS_THAN_DATE: "This date should be smaller",
+            FIELD_INCORRECT_GREATER_THAN_HOUR: "This time should be greater",
+            FIELD_INCORRECT_GREATER_THAN_DATE: "This date should be greater",
+            FIELD_INCORRECT_ADDRESS: "Address not valid. Contains incorrect caracters or is too long or field is empty",
             MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             SHORT_MONTHS: ['Jan.','Feb.','Mar.','Apr.','May','Jun.','Jul.','Aug.','Sept.','Oct.','Nov.','Dec.'],
             DAYS: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -315,7 +363,8 @@ const l = {
             TODAY: "Today"
         },
         search: {
-            GLOBAL: "Search a sport, an event, a group..."
+            GLOBAL: "Search a sport, an event, a group...",
+            SEARCH_A_SPORT: "Search a sport"
         },
         datetime: {
             TODAY_AT: "Today at",
@@ -324,10 +373,23 @@ const l = {
             YESTERDAY_AT: "Yesterday at",
             formats: {
                 date: (date) => {
-                    return format(new Date(date), 'dd/MM/yyyy');
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
+                    }
+                    return format(date, 'dd/MM/yyyy');
+                },
+                readableDate: (date) => {
+                    if(!(date instanceof Date)){
+                        date = parseISO(date);
+                    }
+                    return format(date, 'EEEE, dd LLLL yyyy');
                 },
                 hour: (hour) => {
-                    hour = hour.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
+                    if(!(hour instanceof Date)){
+                        hour = parseISO(hour);
+                    }
+                    hour = format(hour, 'HH:mm');
+                    hour = hour.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [hour];
                     if (hour.length > 1) {
                         hour = hour.slice(1);
                         hour[5] = +hour[0] < 12 ? ' AM' : ' PM';

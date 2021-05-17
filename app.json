@@ -19,9 +19,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.leaper.leaper",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.leaper.leaper",
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBiHTxaw_bmw2Mt4Y9xWrWzLJkmUD7shPg"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

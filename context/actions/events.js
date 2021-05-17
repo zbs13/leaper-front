@@ -279,7 +279,7 @@ export const fetchById = (id) => {
         return {
             id: 7,
             name: "l'event 3",
-            description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+            description: "la descrip  lf,jekfjekfjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
             sportId: 2,
             postalCode: 93340,
             owner: {
@@ -290,9 +290,9 @@ export const fetchById = (id) => {
                 longitude: 2.510714120997393
             },
             address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
-            startHour: "22:30",
-            endHour: "23:00",
-            date: "2021-05-12",
+            startHour: "2021-01-01 22:30:00",
+            endHour: "2021-01-01 23:30:00",
+            date: "2021-05-19 00:00:00",
             users: [{
                 id: 1,
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -526,5 +526,36 @@ export const fetchAllSharedContent = (id, offset) => {
                 uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             }
         ]
+    })
+}
+
+/**
+ * update event
+ * 
+ * @param {string} id event id to update
+ * @param {object} datas datas to update
+ */
+export const update = (id, datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
+    })
+}
+
+/**
+ * create event
+ * 
+ * @param {object} datas datas to update
+ */
+ export const create = (datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
     })
 }

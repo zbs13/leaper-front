@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { TextInput, View } from 'react-native';
-import { fields } from '../../assets/styles/styles';
+import React, { useState, useEffect, memo, useCallback } from 'react';
+import { TextInput, View, FlatList, SafeAreaView } from 'react-native';
+import { fields, select as dropdown, fieldDate} from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
 import Validator from '../../utils/validator';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import { getDatesBetweenTwoDates } from '../../utils/utils';
+import { getDatesBetweenTwoDates, lessThanHour, lessThanDate, getAddressByLatLng, getLatLngByAddress } from '../../utils/utils';
 import {CalendarList, LocaleConfig} from 'react-native-calendars';
-import { addDays, format } from 'date-fns';
+import { addDays, format, parseISO } from 'date-fns';
 import Title from '../Title';
 import Txt from '../Txt';
+import { BottomSheet } from 'react-native-btr';
+import Cta from '../cta/Cta';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
+import Map, { MapPin } from '../maps/Map';
+import _ from "lodash";
 
 /**
  * Fields management => text, password, calendar, username...
@@ -19,27 +25,56 @@ import Txt from '../Txt';
  * @param {string} type field type => firstname, lastname, password, username, text, calendar-period 
  * @param {string|null} placeholder field placeholder
  * @param {function} onChange function calling each time value change 
- * @param {string} defaultValue default value in field
+ * @param {string|null} defaultValue default value in field
  * @param {string|null} label value to be displayed as field title
+ * @param {string|null} labelIcon icon name for label (ionicons)
  * @param {string|null} icon icon name 
  * @param {number} min min char allowed
  * @param {number} max max char allowed
+ * @param {function|null} isError called when field changed => parameter 1 is true if field is in error and false if not
+ * @param {function|null} onChangeSelect function called on value change
+ * @param {function|null} keyExtractor key to extract for each items (unique id)
+ * @param {function|null} defaultSelectValue default selected value
+ * @param {object|null} items object with each items
+ * @param {function|null} renderItem render of each item
+ * @param {string|null} datetime default date/hour
+ * @param {function|null} onChangeDateTime called when date/hour is changed
+ * @param {string|null} lessThan date/hour must be less than an other date/hour
+ * @param {string|null} greaterThan date/hour must be greater than an other date/hour
+ * @param {object|null} location address location => latitude, longitude
  * @returns 
  */
-export default function Field({
+export default memo(function Field({
     type, 
-    placeholder = null, 
-    onChange, 
-    defaultValue, 
+    placeholder = null,
+    onChange = null,
+    defaultValue = null, 
     label = null, 
-    icon = null, 
+    labelIcon = null,
+    icon = null,
     min = 0, 
-    max = 255
+    max = 255,
+    isError = null,
+    // if type = select :
+    onChangeSelect = null,
+    keyExtractor = null,
+    defaultSelectValue = null,
+    items = null,
+    renderItem = null,
+    /////
+    // if type = date or hour :
+    datetime = null,
+    onChangeDateTime = null,
+    lessThan = null,
+    greaterThan = null,
+    // if type = address :
+    location = null
 }){
 
-    const {selectors} = useApp();
+    const {actions, selectors} = useApp();
 
     const [fieldState, setFieldState] = useState({
+        defaultValue: defaultValue,
         focus: false,
         fieldValue: "",
         errorXSS: false,
@@ -49,15 +84,32 @@ export default function Field({
         errorMaxLength: false,
         errorMinLength: false,
         errorLettersOnly: false,
+        errorLessThanHour: false,
+        errorLessThanDate: false,
+        errorGreaterThanHour: false,
+        errorGreaterThanDate: false,
         calendarPeriod: {
             isStartDay: true,
             startDay: null,
             endDay: null
-        }
+        },
+        location: location
     })
 
+    const [select, setSelect] = useState({
+        isVisible: false,
+        selectedValue: null
+    });
+
+    const [dateTimeState, setDateTimeState] = useState({
+        isVisible: false,
+        dateTime: datetime || new Date()
+    });
+
     useEffect(() => {
-        onChange(fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay)
+        if(type === "calendar-period" && onChange !== null){
+            onChange(fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay);
+        }
     }, [fieldState.calendarPeriod.startDay, fieldState.calendarPeriod.endDay])
 
     /**
@@ -93,28 +145,43 @@ export default function Field({
         let isValid = Validator.checkXSS(val);
 
         let isOnlyLetters = true;
-        if(type === "firstname" || type === "lastname"){
-            isOnlyLetters = Validator.checkOnlyLetters(val);
-            max = 50;
-        }
-
         let isUsernameValid = true;
-        if(type === "username"){
-            isUsernameValid = Validator.checkUsername(val);
-            max = 50;
+
+        switch(type){
+            case "firstname":
+            case "lastname":
+                isOnlyLetters = Validator.checkOnlyLetters(val);
+                min = 1;
+                max = 50;
+                break;
+            case "username":
+                isUsernameValid = Validator.checkUsername(val);
+                min = 1;
+                max = 50;
+                break;
+            case "textarea":
+                max = null;
+                break;
+            case "address":
+                min = 1;
         }
 
         let isMinLengthOk = Validator.checkMinLength(val, min);
-        let isMaxLengthOk = Validator.checkMaxLength(val, max);
+        let isMaxLengthOk = max !== null ? Validator.checkMaxLength(val, max) : true;
 
         if(isValid){
             if(isOnlyLetters){
                 if(isMinLengthOk){
                     if(isMaxLengthOk){
                         if(isUsernameValid){
-                            onChange(val);
+                            if(type === "address"){
+                                onChangeAddress(val);
+                            }else{
+                                onChange(val);
+                            }
                             setFieldState({
                                 ...fieldState,
+                                defaultValue: null,
                                 fieldValue: val,
                                 errorXSS: false,
                                 errorUsername: false,
@@ -122,40 +189,51 @@ export default function Field({
                                 errorMinLength: false,
                                 errorLettersOnly: false
                             })
+                            isError !== null && isError(false)
                         }else{
                             setFieldState({
                                 ...fieldState,
+                                defaultValue: null,
                                 fieldValue: val,
                                 errorUsername: true
                             })
+                            isError !== null && isError(true)
                         }
                     }else{
                         setFieldState({
                             ...fieldState,
+                            defaultValue: null,
                             fieldValue: val,
                             errorMaxLength: true
                         })
+                        isError !== null && isError(true)
                     }
                 }else{
                     setFieldState({
                         ...fieldState,
+                        defaultValue: null,
                         fieldValue: val,
                         errorMinLength: true
                     })
+                    isError !== null && isError(true)
                 }
             }else{
                 setFieldState({
                     ...fieldState,
+                    defaultValue: null,
                     fieldValue: val,
                     errorLettersOnly: true
                 })
+                isError !== null && isError(true)
             }
         }else{
             setFieldState({
                 ...fieldState,
+                defaultValue: null,
                 fieldValue: val,
                 errorXSS: true
             })
+            isError !== null && isError(true)
         }
     }
 
@@ -173,13 +251,45 @@ export default function Field({
                 fieldValue: val,
                 errorPassword: false
             })
+            isError !== null && isError(false)
         }else{
             setFieldState({
                 ...fieldState,
                 fieldValue: val,
                 errorPassword: true
             })
+            isError !== null && isError(true)
         }
+    }
+
+    /**
+     * called if address is changed
+     * 
+     * @param {string} address address value
+     */
+    function onChangeAddress(address){
+        getLatLngByAddress(address,
+            function(location){
+                if(typeof location === "object"){
+                    if(location.error){
+                        actions.addPopupStatus({
+                            type: "error",
+                            message: t(selectors.getLang()).errors.ERROR_API
+                        })
+                        isError !== null && isError(true)
+                        return;
+                    }
+                }
+                setFieldState({
+                    ...fieldState,
+                    defaultValue: null,
+                    fieldValue: address,
+                    location: location
+                })
+                onChange(address, location);
+                isError !== null && isError(false);
+            }
+        )
     }
 
     /**
@@ -198,12 +308,14 @@ export default function Field({
                     fieldValue: val,
                     errorMail: false
                 })
+                isError !== null && isError(false)
             }else{
                 setFieldState({
                     ...fieldState,
                     fieldValue: val,
                     errorMaxLength: true
                 })
+                isError !== null && isError(true)
             }
         }else{
             setFieldState({
@@ -211,6 +323,7 @@ export default function Field({
                 fieldValue: val,
                 errorMail: true
             })
+            isError !== null && isError(true)
         }
     }
 
@@ -319,6 +432,24 @@ export default function Field({
     }
 
     /**
+     * component returned for textarea
+     * @returns 
+     */
+     function _TextArea(){
+        return (
+            <TextInput 
+                onChangeText={value => onChangeValue(value)}
+                defaultValue={defaultValue}
+                multiline
+                numberOfLines={10}
+                style={fields.textarea}
+                onFocus={() => isFocus(true)}
+                onBlur={() => isFocus(false)}
+            />
+        )
+    }
+
+    /**
      * component returned for password
      * @returns 
      */
@@ -363,6 +494,217 @@ export default function Field({
                 onFocus={() => isFocus(true)}
                 onBlur={() => isFocus(false)}
             />
+        )
+    }
+
+    /**
+     * component returned for select
+     * @returns 
+     */
+     function _Select(){
+        const ITEM_HEIGHT = 40;
+        const getItemLayout = useCallback((data, index) => ({
+            length: ITEM_HEIGHT,
+            offset: ITEM_HEIGHT * index,
+            index
+        }),
+        [])
+
+        return (
+            <>
+                <Cta onPress={() => setSelect({...select, isVisible: true})} >
+                    <View style={[dropdown.cta, globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
+                        {renderItem(select.selectedValue || items[items.findIndex(defaultSelectValue)])}
+                        <Ionicons name="chevron-down-outline" size={20} color={global.colors.ANTHRACITE}/>
+                    </View>
+                </Cta>
+                <BottomSheet 
+                    visible={select.isVisible}
+                    onBackButtonPress={() => setSelect({...select, isVisible: false})} 
+                    onBackdropPress={() => setSelect({...select, isVisible: false})}
+                >
+                    <SafeAreaView  style={dropdown.list}>
+                        <FlatList
+                            removeClippedSubviews
+                            data={items}
+                            renderItem={({item}) => <Cta onPress={() => {setSelect({isVisible: false, selectedValue: item}); onChangeSelect(item)}}><View style={[{height: ITEM_HEIGHT}, globalStyles.p_10, globalStyles.justifyCenter]}>{renderItem(item)}</View></Cta>}
+                            keyExtractor={keyExtractor}
+                            windowSize={15}
+                            maxToRenderPerBatch={11}
+                            getItemLayout={getItemLayout}
+                            ItemSeparatorComponent={() => <View style={dropdown.separator}></View>}
+                        />
+                    </SafeAreaView >
+                </BottomSheet>
+            </>
+        )
+    }
+
+    /**
+     * component returned for date/hour
+     * @returns 
+     */
+     function _DateTime(isHour = false){
+         /**
+          * date/time picker component
+          * @returns 
+          */
+        function dateTimePicker(){
+            return(
+                <DateTimePicker
+                    value={dateTimeState.dateTime instanceof Date ? dateTimeState.dateTime : parseISO(dateTimeState.dateTime)}
+                    mode={isHour ? "time" : "date"}
+                    onChange={(event, dateTime) => {
+                        if(dateTime !== undefined){
+                            if(lessThan !== null){
+                                if(!(lessThan instanceof Date)){
+                                    lessThan = parseISO(lessThan);
+                                }
+                                let lessThanHourDate = format(lessThan, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                let dateTimeHourDate = format(dateTime, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                if(isHour ? !lessThanHour(dateTimeHourDate, lessThanHourDate) : !lessThanDate(dateTimeHourDate, lessThanHourDate)){
+                                    setDateTimeState({dateTime: dateTime, isVisible: false});
+                                    isHour ? 
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorLessThanHour: true
+                                        })
+                                    :
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorLessThanDate: true
+                                        })
+                                    isError !== null && isError(true)
+                                    return;
+                                }
+                            }
+
+                            if(greaterThan !== null){
+                                if(!(greaterThan instanceof Date)){
+                                    greaterThan = parseISO(greaterThan);
+                                }
+                                let greaterThanHourDate = format(greaterThan, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                let dateTimeHourDate = format(dateTime, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
+                                if(isHour ? lessThanHour(dateTimeHourDate, greaterThanHourDate) : lessThanDate(dateTimeHourDate, greaterThanHourDate)){
+                                    setDateTimeState({dateTime: dateTime, isVisible: false});
+                                    isHour ? 
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorGreaterThanHour: true
+                                        })
+                                    :
+                                        setFieldState({
+                                            ...fieldState,
+                                            errorGreaterThanDate: true
+                                        })
+                                    isError !== null && isError(true)
+                                    return;
+                                }
+                            }
+            
+                            setDateTimeState({dateTime: dateTime, isVisible: false});
+                            onChangeDateTime(format(dateTime, "yyyy-MM-dd HH:mm:ss"));
+                            setFieldState({
+                                ...fieldState,
+                                errorLessThanHour: false,
+                                errorLessThanDate: false,
+                                errorGreaterThanHour: false,
+                                errorGreaterThanDate: false
+                            })
+                            isError !== null && isError(false)
+                        }else{
+                            setDateTimeState({...dateTimeState, isVisible: false})
+                        }
+                    }}
+                    style={{flex: 1}}
+                    locale={selectors.getLang()}
+                />
+            )
+        }
+
+        return (
+            <>
+                <Cta 
+                    value={
+                        isHour ?
+                            t(selectors.getLang()).datetime.formats.hour(dateTimeState.dateTime)
+                        :
+                            t(selectors.getLang()).datetime.formats.readableDate(dateTimeState.dateTime)
+                    } 
+                    onPress={() => setDateTimeState({...dateTimeState, isVisible: true})} 
+                    _style={[fieldDate.cta, globalStyles.justifyCenter]}
+                />
+                {Platform.OS === "ios" ?
+                    <BottomSheet 
+                        visible={dateTimeState.isVisible}
+                        onBackButtonPress={() => setDateTimeState({...dateTimeState, isVisible: false})} 
+                        onBackdropPress={() => setDateTimeState({...dateTimeState, isVisible: false})}
+                    >
+                        <View style={[globalStyles.w_100, fieldDate.container, globalStyles.justifyCenter]}>
+                            {dateTimePicker()}
+                        </View>
+                    </BottomSheet>
+                :
+                    dateTimeState.isVisible && dateTimePicker()
+                }
+            </>
+        )
+    }
+
+    /**
+     * component returned for address
+     * @returns 
+     */
+     function _Address(){
+        return (
+            <View>
+                <TextInput 
+                    onChangeText={_.debounce((value) => onChangeValue(value), 500)}
+                    style={fields.text}
+                    defaultValue={fieldState.defaultValue || fieldState.fieldValue}
+                    onFocus={() => isFocus(true)}
+                    onBlur={() => isFocus(false)}
+                />
+                <View style={{height: 200}}>
+                    <Map
+                        latitude={fieldState.location !== null ? fieldState.location.latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE} 
+                        longitude={fieldState.location !== null ? fieldState.location.longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE}
+                        latitudeDelta={fieldState.location !== null ? null : global.map.DEFAULT_NOT_ZOOM_LATITUDE_DELTA}
+                        longitudeDelta={fieldState.location !== null ? null : global.map.DEFAULT_NOT_ZOOM_LONGITUDE_DELTA}
+                        onPress={(event) => {
+                                let coordinate = event.nativeEvent.coordinate;
+                                getAddressByLatLng(coordinate.latitude, coordinate.longitude,
+                                    function(address){
+                                        if(typeof address === "object"){
+                                            if(address.error){
+                                                actions.addPopupStatus({
+                                                    type: "error",
+                                                    message: t(selectors.getLang()).errors.ERROR_API
+                                                })
+                                                return;
+                                            }
+                                        }
+                                        setFieldState({
+                                            ...fieldState,
+                                            defaultValue: null,
+                                            fieldValue: address,
+                                            location: coordinate
+                                        })
+                                        onChange(address, coordinate);
+                                        isError !== null && isError(false);
+                                    }
+                                )}
+                        }
+                    >
+                        {fieldState.location !== null &&
+                            <MapPin 
+                                latitude={fieldState.location.latitude}
+                                longitude={fieldState.location.longitude}
+                            />
+                        }
+                    </Map>
+                </View>
+            </View>
         )
     }
 
@@ -416,6 +758,21 @@ export default function Field({
         case "text":
             _return = _Text();
             break; 
+        case "textarea":
+            _return = _TextArea();
+            break; 
+        case "select":
+            _return = _Select();
+            break; 
+        case "date":
+            _return = _DateTime();
+            break;
+        case "hour":
+            _return = _DateTime(true);
+            break;
+        case "address":
+            _return = _Address();
+            break;
         case "password":
             _return = _Password();
             icon = "lock-closed-outline"
@@ -452,7 +809,14 @@ export default function Field({
         <View style={globalStyles.flexColumn}>
             {
                 label !== null ?
-                    <View style={globalStyles.m_10}>
+                    <View style={[globalStyles.m_10, globalStyles.flexRow, globalStyles.alignCenter]}>
+                        {
+                            labelIcon !== null && (
+                                <View style={[globalStyles.mr_5, globalStyles.mb_10]}>
+                                    <Ionicons name={labelIcon} size={20} color={global.colors.ANTHRACITE}/>
+                                </View>
+                            )
+                        }
                         <Title type="third">
                             {label} :
                         </Title>
@@ -471,7 +835,7 @@ export default function Field({
                 }
                 <View style={{width: icon !== null ? "90%" : "100%", position: "relative"}}>
                     {placeholder !== null ?
-                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
+                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) || (fieldState.defaultValue !== "" && fieldState.defaultValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
                             {placeholder}
                         </Txt>
                     :
@@ -485,6 +849,10 @@ export default function Field({
                     || fieldState.errorMinLength
                     || fieldState.errorLettersOnly
                     || fieldState.errorUsername
+                    || fieldState.errorLessThanHour
+                    || fieldState.errorLessThanDate
+                    || fieldState.errorGreaterThanHour
+                    || fieldState.errorGreaterThanDate
                     ?
                         <Txt _style={{color: global.colors.RED_ERROR}}>
                             {fieldState.errorXSS || fieldState.errorUsername ?
@@ -497,6 +865,14 @@ export default function Field({
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_MAX_LENGTH
                             : fieldState.errorMinLength ?
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_MIN_LENGTH
+                            : fieldState.errorLessThanHour ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_HOUR
+                            : fieldState.errorLessThanDate ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_DATE
+                            : fieldState.errorGreaterThanHour ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_HOUR
+                            : fieldState.errorGreaterThanDate ?
+                                t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_DATE
                             : 
                                 t(selectors.getLang()).fields.FIELD_INCORRECT_LETTERS_ONLY
                             }
@@ -508,4 +884,4 @@ export default function Field({
             </View>
         </View>
     )
-}
+})

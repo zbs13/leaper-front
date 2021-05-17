@@ -1,4 +1,4 @@
-import { format, isToday, parseISO, isYesterday } from 'date-fns';
+import { format, isToday, parseISO, isYesterday, isBefore } from 'date-fns';
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 
@@ -66,12 +66,12 @@ export const getDatesBetweenTwoDates = function(start, end) {
 export const messageDateFormat = function(date, lang) {
     let formDate = parseISO(date);
     if(isToday(formDate)){
-        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(formDate)}`;
     }else if(isYesterday(formDate)){
-        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(formDate)}`;
     }
 
-    return `${t(lang).datetime.formats.date(format(formDate, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(format(formDate, "HH:ii"))}`;
+    return `${t(lang).datetime.formats.date(format(formDate, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(formDate)}`;
 }
 
 /**
@@ -82,4 +82,80 @@ export const messageDateFormat = function(date, lang) {
  */
 export const isUri = function(value){
     return value.match(global.validator.regex.URI);
+}
+
+/**
+ * check if first hour argument is less than the second one
+ * 
+ * @param {string} lessValue value that should be less than the other
+ * @param {string} greaterValue value that should be greater than the other
+ * @return {boolean} true if lessValue is less than greaterValue
+ */
+export const lessThanHour = function(lessValue, greaterValue){
+    let regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+    return parseInt(greaterValue .replace(regExp, "$1$2$3")) > parseInt(lessValue .replace(regExp, "$1$2$3"))
+}
+
+/**
+ * check if first date argument is less than the second one
+ * 
+ * @param {string} lessValue value that should be less than the other
+ * @param {string} greaterValue value that should be greater than the other
+ * @return {boolean} true if lessValue is less than greaterValue
+ */
+ export const lessThanDate = function(lessValue, greaterValue){
+    return isBefore(parseISO(lessValue), parseISO(greaterValue));
+}
+
+/**
+ * get exact address (with google api) by latitude and longitude
+ * 
+ * @param {number} latitude latitude
+ * @param {number} longitude longitude
+ * @param {function} callback function called after end of promise
+ */
+export const getAddressByLatLng = function(latitude, longitude, callback){
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${global.map.GOOGLE_MAP_API_KEY}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then(function(res){
+            if(res.results.length !== 0){
+                callback(res.results[0].formatted_address);
+            }
+        })
+        .catch(function(error){
+            callback({error: true});
+        })
+}
+
+/**
+ * get latitude + longitude (with google api) by address
+ * 
+ * @param {string} address address
+ * @param {function} callback function called after end of promise
+ */
+ export const getLatLngByAddress = function(address, callback){
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${global.map.GOOGLE_MAP_API_KEY}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then(function(res){
+            if(res.results.length !== 0){
+                callback({latitude: res.results[0].geometry.location.lat, longitude: res.results[0].geometry.location.lng});
+            }
+        })
+        .catch(function(error){
+            callback({error: true});
+        })
 }

@@ -13,7 +13,9 @@ export default global = {
         MY_EVENTS: "MyEvents",
         SPORT_EVENT_DETAILS: "SportEventDetails",
         TCHAT: "Tchat",
-        SHARED_CONTENT: "SharedContent"
+        SHARED_CONTENT: "SharedContent",
+        EDIT_GROUP_EVENT: "EditGroupEvent",
+        CREATE_GROUP_EVENT: "CreateGroupEvent"
     },
     colors: {
         MAIN_COLOR: '#BDE023',
@@ -35,6 +37,15 @@ export default global = {
         ADD_USER: 2,
         DELETE_MESSAGE: 3,
         EDIT_INFOS: 4
+    },
+    map: {
+        DEFAULT_ZOOM_LATITUDE_DELTA: 0.0222, 
+        DEFAULT_ZOOM_LONGITUDE_DELTA: 0.0021,
+        DEFAULT_NOT_ZOOM_LATITUDE_DELTA: 10.0222, 
+        DEFAULT_NOT_ZOOM_LONGITUDE_DELTA: 0.0021,
+        DEFAULT_NOT_ZOOM_LONGITUDE: 2.47890900866457,
+        DEFAULT_NOT_ZOOM_LATITUDE: 47.04374701872397,
+        GOOGLE_MAP_API_KEY: "AIzaSyBiHTxaw_bmw2Mt4Y9xWrWzLJkmUD7shPg"
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
     validator: {

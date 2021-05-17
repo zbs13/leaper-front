@@ -1,5 +1,5 @@
 import React from 'react';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import global from '../../providers/global';
 
 /**
@@ -17,6 +17,7 @@ export default function Map({
   longitude, 
   latitudeDelta = null, 
   longitudeDelta = null, 
+  onPress = () => {},
   children
 }) {
 
@@ -26,9 +27,10 @@ export default function Map({
         region={{
             latitude: latitude, 
             longitude: longitude,
-            latitudeDelta: latitudeDelta !== null ? latitudeDelta : 0.0222,
-            longitudeDelta: longitudeDelta !== null ? latitudeDelta : 0.0021
+            latitudeDelta: latitudeDelta !== null ? latitudeDelta : global.map.DEFAULT_ZOOM_LATITUDE_DELTA,
+            longitudeDelta: longitudeDelta !== null ? longitudeDelta : global.map.DEFAULT_ZOOM_LONGITUDE_DELTA
         }}
+        onPress={onPress}
     >
         {children}
     </MapView>

@@ -126,7 +126,7 @@ export default function EventCard({ navigation, item, isMyEvent = false }) {
                             }
                             <Txt _style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
                                 <Ionicons name="location-outline" size={20}/>
-                                {item.postalCode}
+                                {/* {item.postalCode} */}
                             </Txt>
                         </View>
                     </View>
