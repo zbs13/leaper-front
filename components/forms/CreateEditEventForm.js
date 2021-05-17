@@ -65,8 +65,8 @@ export default function CreateEditEventForm({
         nameError: isEdit ? false : true,
         descriptionError: isEdit ? false : true,
         addressError: isEdit ? false : true,
-        dateError: isEdit ? false : true,
-        startHourError: isEdit ? false : true,
+        dateError: false,
+        startHourError: false,
         endHourError: isEdit ? false : true
     });
 
@@ -187,7 +187,7 @@ export default function CreateEditEventForm({
                         <Field 
                             type="hour"
                             label={t(selectors.getLang()).START}
-                            lessThan={geValues.endHour}
+                            lessThan={geValues.endHour || new Date()}
                             labelIcon="time-outline"
                             isError={(error) => error ? setFieldErrors({...fieldErrors, startHourError: true}) : setFieldErrors({...fieldErrors, startHourError: false})}
                             datetime={geValues.startHour}
@@ -198,7 +198,7 @@ export default function CreateEditEventForm({
                         <Field 
                             type="hour"
                             label={t(selectors.getLang()).END}
-                            greaterThan={geValues.startHour}
+                            greaterThan={geValues.startHour || new Date()}
                             labelIcon="time-outline"
                             isError={(error) => error ? setFieldErrors({...fieldErrors, endHourError: true}) : setFieldErrors({...fieldErrors, endHourError: false})}
                             datetime={geValues.endHour}

@@ -17,6 +17,7 @@ import Cta from '../cta/Cta';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
 import Map, { MapPin } from '../maps/Map';
+import _ from "lodash";
 
 /**
  * Fields management => text, password, calendar, username...
@@ -102,7 +103,7 @@ export default memo(function Field({
 
     const [dateTimeState, setDateTimeState] = useState({
         isVisible: false,
-        dateTime: datetime
+        dateTime: datetime || new Date()
     });
 
     useEffect(() => {
@@ -551,7 +552,7 @@ export default memo(function Field({
         function dateTimePicker(){
             return(
                 <DateTimePicker
-                    value={(dateTimeState.dateTime instanceof Date ? dateTimeState.dateTime : parseISO(dateTimeState.dateTime)) || new Date()}
+                    value={dateTimeState.dateTime instanceof Date ? dateTimeState.dateTime : parseISO(dateTimeState.dateTime)}
                     mode={isHour ? "time" : "date"}
                     onChange={(event, dateTime) => {
                         if(dateTime !== undefined){
@@ -562,7 +563,7 @@ export default memo(function Field({
                                 let lessThanHourDate = format(lessThan, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
                                 let dateTimeHourDate = format(dateTime, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
                                 if(isHour ? !lessThanHour(dateTimeHourDate, lessThanHourDate) : !lessThanDate(dateTimeHourDate, lessThanHourDate)){
-                                    setDateTimeState({...dateTimeState, isVisible: false})
+                                    setDateTimeState({dateTime: dateTime, isVisible: false});
                                     isHour ? 
                                         setFieldState({
                                             ...fieldState,
@@ -585,7 +586,7 @@ export default memo(function Field({
                                 let greaterThanHourDate = format(greaterThan, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
                                 let dateTimeHourDate = format(dateTime, isHour ? "HH:mm:ss" : "yyyy-MM-dd");
                                 if(isHour ? lessThanHour(dateTimeHourDate, greaterThanHourDate) : lessThanDate(dateTimeHourDate, greaterThanHourDate)){
-                                    setDateTimeState({...dateTimeState, isVisible: false})
+                                    setDateTimeState({dateTime: dateTime, isVisible: false});
                                     isHour ? 
                                         setFieldState({
                                             ...fieldState,
@@ -600,7 +601,7 @@ export default memo(function Field({
                                     return;
                                 }
                             }
-                            
+            
                             setDateTimeState({dateTime: dateTime, isVisible: false});
                             onChangeDateTime(format(dateTime, "yyyy-MM-dd HH:mm:ss"));
                             setFieldState({
@@ -626,9 +627,9 @@ export default memo(function Field({
                 <Cta 
                     value={
                         isHour ?
-                            t(selectors.getLang()).datetime.formats.hour(dateTimeState.dateTime || new Date())
+                            t(selectors.getLang()).datetime.formats.hour(dateTimeState.dateTime)
                         :
-                            t(selectors.getLang()).datetime.formats.readableDate(dateTimeState.dateTime || new Date())
+                            t(selectors.getLang()).datetime.formats.readableDate(dateTimeState.dateTime)
                     } 
                     onPress={() => setDateTimeState({...dateTimeState, isVisible: true})} 
                     _style={[fieldDate.cta, globalStyles.justifyCenter]}
@@ -658,9 +659,9 @@ export default memo(function Field({
         return (
             <View>
                 <TextInput 
-                    onChangeText={value => onChangeValue(value)}
+                    onChangeText={_.debounce((value) => onChangeValue(value), 500)}
                     style={fields.text}
-                    defaultValue={defaultValue}
+                    defaultValue={fieldState.defaultValue || fieldState.fieldValue}
                     onFocus={() => isFocus(true)}
                     onBlur={() => isFocus(false)}
                 />
@@ -690,11 +691,12 @@ export default memo(function Field({
                                             location: coordinate
                                         })
                                         onChange(address, coordinate);
+                                        isError !== null && isError(false);
                                     }
                                 )}
                         }
                     >
-                        {location !== null &&
+                        {fieldState.location !== null &&
                             <MapPin 
                                 latitude={fieldState.location.latitude}
                                 longitude={fieldState.location.longitude}
