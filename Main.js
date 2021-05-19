@@ -3,6 +3,7 @@ import { Platform, StatusBar, View, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
 import SearchModal from './components/modals/SearchModal';
+import AddModal from './components/modals/AddModal';
 import HomeLoader from './components/loaders/HomeLoader';
 import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
@@ -74,10 +75,12 @@ export default function Main() {
                     </EventsProvider>
                 </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
-                    ?
+                    &&
                         <SearchModal type={selectors.getSearchBar()} />
-                    :
-                        null
+                }
+                {selectors.getAddModal().isOpen
+                    &&
+                        <AddModal />
                 }
                 <PopupStatus />
             </>

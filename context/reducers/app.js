@@ -2,7 +2,11 @@ export const initialState = {
     lang: "fr",
     searchBar: null,
     os: "android",
-    popupsStatus: []
+    popupsStatus: [],
+    addModal: {
+      isOpen: false,
+      navigation: null
+    }
 };
   
   /**
@@ -25,6 +29,14 @@ export const initialState = {
           }
         })
         return state;
+      case "TOGGLE_ADD_MODAL":
+        return {
+          ...state,
+          addModal: {
+            isOpen: !state.addModal.isOpen,
+            navigation: action.payload
+          }
+        }
       default:
         return state;
     }

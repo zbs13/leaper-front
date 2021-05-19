@@ -31,12 +31,13 @@ export default function OptionsModal({
   icon = null, 
   children = null, 
   isActive = true,
-  onPress = false
+  onPress = false,
+  isVisible = false
 }) {
 
-    const  {selectors} = useApp();
+    const {selectors} = useApp();
 
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(isVisible);
     const toggleModalView = () => {
       setVisible(!visible);
     };

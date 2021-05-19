@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export default function HomeScreenManager() {
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={global.screens.HOME}>
             <Stack.Screen name={global.screens.HOME} component={HomeScreen} options={({navigation}) => (headerType.main(navigation))}/>
             {
                 withBottomMenu.map((value, index) => {

@@ -9,8 +9,8 @@ const Stack = createStackNavigator();
 export default function AppScreenManager() {
 
     return (
-        <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name={global.screens.HOME} component={BottomMenu} options={{ headerShown: false }} />
+        <Stack.Navigator initialRouteName={global.screens.BOTTOM_MENU_ROUTING}>
+            <Stack.Screen name={global.routing.BOTTOM_MENU_ROUTING} component={BottomMenu} options={{ headerShown: false }} />
             {
                 withCustomHeaderOnly.map((value, index) => {
                     return <Stack.Screen key={index} name={value.name} component={value.component} options={value.header} />
