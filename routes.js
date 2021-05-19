@@ -19,6 +19,7 @@ import WelcomeLanguageSelectionScreen from "./screens/auth/WelcomeLanguageSelect
 import headerType from "./components/headers/headers";
 import AppSettingsScreen from "./screens/AppSettingesScreen";
 import ChangeLanguageScreen from "./screens/ChangeLanguageScreen";
+import ChangeNotificationsScreen from "./screens/ChangeNotificationsScreen";
 
 export const auth = [
     {
@@ -119,6 +120,14 @@ export const withCustomHeaderOnly = [
         component: ChangeLanguageScreen,
         header: ({navigation}) => (headerType.back())
     },
+    {
+        name: global.screens.CHANGE_NOTIFICATIONS,
+        component: ChangeNotificationsScreen,
+        header: ({navigation}) => (headerType.back(navigation, ""))
+    },
+
+
+    
 
 
 ]

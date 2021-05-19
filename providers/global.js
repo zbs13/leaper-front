@@ -26,7 +26,8 @@ export default global = {
         ALLOCATE_ROLE: "AllocateRole",
         ADD_PERSON: "AddPerson",
         APP_SETTINGS: "AppSettings",
-        CHANGE_LANGUAGE: "ChangeLanguage"
+        CHANGE_LANGUAGE: "ChangeLanguage",
+        CHANGE_NOTIFICATIONS: "ChangeNotifications"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

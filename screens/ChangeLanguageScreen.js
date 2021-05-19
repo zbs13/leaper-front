@@ -23,12 +23,6 @@ export default function ChangeLanguageScreen(navigation) {
       <View>
         <Text style={settings.titleParams}>{t(selectors.getLang()).settingsApp.TITLE}</Text>
         <View style={{justifyContent: 'center', alignItems: 'center' }}>
-          {/* <Switch
-            trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value="true"
-          /> */}
           <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
               FR :

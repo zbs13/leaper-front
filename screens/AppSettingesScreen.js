@@ -23,7 +23,7 @@ export default function AppSettingsScreen({navigation}) {
         <View style={{justifyContent: 'center', alignItems: 'center' }}>
           <Cta
             _style= {[globalStyles.mt_50,settings.buttonStyle, settings.buttonFont]}
-            onPress={() => {}}
+            onPress={() => {navigation.navigate(global.screens.CHANGE_NOTIFICATIONS)}}
             value={t(selectors.getLang()).settingsApp.NOTIFICATIONS}
             underlayColor="transparent"
           />
