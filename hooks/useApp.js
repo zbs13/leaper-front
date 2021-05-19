@@ -70,10 +70,21 @@ const useApp = () => {
         actions[removePopupFunc](id);
       });
     },
+    /**
+     * remove popup
+     * 
+     * @param {string} id popup id to remove
+     */
     removePopupStatus: function(id) {
       dispatch({
         type: "REMOVE_POPUP_STATUS",
         payload: id
+      })
+    },
+    toggleAddModal: function(navigation = null) {
+      dispatch({
+        type: "TOGGLE_ADD_MODAL",
+        payload: navigation
       })
     }
   };
@@ -83,7 +94,8 @@ const useApp = () => {
     getLang: () => appState.lang,
     getSearchBar: () => appState.searchBar,
     getOS: () => appState.os,
-    getPopupsStatus: () => appState.popupsStatus
+    getPopupsStatus: () => appState.popupsStatus,
+    getAddModal: () => appState.addModal
   };
 
   return { selectors, actions };

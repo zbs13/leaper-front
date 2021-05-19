@@ -3,7 +3,6 @@ import t from './lang/translations';
 export default global = {
     screens: {
         HOME: "Home",
-        ADD: "Add",
         FAVORITES: "Favorites",
         FRIENDS: "Friends",
         NOTIFICATIONS: "Notifications",
@@ -16,6 +15,14 @@ export default global = {
         SHARED_CONTENT: "SharedContent",
         EDIT_GROUP_EVENT: "EditGroupEvent",
         CREATE_GROUP_EVENT: "CreateGroupEvent"
+    },
+    routing: {
+        HOME_ROUTING: "HomeRouting",
+        BOTTOM_MENU_ROUTING: "BottomMenuRouting",
+        ADD_ROUTING: "AddRouting",
+        FRIENDS_ROUTING: "FriendsRouting",
+        NOTIFICATIONS_ROUTING: "NotificationsRouting",
+        FAVORITES_ROUTING: "FavoritesRouting",
     },
     colors: {
         MAIN_COLOR: '#BDE023',

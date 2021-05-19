@@ -2,7 +2,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreenManager from '../../screensManager/HomeScreenManager';
-import AddListScreenManager from '../../screensManager/AddListScreenManager';
 import ListFriendsScreenManager from '../../screensManager/ListFriendsScreenManager';
 import NotificationsScreenManager from '../../screensManager/NotificationsScreenManager';
 import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreenManager';
@@ -18,44 +17,48 @@ const Tab = createBottomTabNavigator();
  */
 export default function BottomMenu() {
 
-  const { selectors } = useApp();
+  const { selectors, actions } = useApp();
 
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-          switch (route.name) {
-            case t(selectors.getLang()).HOME:
-              iconName = 'ios-home';
-              size = 35;
-              break;
-            case t(selectors.getLang()).ADD:
-              iconName = 'ios-add-outline';
-              break;
-            case t(selectors.getLang()).FRIENDS:
-              iconName = 'ios-people-outline';
-              break;
-            case t(selectors.getLang()).NOTIFICATIONS:
-              iconName = 'ios-notifications-outline';
-              break;
-            case t(selectors.getLang()).FAVORITES:
-              iconName = 'ios-location-outline';
-              break;
-          }
-          return <Ionicons name={iconName} size={size} color={color} />;
-        }
-      })}
+      initialRouteName={global.routing.HOME_ROUTING}
       tabBarOptions={{
         activeTintColor: global.colors.MAIN_COLOR,
         inactiveTintColor: global.colors.GREY,
       }}
     >
-      <Tab.Screen name={t(selectors.getLang()).ADD} component={AddListScreenManager} />
-      <Tab.Screen name={t(selectors.getLang()).FRIENDS} component={ListFriendsScreenManager} />
-      <Tab.Screen name={t(selectors.getLang()).HOME} component={HomeScreenManager} />
-      <Tab.Screen name={t(selectors.getLang()).NOTIFICATIONS} component={NotificationsScreenManager} options={{ tabBarBadge: 3 }} />
-      <Tab.Screen name={t(selectors.getLang()).FAVORITES} component={ListFavoritesScreenManager} />
+      <Tab.Screen name={global.routing.ADD_ROUTING} children={() => {}} options={
+        {
+          tabBarLabel: t(selectors.getLang()).ADD,
+          tabBarIcon: ({color, size}) => <Ionicons name="ios-add-outline" size={size} color={color} />
+        }} 
+        listeners={({navigation}) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            actions.toggleAddModal(navigation);
+          }
+        })}  
+      />
+      <Tab.Screen name={global.routing.FRIENDS_ROUTING} component={ListFriendsScreenManager} options={
+        {
+          tabBarLabel: t(selectors.getLang()).FRIENDS,
+          tabBarIcon: ({color, size}) => <Ionicons name="ios-people-outline" size={size} color={color} />
+        }} />
+      <Tab.Screen name={global.routing.HOME_ROUTING} component={HomeScreenManager} options={
+        {
+          tabBarLabel: t(selectors.getLang()).HOME,
+          tabBarIcon: ({color, size}) => <Ionicons name="ios-home" size={35} color={color} />
+        }} />
+      <Tab.Screen name={global.routing.NOTIFICATIONS_ROUTING} component={NotificationsScreenManager} options={{ tabBarBadge: 3 }} options={
+        {
+          tabBarLabel: t(selectors.getLang()).NOTIFICATIONS,
+          tabBarIcon: ({color, size}) => <Ionicons name="ios-notifications-outline" size={size} color={color} />
+        }} />
+      <Tab.Screen name={global.routing.FAVORITES_ROUTING} component={ListFavoritesScreenManager} options={
+        {
+          tabBarLabel: t(selectors.getLang()).FAVORITES,
+          tabBarIcon: ({color, size}) => <Ionicons name="ios-location-outline" size={size} color={color} />
+        }} />
     </Tab.Navigator>
   );
 }
