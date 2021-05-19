@@ -6,14 +6,13 @@ import LeftToggleMenu from '../menus/LeftToggleMenu';
 /**
  * main at the left of the header
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function MainHeaderLeft({navigation}) {
+export default function MainHeaderLeft() {
 
     return (
         <View style={[globalStyles.m_10, globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
-            <LeftToggleMenu navigation={navigation}/>
+            <LeftToggleMenu />
         </View>
     );
 }

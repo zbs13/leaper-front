@@ -4,6 +4,7 @@ export const initialState = {
     fetchedById: {},
     messages: [],
     myRights: [],
+    isOwner: false,
     sharedContent: []
 };
   
@@ -36,7 +37,8 @@ export const initialState = {
       case "UPDATE_MY_RIGHTS":
         return {
           ...state,
-          myRights: action.payload
+          myRights: action.payload.rights,
+          isOwner: action.payload.isOwner
         };
       case "UPDATE_GROUP_SHARED_CONTENT":
         let __val = action.payload;

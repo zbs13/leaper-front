@@ -147,6 +147,18 @@ export const card = StyleSheet.create({
     }
 })
 
+export const personCard = StyleSheet.create({
+    view: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: global.colors.VERY_LIGHT_GREY
+    },
+    profilePic: {
+        width: 50,
+        height: 50
+    }
+})
+
 export const tag = StyleSheet.create({
     container: {
         padding: 5,

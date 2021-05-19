@@ -8,6 +8,7 @@ import TchatScreen from "./screens/TchatScreen";
 import TestScreen from "./screens/TestScreen";
 import EditGroupEventScreen from "./screens/EditGroupEventScreen";
 import CreateGroupEventScreen from "./screens/CreateGroupEventScreen";
+import PeopleListScreen from "./screens/PeopleListScreen";
 import headerType from "./components/headers/headers";
 
 // routes with home/custom Header and Bottom menu displayed
@@ -23,7 +24,7 @@ export const withBottomMenu = [
     {
         name: global.screens.SPORT_EVENTS,
         component: SportEventScreen,
-        header: ({navigation}) => (headerType.back(navigation, ""))
+        header: ({navigation}) => (headerType.back())
     }
 ]
 
@@ -32,31 +33,36 @@ export const withCustomHeaderOnly = [
     {
         name: "test",
         component: TestScreen,
-        header: ({navigation}) => (headerType.back(navigation, "aaa"))
+        header: ({navigation}) => (headerType.back("aaa"))
     },
     {
         name: global.screens.SPORT_EVENT_DETAILS,
         component: SportEventDetailsScreen,
-        header: ({navigation}) => (headerType.back(navigation, ""))
+        header: ({navigation}) => (headerType.back())
     },
     {
         name: global.screens.TCHAT,
         component: TchatScreen,
-        header: ({navigation}) => (headerType.back(navigation, ""))
+        header: ({navigation}) => (headerType.back())
     },
     {
         name: global.screens.SHARED_CONTENT,
         component: SharedContentScreen,
-        header: ({navigation}) => (headerType.back(navigation, ""))
+        header: ({navigation}) => (headerType.back())
     },
     {
         name: global.screens.EDIT_GROUP_EVENT,
         component: EditGroupEventScreen,
-        header: ({navigation}) => (headerType.back(navigation, ""))
+        header: ({navigation}) => (headerType.back())
     },
     {
         name: global.screens.CREATE_GROUP_EVENT,
         component: CreateGroupEventScreen,
-        header: ({navigation}) => (headerType.back(navigation, ""))
-    }
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.PEOPLE_LIST,
+        component: PeopleListScreen,
+        header: ({navigation}) => (headerType.back())
+    }  
 ]

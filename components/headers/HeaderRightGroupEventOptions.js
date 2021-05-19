@@ -6,21 +6,22 @@ import t from '../../providers/lang/translations';
 import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
 import useApp from '../../hooks/useApp';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Header right part with group/event options
  * 
- * @param {object} navigation for routing 
  * @param {boolean} isEvent is header right for an event or a group
  * @param {string} geTitle group/event title
  * @param {number} geId group/event id
  * @returns 
  */
-export default function HeaderRightGroupEventOptions({navigation, isEvent = false, geTitle, geId}) {
+export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, geId}) {
 
     const { selectors: selectorsApp } = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
+    const navigation = useNavigation();
 
     let selector = selectorsGroup;
     if(isEvent){
@@ -36,7 +37,7 @@ export default function HeaderRightGroupEventOptions({navigation, isEvent = fals
         {
           value: t(selectorsApp.getLang()).PEOPLE_LIST,
           icon: "people-outline",
-          action: () => alert("liste personnes")
+          action: () => navigation.navigate(global.screens.PEOPLE_LIST, {isEvent: isEvent, id: geId})
         },
         {
           value: t(selectorsApp.getLang()).SHARED_CONTENT,
@@ -80,6 +81,17 @@ export default function HeaderRightGroupEventOptions({navigation, isEvent = fals
             action: () => navigation.navigate(global.screens.EDIT_GROUP_EVENT, {id: geId, isEvent: isEvent, infos: selector.getFetchedById()})
         })
     }
+
+    /**
+     * if user is owner of group so access to roles screen
+     */
+    if(selector.isOwner()){
+      mainOptions.splice(1, 0, {
+          value: t(selectorsApp.getLang()).ROLES,
+          icon: "lock-closed-outline",
+          action: () => console.log("roles")
+      })
+  }
 
     return (
     <View>

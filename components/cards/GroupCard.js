@@ -12,18 +12,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 import Txt from '../Txt';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * group card
  * 
- * @param {object} navigation navigation object for routing
  * @param {object} item group object => id, name, description, src, users 
  * @param {boolean} isMyGroup true if user is in group else false
  * @returns 
  */
-export default function GroupCard({ navigation, item, isMyGroup = false }) {
+export default function GroupCard({ item, isMyGroup = false }) {
     
     const {selectors} = useApp();
+    const navigation = useNavigation();
 
     /**
      * main options in options modal (for swipeable option)

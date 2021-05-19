@@ -3,14 +3,17 @@ import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { header } from './../assets/styles/styles';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * navigation back icon
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function NavigationBackIcon({navigation}) {
+export default function NavigationBackIcon() {
+
+  const navigation = useNavigation();
+
   return (
     <View>
         <TouchableOpacity

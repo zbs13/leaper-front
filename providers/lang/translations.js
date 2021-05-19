@@ -32,7 +32,7 @@ const l = {
         BOOKMARK_THIS_PLACE: "Mettre le lieu en favori",
         PARAMETERS: "Paramètres",
         MUTE: "Mettre en sourdine",
-        PEOPLE_LIST: "Liste des personnes",
+        PEOPLE_LIST: "Liste des membres",
         SHARED_CONTENT: "Contenu partagé",
         COPY_TEXT: "Copier le texte",
         EDIT_INFOS: "Modifier les informations",
@@ -55,6 +55,8 @@ const l = {
         NAME: "Nom",
         GENERAL: "Général",
         SAVE_CHANGES: "Sauvegarder les modifications",
+        ROLES: "Rôles",
+        NO_MEMBER: "Aucun membre",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
             EDIT_SUCCESS: "Modifié avec succès",
@@ -80,7 +82,8 @@ const l = {
             CONFIRM_JOIN_GROUP: "Vous vous apprétez à rejoindre ce groupe",
             CREATE_GROUP: "Créer un groupe",
             ADD_TO_GROUP: "Ajouter au groupe",
-            CONFIRM_CREATE_GROUP: "Créer le groupe"
+            CONFIRM_CREATE_GROUP: "Créer le groupe",
+            GROUP_MEMBERS: "Membres du groupe"
         },
         event: {
             LEAVE_THIS_EVENT: "Quitter cet évènement",
@@ -94,7 +97,8 @@ const l = {
             FIND_AN_EVENT: "Chercher un évènement",
             CREATE_EVENT: "Créer un évènement",
             ADD_TO_EVENT: "Ajouter à l'évènement",
-            CONFIRM_CREATE_EVENT: "Créer l'évènement"
+            CONFIRM_CREATE_EVENT: "Créer l'évènement",
+            EVENT_MEMBERS: "Membres de l'évènement"
         },
         fields: {
             PASSWORD: "Mot de passe",
@@ -275,7 +279,7 @@ const l = {
         BOOKMARK_THIS_PLACE: "Bookmark this place",
         PARAMETERS: "Parameters",
         MUTE: "Mute",
-        PEOPLE_LIST: "People list",
+        PEOPLE_LIST: "Members list",
         SHARED_CONTENT: "Shared content",
         COPY_TEXT: "Copy text",
         EDIT_INFOS: "Edit information",
@@ -298,6 +302,8 @@ const l = {
         NAME: "Name",
         GENERAL: "General",
         SAVE_CHANGES: "Save changes",
+        ROLES: "Roles",
+        NO_MEMBER: "No member",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
             EDIT_SUCCESS: "Successfully edited",
@@ -324,6 +330,7 @@ const l = {
             MY_GROUPS: "My groups",
             CREATE_GROUP: "Create a group",
             CONFIRM_CREATE_GROUP: "Create group",
+            GROUP_MEMBERS: "Group members"
         },
         event: {
             EVENTS: "Events",
@@ -337,7 +344,8 @@ const l = {
             MY_EVENTS: "My events",
             CREATE_EVENT: "Create an event",
             HERE_EVENT_PLACE: "This is here event take place",
-            CONFIRM_CREATE_EVENT: "Create event"
+            CONFIRM_CREATE_EVENT: "Create event",
+            EVENT_MEMBERS: "Event members"
         },
         fields: {
             PASSWORD: "Password",

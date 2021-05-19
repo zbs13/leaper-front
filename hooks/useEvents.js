@@ -2,6 +2,7 @@ import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
 import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages, fetchAllSharedContent, update, create } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
+import global from '../providers/global';
 
 const useEvents = () => {
   const {
@@ -65,8 +66,10 @@ const useEvents = () => {
            * 
            */
           let rightsArr = [];
+          let isOwner = false;
           if(res.owner.id === myId){
-            rightsArr = [1, 2, 3, 4];
+            rightsArr = global.rights.ALL;
+            isOwner = true;
           }else{
             res.users.map((index, user) => {
               if(user.id === myId){
@@ -84,7 +87,10 @@ const useEvents = () => {
 
           dispatch({
             type: "UPDATE_MY_RIGHTS",
-            payload: rightsArr
+            payload: {
+              rights: rightsArr,
+              isOwner: isOwner
+            }
           });
         })
       });
@@ -174,6 +180,7 @@ const useEvents = () => {
     getMessages: () => eventsState.messages,
     getMyRights: () => eventsState.myRights,
     hasRight: (right) => eventsState.myRights.includes(right),
+    isOwner: () => eventsState.isOwner,
     getSharedContent: () => eventsState.sharedContent
   };
 

@@ -10,16 +10,17 @@ import Logo from '../logo/Logo';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import globalStyles from '../../assets/styles/global';
 import Txt from '../Txt';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * left menu (sports)
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function LeftToggleMenu({navigation}) {
+export default function LeftToggleMenu() {
 
     const  {selectors} = useApp();
+    const navigation = useNavigation();
 
     const [visible, setVisible] = useState(false);
     const toggleBottomNavigationView = () => {

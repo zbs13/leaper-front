@@ -126,7 +126,10 @@ export const fetchById = (id) => {
             users: [{
                 id: 1,
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                firstname: "Ta",
+                lastname: "gueule",
                 roles: [{
+                    name: "le role",
                     group: {
                         id: 7
                     },
@@ -141,8 +144,11 @@ export const fetchById = (id) => {
                 }],
             },{
                 id: 1,
+                firstname: "Ta",
+                lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    name: "le role",
                     group: {
                         id: 1
                     },
@@ -156,9 +162,12 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 2,
+                id: 1,
+                firstname: "Ta",
+                lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    name: "le role",
                     group: {
                         id: 1
                     },
@@ -172,6 +181,7 @@ export const fetchById = (id) => {
                     ]
                 },
                 {
+                    name: "le role",
                     group: {
                         id: 2
                     },
@@ -189,8 +199,11 @@ export const fetchById = (id) => {
                 }],
             },{
                 id: 1,
+                firstname: "Ta",
+                lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    name: "le role",
                     group: {
                         id: 1
                     },
@@ -205,8 +218,11 @@ export const fetchById = (id) => {
                 }],
             },{
                 id: 1,
+                firstname: "Ta",
+                lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    name: "le role",
                     group: {
                         id: 1
                     },
@@ -220,9 +236,12 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 2,
+                id: 1,
+                firstname: "Ta",
+                lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    name: "le role",
                     group: {
                         id: 1
                     },
