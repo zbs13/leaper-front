@@ -6,6 +6,7 @@ export const initialState = {
     fetchedById: {},
     messages: [],
     myRights: [],
+    isOwner: false,
     sharedContent: []
 };
   
@@ -46,7 +47,8 @@ export const initialState = {
       case "UPDATE_MY_RIGHTS":
         return {
           ...state,
-          myRights: action.payload
+          myRights: action.payload.rights,
+          isOwner: action.payload.isOwner
         };
       case "UPDATE_EVENT_SHARED_CONTENT":
         let ___val = action.payload;
@@ -56,6 +58,16 @@ export const initialState = {
           ...state,
           sharedContent: ___val
         };
+      case "REMOVE_USER":
+        let users = state.fetchedById.users;
+        users.splice(users.findIndex(o => o.id === action.payload), 1);
+        return {
+          ...state,
+          fetchedById: {
+            ...state.fetchedById,
+            users: users
+          }
+        }
       default:
         return state;
     }

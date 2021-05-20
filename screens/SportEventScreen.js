@@ -141,7 +141,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
             fetchData();
           }}
           renderItem={({item}) => (
-            <EventCard navigation={navigation} 
+            <EventCard
               item={item}
             />
           )}

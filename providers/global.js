@@ -14,7 +14,8 @@ export default global = {
         TCHAT: "Tchat",
         SHARED_CONTENT: "SharedContent",
         EDIT_GROUP_EVENT: "EditGroupEvent",
-        CREATE_GROUP_EVENT: "CreateGroupEvent"
+        CREATE_GROUP_EVENT: "CreateGroupEvent",
+        PEOPLE_LIST: "PeopleList"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",
@@ -43,7 +44,8 @@ export default global = {
         REMOVE_USER: 1,
         ADD_USER: 2,
         DELETE_MESSAGE: 3,
-        EDIT_INFOS: 4
+        EDIT_INFOS: 4,
+        ALL: [1, 2, 3, 4]
     },
     map: {
         DEFAULT_ZOOM_LATITUDE_DELTA: 0.0222, 

@@ -1,7 +1,17 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
-import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages, fetchAllSharedContent, update, create } from '../context/actions/events';
+import { 
+  fetchMyEvents, 
+  fetchByCriteria, 
+  fetchById, 
+  fetchMessages, 
+  fetchAllSharedContent, 
+  update, 
+  create, 
+  removeUser 
+} from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
+import global from '../providers/global';
 
 const useEvents = () => {
   const {
@@ -58,15 +68,17 @@ const useEvents = () => {
             payload: res
           });
           /**
-           * 
+           * //TODO get real own id
            */
           const myId = 2;
           /**
            * 
            */
           let rightsArr = [];
+          let isOwner = false;
           if(res.owner.id === myId){
-            rightsArr = [1, 2, 3, 4];
+            rightsArr = global.rights.ALL;
+            isOwner = true;
           }else{
             res.users.map((index, user) => {
               if(user.id === myId){
@@ -84,7 +96,10 @@ const useEvents = () => {
 
           dispatch({
             type: "UPDATE_MY_RIGHTS",
-            payload: rightsArr
+            payload: {
+              rights: rightsArr,
+              isOwner: isOwner
+            }
           });
         })
       });
@@ -158,9 +173,25 @@ const useEvents = () => {
      * @param {string} id event id to edit
      * @param {object} values all event values
      */
-     updateById: function(id, values){
+    updateById: function(id, values){
       return update(id, values).then((data) => {
         return response(data);
+      });
+    },
+    /**
+     * remove an user from an event
+     * 
+     * @param {string} userId user id to remove
+     * @param {string} eventId event id
+     */
+    removeUser: function(userId, eventId){
+      return removeUser(userId, eventId).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "REMOVE_USER",
+            payload: userId
+          });
+        })
       });
     }
   };
@@ -174,6 +205,7 @@ const useEvents = () => {
     getMessages: () => eventsState.messages,
     getMyRights: () => eventsState.myRights,
     hasRight: (right) => eventsState.myRights.includes(right),
+    isOwner: () => eventsState.isOwner,
     getSharedContent: () => eventsState.sharedContent
   };
 

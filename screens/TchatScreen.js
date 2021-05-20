@@ -49,7 +49,7 @@ export default function TchatScreen({navigation, route}) {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: title,
-      headerRight: () => <HeaderRightGroupEventOptions navigation={navigation} isEvent={isEvent} geTitle={title} geId={id} />
+      headerRight: () => <HeaderRightGroupEventOptions isEvent={isEvent} geTitle={title} geId={id} />
     });
   }, [isLoaded])
 
@@ -110,7 +110,7 @@ export default function TchatScreen({navigation, route}) {
           </View>
           <View style={{flex: 1}}>
             <Cta
-              onPress={() => alert("zez")} 
+              onPress={() => navigation.navigate(global.screens.PEOPLE_LIST, {isEvent: isEvent, id: id})} 
               _style={globalStyles.h_50p}
             >
               <View style={[globalStyles.h_100, globalStyles.alignCenter, globalStyles.justifyCenter]}>
@@ -148,7 +148,7 @@ export default function TchatScreen({navigation, route}) {
         onTouchStart={() => console.log("aeoauje")}
       >
         {isLoaded ?
-          selector.getMessages().map((message, index) => <View key={index}><MessageCard navigation={navigation} message={message} isEvent={isEvent} /></View>)
+          selector.getMessages().map((message, index) => <View key={index}><MessageCard message={message} isEvent={isEvent} /></View>)
         :
           <TchatLoader />
         }

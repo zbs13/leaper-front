@@ -20,15 +20,15 @@ import { saveFileOnPhone, shareFile } from '../../utils/phoneFunct';
 /**
  * message card
  * 
- * @param {object} navigation navigation object for routing
  * @param {object} message message => id, attachment, content, date, sentBy
  * @param {boolean} isEvent is an event message
  * @returns 
  */
-export default function MessageCard({navigation, message, isEvent}) {
+export default function MessageCard({ message, isEvent}) {
 
     /**
      * myId
+     * //TODO get real own id
      */
     let myId = 2;
     /**

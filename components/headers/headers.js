@@ -8,12 +8,11 @@ export default headerType = {
     /**
      * main header
      * 
-     * @param {object} navigation for routing
      * @returns 
      */
-    main: (navigation) => ({
+    main: () => ({
         headerTitle: "",
-        headerLeft: (props) => (<MainHeaderLeft navigation={navigation} />),
+        headerLeft: (props) => (<MainHeaderLeft />),
         headerRight: () => (
             <MainHeaderRight />
         )
@@ -21,15 +20,14 @@ export default headerType = {
     /**
      * back header
      * 
-     * @param {object} navigation for routing
      * @param {string} title value to be displayed as title in header
      * @param {component} headerRight component to be displayed at the header's right
      * @returns 
      */
-    back: (navigation, title = "...", headerRight = null) => ({
+    back: (title = "", headerRight = null) => ({
         headerTitle: props => <HeaderTitle title={title}/>,
         headerLeft: () => (
-            <NavigationBackIcon navigation={navigation} />
+            <NavigationBackIcon />
         ),
         headerRight: () => {
             if(headerRight !== null){

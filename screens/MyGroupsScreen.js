@@ -84,7 +84,7 @@ export default React.memo(function MyGroupsScreen({navigation}) {
           onRefresh={() => fetchData()}
           onEndReached={() => setMgs({...mgs, offset: mgs.offset + global.MAX_RESULT_PER_LOADED_PAGE})}
           renderItem={({item}) => (
-            <GroupCard navigation={navigation} 
+            <GroupCard
               isMyGroup={true}
               item={item}
             />

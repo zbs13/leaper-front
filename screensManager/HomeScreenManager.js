@@ -11,10 +11,10 @@ export default function HomeScreenManager() {
 
     return (
         <Stack.Navigator initialRouteName={global.screens.HOME}>
-            <Stack.Screen name={global.screens.HOME} component={HomeScreen} options={({navigation}) => (headerType.main(navigation))}/>
+            <Stack.Screen name={global.screens.HOME} component={HomeScreen} options={({navigation}) => (headerType.main())}/>
             {
                 withBottomMenu.map((value, index) => {
-                    return <Stack.Screen key={index} name={value.name} component={value.component} options={typeof value.header === "undefined" ? ({navigation}) => (headerType.main(navigation)) : value.header}/>
+                    return <Stack.Screen key={index} name={value.name} component={value.component} options={typeof value.header === "undefined" ? ({navigation}) => (headerType.main()) : value.header}/>
                 })
             }
         </Stack.Navigator>

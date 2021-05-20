@@ -12,18 +12,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 import Txt from '../Txt';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Event Cards
  * 
- * @param {object} navigation navigation object for routing
  * @param {object} item event object => id, name, sportId, description, src, users, postalCode
  * @param {boolean} isMyEvent true if user is in event else false
  * @returns 
  */
-export default function EventCard({ navigation, item, isMyEvent = false }) {
+export default function EventCard({ item, isMyEvent = false }) {
     
     const {selectors} = useApp();
+    const navigation = useNavigation();
 
     /**
      * details options for option modal

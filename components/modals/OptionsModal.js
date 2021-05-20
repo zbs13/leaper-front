@@ -14,7 +14,7 @@ import Txt from '../Txt';
  * options modal
  * 
  * @param {string|null} title options modal title
- * @param {object} options options in modal => confirm, style, value, icon, iconColor
+ * @param {object} options options in modal => confirm, style, value, icon, iconColor, action
  * @param {number|null} buttonSize button size
  * @param {string|null} buttonColor button color
  * @param {string|null} icon icon name

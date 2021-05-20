@@ -14,19 +14,20 @@ import TagNbNotifs from '../tags/TagNbNotifs';
 import ImageIcon from '../icons/ImageIcon';
 import GroupsEventsCardLoader from "../loaders/GroupsEventsCardLoader";
 import Txt from '../Txt';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * group or event card to summarize groups/events where user is in
  * 
- * @param {string} type if for group card = "groups" else if for event card = "events" 
- * @param {object} navigation navigation object for routing
+ * @param {string} type if for group card = "groups" else if for event card = "events"
  * @returns 
  */
-export default function MyGroupsEventsCards({ type, navigation }) {
+export default function MyGroupsEventsCards({ type }) {
 
     const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
     const { actions: actionsEvents, selectors: selectorsEvents } = useEvents();
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
+    const navigation = useNavigation();
 
     const [groupEvent, setGroupEvent] = useState({
         isLoaded: false,

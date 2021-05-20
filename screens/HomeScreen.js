@@ -5,15 +5,14 @@ import MyGroupsEventsCard from '../components/cards/MyGroupsEventsCard';
 /**
  * home screen
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function HomeScreen({navigation}) {
+export default function HomeScreen() {
 
     return (
       <ScrollView>
-        <MyGroupsEventsCard navigation={navigation} type="groups"/>
-        <MyGroupsEventsCard navigation={navigation} type="events"/>
+        <MyGroupsEventsCard type="groups"/>
+        <MyGroupsEventsCard type="events"/>
       </ScrollView>
     );
 }
