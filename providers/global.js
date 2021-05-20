@@ -15,7 +15,8 @@ export default global = {
         SHARED_CONTENT: "SharedContent",
         EDIT_GROUP_EVENT: "EditGroupEvent",
         CREATE_GROUP_EVENT: "CreateGroupEvent",
-        PEOPLE_LIST: "PeopleList"
+        PEOPLE_LIST: "PeopleList",
+        USER_PROFILE: "UserProfile"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

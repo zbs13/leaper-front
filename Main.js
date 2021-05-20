@@ -9,6 +9,7 @@ import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
+import { UsersProvider } from './context/usersContext';
 import { deviceYearClass, modelName } from 'expo-device';
 
 export default function Main() {
@@ -68,11 +69,13 @@ export default function Main() {
                     behavior={(Platform.OS === 'ios') ? "padding" : ""}
                     style={{flex: 1}}
                 >
-                    <EventsProvider>
-                        <GroupsProvider>
-                            <AppScreenManager />
-                        </GroupsProvider>
-                    </EventsProvider>
+                    <UsersProvider>
+                        <EventsProvider>
+                            <GroupsProvider>
+                                <AppScreenManager />
+                            </GroupsProvider>
+                        </EventsProvider>
+                    </UsersProvider>
                 </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
                     &&

@@ -44,7 +44,7 @@ export default function PersonCard({
         {
             value: t(selectorsApp.getLang()).SEE_PROFILE,
             icon: "person-outline",
-            action: () => console.log("le profil")
+            action: () => navigation.navigate(global.screens.USER_PROFILE, {userId: datas.id, userFirstname: datas.firstname})
         }
     ];
 
@@ -97,7 +97,7 @@ export default function PersonCard({
                 options={personOptions}
             >
                 <Cta
-                    onPress={() => console.log("ao")}
+                    onPress={() => navigation.navigate(global.screens.USER_PROFILE, {userId: datas.id, userFirstname: datas.firstname})}
                 >
                     <View style={[globalStyles.w_100, globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
                         <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>

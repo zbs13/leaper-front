@@ -5,10 +5,10 @@ import MyGroupsScreen from "./screens/MyGroupsScreen";
 import SportEventDetailsScreen from "./screens/SportEventDetailsScreen";
 import SharedContentScreen from "./screens/SharedContentScreen";
 import TchatScreen from "./screens/TchatScreen";
-import TestScreen from "./screens/TestScreen";
 import EditGroupEventScreen from "./screens/EditGroupEventScreen";
 import CreateGroupEventScreen from "./screens/CreateGroupEventScreen";
 import PeopleListScreen from "./screens/PeopleListScreen";
+import UserProfileScreen from "./screens/UserProfileScreen";
 import headerType from "./components/headers/headers";
 
 // routes with home/custom Header and Bottom menu displayed
@@ -30,11 +30,6 @@ export const withBottomMenu = [
 
 // routes with only custom Header displayed
 export const withCustomHeaderOnly = [
-    {
-        name: "test",
-        component: TestScreen,
-        header: ({navigation}) => (headerType.back("aaa"))
-    },
     {
         name: global.screens.SPORT_EVENT_DETAILS,
         component: SportEventDetailsScreen,
@@ -64,5 +59,10 @@ export const withCustomHeaderOnly = [
         name: global.screens.PEOPLE_LIST,
         component: PeopleListScreen,
         header: ({navigation}) => (headerType.back())
-    }  
+    },
+    {
+        name: global.screens.USER_PROFILE,
+        component: UserProfileScreen,
+        header: ({navigation}) => (headerType.back())
+    } 
 ]

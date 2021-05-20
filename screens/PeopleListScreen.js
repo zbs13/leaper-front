@@ -9,6 +9,9 @@ import { manageResponseUI } from '../context/actions/apiCall';
 import PersonCard from '../components/cards/PersonCard';
 import Txt from '../components/Txt';
 import globalStyles from '../assets/styles/global';
+import Cta from '../components/cta/Cta';
+import global from '../providers/global';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /**
  * people list screen
@@ -24,18 +27,22 @@ export default function PeopleListScreen({navigation, route}) {
     const {selectors: selectorsGroup, actions: actionsGroup} = useGroups();
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
 
-    useEffect(() => {
-        navigation.setOptions({
-            headerTitle: isEvent ? t(selectorsApp.getLang()).event.EVENT_MEMBERS : t(selectorsApp.getLang()).group.GROUP_MEMBERS,
-        });
-    }, [])
-
     let selectors = selectorsGroup;
     let actions = actionsGroup;
     if(isEvent){
         selectors = selectorsEvent;
         actions = actionsEvent;
     }
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: isEvent ? t(selectorsApp.getLang()).event.EVENT_MEMBERS : t(selectorsApp.getLang()).group.GROUP_MEMBERS,
+            headerRight: () => selectors.hasRight(global.rights.ADD_USER) &&
+                <Cta onPress={() => console.log("page add user")} >
+                    <Ionicons name="add-outline" color={global.colors.MAIN_COLOR} size={30} />
+                </Cta>
+        });
+    }, [])
 
    /**
    * fetch all group/event members
