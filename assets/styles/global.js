@@ -16,6 +16,9 @@ export default globalStyles = StyleSheet.create({
     p_10: {
         padding: 10
     },
+    pl_5: {
+        paddingLeft: 5
+    },
     m_5: {
         margin: 5
     },
@@ -66,6 +69,9 @@ export default globalStyles = StyleSheet.create({
     },
     ta_l: {
         textAlign: "left"
+    },
+    fs_10: {
+        fontSize: 10
     },
     flex: {
         display: "flex",

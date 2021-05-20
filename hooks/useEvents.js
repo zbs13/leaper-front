@@ -1,6 +1,15 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
-import { fetchMyEvents, fetchByCriteria, fetchById, fetchMessages, fetchAllSharedContent, update, create } from '../context/actions/events';
+import { 
+  fetchMyEvents, 
+  fetchByCriteria, 
+  fetchById, 
+  fetchMessages, 
+  fetchAllSharedContent, 
+  update, 
+  create, 
+  removeUser 
+} from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
 
@@ -59,7 +68,7 @@ const useEvents = () => {
             payload: res
           });
           /**
-           * 
+           * //TODO get real own id
            */
           const myId = 2;
           /**
@@ -164,9 +173,25 @@ const useEvents = () => {
      * @param {string} id event id to edit
      * @param {object} values all event values
      */
-     updateById: function(id, values){
+    updateById: function(id, values){
       return update(id, values).then((data) => {
         return response(data);
+      });
+    },
+    /**
+     * remove an user from an event
+     * 
+     * @param {string} userId user id to remove
+     * @param {string} eventId event id
+     */
+    removeUser: function(userId, eventId){
+      return removeUser(userId, eventId).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "REMOVE_USER",
+            payload: userId
+          });
+        })
       });
     }
   };

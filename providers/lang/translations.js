@@ -57,6 +57,11 @@ const l = {
         SAVE_CHANGES: "Sauvegarder les modifications",
         ROLES: "Rôles",
         NO_MEMBER: "Aucun membre",
+        MEMBERS: "Membres",
+        SEE_PROFILE: "Voir le profil",
+        EXCLUDE: "Exclure",
+        SURE_TO_EXCLUDE: "Etes vous sûr de vouloir exclure",
+        MANAGE_ROLE: "Gestion du rôle",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
             EDIT_SUCCESS: "Modifié avec succès",
@@ -304,6 +309,11 @@ const l = {
         SAVE_CHANGES: "Save changes",
         ROLES: "Roles",
         NO_MEMBER: "No member",
+        MEMBERS: "Members",
+        SEE_PROFILE: "See profile",
+        EXCLUDE: "Exclude",
+        SURE_TO_EXCLUDE: "Are you sure to exclude",
+        MANAGE_ROLE: "Manage role",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
             EDIT_SUCCESS: "Successfully edited",

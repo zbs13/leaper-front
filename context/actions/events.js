@@ -313,7 +313,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 3,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -332,9 +332,9 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 2,
-                firstname: "Ta",
-                lastname: "gueule",
+                id: 4,
+                firstname: "ezf",
+                lastname: "gueuffffffffffffffle",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
                     name: "le role",
@@ -351,7 +351,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 5,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -370,9 +370,9 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
-                firstname: "Ta",
-                lastname: "gueule",
+                id: 6,
+                firstname: "efsofgsdoàif",
+                lastname: "gueuleds^pfgiosdàogisçoghiujhçg",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
                     name: "le role",
@@ -389,7 +389,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 7,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -569,6 +569,22 @@ export const update = (id, datas) => {
  * @param {object} datas datas to update
  */
  export const create = (datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
+    })
+}
+
+/**
+ * remove an user from an event
+ * 
+ * @param {*} userId user id to remove from an event
+ * @param {*} eventId event id
+ */
+ export const removeUser = (userId, eventId) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
             id: 2

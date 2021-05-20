@@ -143,7 +143,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 3,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -162,7 +162,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 4,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -198,7 +198,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 5,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -217,7 +217,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 6,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -236,7 +236,7 @@ export const fetchById = (id) => {
                     ]
                 }],
             },{
-                id: 1,
+                id: 7,
                 firstname: "Ta",
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
@@ -501,6 +501,22 @@ export const fetchById = (id) => {
  * @param {object} datas datas to update
  */
  export const create = (datas) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {isError: true}
+    })
+}
+
+/**
+ * remove an user from a group
+ * 
+ * @param {*} userId user id to remove from a group
+ * @param {*} groupId group id
+ */
+export const removeUser = (userId, groupId) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
             id: 2

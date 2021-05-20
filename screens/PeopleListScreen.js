@@ -7,6 +7,8 @@ import t from '../providers/lang/translations';
 import { RefreshViewList } from '../components/RefreshView';
 import { manageResponseUI } from '../context/actions/apiCall';
 import PersonCard from '../components/cards/PersonCard';
+import Txt from '../components/Txt';
+import globalStyles from '../assets/styles/global';
 
 /**
  * people list screen
@@ -53,11 +55,16 @@ export default function PeopleListScreen({navigation, route}) {
 
     return (
       <View>
+        <View style={globalStyles.m_10}>
+            <Txt _style={globalStyles.f_bold}>
+                {`${t(selectorsApp.getLang()).MEMBERS} : ${selectors.getFetchedById().users.length}`}
+            </Txt>
+        </View>
         <RefreshViewList
             onRefresh={() => fetchMembers()}
             noDataMessage={t(selectorsApp.getLang()).NO_MEMBER}
             data={selectors.getFetchedById().users}
-            renderItem={({item}) => <PersonCard isMember datas={item} />}
+            renderItem={({item}) => <PersonCard isMember isEvent={isEvent} datas={item} />}
         />
       </View>
     );

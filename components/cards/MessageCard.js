@@ -28,6 +28,7 @@ export default function MessageCard({ message, isEvent}) {
 
     /**
      * myId
+     * //TODO get real own id
      */
     let myId = 2;
     /**

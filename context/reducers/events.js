@@ -58,6 +58,16 @@ export const initialState = {
           ...state,
           sharedContent: ___val
         };
+      case "REMOVE_USER":
+        let users = state.fetchedById.users;
+        users.splice(users.findIndex(o => o.id === action.payload), 1);
+        return {
+          ...state,
+          fetchedById: {
+            ...state.fetchedById,
+            users: users
+          }
+        }
       default:
         return state;
     }

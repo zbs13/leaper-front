@@ -1,6 +1,14 @@
 import { useContext } from "react";
 import GroupsContext from "../context/groupsContext";
-import { fetchMyGroups, fetchById, fetchMessages, fetchAllSharedContent, update, create } from '../context/actions/groups';
+import { 
+  fetchMyGroups, 
+  fetchById, 
+  fetchMessages, 
+  fetchAllSharedContent, 
+  update, 
+  create,
+  removeUser
+} from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
 
@@ -42,7 +50,7 @@ const useGroups = () => {
             payload: res
           });
           /**
-           * 
+           * //TODO get real own id
            */
             const myId = 2;
             /**
@@ -149,6 +157,22 @@ const useGroups = () => {
      updateById: function(id, values){
       return update(id, values).then((data) => {
         return response(data);
+      });
+    },
+    /**
+     * remove an user from an a group
+     * 
+     * @param {string} userId user id to remove
+     * @param {string} groupId group id
+     */
+    removeUser: function(userId, groupId){
+      return removeUser(userId, groupId).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "REMOVE_USER",
+            payload: userId
+          });
+        })
       });
     }
   };
