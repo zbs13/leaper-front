@@ -16,11 +16,7 @@ import { RadioButton } from 'react-native-paper';
  */
 export default function ChangeNotificationsScreen(navigation) {
 
-    const [checked, setChecked] = React.useState('EN');
     const  {selectors} = useApp();
-
-    const [isEnabled, setIsEnabled] = React.useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     const [MessagePrivateEnable, setMessagePrivate] = React.useState(false);
     const toggleSwitchMessagePrivate = () => setMessagePrivate(previousState => !previousState);
@@ -42,16 +38,19 @@ export default function ChangeNotificationsScreen(navigation) {
 
     return (
       <View>
-        <Text style={settings.titleParams}>{t(selectors.getLang()).settingsApp.TITLE}</Text>
+        <Text style={settings.titleParams}>{t(selectors.getLang()).changeNotifications.TITLE}</Text>
         <View style={{justifyContent: 'center', alignItems: 'center' }}>
-          <Text>
-            Messages:
+
+          <Text style={[globalStyles.f_bold, globalStyles.title_size, globalStyles.mt_20]}>
+            {t(selectors.getLang()).changeNotifications.TITLE_MESSAGE}
           </Text>
-          <View>
+
+          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              Messages des discutions :
+              {t(selectors.getLang()).changeNotifications.TITLE_MESSAGE_PRIVATE}
             </Text>
             <Switch
+              style={[globalStyles.m_10]} 
               trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
               humbColor={MessagePrivateEnable ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
@@ -59,11 +58,12 @@ export default function ChangeNotificationsScreen(navigation) {
               value={MessagePrivateEnable}
             /> 
           </View>
-          <View>
+          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              Messages des évènements :
+              {t(selectors.getLang()).changeNotifications.TITLE_MESSAGE_EVENT}
             </Text>
             <Switch
+              style={[globalStyles.m_10]} 
               trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
               humbColor={MessageEventEnable ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
@@ -72,15 +72,16 @@ export default function ChangeNotificationsScreen(navigation) {
             /> 
           </View>
 
-          <Text>
-            Invitations:
+          <Text style={[globalStyles.f_bold, globalStyles.title_size, globalStyles.mt_20]}>
+            {t(selectors.getLang()).changeNotifications.TITLE_ADD}
           </Text>
 
-          <View>
+          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              Invitations à une discutions :
+              {t(selectors.getLang()).changeNotifications.TITLE_ADD_MESSAGE}
             </Text>
             <Switch
+              style={[globalStyles.m_10]} 
               trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
               humbColor={AddMessagePrivate ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
@@ -89,11 +90,12 @@ export default function ChangeNotificationsScreen(navigation) {
             /> 
           </View>
 
-          <View>
+          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              Invitations à un évènement :
+              {t(selectors.getLang()).changeNotifications.TITLE_ADD_EVENT}
             </Text>
             <Switch
+              style={[globalStyles.m_10]} 
               trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
               humbColor={AddEvent ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
@@ -102,36 +104,37 @@ export default function ChangeNotificationsScreen(navigation) {
             /> 
           </View>
 
-          <View>
+          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              Invitations d'ami :
+              {t(selectors.getLang()).changeNotifications.TITLE_ADD_FRIEND}
             </Text>
             <Switch
+              style={[globalStyles.m_10]} 
               trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
               humbColor={AddFriend ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitchRememeber}
+              onValueChange={toggleSwitchAddFirend}
               value={AddFriend}
             /> 
           </View>
 
-          <Text>
-            Rappel:
+          <Text style={[globalStyles.f_bold, globalStyles.title_size, globalStyles.mt_20]}>
+            {t(selectors.getLang()).changeNotifications.TITLE_REMINDER}
           </Text>
 
-          <View>
+          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              Me rappeler un évènement :
+              {t(selectors.getLang()).changeNotifications.TITLE_REMINDER_EVENT}
             </Text>
             <Switch
+              style={[globalStyles.m_10]} 
               trackColor={{ false: "#767577", true: global.colors.MAIN_COLOR }}
               humbColor={Remember ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitchAddMessagePrivate}
+              onValueChange={toggleSwitchRememeber}
               value={Remember}
             /> 
           </View>
-
 
         </View>
     </View>

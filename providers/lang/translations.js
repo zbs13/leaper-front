@@ -340,6 +340,18 @@ const l = {
         },
         changeLanguage: {
             TITLE: 'Français'
+        },
+        changeNotifications: {
+            TITLE: 'Notifications',
+            TITLE_MESSAGE: 'Messages',
+            TITLE_MESSAGE_PRIVATE: 'Messages des discutions',
+            TITLE_MESSAGE_EVENT: 'Messages des évènements',
+            TITLE_ADD: 'Invitations',
+            TITLE_ADD_MESSAGE: 'Invitations à une discutions',
+            TITLE_ADD_EVENT: 'Invitations à un évènement :',
+            TITLE_ADD_FRIEND: 'Invitations d\'ami :',
+            TITLE_REMINDER: 'Rappel :',
+            TITLE_REMINDER_EVENT: 'Me rappeler un évènement :'
         }
     },
     en: {
@@ -687,6 +699,18 @@ const l = {
         },
         changeLanguage: {
             TITLE: 'English'
+        },
+        changeNotifications: {
+            TITLE: 'Notifications',
+            TITLE_MESSAGE: 'Messages :',
+            TITLE_MESSAGE_PRIVATE: 'Chat message :',
+            TITLE_MESSAGE_EVENT: 'Chat event :',
+            TITLE_ADD: 'Invitation :',
+            TITLE_ADD_MESSAGE: 'Chat invitation :',
+            TITLE_ADD_EVENT: 'Event invitation :',
+            TITLE_ADD_FRIEND: 'Friend invitation :',
+            TITLE_REMINDER: 'Reminder :',
+            TITLE_REMINDER_EVENT: 'Remind me of an event :'
         }
     }
 }
