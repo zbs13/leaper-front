@@ -24,7 +24,7 @@ export default function TchatBar({onSend, onChangeInput}){
 
     const [tchatState, setTchatState] = useState({
         textValue: "",
-        attachment: null
+        attachment: {}
     })
 
     const [pickImageRestrictionPopup, setPickImageRestrictionPopup] = useState({
@@ -46,11 +46,11 @@ export default function TchatBar({onSend, onChangeInput}){
                 onCancelPress={() => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: false})}
                 onAcceptPress={() => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: false})}
             />
-            {tchatState.attachment !== null && typeof tchatState.attachment.type !== "undefined" ? 
+            {typeof tchatState.attachment.type !== "undefined" ? 
                 <View style={[globalStyles.w_100, tchatBar.imagePreviewContainer]}>
                     <View style={tchatBar.imagePreviewDelete}>
                         <Cta
-                            onPress={() => setTchatState({...tchatState, attachment: null})}
+                            onPress={() => setTchatState({...tchatState, attachment: {}})}
                             _style={{backgroundColor: global.colors.WHITE, borderRadius: 50}}
                         >
                             <Ionicons name="close-outline" size={25} color={global.colors.ANTHRACITE}/>
@@ -105,8 +105,12 @@ export default function TchatBar({onSend, onChangeInput}){
                         onChange={onChangeInput}
                     />
                 </View>
-                <View style={[globalStyles.m_10, globalStyles.alignCenter, {display: tchatState.textValue.trim() !== "" || tchatState.attachment !== null ? "flex" : "none"}]}>
-                    <Cta onPress={() => alert("non")}>
+                <View style={[globalStyles.m_10, globalStyles.alignCenter, {display: tchatState.textValue.trim() !== "" || Object.keys(tchatState.attachment).length !== 0 ? "flex" : "none"}]}>
+                    <Cta onPress={() => {
+                            onSend(tchatState);
+                            setTchatState({textValue: "", attachment: {}});
+                        }}
+                    >
                         <Ionicons name="send" color={global.colors.MAIN_COLOR} size={30}/>
                     </Cta>
                 </View>

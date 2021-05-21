@@ -12,7 +12,7 @@ import globalStyles from '../../assets/styles/global';
 export default function MiniLoader() {
 
   return (
-    <Spin _style={[miniLoader.main, globalStyles.justifyCenter]}>
+    <Spin _style={[globalStyles.justifyCenter, globalStyles.alignCenter, {height: 40, width: 40}, globalStyles.m_5]}>
         <MiniLogo _style={logo.mini} />
     </Spin>
   );
