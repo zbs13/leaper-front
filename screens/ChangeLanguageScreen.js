@@ -21,11 +21,11 @@ export default function ChangeLanguageScreen(navigation) {
 
     return (
       <View>
-        <Text style={settings.titleParams}>{t(selectors.getLang()).settingsApp.TITLE}</Text>
+        <Text style={settings.titleParams}>{t(selectors.getLang()).changeLanguage.TITLE}</Text>
         <View style={{justifyContent: 'center', alignItems: 'center' }}>
           <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
             <Text>
-              FR :
+              {t(selectors.getLang()).changeLanguage.SELECT_LANGUAGES_FR}
             </Text>
             <RadioButton
               value="FR"
@@ -35,7 +35,7 @@ export default function ChangeLanguageScreen(navigation) {
           </View>
           <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.mt_20]}>
             <Text>
-              EN :
+              {t(selectors.getLang()).changeLanguage.SELECT_LANGUAGES_EN}
             </Text>
             <RadioButton
               value="EN"

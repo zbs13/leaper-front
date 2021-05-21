@@ -339,7 +339,9 @@ const l = {
             LANGUAGE: 'Langue'
         },
         changeLanguage: {
-            TITLE: 'Français'
+            TITLE: 'Langues',
+            SELECT_LANGUAGES_FR: 'FR',
+            SELECT_LANGUAGES_EN: 'EN'
         },
         changeNotifications: {
             TITLE: 'Notifications',
@@ -698,7 +700,9 @@ const l = {
             LANGUAGE: 'Language'
         },
         changeLanguage: {
-            TITLE: 'English'
+            TITLE: 'Languges',
+            SELECT_LANGUAGES_FR: 'FR',
+            SELECT_LANGUAGES_EN: 'EN'
         },
         changeNotifications: {
             TITLE: 'Notifications',
