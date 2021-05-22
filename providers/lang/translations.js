@@ -328,10 +328,7 @@ const l = {
             APPLY: 'Gestion de l\'application',
             ABOUT: 'A propos',
             TITLE: 'Paramètres',
-            LOG_OUT: "Déconnexion"
-        },
-        welcomeLanguageSelection: {
-            SELECT_A_LANGUAGE: "Choisissez une langue"
+            LOGOUT: 'Déconnexion'
         },
         settingsApp: {
             TITLE: 'Paramètre de l\'application ',
@@ -354,6 +351,12 @@ const l = {
             TITLE_ADD_FRIEND: 'Invitations d\'ami :',
             TITLE_REMINDER: 'Rappel :',
             TITLE_REMINDER_EVENT: 'Me rappeler un évènement :'
+        },
+        about: {
+            TITLE: 'À propos',
+            DATA_USE_POLICY: 'politique d\'utilisation des données',
+            TERMS_OF_USE: 'Conditions d\'utilisation',
+            PATCH_NOTE: 'Note de mise à jour',
         }
     },
     en: {
@@ -689,7 +692,7 @@ const l = {
             APPLY: 'Application settings',
             ABOUT: 'About',
             TITLE: 'Settings',
-            LOG_OUT: "Log out"
+            LOGOUT: 'Log out'
         },
         welcomeLanguageSelection: {
             SELECT_A_LANGUAGE: "Select a language"
@@ -715,6 +718,12 @@ const l = {
             TITLE_ADD_FRIEND: 'Friend invitation :',
             TITLE_REMINDER: 'Reminder :',
             TITLE_REMINDER_EVENT: 'Remind me of an event :'
+        },
+        about: {
+            TITLE: 'About',
+            DATA_USE_POLICY: 'Data use policy',
+            TERMS_OF_USE: 'Terms of use',
+            PATCH_NOTE: 'Patch note',
         }
     }
 }

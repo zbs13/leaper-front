@@ -27,7 +27,8 @@ export default global = {
         ADD_PERSON: "AddPerson",
         APP_SETTINGS: "AppSettings",
         CHANGE_LANGUAGE: "ChangeLanguage",
-        CHANGE_NOTIFICATIONS: "ChangeNotifications"
+        CHANGE_NOTIFICATIONS: "ChangeNotifications",
+        ABOUT: "About"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

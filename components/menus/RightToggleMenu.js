@@ -70,12 +70,12 @@ export default function RightToggleMenu({navigation}) {
             </View>
             
             <View style= {settings.settings}>
-              <Button   
-                buttonStyle={settings.buttonStyle}
-                titleStyle={settings.buttonFont}
+              <Cta
+                _style= {[settings.buttonStyle, settings.buttonFont]}
+                value={t(selectors.getLang()).settings.PROFIL}
                 onPress={() => {}}
-                title={t(selectors.getLang()).settings.PROFIL}
-              />
+                underlayColor="transparent"
+              ></Cta>
               <Cta
                 _style= {[settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).settings.APPLY}
@@ -85,27 +85,24 @@ export default function RightToggleMenu({navigation}) {
                 }}
                 underlayColor="transparent"
               ></Cta>
-              <Button 
-                buttonStyle={settings.buttonStyle}
-                titleStyle={settings.buttonFont}
-                onPress={() => {}}
-                title={t(selectors.getLang()).settings.ABOUT}
-              />
+              <Cta
+                _style= {[settings.buttonStyle, settings.buttonFont]}
+                value={t(selectors.getLang()).settings.ABOUT}
+                onPress={() => {
+                  toggleBottomNavigationView()
+                  navigation.navigate(global.screens.ABOUT)
+                }}
+                underlayColor="transparent"
+              ></Cta>
             </View>
             <View style= {[settings.settings, settings.buttonLogout]}>
               <Separator />
-              <Button 
-                icon={
-                  <Ionicons
-                    name= 'log-out-outline'            
-                    size={30}
-                    style={{marginRight: 30}}
-                  />
-                }
-                buttonStyle={settings.buttonStyle}
-                titleStyle={settings.buttonFont}
+              <Cta
+                _style= {[settings.buttonStyle, settings.buttonFont]}
+                value={t(selectors.getLang()).settings.LOGOUT}
+                icon='log-out-outline'
+                iconSize={30}
                 onPress={() => actionsUser.logout()}
-                title={t(selectors.getLang()).settings.LOG_OUT}
               />
             </View>
           </View>
