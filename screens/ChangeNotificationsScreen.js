@@ -11,10 +11,9 @@ import { RadioButton } from 'react-native-paper';
 /**
  * app settings screen
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function ChangeNotificationsScreen(navigation) {
+export default function ChangeNotificationsScreen() {
 
     const  {selectors} = useApp();
 

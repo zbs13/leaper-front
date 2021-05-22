@@ -11,10 +11,9 @@ import { RadioButton } from 'react-native-paper';
 /**
  * app settings screen
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function ChangeLanguageScreen(navigation) {
+export default function ChangeLanguageScreen() {
 
     const [checked, setChecked] = React.useState('EN');
     const  {selectors} = useApp();

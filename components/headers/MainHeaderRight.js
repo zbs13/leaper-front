@@ -14,7 +14,7 @@ import RightToggleMenu from '../menus/RightToggleMenu';
  * @returns 
  */
 
-export default function MainHeaderRight({navigation}) {
+export default function MainHeaderRight() {
 
     const {actions} = useApp();
 
@@ -25,7 +25,7 @@ export default function MainHeaderRight({navigation}) {
                 value={<Ionicons style={header.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
-            <RightToggleMenu navigation={navigation} />
+            <RightToggleMenu/>
         </View>
     );
 }

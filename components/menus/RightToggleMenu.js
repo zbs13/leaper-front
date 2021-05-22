@@ -2,13 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { View, Text, Image } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import { header } from '../../assets/styles/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Avatar, Title} from 'react-native-paper';
 import Cta from '../cta/Cta';
 import globalStyles from '../../assets/styles/global';
-import { Button } from 'react-native-elements';
 import { settings } from '../../assets/styles/styles';
-
+import { useNavigation } from '@react-navigation/core';
 import global from '../../providers/global';
 
 import t from '../../providers/lang/translations';
@@ -21,13 +19,13 @@ const imageUri = Image.resolveAssetSource(defaultProfilePic).uri
 /**
  * right menu (settings)
  * 
- * @param {object} navigation for routing 
  * @returns 
  */
-export default function RightToggleMenu({navigation}) {
+export default function RightToggleMenu() {
 
     const {selectors} = useApp();
     const {actions: actionsUser, selectors: selectorsUser} = useUsers();
+    const navigation = useNavigation();
 
     const [visible, setVisible] = useState(false);
     const toggleBottomNavigationView = () => {

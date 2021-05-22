@@ -14,7 +14,7 @@ export default headerType = {
         headerTitle: "",
         headerLeft: (props) => (<MainHeaderLeft />),
         headerRight: () => (
-            <MainHeaderRight navigation={navigation}/>
+            <MainHeaderRight/>
         )
     }),
     /**
