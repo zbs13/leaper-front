@@ -593,3 +593,24 @@ export const update = (id, datas) => {
         return {isError: true}
     })
 }
+
+/**
+ * send a message
+ * 
+ * @param {string} userId user id (owner of message)
+ * @param {string} eventId event id
+ * @param {string} value text value 
+ * @param {object} attachment message attachment => 
+ *                                        if image/video : height, type, uri, width 
+ *                                        if file        : name, size, type, uri
+ */
+ export const sendMessage = (userId, eventId, value, attachment) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {};
+        return {isError: true}
+    })
+}

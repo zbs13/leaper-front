@@ -158,6 +158,21 @@ const l = {
                 }
             }
         },
+        profile: {
+            title: (firstname) => `Profil de ${firstname}`,
+            PROFILE: "Profil",
+            ADD_AS_FRIEND: "Ajouter en ami",
+            LASTNAME: "Nom",
+            FIRSTNAME: "Prénom",
+            BIRTHDATE: "Date de naissance",
+            FAVORITE_SPORT: "Sport favori",
+            REGISTRATION_DATE: "Date d'inscription",
+            CONTACT: "Contact",
+            EMAIL: "Email",
+            PHONE_NUMBER: "Numéro de téléphone",
+            MEMBER_OF: "Membre de",
+            MEMBER_OF_NO_EVENT: "Membre d'aucun évènement"
+        },
         sports: {
             BIATHLON: "Biathlon",
             RUNNING: "Course",
@@ -416,6 +431,21 @@ const l = {
                     return hour.join('');
                 }
             }
+        },
+        profile: {
+            title: (firstname) => `${firstname}'s profile`,
+            PROFILE: "Profile",
+            ADD_AS_FRIEND: "Add as friend",
+            LASTNAME: "Lastname",
+            FIRSTNAME: "Firstname",
+            BIRTHDATE: "Birthdate",
+            FAVORITE_SPORT: "Favorite sport",
+            REGISTRATION_DATE: "Registration date",
+            CONTACT: "Contact",
+            EMAIL: "Email",
+            PHONE_NUMBER: "Phone number",
+            MEMBER_OF: "Member of",
+            MEMBER_OF_NO_EVENT: "Member of no event"
         },
         sports: {
             BIATHLON: "Biathlon",

@@ -533,3 +533,22 @@ export const fieldDate = StyleSheet.create({
         textAlign: "left"
     }
 })
+
+export const profile = StyleSheet.create({
+    header: {
+        borderBottomWidth: 1, 
+        borderBottomColor: 
+        global.colors.LIGHT_GREY
+    },
+    headerPicContainer: {
+        width: 120, 
+        height: 120
+    },
+    headerPic: {
+        borderWidth: 2, 
+        borderColor: global.colors.MAIN_COLOR
+    },
+    headerName: {
+        fontSize: 15
+    }
+})

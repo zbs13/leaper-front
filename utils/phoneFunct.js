@@ -45,7 +45,6 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
     let result = await DocumentPicker.getDocumentAsync({type: "application/*"});
     switch(result.type){
         case "success":
-            console.log(result);
             let extension = ext(result.uri);
             result = {
                 ...result,

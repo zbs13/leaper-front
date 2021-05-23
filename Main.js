@@ -9,6 +9,7 @@ import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
+import { UsersProvider } from './context/usersContext';
 import { deviceYearClass, modelName } from 'expo-device';
 
 export default function Main() {
@@ -24,7 +25,7 @@ export default function Main() {
      * configure status bar height according to os
      */
     const STATUS_BAR_HEIGHT = Platform.OS === "ios" ? deviceYearClass >= 2017 && modelName !== "iPhone 8" && modelName !== "iPhone 8 Plus" ? 44 : 30 : StatusBar.currentHeight;
-
+    
     /**
      * configure app os and language
      */
@@ -68,11 +69,13 @@ export default function Main() {
                     behavior={(Platform.OS === 'ios') ? "padding" : ""}
                     style={{flex: 1}}
                 >
-                    <EventsProvider>
-                        <GroupsProvider>
-                            <AppScreenManager />
-                        </GroupsProvider>
-                    </EventsProvider>
+                    <UsersProvider>
+                        <EventsProvider>
+                            <GroupsProvider>
+                                <AppScreenManager />
+                            </GroupsProvider>
+                        </EventsProvider>
+                    </UsersProvider>
                 </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
                     &&

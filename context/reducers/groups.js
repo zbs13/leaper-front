@@ -28,8 +28,9 @@ export const initialState = {
         }
       case "UPDATE_GROUPS_MESSAGES":
         let _val = action.payload;
-        // if(action.offset !== 0)
-        //   _val = state.messages.push(_val)
+        if(action.offset !== 0){
+          _val.push(...state.messages)
+        }
         return {
           ...state,
           messages: _val
@@ -57,6 +58,13 @@ export const initialState = {
             ...state.fetchedById,
             users: users
           }
+        }
+      case "SEND_MESSAGE":
+        let messages = state.messages
+        messages.push(action.payload);
+        return {
+          ...state,
+          messages: messages
         }
       default:
         return state;

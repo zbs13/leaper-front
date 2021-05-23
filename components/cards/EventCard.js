@@ -5,7 +5,7 @@ import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
 import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
-import { ellipsisText } from '../../utils/utils';
+import { ellipsisText, getSportById } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -99,7 +99,7 @@ export default function EventCard({ item, isMyEvent = false }) {
                         style={[card.cardContainer, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween]}
                     >
                         <View style={[globalStyles.flexColumn, {flex: 1}]}>
-                            <Txt _style={globalStyles.ta_c}>{global.listSports(selectors.getLang())[item.sportId - 1].name}</Txt>
+                            <Txt _style={globalStyles.ta_c}>{getSportById(selectors.getLang(), item.sportId).name}</Txt>
                             <ImageIcon _style={card.pic} src={item.src} />
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>

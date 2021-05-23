@@ -16,6 +16,7 @@ import useGroups from '../../hooks/useGroups';
 import { messageDateFormat } from '../../utils/utils';
 import ContentDisplay from '../display/ContentDisplay';
 import { saveFileOnPhone, shareFile } from '../../utils/phoneFunct';
+import { useNavigation } from '@react-navigation/core';
 
 /**
  * message card
@@ -39,6 +40,7 @@ export default function MessageCard({ message, isEvent}) {
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
+    const navigation = useNavigation();
 
     const [isSharing, setIsSharing] = useState(false);
 
@@ -54,9 +56,11 @@ export default function MessageCard({ message, isEvent}) {
     function profilePart(){
         return(
             <View style={[globalStyles.flexColumn, globalStyles.alignCenter]}>
-                <View style={messageCard.profilePicContainer}>
-                    <BackgroundImage _style={messageCard.profilePic} image={{uri: message.sentBy.profilePic}}/>
-                </View>
+                <Cta onPress={() => navigation.navigate(global.screens.USER_PROFILE, {userId: message.sentBy.id, userFirstname: message.sentBy.firstname})}>
+                    <View style={messageCard.profilePicContainer}>
+                        <BackgroundImage _style={messageCard.profilePic} image={{uri: message.sentBy.profilePic}}/>
+                    </View>
+                </Cta>
             </View>
         )
     }

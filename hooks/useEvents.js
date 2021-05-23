@@ -8,7 +8,8 @@ import {
   fetchAllSharedContent, 
   update, 
   create, 
-  removeUser 
+  removeUser,
+  sendMessage
 } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
@@ -190,6 +191,46 @@ const useEvents = () => {
           dispatch({
             type: "REMOVE_USER",
             payload: userId
+          });
+        })
+      });
+    },
+    /**
+     * send a message
+     * 
+     * @param {string} eventId event id
+     * @param {string} value text value 
+     * @param {object} attachment message attachment => 
+     *                                        if image/video : height, type, uri, width 
+     *                                        if file        : name, size, type, uri
+     */
+     sendMessage: function(eventId, value, attachment){
+      /**
+       * TODO change with correct user id
+       */
+      let userId = 2;
+      let userSrc = "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png";
+      let userFirstname = "Johnny";
+      let userLastname = "matttttttttt";
+      /***
+      * 
+      */
+      return sendMessage(userId, eventId, value, attachment).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "SEND_MESSAGE",
+            payload: {
+              id: "jzaeifhuezi",
+              content: value,
+              attachment: attachment,
+              sentBy: {
+                  id: userId,
+                  firstname: userFirstname,
+                  lastname: userLastname,
+                  profilePic: userSrc
+              },
+              date: "2021-05-21 10:03:54"
+            }
           });
         })
       });
