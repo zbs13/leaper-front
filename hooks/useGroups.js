@@ -215,6 +215,17 @@ const useGroups = () => {
           });
         })
       });
+    },
+    /**
+     * delete a role in UI from fetched group by id
+     * 
+     * @param {string} id role id to delete in UI
+     */
+     deleteRoleInUI: function(id){
+      dispatch({
+        type: "DELETE_ROLE_IN_UI",
+        payload: id
+      });
     }
   };
 

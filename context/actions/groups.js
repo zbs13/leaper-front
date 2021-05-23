@@ -123,6 +123,26 @@ export const fetchById = (id) => {
             owner: {
                 id: 2
             },
+            roles: [{
+                id: 1,
+                name: "le rooooole",
+                rights: [{
+                    id: 1
+                },
+                {
+                    id: 3
+                }]
+            },
+            {
+                id: 2,
+                name: "le rooooole 2",
+                rights: [{
+                    id: 2
+                },
+                {
+                    id: 4
+                }]
+            }],
             users: [{
                 id: 1,
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",

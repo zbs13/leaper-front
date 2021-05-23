@@ -9,6 +9,7 @@ import EditGroupEventScreen from "./screens/EditGroupEventScreen";
 import CreateGroupEventScreen from "./screens/CreateGroupEventScreen";
 import PeopleListScreen from "./screens/PeopleListScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
+import ManageRoleScreen from "./screens/ManageRoleScreen";
 import headerType from "./components/headers/headers";
 
 // routes with home/custom Header and Bottom menu displayed
@@ -63,6 +64,11 @@ export const withCustomHeaderOnly = [
     {
         name: global.screens.USER_PROFILE,
         component: UserProfileScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.MANAGE_ROLE,
+        component: ManageRoleScreen,
         header: ({navigation}) => (headerType.back())
     } 
 ]
