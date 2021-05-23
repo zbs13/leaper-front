@@ -2,7 +2,6 @@ import { useContext } from "react";
 import UsersContext from "../context/usersContext";
 import {fetchUserById} from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
-import global from '../providers/global';
 
 const useUsers = () => {
   const {

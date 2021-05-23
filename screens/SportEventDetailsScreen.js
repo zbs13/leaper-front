@@ -15,6 +15,7 @@ import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
+import { getSportById } from '../utils/utils';
 
 /**
  * 
@@ -120,6 +121,14 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                     {t(lang).TO} : {t(lang).datetime.formats.hour(details.endHour)}
                                 </Txt>
                             </View>
+                        </View>
+                        <View style={[globalStyles.flexColumn, globalStyles.m_10, {flex: 1}]} >
+                            <Txt _style={[globalStyles.c_anth, globalStyles.f_bold]}>
+                                {t(lang).SPORT} :
+                            </Txt>
+                            <Txt _style={[globalStyles.c_anth]}>
+                                {getSportById(lang, details.sportId).name}
+                            </Txt>
                         </View>
                         <Txt _style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Txt>
                     </View>

@@ -159,3 +159,16 @@ export const getAddressByLatLng = function(latitude, longitude, callback){
             callback({error: true});
         })
 }
+
+/**
+ * return sport object by its id
+ * 
+ * @param {string} lang lang for sport label
+ * @param {number} id sport id to find
+ * @returns 
+ */
+export const getSportById = function(lang, id){
+    let sportList = global.listSports(lang);
+    let sportIndex = sportList.findIndex(sport => sport.id === id);
+    return sportList[sportIndex];
+}

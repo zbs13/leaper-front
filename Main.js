@@ -25,7 +25,7 @@ export default function Main() {
      * configure status bar height according to os
      */
     const STATUS_BAR_HEIGHT = Platform.OS === "ios" ? deviceYearClass >= 2017 && modelName !== "iPhone 8" && modelName !== "iPhone 8 Plus" ? 44 : 30 : StatusBar.currentHeight;
-
+    
     /**
      * configure app os and language
      */
