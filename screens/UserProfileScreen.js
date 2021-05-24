@@ -151,14 +151,19 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.PHONE_NUMBER}  
                                 </Txt>
                                 <Flag 
-                                    id={global.countries[selectorsUser.getUser().country].code}
+                                    id={JSON.parse(selectorsUser.getUser().country).cca2}
                                     size={0.1}
                                 />
                                 <Txt 
                                     onPress={() => Linking.openURL(`${Platform.OS === "android" ? "tel" : "telprompt"}:${selectorsUser.getUser().phone}`)}
                                     _style={[{flex: 1}, globalStyles.pl_5]}
                                 >
-                                    {formatPhoneNumber(`${global.countries[selectorsUser.getUser().country].dial_code}${selectorsUser.getUser().phone}`)} 
+                                    {
+                                        JSON.parse(selectorsUser.getUser().country).callingCode.length !== 0 ?
+                                            formatPhoneNumber(`+${JSON.parse(selectorsUser.getUser().country).callingCode[0]}${selectorsUser.getUser().phone}`)
+                                        :
+                                            selectorsUser.getUser().phone
+                                    } 
                                 </Txt>
                             </View>
                         </View>
