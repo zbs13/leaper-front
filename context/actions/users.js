@@ -18,7 +18,18 @@ export const fetchUserById = (id) => {
             phone: "01438108",
             create_at: "2021-05-02 01:00:00",
             birthdate: "1998-06-28 00:00:00",
-            country: 78,
+            country: `{"callingCode": [
+                "33"
+              ],
+              "cca2": "FR",
+              "currency": [
+                "EUR"
+              ],
+              "flag": "flag-fr",
+              "name": "France",
+              "region": "Europe",
+              "subregion": "Western Europe"
+            }`,
             fav_sport: 52,
             events: [{
                 id: 7,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { TextInput, View, FlatList, SafeAreaView } from 'react-native';
 import { fields, select as dropdown, fieldDate} from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
@@ -18,6 +18,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
 import Map, { MapPin } from '../maps/Map';
 import _ from "lodash";
+import PhoneInput, { isValidNumber } from "react-native-phone-number-input";
 
 /**
  * Fields management => text, password, calendar, username...
@@ -42,6 +43,9 @@ import _ from "lodash";
  * @param {string|null} lessThan date/hour must be less than an other date/hour
  * @param {string|null} greaterThan date/hour must be greater than an other date/hour
  * @param {object|null} location address location => latitude, longitude
+ * @param {number|null} defaultPhoneCountry index of the default phone country (for dial code)
+ * @param {string} defaultCountry json stringify with country datas
+ * @param {function|null} onChangePhone called when phone number/country changed
  * @returns 
  */
 export default memo(function Field({
@@ -68,13 +72,29 @@ export default memo(function Field({
     lessThan = null,
     greaterThan = null,
     // if type = address :
-    location = null
+    location = null,
+    // if type = phone :
+    defaultCountry = `{"callingCode": [
+        "33"
+      ],
+      "cca2": "FR",
+      "currency": [
+        "EUR"
+      ],
+      "flag": "flag-fr",
+      "name": "France",
+      "region": "Europe",
+      "subregion": "Western Europe"
+    }`,
+    onChangePhone = null
 }){
 
     const {actions, selectors} = useApp();
+    const phoneInput = useRef(null);
 
     const [fieldState, setFieldState] = useState({
         defaultValue: defaultValue,
+        countryValue: defaultCountry,
         focus: false,
         fieldValue: "",
         errorXSS: false,
@@ -88,6 +108,7 @@ export default memo(function Field({
         errorLessThanDate: false,
         errorGreaterThanHour: false,
         errorGreaterThanDate: false,
+        errorPhoneNumber: false,
         calendarPeriod: {
             isStartDay: true,
             startDay: null,
@@ -328,6 +349,60 @@ export default memo(function Field({
     }
 
     /**
+     * called when phone value changed
+     * 
+     * @param {number} number phone number
+     * @returns 
+     */
+     function onChangePhoneValue(number){
+        let isPhoneValid = phoneInput.current.isValidNumber(number);
+        if(isPhoneValid){
+            onChangePhone(number, fieldState.countryValue);
+            setFieldState({
+                ...fieldState,
+                defaultValue: null,
+                fieldValue: number,
+                errorPhoneNumber: false
+            });
+            isError !== null && isError(false);
+            return;
+        }
+        setFieldState({
+            ...fieldState,
+            defaultValue: null,
+            fieldValue: number,
+            errorPhoneNumber: true
+        });
+        isError !== null && isError(true);
+    }
+
+    /**
+     * called when phone country is changed
+     * 
+     * @param {object} country selected country
+     */
+    function onChangeCountry(country){
+        let val = fieldState.defaultValue || fieldState.fieldValue;
+        let isPhoneValid = isValidNumber(val, country.cca2);
+        if(isPhoneValid){
+            onChangePhone(val, JSON.stringify(country))
+            setFieldState({
+                ...fieldState,
+                countryValue: JSON.stringify(country),
+                errorPhoneNumber: false
+            });
+            isError !== null && isError(false);
+            return;
+        }
+        setFieldState({
+            ...fieldState,
+            countryValue: JSON.stringify(country),
+            errorPhoneNumber: true
+        });
+        isError !== null && isError(true);
+    }
+
+    /**
      * function called if a calendar day is pressed
      * 
      * @param {object} day calendar day object
@@ -499,6 +574,7 @@ export default memo(function Field({
 
     /**
      * component returned for select
+     * 
      * @returns 
      */
      function _Select(){
@@ -542,6 +618,8 @@ export default memo(function Field({
 
     /**
      * component returned for date/hour
+     * 
+     * @param {boolean} isHour is an hour field
      * @returns 
      */
      function _DateTime(isHour = false){
@@ -753,6 +831,31 @@ export default memo(function Field({
         )
     }
 
+    /**
+     * component returned for phone field
+     * @returns 
+     */
+    function _Phone(){
+        return (
+            <PhoneInput
+                ref={phoneInput}
+                defaultValue={fieldState.defaultValue || fieldState.fieldValue}
+                defaultCode={JSON.parse(fieldState.countryValue).cca2}
+                layout="first"
+                onChangeText={(number) => {
+                    onChangePhoneValue(number)
+                }}
+                onChangeCountry={(country) => {
+                    onChangeCountry(country);
+                }}
+                containerStyle={{borderBottomWidth: 2, borderBottomColor: global.colors.MAIN_COLOR, width: "100%"}}
+                placeholder={t(selectors.getLang()).fields.PHONE_NUMBER}
+                textInputStyle={{color: global.colors.ANTHRACITE}}
+                codeTextStyle={{color: global.colors.ANTHRACITE}}
+            />
+        )
+    }
+
     let _return = _Text();
     switch(type){
         case "text":
@@ -772,6 +875,9 @@ export default memo(function Field({
             break;
         case "address":
             _return = _Address();
+            break;
+        case "phone":
+            _return = _Phone();
             break;
         case "password":
             _return = _Password();
@@ -853,30 +959,38 @@ export default memo(function Field({
                     || fieldState.errorLessThanDate
                     || fieldState.errorGreaterThanHour
                     || fieldState.errorGreaterThanDate
+                    || fieldState.errorPhoneNumber
                     ?
-                        <Txt _style={{color: global.colors.RED_ERROR}}>
-                            {fieldState.errorXSS || fieldState.errorUsername ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_VALUES
-                            : fieldState.errorPassword ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_PASSWORD
-                            : fieldState.errorMail ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_MAIL
-                            : fieldState.errorMaxLength ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_MAX_LENGTH
-                            : fieldState.errorMinLength ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_MIN_LENGTH
-                            : fieldState.errorLessThanHour ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_HOUR
-                            : fieldState.errorLessThanDate ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_DATE
-                            : fieldState.errorGreaterThanHour ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_HOUR
-                            : fieldState.errorGreaterThanDate ?
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_DATE
-                            : 
-                                t(selectors.getLang()).fields.FIELD_INCORRECT_LETTERS_ONLY
-                            }
-                        </Txt>
+                        <View style={globalStyles.flexRow}>
+                            <Ionicons name="warning-outline" size={17} color={global.colors.RED_ERROR} />
+                            <View style={globalStyles.ml_5}>
+                                <Txt _style={{color: global.colors.RED_ERROR}}>
+                                    {fieldState.errorXSS || fieldState.errorUsername ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_VALUES
+                                    : fieldState.errorPassword ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_PASSWORD
+                                    : fieldState.errorMail ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_MAIL
+                                    : fieldState.errorMaxLength ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_MAX_LENGTH
+                                    : fieldState.errorMinLength ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_MIN_LENGTH
+                                    : fieldState.errorLessThanHour ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_HOUR
+                                    : fieldState.errorLessThanDate ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_LESS_THAN_DATE
+                                    : fieldState.errorGreaterThanHour ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_HOUR
+                                    : fieldState.errorGreaterThanDate ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_GREATER_THAN_DATE
+                                    : fieldState.errorPhoneNumber ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_PHONE_NUMBER
+                                    :
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_LETTERS_ONLY
+                                    }
+                                </Txt>
+                            </View>
+                        </View>
                     :
                         null
                     }
