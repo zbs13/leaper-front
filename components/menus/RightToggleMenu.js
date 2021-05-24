@@ -71,7 +71,9 @@ export default function RightToggleMenu() {
               <Cta
                 _style= {[settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).settings.PROFIL}
-                onPress={() => {}}
+                onPress={() => {
+                  toggleBottomNavigationView()
+                  navigation.navigate(global.screens.PROFIL_SETTINGS)}}
                 underlayColor="transparent"
               ></Cta>
               <Cta

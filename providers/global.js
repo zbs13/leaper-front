@@ -28,7 +28,8 @@ export default global = {
         APP_SETTINGS: "AppSettings",
         CHANGE_LANGUAGE: "ChangeLanguage",
         CHANGE_NOTIFICATIONS: "ChangeNotifications",
-        ABOUT: "About"
+        ABOUT: "About",
+        PROFIL_SETTINGS: "ProfilSettings"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",
