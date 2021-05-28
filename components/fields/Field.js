@@ -941,7 +941,7 @@ export default memo(function Field({
                 }
                 <View style={{width: icon !== null ? "90%" : "100%", position: "relative"}}>
                     {placeholder !== null ?
-                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) || (fieldState.defaultValue !== "" && fieldState.defaultValue !== null) ? -5 : 15, left: 0, color: global.colors.ANTHRACITE}}>
+                        <Txt _style={{position: "absolute", zIndex: -1, top: fieldState.focus || (fieldState.fieldValue !== "" && fieldState.fieldValue !== null) || (fieldState.defaultValue !== "" && fieldState.defaultValue !== null) ? -5 : 15, left: 0, color: global.colors.LIGHT_GREY}}>
                             {placeholder}
                         </Txt>
                     :

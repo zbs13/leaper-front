@@ -12,6 +12,7 @@ import globalStyles from '../../assets/styles/global';
 import t from '../../providers/lang/translations';
 import Txt from '../Txt';
 import OptionsModal from '../modals/OptionsModal';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * role card
@@ -26,6 +27,7 @@ export default function RoleCard({item, isEvent}) {
     const {actions: actionsRole} = useRoles();
     const {actions: actionsEvent} = useEvents();
     const {actions: actionsGroup} = useGroups();
+    const navigation = useNavigation();
 
     let actions = actionsGroup;
     if(isEvent){
@@ -55,7 +57,7 @@ export default function RoleCard({item, isEvent}) {
         <OptionsModal
             options={roleCardOptions}
         >
-            <Cta onPress={() => console.log("aa")}>
+            <Cta onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: true, role: item})}>
                 <View style={[globalStyles.flexRow, roleCard.container, globalStyles.mb_10]}>
                     <View style={[globalStyles.flexColumn, {flex: 1.8}]}>
                         <View>

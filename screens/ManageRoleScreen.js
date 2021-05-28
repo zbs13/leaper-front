@@ -10,6 +10,7 @@ import globalStyle from '../assets/styles/global';
 import RoleCard from '../components/cards/RoleCard';
 import Cta from '../components/cta/Cta';
 import { cta } from '../assets/styles/styles';
+import global from '../providers/global';
 
 /**
  * manage role screen
@@ -47,7 +48,7 @@ export default function ManageRoleScreen({navigation, route}) {
                     value={t(selectorsApp.getLang()).roles.CREATE_ROLE} 
                     icon="add-outline"
                     _style={[cta.main, cta.first]}
-                    onPress={() => console.log("go create role")}
+                    onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: false})}
                 />
             </View>
             <Title>
