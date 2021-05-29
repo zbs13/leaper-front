@@ -881,28 +881,28 @@ export default memo(function Field({
             break;
         case "password":
             _return = _Password();
-            icon = "lock-closed-outline"
-            placeholder = t(selectors.getLang()).fields.PASSWORD 
+            icon = icon || "lock-closed-outline"
+            placeholder = placeholder || t(selectors.getLang()).fields.PASSWORD 
             break;
         case "mail":
             _return = _Mail();
-            icon = "mail-outline"
-            placeholder = t(selectors.getLang()).fields.MAIL
+            icon = icon || "mail-outline"
+            placeholder = placeholder || t(selectors.getLang()).fields.MAIL
             break;
         case "username":
             _return = _Text();
-            icon = "person-outline"
-            placeholder = t(selectors.getLang()).fields.USERNAME 
+            icon = icon || "person-outline"
+            placeholder = placeholder || t(selectors.getLang()).fields.USERNAME 
             break;
         case "firstname":
             _return = _Text();
-            icon = "newspaper-outline"
-            placeholder = t(selectors.getLang()).fields.FIRSTNAME 
+            icon = icon || "newspaper-outline"
+            placeholder = placeholder || t(selectors.getLang()).fields.FIRSTNAME 
             break;
         case "lastname":
             _return = _Text();
-            icon = "newspaper-outline"
-            placeholder = t(selectors.getLang()).fields.LASTNAME 
+            icon = icon || "newspaper-outline"
+            placeholder = placeholder || t(selectors.getLang()).fields.LASTNAME 
             break;
         case "calendar-period":
             _return = _CalendarPeriod();
