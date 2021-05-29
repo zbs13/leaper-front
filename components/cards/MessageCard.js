@@ -16,7 +16,7 @@ import useGroups from '../../hooks/useGroups';
 import { messageDateFormat } from '../../utils/utils';
 import ContentDisplay from '../display/ContentDisplay';
 import { saveFileOnPhone, shareFile } from '../../utils/phoneFunct';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * message card

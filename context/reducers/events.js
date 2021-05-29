@@ -75,6 +75,16 @@ export const initialState = {
         return {
           ...state,
           messages: messages
+        };
+      case "DELETE_ROLE_IN_UI":
+        let roles = state.fetchedById.roles;
+        roles.splice(roles.findIndex(o => o.id === action.payload), 1);
+        return {
+          ...state,
+          fetchedById: {
+            ...state.fetchedById,
+            roles: roles
+          }
         }
       default:
         return state;

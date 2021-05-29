@@ -10,6 +10,7 @@ import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
 import { UsersProvider } from './context/usersContext';
+import { RolesProvider } from './context/rolesContext';
 import { deviceYearClass, modelName } from 'expo-device';
 
 export default function Main() {
@@ -72,7 +73,9 @@ export default function Main() {
                     <UsersProvider>
                         <EventsProvider>
                             <GroupsProvider>
-                                <AppScreenManager />
+                                <RolesProvider>
+                                    <AppScreenManager />
+                                </RolesProvider>
                             </GroupsProvider>
                         </EventsProvider>
                     </UsersProvider>

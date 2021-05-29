@@ -53,7 +53,7 @@ export default function CreateEditGroupForm({
 
     return(
         <View style={globalStyles.h_100}>
-            <ScrollView style={[globalStyles.m_5, globalStyles.mb_20]}>
+            <ScrollView style={[globalStyles.m_5, globalStyles.mb_50]}>
                 <View>
                     <DialogPopup 
                         dialogVisible={pickImageRestrictionPopup.isVisible}
@@ -120,9 +120,10 @@ export default function CreateEditGroupForm({
                     />
                 </View>
             </ScrollView>
-            <View style={[{flex: 1, position: "absolute", bottom: 0}, globalStyles.w_100]}>
+            <View style={[{flex: 1, position: "absolute", bottom: 0}, globalStyles.w_100, globalStyles.mb_10]}>
                 <Cta 
-                    value={isEdit ? t(selectors.getLang()).SAVE_CHANGES : t(selectors.getLang()).group.CONFIRM_CREATE_GROUP} _style={[cta.first_nr, {fontSize: 20}]}
+                    value={isEdit ? t(selectors.getLang()).SAVE_CHANGES : t(selectors.getLang()).group.CONFIRM_CREATE_GROUP}
+                    _style={[cta.main, cta.first]}
                     disabled={fieldErrors.descriptionError || fieldErrors.nameError}
                     onPress={() => {
                         if(isEdit){

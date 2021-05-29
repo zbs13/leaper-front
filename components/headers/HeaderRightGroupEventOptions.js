@@ -89,7 +89,7 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
       mainOptions.splice(1, 0, {
           value: t(selectorsApp.getLang()).ROLES,
           icon: "lock-closed-outline",
-          action: () => console.log("roles")
+          action: () => navigation.navigate(global.screens.MANAGE_ROLE, {id: geId, isEvent: isEvent})
       })
   }
 

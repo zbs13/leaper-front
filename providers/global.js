@@ -17,7 +17,9 @@ export default global = {
         EDIT_GROUP_EVENT: "EditGroupEvent",
         CREATE_GROUP_EVENT: "CreateGroupEvent",
         PEOPLE_LIST: "PeopleList",
-        USER_PROFILE: "UserProfile"
+        USER_PROFILE: "UserProfile",
+        MANAGE_ROLE: "ManageRole",
+        CREATE_EDIT_ROLE: "CreateEditRole"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

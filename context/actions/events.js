@@ -289,6 +289,16 @@ export const fetchById = (id) => {
                 latitude: 48.90049103281167, 
                 longitude: 2.510714120997393
             },
+            roles: [{
+                id: 1,
+                name: "le rooooole",
+                rights: [{
+                    id: 1
+                },
+                {
+                    id: 3
+                }]
+            }],
             address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
             startHour: "2021-01-01 22:30:00",
             endHour: "2021-01-01 23:30:00",

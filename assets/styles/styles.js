@@ -552,3 +552,12 @@ export const profile = StyleSheet.create({
         fontSize: 15
     }
 })
+
+export const roleCard = StyleSheet.create({
+    container: {
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: global.colors.LIGHT_GREY
+    }
+})
