@@ -86,7 +86,7 @@ export default function Cta({
     function ctaRender(){
         return (
             <View>
-                <Pressable style={_style} 
+                <Pressable style={Array.isArray(_style) ? [..._style, disabled ? {backgroundColor: global.colors.VERY_LIGHT_GREY} : {}] : [_style, disabled ? {backgroundColor: global.colors.VERY_LIGHT_GREY} : {}]} 
                     onPress={confirm !== null ? () => setDialogVisible(true) : onPress} 
                     // underlayColor={typeof underlayColor === "undefined" ? "transparent" : underlayColor}
                     onLongPress={onLongPress !== null ? onLongPress : null}

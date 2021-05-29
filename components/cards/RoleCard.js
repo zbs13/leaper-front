@@ -19,9 +19,10 @@ import { useNavigation } from '@react-navigation/native';
  * 
  * @param {object} item role datas => id, name, rights
  * @param {boolean} isEvent is a role from an event
+ * @param {string} geId group/event id
  * @returns 
  */
-export default function RoleCard({item, isEvent}) {
+export default function RoleCard({item, isEvent, geId}) {
 
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const {actions: actionsRole} = useRoles();
@@ -57,7 +58,7 @@ export default function RoleCard({item, isEvent}) {
         <OptionsModal
             options={roleCardOptions}
         >
-            <Cta onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: true, role: item})}>
+            <Cta onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: true, role: item, isEvent: isEvent, geId: geId})}>
                 <View style={[globalStyles.flexRow, roleCard.container, globalStyles.mb_10]}>
                     <View style={[globalStyles.flexColumn, {flex: 1.8}]}>
                         <View>

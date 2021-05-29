@@ -5,12 +5,15 @@ import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
 import useEvents from '../hooks/useEvents';
 import useGroups from '../hooks/useGroups';
+import useRoles from '../hooks/useRoles';
 import Title from '../components/Title';
 import globalStyle from '../assets/styles/global';
 import RoleCard from '../components/cards/RoleCard';
 import Cta from '../components/cta/Cta';
 import { cta } from '../assets/styles/styles';
 import global from '../providers/global';
+import { RefreshViewList } from '../components/RefreshView';
+import { manageResponseUI } from '../context/actions/apiCall';
 
 /**
  * manage role screen
@@ -27,6 +30,7 @@ export default function ManageRoleScreen({navigation, route}) {
     const {selectors: selectorsApp} = useApp();
     const {selectors: selectorsEvent, actions: actionsEvent} = useEvents();
     const {selectors: selectorsGroup, actions: actionsGroup} = useGroups();
+    const {selectors: selectorsRole, actions: actionRoles} = useRoles();
 
     let selectors = selectorsGroup;
     let actions = actionsGroup;
@@ -41,6 +45,30 @@ export default function ManageRoleScreen({navigation, route}) {
         });
     }, [])
 
+    useEffect(() => {
+        if(selectorsRole.needReload()){
+            fetchRoles();
+        }
+    }, [selectorsRole.needReload()])
+
+    /**
+     * fetch roles
+     */
+    function fetchRoles(){
+        console.log("fetttzeezrteztgzetg");
+        actions.fetchById(id).then((data) => {
+            manageResponseUI(data,
+                selectorsApp.getLang(),
+                function (res) {
+                    return;
+                },
+                function (error) {
+                    actionsApp.addPopupStatus(error);
+                })
+        });
+        actionRoles.updateNeedReload(false);
+    }
+
     return (
         <View style={[globalStyle.mpm, globalStyle.flexColumn]}>
             <View style={globalStyle.m_10}>
@@ -48,24 +76,20 @@ export default function ManageRoleScreen({navigation, route}) {
                     value={t(selectorsApp.getLang()).roles.CREATE_ROLE} 
                     icon="add-outline"
                     _style={[cta.main, cta.first]}
-                    onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: false})}
+                    onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: false, isEvent: isEvent, geId: id})}
                 />
             </View>
             <Title>
                 {t(selectorsApp.getLang()).roles.ROLES}
             </Title>
-            <ScrollView>
-                {
-                    selectors.getFetchedById().roles.length !== 0 ?
-                        selectors.getFetchedById().roles.map((role, index) => 
-                            <RoleCard item={role} isEvent={isEvent} key={index} />
-                        )
-                    :
-                        <Txt _style={[globalStyle.ta_c, globalStyle.m_10]}>
-                            {t(selectorsApp.getLang()).roles.NO_ROLE_CREATED_YET}
-                        </Txt>
-                }
-            </ScrollView>
+            <RefreshViewList 
+                data={selectors.getFetchedById().roles}
+                onRefresh={() => fetchRoles()}
+                noDataMessage={t(selectorsApp.getLang()).roles.NO_ROLE_CREATED_YET}
+                renderItem={({item}) => (
+                    <RoleCard item={item} isEvent={isEvent} geId={id} />
+                )}
+            />
         </View>
     );
   };

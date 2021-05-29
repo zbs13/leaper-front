@@ -150,7 +150,7 @@ const useGroups = () => {
       });
     },
     /**
-     * edit an event
+     * edit a group
      * 
      * @param {string} id group id to edit
      * @param {object} values all group values

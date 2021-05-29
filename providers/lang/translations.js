@@ -176,6 +176,7 @@ const l = {
             MEMBER_OF_NO_EVENT: "Membre d'aucun évènement"
         },
         rights: {
+            RIGHTS: "Droits",
             1: "Expulser un membre",
             2: "Ajouter un membre",
             3: "Supprimer un message",
@@ -183,11 +184,15 @@ const l = {
         },
         roles: {
             ROLES: "Rôles",
+            ROLE: "Rôle",
+            ROLE_NAME: "Nom du rôle",
             ROLES_MANAGEMENT: "Gestion des rôles",
             NO_ROLE_CREATED_YET: "Aucun rôle n'a encore été créé",
             DELETE_ROLE: "Supprimer le rôle",
             SURE_TO_DELETE_ROLE: "Etes vous sûr de vouloir supprimer ce rôle ?",
-            CREATE_ROLE: "Créer un rôle"
+            CREATE_ROLE: "Créer un rôle",
+            CREATE_THE_ROLE: "Créer le rôle",
+            EDIT_THE_ROLE: "Modifier le rôle"
         },
         sports: {
             BIATHLON: "Biathlon",
@@ -466,6 +471,7 @@ const l = {
             MEMBER_OF_NO_EVENT: "Member of no event"
         },
         rights: {
+            RIGHTS: "Rights",
             1: "Kick a member",
             2: "Add a member",
             3: "Delete a message",
@@ -473,11 +479,15 @@ const l = {
         },
         roles: {
             ROLES: "Roles",
+            ROLE: "Role",
+            ROLE_NAME: "Role name",
             ROLES_MANAGEMENT: "Roles management",
             NO_ROLE_CREATED_YET: "No role created yet",
             DELETE_ROLE: "Delete role",
             SURE_TO_DELETE_ROLE: "Are you sure to delete role ?",
-            CREATE_ROLE: "Create a role"
+            CREATE_ROLE: "Create a role",
+            CREATE_THE_ROLE: "Create the role",
+            EDIT_THE_ROLE: "Edit the role"
         },
         sports: {
             BIATHLON: "Biathlon",

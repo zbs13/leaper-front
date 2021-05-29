@@ -125,7 +125,7 @@ export const fetchById = (id) => {
             },
             roles: [{
                 id: 1,
-                name: "le rooooole",
+                name: "le roole",
                 rights: [{
                     id: 1
                 },
