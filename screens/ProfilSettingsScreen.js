@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import global from '../providers/global';
-import { settings } from '../assets/styles/styles';
+import { settings, cta } from '../assets/styles/styles';
 import globalStyles from '../assets/styles/global';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
@@ -33,17 +33,17 @@ export default function ProfilSettingsScreen({
       <View>
         <ScrollView style={[globalStyles.m_5, globalStyles.mb_20]}>
             <Field
-                label="Mes informations"
+                label={t(selectors.getLang()).profilSettings.MY_INFORMATIONS}
                 type="lastname"
-                placeholder="Nom :"
+                placeholder={t(selectors.getLang()).profilSettings.PH_LASTNAME}
             />
             <Field
                 type="firstname"
-                placeholder="Prénom :"
+                placeholder={t(selectors.getLang()).profilSettings.PH_FIRSTNAME}
             />
             <Field
                 type="mail"
-                placeholder="Email :"
+                placeholder={t(selectors.getLang()).profilSettings.PH_MAIL}
             />
             <Field 
             type="phone" 
@@ -70,31 +70,31 @@ export default function ProfilSettingsScreen({
             }
             />
             <Cta
-                _style= {[settings.buttonStyle, settings.buttonFont]}
-                value="Modifier"
+                _style= {[cta.first, cta.main, settings.buttonStyle, settings.buttonFont]}
+                value={t(selectors.getLang()).profilSettings.CTA_UPDATE}
                 onPress={() => {}}
             ></Cta>
             <Field
                 type="date"
-                label="Date de naissance :"
+                label={t(selectors.getLang()).profilSettings.BIRTH}
                 onChangeDateTime={(date) => setGeValues({...geValues, date: date})}
             />
             <Field
                 type="password"
-                label="Modifier mon mot de passe :"
-                placeholder="Ancien mot de passe :"
+                label={t(selectors.getLang()).profilSettings.CHANGE_PASSWORD}
+                placeholder={t(selectors.getLang()).profilSettings.PH_OLD_PW}
             />
             <Field
                 type="password"
-                placeholder="Nouveau mot de passe :"
+                placeholder={t(selectors.getLang()).profilSettings.PH_NEW_PW}
             />
             <Field
                 type="password"
-                placeholder="Confirmation du mot de passe :"
+                placeholder={t(selectors.getLang()).profilSettings.PH_COMFIRMATION_PW}
             />
             <Cta
-                _style= {[settings.buttonStyle, settings.buttonFont, settings.bgColorMain]}
-                value="Modifier"
+                _style= {[cta.first, cta.main ,settings.buttonStyle, settings.buttonFont]}
+                value={t(selectors.getLang()).profilSettings.CTA_UPDATE}
                 onPress={() => {}}
             ></Cta>
         </ScrollView>

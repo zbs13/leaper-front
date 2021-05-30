@@ -357,6 +357,18 @@ const l = {
             DATA_USE_POLICY: 'politique d\'utilisation des données',
             TERMS_OF_USE: 'Conditions d\'utilisation',
             PATCH_NOTE: 'Note de mise à jour',
+        },
+        profilSettings: {
+            MY_INFORMATIONS: 'Mes informations',
+            PH_LASTNAME: 'Nom',
+            PH_FIRSTNAME: 'Prénom',
+            PH_MAIL: 'Mail',
+            CTA_UPDATE: 'Modifier',
+            BIRTH: 'Date de naissance',
+            CHANGE_PASSWORD: 'Modifier mon mot de passe',
+            PH_OLD_PW: 'Ancien mot de passe',
+            PH_NEW_PW: 'Nouveau mot de passe',
+            PH_COMFIRMATION_PW: 'Confirmation du mot de passe'
         }
     },
     en: {
@@ -724,6 +736,18 @@ const l = {
             DATA_USE_POLICY: 'Data use policy',
             TERMS_OF_USE: 'Terms of use',
             PATCH_NOTE: 'Patch note',
+        },
+        profilSettings: {
+            MY_INFORMATIONS: 'My informations',
+            PH_LASTNAME: 'Lastname',
+            PH_FIRSTNAME: 'Firstname',
+            PH_MAIL: 'Mail ',
+            CTA_UPDATE: 'Update',
+            BIRTH: 'Date of birth',
+            CHANGE_PASSWORD: 'Update my password',
+            PH_OLD_PW: 'Old password',
+            PH_NEW_PW: 'New password',
+            PH_COMFIRMATION_PW: 'Comfirmation password'
         }
     }
 }

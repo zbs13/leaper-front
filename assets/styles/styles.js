@@ -424,9 +424,6 @@ export const settings =  StyleSheet.create({
     },
     buttonLogout: {
         marginTop: 170
-    },
-    bgColorMain: {
-        backgroundColor: global.colors.MAIN_COLOR,
     }
 
   });
