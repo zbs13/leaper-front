@@ -13,6 +13,7 @@ import t from '../../providers/lang/translations';
 import Txt from '../Txt';
 import OptionsModal from '../modals/OptionsModal';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /**
  * role card
@@ -22,7 +23,14 @@ import { useNavigation } from '@react-navigation/native';
  * @param {string} geId group/event id
  * @returns 
  */
-export default function RoleCard({item, isEvent, geId}) {
+export default function RoleCard({
+    item, 
+    isEvent, 
+    geId,
+    selectable = false,
+    onPress = null,
+    isSelected = false
+}) {
 
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const {actions: actionsRole} = useRoles();
@@ -54,12 +62,10 @@ export default function RoleCard({item, isEvent, geId}) {
         }
     }]
 
-    return (
-        <OptionsModal
-            options={roleCardOptions}
-        >
-            <Cta onPress={() => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: true, role: item, isEvent: isEvent, geId: geId})}>
-                <View style={[globalStyles.flexRow, roleCard.container, globalStyles.mb_10]}>
+    function ctaRender(){
+        return(
+            <Cta onPress={selectable ? onPress : () => navigation.navigate(global.screens.CREATE_EDIT_ROLE, {isEdit: true, role: item, isEvent: isEvent, geId: geId})}>
+                <View style={[globalStyles.flexRow, roleCard.container, globalStyles.mb_10, globalStyles.alignCenter]}>
                     <View style={[globalStyles.flexColumn, {flex: 1.8}]}>
                         <View>
                             <Txt _style={globalStyles.f_bold}>
@@ -79,13 +85,34 @@ export default function RoleCard({item, isEvent, geId}) {
                         </View>
                     </View>
                     <View style={{flex: 0.2}}>
-                        <OptionsModal 
-                            options={roleCardOptions}
-                            buttonSize={25}
-                        />
+                        {
+                            selectable ?
+                                isSelected ?
+                                    <View>
+                                        <Ionicons name="checkmark-circle-outline" color={global.colors.MAIN_COLOR} size={30} />
+                                    </View>
+                                :
+                                    null
+                            :
+                                <OptionsModal 
+                                    options={roleCardOptions}
+                                    buttonSize={25}
+                                />
+                        }
                     </View>
                 </View>
             </Cta>
-        </OptionsModal>
+        )
+    }
+
+    return (
+        selectable ?
+            ctaRender()
+        :
+            <OptionsModal
+                options={roleCardOptions}
+            >
+                {ctaRender()}
+            </OptionsModal>
     );
 }

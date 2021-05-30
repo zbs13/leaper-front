@@ -77,6 +77,8 @@ export default function PersonCard({
             })
         }
 
+        roleIndex = datas.roles.findIndex((role) => (isEvent ? role.event.id : role.group.id) === selector.getFetchedById().id);
+
         /**
          * if user is the group/event owner
          */
@@ -84,11 +86,9 @@ export default function PersonCard({
             personOptions.splice(1, 0, {
                 value: t(selectorsApp.getLang()).MANAGE_ROLE,
                 icon: "lock-closed-outline",
-                action: () => alert("roles")
+                action: () => navigation.navigate(global.screens.ALLOCATE_ROLE, {isEvent: isEvent, userId: datas.id, userFirstname: datas.firstname, currentRoleId: roleIndex !== -1 ? datas.roles[roleIndex].id : null})
             })
         }
-
-        roleIndex = datas.roles.findIndex((role) => (isEvent ? role.event.id : role.group.id) === selector.getFetchedById().id);
     }
 
     return (

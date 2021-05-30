@@ -3,7 +3,9 @@ import RolesContext from "../context/rolesContext";
 import { 
   createRole,
   updateRole,
-  deleteRole
+  deleteRole,
+  addRoleToUser,
+  removeUserRole
 } from '../context/actions/roles';
 import { response } from '../context/actions/apiCall';
 
@@ -50,6 +52,51 @@ const useRoles = () => {
           return response(data)
       });
     },
+    /**
+     * update user role
+     * 
+     * @param {string} oldRoleId old user role to remove from user
+     * @param {string} newRoleId new user role to add to user
+     * @param {string} userId user id
+     */
+    updateUserRole: async function(oldRoleId, newRoleId, userId){
+      let respRUR = await actions.removeUserRole(oldRoleId, userId);
+      let respARU = await actions.addRoleToUser(newRoleId, userId);
+      if(typeof respRUR.isError !== "undefined" || typeof respARU.isError !== "undefined"){
+        if(respRUR.isError || respARU.isError){
+            return {"error": true};
+        }
+      }
+
+      return {};
+    },
+    /**
+     * remove user role
+     * 
+     * @param {string} roleId role id to remove from user
+     * @param {string} userId user id
+     */
+    removeUserRole: function(roleId, userId){
+      return removeUserRole(roleId, userId).then((data) => {
+        return response(data)
+      });
+    },
+    /**
+     * add a role to an user
+     * 
+     * @param {string} roleId role id to add to user
+     * @param {string} userId user id
+     */
+    addRoleToUser: function(roleId, userId){
+      return addRoleToUser(roleId, userId).then((data) => {
+        return response(data)
+      });
+    },
+    /**
+     * called to check if roles need a refresh or not
+     * 
+     * @param {boolean} needReload true if roles need a refresh
+     */
     updateNeedReload: function(needReload){
       dispatch({
         type: "UPDATE_NEED_RELOAD",
