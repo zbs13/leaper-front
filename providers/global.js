@@ -19,7 +19,8 @@ export default global = {
         PEOPLE_LIST: "PeopleList",
         USER_PROFILE: "UserProfile",
         MANAGE_ROLE: "ManageRole",
-        CREATE_EDIT_ROLE: "CreateEditRole"
+        CREATE_EDIT_ROLE: "CreateEditRole",
+        ALLOCATE_ROLE: "AllocateRole"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

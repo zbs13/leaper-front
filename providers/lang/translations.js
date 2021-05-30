@@ -192,7 +192,8 @@ const l = {
             SURE_TO_DELETE_ROLE: "Etes vous sûr de vouloir supprimer ce rôle ?",
             CREATE_ROLE: "Créer un rôle",
             CREATE_THE_ROLE: "Créer le rôle",
-            EDIT_THE_ROLE: "Modifier le rôle"
+            EDIT_THE_ROLE: "Modifier le rôle",
+            ALLOCATE_ROLE_TO: "Allouer un rôle à"
         },
         sports: {
             BIATHLON: "Biathlon",
@@ -487,7 +488,8 @@ const l = {
             SURE_TO_DELETE_ROLE: "Are you sure to delete role ?",
             CREATE_ROLE: "Create a role",
             CREATE_THE_ROLE: "Create the role",
-            EDIT_THE_ROLE: "Edit the role"
+            EDIT_THE_ROLE: "Edit the role",
+            ALLOCATE_ROLE_TO: "Allocate a role to"
         },
         sports: {
             BIATHLON: "Biathlon",

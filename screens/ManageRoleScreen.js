@@ -55,7 +55,6 @@ export default function ManageRoleScreen({navigation, route}) {
      * fetch roles
      */
     function fetchRoles(){
-        console.log("fetttzeezrteztgzetg");
         actions.fetchById(id).then((data) => {
             manageResponseUI(data,
                 selectorsApp.getLang(),
@@ -80,7 +79,7 @@ export default function ManageRoleScreen({navigation, route}) {
                 />
             </View>
             <Title>
-                {t(selectorsApp.getLang()).roles.ROLES}
+                {`${t(selectorsApp.getLang()).roles.ROLES} (${selectors.getFetchedById().roles.length})`}
             </Title>
             <RefreshViewList 
                 data={selectors.getFetchedById().roles}

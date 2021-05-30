@@ -49,3 +49,35 @@ export const deleteRole = (id) => {
         return {error: true}
     })
 }
+
+/**
+ * add a role to an user
+ * 
+ * @param {string} roleId role to add to user
+ * @param {string} userId user id
+ */
+export const addRoleToUser = (roleId, userId) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {error: true}
+    })
+}
+
+/**
+ * remove user role
+ * 
+ * @param {string} roleId role id to remove from user
+ * @param {string} userId user id
+ */
+export const removeUserRole = (roleId, userId) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {error: true}
+    })
+}

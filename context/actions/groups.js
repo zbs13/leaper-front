@@ -149,6 +149,7 @@ export const fetchById = (id) => {
                 firstname: "Ta",
                 lastname: "gueule",
                 roles: [{
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 7
@@ -168,6 +169,7 @@ export const fetchById = (id) => {
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 1
@@ -187,6 +189,7 @@ export const fetchById = (id) => {
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 1
@@ -201,6 +204,7 @@ export const fetchById = (id) => {
                     ]
                 },
                 {
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 2
@@ -223,6 +227,7 @@ export const fetchById = (id) => {
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 1
@@ -242,6 +247,7 @@ export const fetchById = (id) => {
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 1
@@ -261,6 +267,7 @@ export const fetchById = (id) => {
                 lastname: "gueule",
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 roles: [{
+                    id: 1,
                     name: "le role",
                     group: {
                         id: 1

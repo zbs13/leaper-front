@@ -16,6 +16,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 /**
  * people list screen
  * 
+ * @param {object} navigation for navigation
+ * @param {object} route params => isEvent, id
  * @returns 
  */
 export default function PeopleListScreen({navigation, route}) {

@@ -34,10 +34,10 @@ export default function CreateEditRoleScreen({navigation, route}) {
     })
 
     const [sw, setSw] = useState({
-        isRight1: isEdit ? role.rights.findIndex(right => right.id == 1) !== -1 ? true : false : false,
-        isRight2: isEdit ? role.rights.findIndex(right => right.id == 2) !== -1 ? true : false : false,
-        isRight3: isEdit ? role.rights.findIndex(right => right.id == 3) !== -1 ? true : false : false,
-        isRight4: isEdit ? role.rights.findIndex(right => right.id == 4) !== -1 ? true : false : false
+        isRightRemoveUser: isEdit ? role.rights.findIndex(right => right.id == global.rights.REMOVE_USER) !== -1 ? true : false : false,
+        isRightAddUser: isEdit ? role.rights.findIndex(right => right.id == global.rights.ADD_USER) !== -1 ? true : false : false,
+        isRightDeleteMessage: isEdit ? role.rights.findIndex(right => right.id == global.rights.DELETE_MESSAGE) !== -1 ? true : false : false,
+        isRightEditInfos: isEdit ? role.rights.findIndex(right => right.id == global.rights.EDIT_INFOS) !== -1 ? true : false : false
     });
 
     useEffect(() => {
@@ -66,30 +66,30 @@ export default function CreateEditRoleScreen({navigation, route}) {
                     <View style={[{width: "75%"}, globalStyles.m_10]}>
                         <View style={globalStyles.mb_20}>
                             <Switch
-                                onValueChange={() => setSw({...sw, isRight1: !sw.isRight1})}
-                                value={sw.isRight1}
-                                label={t(selectorApp.getLang()).rights[1]}
+                                onValueChange={() => setSw({...sw, isRightRemoveUser: !sw.isRightRemoveUser})}
+                                value={sw.isRightRemoveUser}
+                                label={t(selectorApp.getLang()).rights[global.rights.REMOVE_USER]}
                             />
                         </View>
                         <View style={globalStyles.mb_20}>
                             <Switch
-                                onValueChange={() => setSw({...sw, isRight2: !sw.isRight2})}
-                                value={sw.isRight2}
-                                label={t(selectorApp.getLang()).rights[2]}
+                                onValueChange={() => setSw({...sw, isRightAddUser: !sw.isRightAddUser})}
+                                value={sw.isRightAddUser}
+                                label={t(selectorApp.getLang()).rights[global.rights.ADD_USER]}
                             />
                         </View>
                         <View style={globalStyles.mb_20}>
                             <Switch
-                                onValueChange={() => setSw({...sw, isRight3: !sw.isRight3})}
-                                value={sw.isRight3}
-                                label={t(selectorApp.getLang()).rights[3]}
+                                onValueChange={() => setSw({...sw, isRightDeleteMessage: !sw.isRightDeleteMessage})}
+                                value={sw.isRightDeleteMessage}
+                                label={t(selectorApp.getLang()).rights[global.rights.DELETE_MESSAGE]}
                             />
                         </View>
                         <View style={globalStyles.mb_20}>
                             <Switch
-                                onValueChange={() => setSw({...sw, isRight4: !sw.isRight4})}
-                                value={sw.isRight4}
-                                label={t(selectorApp.getLang()).rights[4]}
+                                onValueChange={() => setSw({...sw, isRightEditInfos: !sw.isRightEditInfos})}
+                                value={sw.isRightEditInfos}
+                                label={t(selectorApp.getLang()).rights[global.rights.EDIT_INFOS]}
                             />
                         </View>
                     </View>
@@ -101,10 +101,10 @@ export default function CreateEditRoleScreen({navigation, route}) {
                     value={isEdit ? t(selectorApp.getLang()).roles.EDIT_THE_ROLE : t(selectorApp.getLang()).roles.CREATE_THE_ROLE}
                     onPress={() => {
                         let rights = [];
-                        sw.isRight1 && rights.push(1);
-                        sw.isRight2 && rights.push(2);
-                        sw.isRight3 && rights.push(3);
-                        sw.isRight4 && rights.push(4);
+                        sw.isRightRemoveUser && rights.push(global.rights.REMOVE_USER);
+                        sw.isRightAddUser && rights.push(global.rights.ADD_USER);
+                        sw.isRightDeleteMessage && rights.push(global.rights.DELETE_MESSAGE);
+                        sw.isRightEditInfos && rights.push(global.rights.EDIT_INFOS);
 
                         if(isEdit){
                             actionRole.updateRole(isEvent, geId, {
