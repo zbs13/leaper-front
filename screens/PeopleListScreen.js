@@ -40,7 +40,7 @@ export default function PeopleListScreen({navigation, route}) {
         navigation.setOptions({
             headerTitle: isEvent ? t(selectorsApp.getLang()).event.EVENT_MEMBERS : t(selectorsApp.getLang()).group.GROUP_MEMBERS,
             headerRight: () => selectors.hasRight(global.rights.ADD_USER) &&
-                <Cta onPress={() => console.log("page add user")} >
+                <Cta onPress={() => navigation.navigate(global.screens.ADD_PERSON, {asFriend: false, isEvent: isEvent, geId: id})} >
                     <Ionicons name="add-outline" color={global.colors.MAIN_COLOR} size={30} />
                 </Cta>
         });

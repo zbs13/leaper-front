@@ -37,6 +37,11 @@ export const initialState = {
             navigation: action.payload
           }
         }
+      case "TOGGLE_SEARCH_BAR":
+        return {
+          ...state,
+          searchBar: action.payload
+        }
       default:
         return state;
     }

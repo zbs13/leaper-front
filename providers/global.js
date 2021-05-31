@@ -20,7 +20,8 @@ export default global = {
         USER_PROFILE: "UserProfile",
         MANAGE_ROLE: "ManageRole",
         CREATE_EDIT_ROLE: "CreateEditRole",
-        ALLOCATE_ROLE: "AllocateRole"
+        ALLOCATE_ROLE: "AllocateRole",
+        ADD_PERSON: "AddPerson"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

@@ -13,6 +13,9 @@ import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
 import BackgroundImage from '../BackgroundImage';
 import OptionsModal from '../modals/OptionsModal';
+import { cta } from '../../assets/styles/styles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { isMyFriend, isUserInEventGroup } from '../../utils/utils';
 
 /**
  * person card
@@ -20,12 +23,18 @@ import OptionsModal from '../modals/OptionsModal';
  * @param {boolean} isMember is a card in member list of group/event
  * @param {boolean} isEvent is an event card
  * @param {object} datas person datas => firstname, lastname, roles, src...
+ * @param {boolean} addToGE true if card for add user in group/event
+ * @param {boolean} addAsFriend true if card for add user as friend
+ * @param {string} geId group/event id (if addToGE is true)
  * @returns 
  */
 export default function PersonCard({ 
     isMember = false, 
     isEvent = false,
-    datas
+    datas,
+    addToGE = false,
+    addAsFriend = false,
+    geId = null,
 }) {
 
     const navigation = useNavigation();
@@ -50,8 +59,8 @@ export default function PersonCard({
 
     let roleIndex = -1;
 
+    let myId = 2; //TODO get real own id
     if(isMember){
-        let myId = 2; //TODO get real own id
 
         /**
          * if user has right "remove user" and its not his person card
@@ -125,7 +134,37 @@ export default function PersonCard({
                             </View>
                         </View>
                         <View>
-                            <OptionsModal options={personOptions} icon="ellipsis-horizontal-outline" buttonColor={global.colors.MAIN_COLOR} buttonSize={25} />
+                            {
+                                addAsFriend || addToGE ?
+                                    (addAsFriend && isMyFriend(datas.friends))
+                                    || (addToGE && isEvent && isUserInEventGroup(datas.events, geId))
+                                    || (addToGE && !isEvent && isUserInEventGroup(datas.groups, geId))
+                                    ?
+                                        null
+                                    :
+                                        <Cta
+                                            onPress={() => {
+                                                if(addAsFriend){
+                                                    console.log("add as friend")
+                                                    return;
+                                                }
+
+                                                console.log("add in group/event")
+                                            }}
+                                            _style={cta.main}
+                                            underlayColor="transparent"
+                                            confirm={{
+                                                title: addAsFriend ? t(selectorsApp.getLang()).friends.SEND_A_FRIEND_REQUEST : t(selectorsApp.getLang()).INVITE,
+                                                content: addAsFriend ? `${t(selectorsApp.getLang()).friends.CONFIRM_SEND_A_FRIEND_REQUEST} ${datas.firstname}` : isEvent ? t(selectorsApp.getLang()).event.sureToInviteUserToEvent(datas.firstname) : t(selectorsApp.getLang()).group.sureToInviteUserToGroup(datas.firstname) 
+                                            }}
+                                        >
+                                            <View style={globalStyles.alignCenter}>
+                                                <Ionicons name="add-outline" color={global.colors.MAIN_COLOR} size={30} />
+                                            </View>
+                                        </Cta>
+                                :
+                                    <OptionsModal options={personOptions} icon="ellipsis-horizontal-outline" buttonColor={global.colors.MAIN_COLOR} buttonSize={25} />
+                            }
                         </View>
                     </View>
                 </Cta>

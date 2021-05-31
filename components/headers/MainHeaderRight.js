@@ -22,16 +22,10 @@ export default function MainHeaderRight() {
         profilePic: null
     });
 
-    useEffect(() => {
-        
-    }, [])
-
     return (
         <View style={header.headerRightContainer}>
             <Cta _style={[header.headerIcons, globalStyles.p_10]} 
-                onPress={() => actions.updateUserParameters({
-                    searchBar: "global"
-                })}
+                onPress={() => actions.toggleSearchBar("global")}
                 value={<Ionicons style={header.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
