@@ -46,7 +46,7 @@ export default function FileDisplay({file, isPreview = false, options = null}){
             }}>
                 {file.type === "video" ?
                     <Video
-                        style={video.container}
+                        style={isPreview ? video.containerPreview : video.container}
                         source={{
                             uri: file.uri,
                         }}
@@ -62,7 +62,7 @@ export default function FileDisplay({file, isPreview = false, options = null}){
                                 file={file.uri}
                             >
                                 <Image
-                                    style={image.container}
+                                    style={isPreview ? image.containerPreview : image.container}
                                     source={{
                                         uri: file.uri
                                     }}

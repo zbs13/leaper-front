@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, ScrollView } from 'react-native';
 import useApp from '../hooks/useApp';
 import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
@@ -154,8 +154,7 @@ export default function TchatScreen({navigation, route}) {
           </View>
       }
       <KeyboardAwareScrollView 
-        style={[globalStyles.w_100]} 
-        onScrollBeginDrag={() => Keyboard.dismiss()} 
+        style={[globalStyles.w_100]}
         onContentSizeChange={(width, height) => {
           if(ts.yPos === ts.endPos){
             scrollViewRef.current.scrollToEnd({ animated: true });
@@ -167,20 +166,20 @@ export default function TchatScreen({navigation, route}) {
         onKeyboardWillShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         extraScrollHeight={-225}
         removeClippedSubviews
-        onScrollEndDrag={(e) => setTs({
-            ...ts, 
-            yPos: e.nativeEvent.contentOffset.y,
-            endPos: e.nativeEvent.contentSize.height - e.nativeEvent.layoutMeasurement.height
-          })
-        }
-        onScroll={(e) => {
-          if(e.nativeEvent.contentOffset.y === 0){
-            if(selector.getMessages().length >= (ts.offset + global.MAX_RESULT_PER_LOADED_PAGE)){
-              setLoader({...loader, isMoreContentLoading: true});
-              setTs({...ts, offset: ts.offset + global.MAX_RESULT_PER_LOADED_PAGE})
-            }
-          }
-        }}
+        // onScroll={(e) => {
+        //   if(e.nativeEvent.contentOffset.y === 0){
+        //     if(selector.getMessages().length >= (ts.offset + global.MAX_RESULT_PER_LOADED_PAGE)){
+        //       setLoader({...loader, isMoreContentLoading: true});
+        //       setTs({...ts, offset: ts.offset + global.MAX_RESULT_PER_LOADED_PAGE})
+        //     }
+        //   }else{
+        //     setTs({
+        //       ...ts, 
+        //       yPos: e.nativeEvent.contentOffset.y,
+        //       endPos: e.nativeEvent.contentSize.height - e.nativeEvent.layoutMeasurement.height
+        //     })
+        //   }
+        // }}
       >
         {loader.isTchatLoaded ? 
           selector.getMessages().map((message, index) => <View key={index}><MessageCard message={message} isEvent={isEvent} /></View>)
@@ -189,9 +188,13 @@ export default function TchatScreen({navigation, route}) {
         }
       </KeyboardAwareScrollView>
       <View>
-        <TchatBar 
+        <TchatBar
           onChangeInput={() => scrollViewRef.current.scrollToEnd({ animated: true })} 
-          onSend={({textValue, attachment}) => action.sendMessage(id, textValue, attachment)} />
+          onSend={async ({textValue, attachment}) => {
+            await action.sendMessage(id, textValue, attachment);
+            scrollViewRef.current.scrollToEnd({ animated: true });
+          }}
+          />
       </View>
     </>
   );
