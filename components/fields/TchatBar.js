@@ -27,11 +27,7 @@ export default function TchatBar({onSend, onChangeInput}){
         attachment: {}
     })
 
-    const [pickImageRestrictionPopup, setPickImageRestrictionPopup] = useState({
-        isVisible: false,
-        title: t(selectors.getLang()).NO_ACCESS_GRANTED,
-        content: t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA
-    })
+    const [pickImageRestrictionPopupVisible, setPickImageRestrictionPopupVisible] = useState(false);
 
     useEffect(() => {
         onChangeInput();
@@ -40,11 +36,11 @@ export default function TchatBar({onSend, onChangeInput}){
     return(
         <View style={[globalStyles.alignEnd, globalStyles.w_100, tchatBar.container, globalStyles.flexColumn]}>
             <DialogPopup 
-                dialogVisible={pickImageRestrictionPopup.isVisible}
-                title={pickImageRestrictionPopup.title}
-                content={pickImageRestrictionPopup.content}
-                onCancelPress={() => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: false})}
-                onAcceptPress={() => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: false})}
+                dialogVisible={pickImageRestrictionPopupVisible}
+                title={t(selectors.getLang()).NO_ACCESS_GRANTED}
+                content={t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA}
+                onCancelPress={() => setPickImageRestrictionPopupVisible(false)}
+                onAcceptPress={() => setPickImageRestrictionPopupVisible(false)}
             />
             {typeof tchatState.attachment.type !== "undefined" ? 
                 <View style={[globalStyles.w_100, tchatBar.imagePreviewContainer]}>
@@ -77,7 +73,7 @@ export default function TchatBar({onSend, onChangeInput}){
                                     icon: "images-outline",
                                     action: () => pickMedia(
                                         (res) => setTchatState({...tchatState, attachment: res}),
-                                        () => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: true})
+                                        () => setPickImageRestrictionPopupVisible(true)
                                     )
                                 },
                                 {
@@ -98,6 +94,7 @@ export default function TchatBar({onSend, onChangeInput}){
                 <View style={{flex: 2}}>
                     <TextInput 
                         multiline
+                        scrollEnabled
                         onChangeText={(value) => setTchatState({...tchatState, textValue: value})}
                         value={tchatState.textValue}
                         placeholder={t(selectors.getLang()).message.WRITE_A_MESSAGE}
@@ -107,7 +104,10 @@ export default function TchatBar({onSend, onChangeInput}){
                 </View>
                 <View style={[globalStyles.m_10, globalStyles.alignCenter, {display: tchatState.textValue.trim() !== "" || Object.keys(tchatState.attachment).length !== 0 ? "flex" : "none"}]}>
                     <Cta onPress={() => {
-                            onSend(tchatState);
+                            onSend({
+                                textValue: tchatState.textValue.trim() !== "" ? tchatState.textValue : "",
+                                attachment: tchatState.attachment
+                            });
                             setTchatState({textValue: "", attachment: {}});
                         }}
                     >

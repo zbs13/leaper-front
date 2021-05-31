@@ -353,11 +353,13 @@ export const tchatBar = StyleSheet.create({
     input: {
         padding: 10,
         backgroundColor: global.colors.VERY_LIGHT_GREY,
-        borderRadius: 5
+        borderRadius: 5,
+        maxHeight: 100
     },
     imagePreviewContainer: {
         backgroundColor: global.colors.VERY_LIGHT_GREY,
-        borderRadius: 5
+        borderRadius: 5,
+        maxHeight: 100
     },
     imagePreview: {
         width: "100%",
@@ -456,6 +458,11 @@ export const video = StyleSheet.create({
         alignSelf: 'center',
         width: 320,
         height: 200,
+    },
+    containerPreview: {
+        alignSelf: 'center',
+        width: "100%",
+        height: "100%"
     }
 });
 
@@ -499,6 +506,11 @@ export const image = StyleSheet.create({
         alignSelf: 'center',
         width: 320,
         height: 200,
+    },
+    containerPreview: {
+        alignSelf: 'center',
+        width: "100%",
+        height: "100%"
     }
 });
 
