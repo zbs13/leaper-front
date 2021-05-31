@@ -81,10 +81,26 @@ const useApp = () => {
         payload: id
       })
     },
+    /**
+     * toggle add modal
+     * 
+     * @param {object} navigation 
+     */
     toggleAddModal: function(navigation = null) {
       dispatch({
         type: "TOGGLE_ADD_MODAL",
         payload: navigation
+      })
+    },
+    /**
+     * toggle search bar
+     * 
+     * @param {string} type search bar type => global
+     */
+    toggleSearchBar: function(type){
+      dispatch({
+        type: "TOGGLE_SEARCH_BAR",
+        payload: type
       })
     }
   };

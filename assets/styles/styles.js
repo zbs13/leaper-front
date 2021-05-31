@@ -51,6 +51,11 @@ export const cta = StyleSheet.create({
         backgroundColor: global.colors.MAIN_COLOR,
         color: global.colors.ANTHRACITE,
     },
+    b_red: {
+        borderRadius: 20,
+        backgroundColor: global.colors.RED_ERROR,
+        color: global.colors.WHITE,
+    },
     b_red_nr: {
         backgroundColor: global.colors.RED_ERROR,
         color: global.colors.WHITE,

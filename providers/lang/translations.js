@@ -62,6 +62,7 @@ const l = {
         EXCLUDE: "Exclure",
         SURE_TO_EXCLUDE: "Etes vous sûr de vouloir exclure",
         MANAGE_ROLE: "Gestion du rôle",
+        INVITE: "Inviter",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
             EDIT_SUCCESS: "Modifié avec succès",
@@ -88,7 +89,10 @@ const l = {
             CREATE_GROUP: "Créer un groupe",
             ADD_TO_GROUP: "Ajouter au groupe",
             CONFIRM_CREATE_GROUP: "Créer le groupe",
-            GROUP_MEMBERS: "Membres du groupe"
+            GROUP_MEMBERS: "Membres du groupe",
+            sureToInviteUserToGroup: (userFirstname) => {
+                return `Vous êtes sur le point d'inviter ${userFirstname} à ce groupe`;
+            }
         },
         event: {
             LEAVE_THIS_EVENT: "Quitter cet évènement",
@@ -103,7 +107,10 @@ const l = {
             CREATE_EVENT: "Créer un évènement",
             ADD_TO_EVENT: "Ajouter à l'évènement",
             CONFIRM_CREATE_EVENT: "Créer l'évènement",
-            EVENT_MEMBERS: "Membres de l'évènement"
+            EVENT_MEMBERS: "Membres de l'évènement",
+            sureToInviteUserToEvent: (userFirstname) => {
+                return `Vous êtes sur le point d'inviter ${userFirstname} à cet évènement`;
+            }
         },
         fields: {
             PASSWORD: "Mot de passe",
@@ -173,7 +180,9 @@ const l = {
             EMAIL: "Email",
             PHONE_NUMBER: "Numéro de téléphone",
             MEMBER_OF: "Membre de",
-            MEMBER_OF_NO_EVENT: "Membre d'aucun évènement"
+            MEMBER_OF_NO_EVENT: "Membre d'aucun évènement",
+            DELETE_FRIEND: "Supprimer l'ami(e)",
+            SURE_TO_DELETE_FRIEND: "Etes vous sûr de vouloir supprimer cet(te) ami(e) ?"
         },
         rights: {
             RIGHTS: "Droits",
@@ -194,6 +203,16 @@ const l = {
             CREATE_THE_ROLE: "Créer le rôle",
             EDIT_THE_ROLE: "Modifier le rôle",
             ALLOCATE_ROLE_TO: "Allouer un rôle à"
+        },
+        friends: {
+            SEND_A_FRIEND_REQUEST: "Envoyer une demande d'ami",
+            CONFIRM_SEND_A_FRIEND_REQUEST: "Vous êtes sur le point d'envoyer une demande d'ami à"
+        },
+        addPerson: {
+            SEARCH_USER: "Chercher un utilisateur...",
+            ADD_TO_EVENT: "Ajouter à l'évènement",
+            ADD_TO_GROUP: "Ajouter au groupe",
+            ADD_TO_CONTACT: "Ajouter aux contacts"
         },
         sports: {
             BIATHLON: "Biathlon",
@@ -351,6 +370,7 @@ const l = {
         EXCLUDE: "Exclude",
         SURE_TO_EXCLUDE: "Are you sure to exclude",
         MANAGE_ROLE: "Manage role",
+        INVITE: "Invite",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
             EDIT_SUCCESS: "Successfully edited",
@@ -377,7 +397,10 @@ const l = {
             MY_GROUPS: "My groups",
             CREATE_GROUP: "Create a group",
             CONFIRM_CREATE_GROUP: "Create group",
-            GROUP_MEMBERS: "Group members"
+            GROUP_MEMBERS: "Group members",
+            sureToInviteUserToGroup: (userFirstname) => {
+                return `You are going to invite ${userFirstname} to this group`;
+            }
         },
         event: {
             EVENTS: "Events",
@@ -392,7 +415,10 @@ const l = {
             CREATE_EVENT: "Create an event",
             HERE_EVENT_PLACE: "This is here event take place",
             CONFIRM_CREATE_EVENT: "Create event",
-            EVENT_MEMBERS: "Event members"
+            EVENT_MEMBERS: "Event members",
+            sureToInviteUserToEvent: (userFirstname) => {
+                return `You are going to invite ${userFirstname} to this event`;
+            }
         },
         fields: {
             PASSWORD: "Password",
@@ -469,7 +495,9 @@ const l = {
             EMAIL: "Email",
             PHONE_NUMBER: "Phone number",
             MEMBER_OF: "Member of",
-            MEMBER_OF_NO_EVENT: "Member of no event"
+            MEMBER_OF_NO_EVENT: "Member of no event",
+            DELETE_FRIEND: "Delete friend",
+            SURE_TO_DELETE_FRIEND: "Are you sure to delete this friend ?"
         },
         rights: {
             RIGHTS: "Rights",
@@ -490,6 +518,16 @@ const l = {
             CREATE_THE_ROLE: "Create the role",
             EDIT_THE_ROLE: "Edit the role",
             ALLOCATE_ROLE_TO: "Allocate a role to"
+        },
+        friends: {
+            SEND_A_FRIEND_REQUEST: "Send a friend request",
+            CONFIRM_SEND_A_FRIEND_REQUEST: "You are going to send a friend request to"
+        },
+        addPerson: {
+            SEARCH_USER: "Search an user...",
+            ADD_TO_EVENT: "Add to the event",
+            ADD_TO_GROUP: "Add to the group",
+            ADD_TO_CONTACT: "Add to contacts"
         },
         sports: {
             BIATHLON: "Biathlon",

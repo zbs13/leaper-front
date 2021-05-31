@@ -172,3 +172,36 @@ export const getSportById = function(lang, id){
     let sportIndex = sportList.findIndex(sport => sport.id === id);
     return sportList[sportIndex];
 }
+
+/**
+ * check if user is a connected user's friend
+ * 
+ * @param {object} userFriends user firends
+ * @returns 
+ */
+export const isMyFriend = function(userFriends){
+    let myId = 2; //TODO chnage with real connected id
+    return userFriends.findIndex((user) => user.id === myId) !== -1;
+}
+
+/**
+ * check if user is in event/group
+ * 
+ * @param {object} userGE user groups/events
+ * @param {string} geId group/event id to check 
+ * @returns 
+ */
+export const isUserInEventGroup = (userGE, geId) => {
+    return userGE.findIndex((ge) => ge.id === geId) !== -1;
+}
+
+/**
+ * check if role has a specific right
+ * 
+ * @param {object} roleRights role rights
+ * @param {string} rightId right to check
+ * @returns 
+ */
+export const roleHasRight = (roleRights, rightId) => {
+    return roleRights.findIndex(right => right.id == rightId) !== -1;
+}

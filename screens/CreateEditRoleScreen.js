@@ -11,6 +11,7 @@ import Cta from '../components/cta/Cta';
 import { cta } from '../assets/styles/styles';
 import { manageResponseUI } from '../context/actions/apiCall';
 import global from '../providers/global';
+import { roleHasRight }  from '../utils/utils';
 
 /**
  * create/edit role screen
@@ -34,10 +35,10 @@ export default function CreateEditRoleScreen({navigation, route}) {
     })
 
     const [sw, setSw] = useState({
-        isRightRemoveUser: isEdit ? role.rights.findIndex(right => right.id == global.rights.REMOVE_USER) !== -1 ? true : false : false,
-        isRightAddUser: isEdit ? role.rights.findIndex(right => right.id == global.rights.ADD_USER) !== -1 ? true : false : false,
-        isRightDeleteMessage: isEdit ? role.rights.findIndex(right => right.id == global.rights.DELETE_MESSAGE) !== -1 ? true : false : false,
-        isRightEditInfos: isEdit ? role.rights.findIndex(right => right.id == global.rights.EDIT_INFOS) !== -1 ? true : false : false
+        isRightRemoveUser: isEdit ? roleHasRight(role.rights, global.rights.REMOVE_USER) ? true : false : false,
+        isRightAddUser: isEdit ? roleHasRight(role.rights, global.rights.ADD_USER) ? true : false : false,
+        isRightDeleteMessage: isEdit ? roleHasRight(role.rights, global.rights.DELETE_MESSAGE) ? true : false : false,
+        isRightEditInfos: isEdit ? roleHasRight(role.rights, global.rights.EDIT_INFOS) ? true : false : false
     });
 
     useEffect(() => {

@@ -52,7 +52,8 @@ export default function AddModal() {
                     <View>
                         <Cta
                             onPress={() => {
-                                actions.toggleAddModal()
+                                selectors.getAddModal().navigation.navigate(global.screens.ADD_PERSON, {asFriend: true});
+                                actions.toggleAddModal();
                             }}
                             underlayColor={global.colors.VERY_LIGHT_GREY}
                             _style={[cta.main, globalStyles.ta_l, optionsModal.optionCta]}

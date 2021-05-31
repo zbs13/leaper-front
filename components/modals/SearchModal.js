@@ -45,9 +45,7 @@ export default function SearchModal({type}) {
                 transparent={false}
                 visible={true}
                 onRequestClose={() => {
-                    actions.updateUserParameters({
-                        searchBar: null
-                    })
+                    actions.toggleSearchBar(null)
                 }}
             >
                 <View>

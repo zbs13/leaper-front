@@ -166,6 +166,219 @@ export const fetchUserById = (id) => {
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             }],
             src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+            friends: [
+                {
+                    id: 1,
+                    firstname: "Ta",
+                    lastname: "gueule",
+                    src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                },
+                {
+                    id: 2,
+                    firstname: "Ta",
+                    lastname: "gueule",
+                    src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                }
+            ]
         }
+    })
+}
+
+/**
+ * fetch user by firstname/lastname
+ * 
+ * @param {string} value lastname, firstname value
+ * @param {number} offset for results
+ */
+export const fetchUsersByName = (value, offset) => {
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return [
+            {
+                id: 1,
+                firstname: "Ta",
+                lastname: "gueule",
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                friends: [{
+                    id: 1,
+                    firstname: "Ta",
+                    lastname: "gueule",
+                    src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                },
+                {
+                    id: 2,
+                    firstname: "Ta",
+                    lastname: "gueule",
+                    src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                }],
+                events: [{
+                    id: 7,
+                    name: "l'event 3",
+                    description: "la descrip  lf,jekfjekfjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+                    sportId: 2,
+                    postalCode: 93340,
+                    owner: {
+                        id: 2
+                    },
+                    location: {
+                        latitude: 48.90049103281167, 
+                        longitude: 2.510714120997393
+                    },
+                    address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
+                    startHour: "2021-01-01 22:30:00",
+                    endHour: "2021-01-01 23:30:00",
+                    date: "2021-05-19 00:00:00",
+                    users: [{
+                        id: 1,
+                        firstname: "Ta",
+                        lastname: "gueule",
+                        src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                        roles: [{
+                            name: "le role",
+                            event: {
+                                id: 1
+                            },
+                            rights: [
+                                {
+                                    id: 1
+                                },
+                                {
+                                    id: 2
+                                }
+                            ]
+                        }],
+                    }]
+                }],
+                groups: [{
+                    id: 1,
+                    name: "l'event 3",
+                    description: "la descrip  lf,jekfjekfjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+                    sportId: 2,
+                    postalCode: 93340,
+                    owner: {
+                        id: 2
+                    },
+                    location: {
+                        latitude: 48.90049103281167, 
+                        longitude: 2.510714120997393
+                    },
+                    address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
+                    startHour: "2021-01-01 22:30:00",
+                    endHour: "2021-01-01 23:30:00",
+                    date: "2021-05-19 00:00:00",
+                    users: [{
+                        id: 1,
+                        firstname: "Ta",
+                        lastname: "gueule",
+                        src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                        roles: [{
+                            name: "le role",
+                            event: {
+                                id: 1
+                            },
+                            rights: [
+                                {
+                                    id: 1
+                                },
+                                {
+                                    id: 2
+                                }
+                            ]
+                        }],
+                    }]
+                }]
+            },
+            {
+                id: 2,
+                firstname: "yooo",
+                lastname: "efgzesrgr",
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                friends: [{
+                    id: 1,
+                    firstname: "Ta",
+                    lastname: "gueule",
+                    src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                }],
+                events: [{
+                    id: 7,
+                    name: "l'event 3",
+                    description: "la descrip  lf,jekfjekfjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+                    sportId: 2,
+                    postalCode: 93340,
+                    owner: {
+                        id: 2
+                    },
+                    location: {
+                        latitude: 48.90049103281167, 
+                        longitude: 2.510714120997393
+                    },
+                    address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
+                    startHour: "2021-01-01 22:30:00",
+                    endHour: "2021-01-01 23:30:00",
+                    date: "2021-05-19 00:00:00",
+                    users: [{
+                        id: 1,
+                        firstname: "Ta",
+                        lastname: "gueule",
+                        src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                        roles: [{
+                            name: "le role",
+                            event: {
+                                id: 1
+                            },
+                            rights: [
+                                {
+                                    id: 1
+                                },
+                                {
+                                    id: 2
+                                }
+                            ]
+                        }],
+                    }]
+                }],
+                groups: [{
+                    id: 7,
+                    name: "l'event 3",
+                    description: "la descrip  lf,jekfjekfjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
+                    sportId: 2,
+                    postalCode: 93340,
+                    owner: {
+                        id: 2
+                    },
+                    location: {
+                        latitude: 48.90049103281167, 
+                        longitude: 2.510714120997393
+                    },
+                    address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
+                    startHour: "2021-01-01 22:30:00",
+                    endHour: "2021-01-01 23:30:00",
+                    date: "2021-05-19 00:00:00",
+                    users: [{
+                        id: 1,
+                        firstname: "Ta",
+                        lastname: "gueule",
+                        src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                        roles: [{
+                            name: "le role",
+                            event: {
+                                id: 1
+                            },
+                            rights: [
+                                {
+                                    id: 1
+                                },
+                                {
+                                    id: 2
+                                }
+                            ]
+                        }],
+                    }]
+                }]
+            }
+        ]
     })
 }

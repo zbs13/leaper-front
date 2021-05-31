@@ -12,6 +12,7 @@ import UserProfileScreen from "./screens/UserProfileScreen";
 import ManageRoleScreen from "./screens/ManageRoleScreen";
 import CreateEditRoleScreen from "./screens/CreateEditRoleScreen";
 import AllocateRoleScreen from "./screens/AllocateRoleScreen";
+import AddPersonScreen from "./screens/AddPersonScreen";
 import headerType from "./components/headers/headers";
 
 // routes with home/custom Header and Bottom menu displayed
@@ -81,6 +82,11 @@ export const withCustomHeaderOnly = [
     {
         name: global.screens.ALLOCATE_ROLE,
         component: AllocateRoleScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.ADD_PERSON,
+        component: AddPersonScreen,
         header: ({navigation}) => (headerType.back())
     } 
 ]

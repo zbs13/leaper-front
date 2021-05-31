@@ -61,9 +61,15 @@ const useRoles = () => {
      */
     updateUserRole: async function(oldRoleId, newRoleId, userId){
       let respRUR = await actions.removeUserRole(oldRoleId, userId);
+      if(typeof respRUR.isError !== "undefined"){
+        if(respRUR.isError){
+            return {"error": true};
+        }
+      }
+
       let respARU = await actions.addRoleToUser(newRoleId, userId);
-      if(typeof respRUR.isError !== "undefined" || typeof respARU.isError !== "undefined"){
-        if(respRUR.isError || respARU.isError){
+      if(typeof respARU.isError !== "undefined"){
+        if(respARU.isError){
             return {"error": true};
         }
       }
