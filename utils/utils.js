@@ -1,6 +1,7 @@
 import { format, isToday, parseISO, isYesterday, isBefore } from 'date-fns';
 import t from '../providers/lang/translations';
 import global from '../providers/global';
+import _ from "lodash";
 
 /**
  * generate an uniq id
@@ -204,4 +205,32 @@ export const isUserInEventGroup = (userGE, geId) => {
  */
 export const roleHasRight = (roleRights, rightId) => {
     return roleRights.findIndex(right => right.id == rightId) !== -1;
+}
+
+/**
+ * sort my groups/events results by search value
+ * 
+ * @param {object} array my events/groups in array
+ * @param {string} value search value
+ * @return {object} sorted array
+ */
+export const sortMyGEBySearchCriteria = (array, value) => {
+    let res = _.filter(array, function(item){
+      return item.name.toLowerCase().includes(value.toLowerCase()) || item.description.toLowerCase().includes(value.toLowerCase())
+    });
+    return res.length !== 0 ? res : null;
+}
+
+/**
+ * sort users results by search value
+ * 
+ * @param {object} array users in array
+ * @param {string} value search value
+ * @return {object} sorted array
+ */
+export const sortUsersSearchCriteria = (array, value) => {
+    let res = _.filter(array, function(item){
+      return item.firstname.toLowerCase().includes(value.toLowerCase()) || item.lastname.toLowerCase().includes(value.toLowerCase())
+    });
+    return res.length !== 0 ? res : null;
 }

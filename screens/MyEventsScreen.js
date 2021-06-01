@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
 import SB from '../components/search/SearchBar';
@@ -8,13 +8,13 @@ import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 import { manageResponseUI } from '../context/actions/apiCall';
 import EventCard from '../components/cards/EventCard';
-import EventCardLoader from '../components/loaders/EventCardLoader';
 import { RefreshViewList } from '../components/RefreshView';
 import Title from '../components/Title';
 import Cta from '../components/cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { cta } from '../assets/styles/styles';
 import Txt from '../components/Txt';
+import { sortMyGEBySearchCriteria } from '../utils/utils';
 
 /**
  * my events screen
@@ -28,31 +28,28 @@ export default React.memo(function MyEventsScreen({navigation}) {
   const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
 
   const [mes, setMes] = useState({
+      results: selectorsEvent.getAllMy(),
+      sortedResults: null,
       searchValue: "",
-      offset: 0
   });
 
-  const [isLoaded, setIsLoaded] = useState(false);
-
   let lang = selectorsApp.getLang();
-
-  useEffect(() => {
-    fetchData();
-  }, [mes]);
 
   /**
    * fetch all my events
    */
-  function fetchData(){
-    actionsEvent.fetchAllMy(mes.offset).then((data) => {
+  function fetchMyEvents(){
+    actionsEvent.fetchAllMy().then((data) => {
       manageResponseUI(data,
           lang,
           function (res) {
-            setIsLoaded(true)
+            setMes({
+              ...mes,
+              results: res
+            });
           },
           function (error) {
               actionsApp.addPopupStatus(error);
-              setIsLoaded(false)
           })
     })
   }
@@ -62,14 +59,19 @@ export default React.memo(function MyEventsScreen({navigation}) {
         <Title>{t(selectorsApp.getLang()).event.MY_EVENTS}</Title>
         <SB
           placeholder={t(selectorsApp.getLang()).event.FIND_AN_EVENT}
-          onChangeText={(val) => setMes({...mes, searchValue: val})}
+          onChangeText={(val) => setMes(
+            {
+              ...mes, 
+              searchValue: val,
+              sortedResults: sortMyGEBySearchCriteria(mes.results, val)
+            })}
           value={mes.searchValue}
           cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}
           containerStyle={{backgroundColor: "transparent"}}
           cancelButtonProps={{color: global.colors.MAIN_COLOR}}
       />
       <View style={[globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
-        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsEvent.getNbMyFetched()}</Txt>
+        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {mes.sortedResults && mes.sortedResults.length || mes.results.length}</Txt>
         <Cta
             onPress={() => navigation.navigate(global.screens.CREATE_GROUP_EVENT, {isEvent: true})}
             underlayColor={global.colors.LIGHT_GREY}
@@ -78,21 +80,16 @@ export default React.memo(function MyEventsScreen({navigation}) {
             <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />
         </Cta>
       </View>
-      { isLoaded ?
-        <RefreshViewList 
-          data={selectorsEvent.getAllMy()}
-          onRefresh={() => fetchData()}
-          onEndReached={() => setMes({...mes, offset: mes.offset + global.MAX_RESULT_PER_LOADED_PAGE})}
-          renderItem={({item}) => (
-            <EventCard
-              isMyEvent={true}
-              item={item}
-            />
-          )}
-        />
-      :
-        <EventCardLoader />
-      }
+      <RefreshViewList 
+        data={mes.sortedResults || mes.results}
+        onRefresh={() => fetchMyEvents()}
+        renderItem={({item}) => (
+          <EventCard
+            isMyEvent={true}
+            item={item}
+          />
+        )}
+      />
     </View>
   );
 })

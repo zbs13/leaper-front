@@ -16,12 +16,9 @@ export const initialState = {
   export const reducer = (state, action) => {
     switch (action.type) {
       case "UPDATE_MY_EVENTS":
-        let val = action.payload;
-        // if(action.offset !== 0)
-        //   val = state.my_events.push(val)
         return {
             ...state,
-            my_events: val
+            my_events: action.payload
         };
       case "UPDATE_EVENTS_BY_CRITERIA":
         let _val = action.payload;

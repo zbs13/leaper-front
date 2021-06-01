@@ -14,12 +14,9 @@ export const initialState = {
   export const reducer = (state, action) => {
     switch (action.type) {
       case "UPDATE_MY_GROUPS":
-        let val = action.payload;
-        // if(action.offset !== 0)
-        //   val = state.my_groups.push(val)
         return {
             ...state,
-            my_groups: val
+            my_groups: action.payload
         };
       case "UPDATE_GROUPS_BY_ID":
         return {

@@ -40,7 +40,7 @@ export const fetchMyEvents = (offset) => {
             },
             {
                 id: 2,
-                name: "l'event 1f gfpker okfoekf o ekf oekf eof keof keof keo kfoek oe",
+                name: "ca",
                 description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
                 sportId: 9,
                 postalCode: 93340,
@@ -67,7 +67,7 @@ export const fetchMyEvents = (offset) => {
             },
             {
                 id: 3,
-                name: "l'event 1f gfpker okfoekf o ekf oekf eof keof keof keo kfoek oe",
+                name: "caca",
                 description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
                 sportId: 5,
                 postalCode: 93340,

@@ -382,3 +382,26 @@ export const fetchUsersByName = (value, offset) => {
         ]
     })
 }
+
+/**
+ * fetch connected user
+ * 
+ * @returns 
+ */
+export const fetchConnectedUser = () => {
+    let myId = 2; ///TODO replace with real connected user id
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {
+            friends: [{
+                id: 1,
+                firstname: "eofj",
+                lastname: "pekjifoe",
+                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            }]
+        }
+    })
+}

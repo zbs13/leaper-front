@@ -2,7 +2,8 @@ import { useContext } from "react";
 import UsersContext from "../context/usersContext";
 import {
   fetchUserById,
-  fetchUsersByName
+  fetchUsersByName,
+  fetchConnectedUser
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 
@@ -39,11 +40,27 @@ const useUsers = () => {
       return fetchUsersByName(value, offset).then((data) => {
         return response(data)
       });
+    },
+    /**
+     * fetch connected user
+     * 
+     * @returns 
+     */
+    fetchConnectedUser: function(){
+      return fetchConnectedUser().then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_CONNECTED_USER",
+            payload: res,
+          });
+        })
+      });
     }
   };
 
   const selectors = {
     getUser: () => usersState.user,
+    getConnectedUser: () => usersState.connectedUser
   };
 
   return { selectors, actions };

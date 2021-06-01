@@ -206,7 +206,11 @@ const l = {
         },
         friends: {
             SEND_A_FRIEND_REQUEST: "Envoyer une demande d'ami",
-            CONFIRM_SEND_A_FRIEND_REQUEST: "Vous êtes sur le point d'envoyer une demande d'ami à"
+            CONFIRM_SEND_A_FRIEND_REQUEST: "Vous êtes sur le point d'envoyer une demande d'ami à",
+            FRIENDS: "Amis",
+            MY_FRIENDS: "Mes amis",
+            SEARCH_A_FRIEND: "Chercher un ami",
+            NO_FRIENDS: "Vous n'avez pas d'amis"
         },
         addPerson: {
             SEARCH_USER: "Chercher un utilisateur...",
@@ -521,7 +525,11 @@ const l = {
         },
         friends: {
             SEND_A_FRIEND_REQUEST: "Send a friend request",
-            CONFIRM_SEND_A_FRIEND_REQUEST: "You are going to send a friend request to"
+            CONFIRM_SEND_A_FRIEND_REQUEST: "You are going to send a friend request to",
+            FRIENDS: "Friends",
+            MY_FRIENDS: "My friends",
+            SEARCH_A_FRIEND: "Search a friend",
+            NO_FRIENDS: "You don't have friends"
         },
         addPerson: {
             SEARCH_USER: "Search an user...",

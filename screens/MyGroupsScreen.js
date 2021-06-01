@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { View } from 'react-native';
 import useGroups from '../hooks/useGroups';
 import SB from '../components/search/SearchBar';
@@ -8,13 +8,13 @@ import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 import { manageResponseUI } from '../context/actions/apiCall';
 import GroupCard from '../components/cards/GroupCard';
-import GroupCardLoader from '../components/loaders/GroupCardLoader';
 import { RefreshViewList } from '../components/RefreshView';
 import Title from '../components/Title';
 import Cta from '../components/cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { cta } from '../assets/styles/styles';
 import Txt from '../components/Txt';
+import { sortMyGEBySearchCriteria } from '../utils/utils';
 
 /**
  * my groups screen
@@ -28,32 +28,29 @@ export default React.memo(function MyGroupsScreen({navigation}) {
   const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
 
   const [mgs, setMgs] = useState({
-      searchValue: "",
-      offset: 0
+    results: selectorsGroups.getAllMy(),
+    sortedResults: null,
+    searchValue: ""
   });
 
-  const [isLoaded, setIsLoaded] = useState(false);
-
   let lang = selectorsApp.getLang();
-
-  useEffect(() => {
-    fetchData();
-  }, [mgs]);
 
   /**
    * fetch all my groups
    */
-  function fetchData(){
-    actionsGroups.fetchAllMy(mgs.offset).then((data) => {
+  function fetchMyGroups(){
+    actionsGroups.fetchAllMy().then((data) => {
       manageResponseUI(data,
-          lang,
-          function (res) {
-            setIsLoaded(true)
-          },
-          function (error) {
-              actionsApp.addPopupStatus(error);
-              setIsLoaded(false)
-          })
+        lang,
+        function (res) {
+          setMgs({
+            ...mgs,
+            results: res
+          });
+        },
+        function (error) {
+            actionsApp.addPopupStatus(error);
+        })
     })
   }
 
@@ -62,14 +59,19 @@ export default React.memo(function MyGroupsScreen({navigation}) {
         <Title>{t(selectorsApp.getLang()).group.MY_GROUPS}</Title>
         <SB
           placeholder={t(selectorsApp.getLang()).group.FIND_A_GROUP}
-          onChangeText={(val) => setMgs({...mgs, searchValue: val})}
+          onChangeText={(val) => setMgs(
+            {
+              ...mgs, 
+              searchValue: val,
+              sortedResults: sortMyGEBySearchCriteria(mgs.results, val)
+            })}
           value={mgs.searchValue}
           cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}
           containerStyle={{backgroundColor: "transparent"}}
           cancelButtonProps={{color: global.colors.MAIN_COLOR}}
       />
       <View style={[globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
-        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {selectorsGroups.getNbMyFetched()}</Txt>
+        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).RESULTS} : {mgs.sortedResults && mgs.sortedResults.length || mgs.results.length}</Txt>
         <Cta
             onPress={() => navigation.navigate(global.screens.CREATE_GROUP_EVENT, {isEvent: false})}
             underlayColor={global.colors.LIGHT_GREY}
@@ -78,21 +80,16 @@ export default React.memo(function MyGroupsScreen({navigation}) {
             <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />
         </Cta>
       </View>
-      { isLoaded ?
-        <RefreshViewList 
-          data={selectorsGroups.getAllMy()}
-          onRefresh={() => fetchData()}
-          onEndReached={() => setMgs({...mgs, offset: mgs.offset + global.MAX_RESULT_PER_LOADED_PAGE})}
-          renderItem={({item}) => (
-            <GroupCard
-              isMyGroup={true}
-              item={item}
-            />
-          )}
-        />
-      :
-        <GroupCardLoader />
-      }
+      <RefreshViewList 
+        data={mgs.sortedResults || mgs.results}
+        onRefresh={() => fetchMyGroups()}
+        renderItem={({item}) => (
+          <GroupCard
+            isMyGroup={true}
+            item={item}
+          />
+        )}
+      />
     </View>
   );
 })

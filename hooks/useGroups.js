@@ -23,16 +23,14 @@ const useGroups = () => {
     /**
      * fetch all my groups
      * 
-     * @param {number} offset from position in db 
      * @returns 
      */
-    fetchAllMy: function (offset = 0) {
-      return fetchMyGroups(offset).then((data) => {
+    fetchAllMy: function () {
+      return fetchMyGroups().then((data) => {
         return response(data, function(res){
           dispatch({
             type: "UPDATE_MY_GROUPS",
-            payload: res,
-            offset: offset
+            payload: res
           });
         })
       });
