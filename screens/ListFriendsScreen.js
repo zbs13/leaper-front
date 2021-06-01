@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
-import useEvents from '../hooks/useEvents';
-import useGroups from '../hooks/useGroups';
+import useUsers from '../hooks/useUsers';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
 import { RefreshViewList } from '../components/RefreshView';
@@ -12,6 +11,10 @@ import globalStyles from '../assets/styles/global';
 import Cta from '../components/cta/Cta';
 import global from '../providers/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SB from '../components/search/SearchBar';
+import { sortUsersSearchCriteria } from '../utils/utils';
+import Title from '../components/Title';
+import { cta } from '../assets/styles/styles';
 
 /**
  * friends list screen
@@ -20,48 +23,71 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
  */
 export default function ListFriendsScreen({navigation}) {
 
-    const {selectors: selectorsApp, actions: actionsApp} = useApp();
-
-    useEffect(() => {
-        navigation.setOptions({
-            headerTitle: "Amis",
-            headerRight: () => 
-                <Cta onPress={() => navigation.navigate(global.screens.ADD_PERSON, {asFriend: true})} >
-                    <Ionicons name="add-outline" color={global.colors.MAIN_COLOR} size={30} />
-                </Cta>
-        });
-    }, [])
-
-   /**
-   * fetch all group/event members
-   */
-    function fetchMembers(){
-        actions.fetchById(id).then((data) => {
+    const { actions: actionsApp, selectors: selectorsApp } = useApp();
+    const { actions: actionsUser, selectors: selectorsUser } = useUsers();
+  
+    const [lfs, setLfs] = useState({
+        friends: selectorsUser.getConnectedUser().friends,
+        sortedFriends: null,
+        searchValue: "",
+    });
+  
+    let lang = selectorsApp.getLang();
+  
+    /**
+     * fetch all my friends
+     */
+    function fetchFriends(){
+        actionsUser.fetchConnectedUser().then((data) => {
         manageResponseUI(data,
-            selectorsApp.getLang(),
+            lang,
             function (res) {
-                return;
+                setLfs({
+                    ...lfs,
+                    friends: res.friends
+                });
             },
             function (error) {
                 actionsApp.addPopupStatus(error);
             })
-        })
+      })
     }
-
+  
     return (
-      <View>
-        <View style={globalStyles.m_10}>
-            {/* <Txt _style={globalStyles.f_bold}>
-                {`${t(selectorsApp.getLang()).MEMBERS} : ${selectors.getFetchedById().users.length}`}
-            </Txt> */}
+        <View style={globalStyles.mpm}>
+            <Title>{t(selectorsApp.getLang()).friends.MY_FRIENDS}</Title>
+            <SB
+                placeholder={t(selectorsApp.getLang()).friends.SEARCH_A_FRIEND}
+                onChangeText={(val) => setLfs(
+                {
+                    ...lfs, 
+                    searchValue: val,
+                    sortedFriends: sortUsersSearchCriteria(lfs.friends, val)
+                })}
+                value={lfs.searchValue}
+                cancelButtonTitle={t(selectorsApp.getLang()).CANCEL}
+                containerStyle={{backgroundColor: "transparent"}}
+                cancelButtonProps={{color: global.colors.MAIN_COLOR}}
+            />
+            <View style={[globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
+            <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{t(selectorsApp.getLang()).friends.FRIENDS} : {lfs.sortedFriends && lfs.sortedFriends.length || lfs.friends.length}</Txt>
+            <Cta
+                onPress={() => navigation.navigate(global.screens.ADD_PERSON, {asFriend: true})}
+                underlayColor={global.colors.LIGHT_GREY}
+                _style={[cta.main, cta.first]}
+            >
+                <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />
+            </Cta>
+            </View>
+            <RefreshViewList 
+                data={lfs.sortedFriends || lfs.friends}
+                noDataMessage={t(selectorsApp.getLang()).friends.NO_FRIENDS}
+                onRefresh={() => fetchFriends()}
+                renderItem={({item}) => (
+                    <PersonCard datas={item} />
+                )}
+            />
         </View>
-        {/* <RefreshViewList
-            onRefresh={() => fetchMembers()}
-            noDataMessage={t(selectorsApp.getLang()).NO_MEMBER}
-            data={selectors.getFetchedById().users}
-            renderItem={({item}) => <PersonCard isMember isEvent={isEvent} datas={item} />}
-        /> */}
-      </View>
-    );
+    )
 };
 

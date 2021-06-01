@@ -60,6 +60,7 @@ const useUsers = () => {
 
   const selectors = {
     getUser: () => usersState.user,
+    getConnectedUser: () => usersState.connectedUser
   };
 
   return { selectors, actions };

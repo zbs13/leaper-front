@@ -220,3 +220,17 @@ export const sortMyGEBySearchCriteria = (array, value) => {
     });
     return res.length !== 0 ? res : null;
 }
+
+/**
+ * sort users results by search value
+ * 
+ * @param {object} array users in array
+ * @param {string} value search value
+ * @return {object} sorted array
+ */
+export const sortUsersSearchCriteria = (array, value) => {
+    let res = _.filter(array, function(item){
+      return item.firstname.toLowerCase().includes(value.toLowerCase()) || item.lastname.toLowerCase().includes(value.toLowerCase())
+    });
+    return res.length !== 0 ? res : null;
+}
