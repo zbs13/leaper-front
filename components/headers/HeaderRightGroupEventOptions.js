@@ -67,7 +67,7 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
         mainOptions.splice(1, 0, {
             value: isEvent ? t(selectorsApp.getLang()).event.ADD_TO_EVENT : t(selectorsApp.getLang()).group.ADD_TO_GROUP,
             icon: "person-add-outline",
-            action: () => alert("ajouter a la conv")
+            action: () => navigation.navigate(global.screens.ADD_PERSON, {asFriend: false, isEvent: isEvent, geId: geId})
         })
     }
 

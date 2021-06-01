@@ -1,5 +1,6 @@
 export const initialState = {
-    user: {}
+    user: {},
+    connectUser: {}
 };
   
   /**
@@ -11,6 +12,11 @@ export const initialState = {
             return {
                 ...state,
                 user: action.payload
+            }
+        case "UPDATE_CONNECTED_USER":
+            return {
+                ...state,
+                connectedUser: action.payload
             }
         default:
             return state;

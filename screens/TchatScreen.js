@@ -132,7 +132,7 @@ export default function TchatScreen({navigation, route}) {
           {selector.hasRight(global.rights.ADD_USER) ?
             <View style={{flex: 1}}>
               <Cta
-                onPress={() => alert("zez")} 
+                onPress={() => navigation.navigate(global.screens.ADD_PERSON, {asFriend: false, isEvent: isEvent, geId: id})}
                 _style={globalStyles.h_50p}
               >
                 <View style={[globalStyles.h_100, globalStyles.alignCenter, globalStyles.justifyCenter]}>

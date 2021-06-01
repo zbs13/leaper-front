@@ -24,16 +24,14 @@ const useEvents = () => {
     /**
      * fetch all my events
      * 
-     * @param {number} offset from position in db 
      * @returns 
      */
-    fetchAllMy: function (offset = 0) {
-      return fetchMyEvents(offset).then((data) => {
+    fetchAllMy: function () {
+      return fetchMyEvents().then((data) => {
         return response(data, function(res){
           dispatch({
             type: "UPDATE_MY_EVENTS",
-            payload: res,
-            offset: offset
+            payload: res
           });
         })
       });

@@ -382,3 +382,21 @@ export const fetchUsersByName = (value, offset) => {
         ]
     })
 }
+
+/**
+ * fetch connected user
+ * 
+ * @returns 
+ */
+export const fetchConnectedUser = () => {
+    let myId = 2; ///TODO replace with real connected user id
+    return fetch("https://sdgdfghrdh.fr").then(() => {
+        return {
+            id: 2
+        }
+    }).catch(() => {
+        return {
+            
+        }
+    })
+}
