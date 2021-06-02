@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
+import useUsers from '../hooks/useUsers';
 import useApp from '../hooks/useApp';
 import { eventDetailsMap, cta, ctaJoinEventDetails } from '../assets/styles/styles';
 import { manageResponseUI } from '../context/actions/apiCall';
@@ -15,9 +16,10 @@ import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
-import { getSportById } from '../utils/utils';
+import { getSportById, isInFav } from '../utils/utils';
 
 /**
+ * sport event details screen
  * 
  * @param {object} navigation for routing
  * @param {object} route params => route.params -> title, isMyEvent, id
@@ -30,7 +32,8 @@ export default function SportEventDetailsScreen({navigation, route}) {
     const id = route.params.id;
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
-    const { actions: actionsEvent } = useEvents();
+    const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
+    const { selectors: selectorsUser } = useUsers();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -73,9 +76,15 @@ export default function SportEventDetailsScreen({navigation, route}) {
                     onRefresh={() => fetchEventDetails()}
                 >
                     <View style={{position: "absolute", zIndex: 1, top: 10, right: 10}}>
-                        <Cta onPress={() => alert("mettre en fav")}>
-                            <Ionicons name="star-outline" size={30} color={global.colors.ANTHRACITE}/>
-                        </Cta>
+                        { isInFav(selectorsUser.getConnectedUser().bookmarks, id) ?
+                            <Cta onPress={() => alert("supprimer des fav")}>
+                                <Ionicons name="star" size={30} color={global.colors.RED_LIKE}/>
+                            </Cta>
+                        :
+                            <Cta onPress={() => alert("mettre en fav")}>
+                                <Ionicons name="star-outline" size={30} color={global.colors.ANTHRACITE}/>
+                            </Cta>
+                        }
                     </View>
                     <View style={eventDetailsMap.container}>
                         <Map
@@ -133,24 +142,28 @@ export default function SportEventDetailsScreen({navigation, route}) {
                         <Txt _style={[globalStyles.c_anth, globalStyles.ta_j]}>{details.description}</Txt>
                     </View>
                     <View style={ctaJoinEventDetails.container}>
-                        {isMyEvent ?
-                            <Cta value={t(lang).event.LEAVE_THIS_EVENT} 
-                                _style={[cta.main, cta.b_red_nr, globalStyles.f_bold]}
-                                confirm={{
-                                    title: title,
-                                    content: t(lang).event.SURE_TO_LEAVE_EVENT
-                                }}
-                                onPress={() => console.log("quitter event")}
-                            />
-                        :
-                            <Cta value={t(lang).JOIN} 
-                                _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
-                                confirm={{
-                                    title: title,
-                                    content: t(lang).event.CONFIRM_JOIN_EVENT
-                                }}
-                                onPress={() => console.log("join event")}
-                            />
+                        {
+                            !selectorsEvent.isOwner() ?
+                                isMyEvent ?
+                                    <Cta value={t(lang).event.LEAVE_THIS_EVENT} 
+                                        _style={[cta.main, cta.b_red_nr, globalStyles.f_bold]}
+                                        confirm={{
+                                            title: title,
+                                            content: t(lang).event.SURE_TO_LEAVE_EVENT
+                                        }}
+                                        onPress={() => console.log("quitter event")}
+                                    />
+                                :
+                                    <Cta value={t(lang).JOIN} 
+                                        _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                        confirm={{
+                                            title: title,
+                                            content: t(lang).event.CONFIRM_JOIN_EVENT
+                                        }}
+                                        onPress={() => console.log("join event")}
+                                    />
+                            :
+                                null
                         }
                     </View>
                 </RefreshViewScroll>

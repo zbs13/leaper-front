@@ -43,7 +43,6 @@ import PhoneInput, { isValidNumber } from "react-native-phone-number-input";
  * @param {string|null} lessThan date/hour must be less than an other date/hour
  * @param {string|null} greaterThan date/hour must be greater than an other date/hour
  * @param {object|null} location address location => latitude, longitude
- * @param {number|null} defaultPhoneCountry index of the default phone country (for dial code)
  * @param {string} defaultCountry json stringify with country datas
  * @param {function|null} onChangePhone called when phone number/country changed
  * @returns 

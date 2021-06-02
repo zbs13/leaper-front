@@ -17,6 +17,9 @@ export const fetchMyEvents = (offset) => {
                 description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
                 sportId: 54,
                 postalCode: 93340,
+                owner: {
+                    id: 2
+                },
                 users: [{
                     src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
                 },{
@@ -44,6 +47,9 @@ export const fetchMyEvents = (offset) => {
                 description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
                 sportId: 9,
                 postalCode: 93340,
+                owner: {
+                    id: 1
+                },
                 users: [{
                     src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
                 },{
@@ -71,6 +77,9 @@ export const fetchMyEvents = (offset) => {
                 description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
                 sportId: 5,
                 postalCode: 93340,
+                owner: {
+                    id: 2
+                },
                 users: [{
                     src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
                 },{
@@ -286,8 +295,8 @@ export const fetchById = (id) => {
                 id: 2
             },
             location: {
-                latitude: 48.90049103281167, 
-                longitude: 2.510714120997393
+                latitude: 46.90049103281167, 
+                longitude: 1.510714120997393
             },
             roles: [{
                 id: 1,
@@ -299,7 +308,7 @@ export const fetchById = (id) => {
                     id: 3
                 }]
             }],
-            address: "85 ter boulevard de l'ouest, 93340 Le Raincy",
+            address: "2 rue de ta mere",
             startHour: "2021-01-01 22:30:00",
             endHour: "2021-01-01 23:30:00",
             date: "2021-05-19 00:00:00",

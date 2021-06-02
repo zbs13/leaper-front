@@ -8,6 +8,7 @@ import BackgroundImage from '../BackgroundImage';
 import FileDisplay from '../display/FileDisplay';
 import OptionsModal from '../modals/OptionsModal';
 import useApp from '../../hooks/useApp';
+import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
@@ -27,20 +28,13 @@ import { useNavigation } from '@react-navigation/native';
  */
 export default function MessageCard({ message, isEvent}) {
 
-    /**
-     * myId
-     * //TODO get real own id
-     */
-    let myId = 2;
-    /**
-     * 
-     */
-    const isMyMessage = myId === message.sentBy.id
-
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
+    const { selectors: selectorsUser } = useUsers();
     const navigation = useNavigation();
+
+    const isMyMessage = selectorsUser.getConnectedUser().id === message.sentBy.id
 
     const [isSharing, setIsSharing] = useState(false);
 

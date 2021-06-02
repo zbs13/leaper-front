@@ -578,3 +578,18 @@ export const roleCard = StyleSheet.create({
         borderColor: global.colors.LIGHT_GREY
     }
 })
+
+export const mapFavs = StyleSheet.create({
+    container: {
+        width: "100%",
+        height: 250
+    }
+})
+
+export const bookmarkCard = StyleSheet.create({
+    view: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: global.colors.VERY_LIGHT_GREY
+    }
+})

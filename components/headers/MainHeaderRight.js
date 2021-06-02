@@ -18,10 +18,6 @@ export default function MainHeaderRight() {
 
     const {actions} = useApp();
 
-    const [mainHeaderState, setMainHeaderState] = useState({
-        profilePic: null
-    });
-
     return (
         <View style={header.headerRightContainer}>
             <Cta _style={[header.headerIcons, globalStyles.p_10]} 

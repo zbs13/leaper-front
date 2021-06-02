@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreenManager from '../../screensManager/HomeScreenManager';
 import ListFriendsScreenManager from '../../screensManager/ListFriendsScreenManager';
 import NotificationsScreenManager from '../../screensManager/NotificationsScreenManager';
-import ListFavoritesScreenManager from '../../screensManager/ListFavoritesScreenManager';
+import ListBookmarksScreenManager from '../../screensManager/ListBookmarksScreenManager';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import global from '../../providers/global';
@@ -54,9 +54,9 @@ export default function BottomMenu() {
           tabBarLabel: t(selectors.getLang()).NOTIFICATIONS,
           tabBarIcon: ({color, size}) => <Ionicons name="ios-notifications-outline" size={size} color={color} />
         }} />
-      <Tab.Screen name={global.routing.FAVORITES_ROUTING} component={ListFavoritesScreenManager} options={
+      <Tab.Screen name={global.routing.BOOKMARKS_ROUTING} component={ListBookmarksScreenManager} options={
         {
-          tabBarLabel: t(selectors.getLang()).FAVORITES,
+          tabBarLabel: t(selectors.getLang()).BOOKMARKS,
           tabBarIcon: ({color, size}) => <Ionicons name="ios-location-outline" size={size} color={color} />
         }} />
     </Tab.Navigator>

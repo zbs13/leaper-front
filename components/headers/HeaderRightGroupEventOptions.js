@@ -45,18 +45,18 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
           action: () => navigation.navigate(global.screens.SHARED_CONTENT, {id: geId, isEvent: isEvent})
         },
         {
-          value: isEvent ? t(selectorsApp.getLang()).event.LEAVE_THIS_EVENT : t(selectorsApp.getLang()).group.LEAVE_THIS_GROUP,
-          icon: "log-out-outline",
+          value: isEvent ? selector.isOwner() ? t(selectorsApp.getLang()).event.DELETE_THIS_EVENT : t(selectorsApp.getLang()).event.LEAVE_THIS_EVENT : selector.isOwner() ? t(selectorsApp.getLang()).group.DELETE_THIS_GROUP : t(selectorsApp.getLang()).group.LEAVE_THIS_GROUP,
+          icon: selector.isOwner() ? "close-outline" : "log-out-outline",
           iconColor: global.colors.WHITE,
           style: {
             backgroundColor: global.colors.RED_ERROR,
             color: global.colors.WHITE
           },
           confirm: {
-            title: isEvent ? t(selectorsApp.getLang()).event.LEAVE_EVENT : t(selectorsApp.getLang()).event.LEAVE_GROUP,
-            content: `${isEvent ? t(selectorsApp.getLang()).event.SURE_TO_LEAVE_EVENT : t(selectorsApp.getLang()).group.SURE_TO_LEAVE_GROUP} ${geTitle}`
+            title: isEvent ? selector.isOwner() ? t(selectorsApp.getLang()).event.DELETE_EVENT : t(selectorsApp.getLang()).event.LEAVE_EVENT : selector.isOwner() ? t(selectorsApp.getLang()).event.DELETE_GROUP : t(selectorsApp.getLang()).group.LEAVE_GROUP,
+            content: `${isEvent ? selector.isOwner() ? t(selectorsApp.getLang()).event.SURE_TO_DELETE_EVENT : t(selectorsApp.getLang()).event.SURE_TO_LEAVE_EVENT : selector.isOwner() ? t(selectorsApp.getLang()).group.SURE_TO_DELETE_GROUP : t(selectorsApp.getLang()).group.SURE_TO_LEAVE_GROUP} ${geTitle}`
           },
-          action: () => alert("Quitter")
+          action: selector.isOwner() ? () => alert("Supprimer") : () => alert("Quitter")
         },
     ];
   
