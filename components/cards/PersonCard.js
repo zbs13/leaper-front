@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import useGroups from '../../hooks/useGroups';
 import useEvents from '../../hooks/useEvents';
+import useUsers from '../../hooks/useUsers';
 import useApp from '../../hooks/useApp';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import Cta from '../cta/Cta';
@@ -41,6 +42,7 @@ export default function PersonCard({
     const {selectors: selectorsEvent, actions: actionsEvent} = useEvents();
     const {selectors: selectorsGroup, actions: actionsGroup} = useGroups();
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
+    const { selectors: selectorsUser } = useUsers();
 
     let selector = selectorsGroup;
     let action = actionsGroup;
@@ -59,7 +61,7 @@ export default function PersonCard({
 
     let roleIndex = -1;
 
-    let myId = 2; //TODO get real own id
+    let myId = selectorsUser.getConnectedUser().id;
     if(isMember){
 
         /**
@@ -136,7 +138,7 @@ export default function PersonCard({
                         <View>
                             {
                                 addAsFriend || addToGE ?
-                                    (addAsFriend && isMyFriend(datas.friends))
+                                    (addAsFriend && isMyFriend(selectorsUser.getConnectedUser().id, datas.friends))
                                     || (addToGE && isEvent && isUserInEventGroup(datas.events, geId))
                                     || (addToGE && !isEvent && isUserInEventGroup(datas.groups, geId))
                                     ?

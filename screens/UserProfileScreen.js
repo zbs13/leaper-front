@@ -79,7 +79,7 @@ export default function UserProfileScreen({navigation, route}) {
                         </View>
                         <View style={globalStyles.mt_10}>
                             {
-                                isMyFriend(selectorsUser.getUser().friends) ?
+                                isMyFriend(selectorsUser.getConnectedUser().id, selectorsUser.getUser().friends) ?
                                     <Cta 
                                         onPress={() => console.log("DELETE AMI")}
                                         _style={[cta.main, cta.b_red]}

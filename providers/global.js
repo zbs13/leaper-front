@@ -4,7 +4,7 @@ import { GOOGLE_MAP_API_KEY } from '@env';
 export default global = {
     screens: {
         HOME: "Home",
-        FAVORITES: "Favorites",
+        BOOKMARKS: "Bookmarks",
         FRIENDS: "Friends",
         NOTIFICATIONS: "Notifications",
         SETTINGS: "Settings",
@@ -29,7 +29,7 @@ export default global = {
         ADD_ROUTING: "AddRouting",
         FRIENDS_ROUTING: "FriendsRouting",
         NOTIFICATIONS_ROUTING: "NotificationsRouting",
-        FAVORITES_ROUTING: "FavoritesRouting",
+        BOOKMARKS_ROUTING: "BookmarksRouting",
     },
     colors: {
         MAIN_COLOR: '#BDE023',
@@ -37,6 +37,7 @@ export default global = {
         ANTHRACITE: "#293231",
         GREY: "#9E9E9E",
         LIGHT_GREY: '#C6C6C6',
+        RED_LIKE: "#D45B5B",
         VERY_LIGHT_GREY: '#EAEAEA',
         GREEN_SUCCESS: '#BDE023',
         GREEN_SUCCESS_TEXT: '#32682B',
@@ -60,6 +61,8 @@ export default global = {
         DEFAULT_NOT_ZOOM_LONGITUDE_DELTA: 0.0021,
         DEFAULT_NOT_ZOOM_LONGITUDE: 2.47890900866457,
         DEFAULT_NOT_ZOOM_LATITUDE: 47.04374701872397,
+        DEFAULT_FAVS_NOT_ZOOM_LATITUDE_DELTA: 3.0222,
+        DEFAULT_FAVS_NOT_ZOOM_LONGITUDE_DELTA: 0.0021,
         GOOGLE_MAP_API_KEY: GOOGLE_MAP_API_KEY
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,

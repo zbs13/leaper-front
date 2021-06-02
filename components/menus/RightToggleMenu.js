@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import { header } from '../../assets/styles/styles';
@@ -10,31 +10,40 @@ import { Button } from 'react-native-elements'
 import { settings } from '../../assets/styles/styles'
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import profilImage from '../../assets/img/profil/profil1.jpg';
+import useUsers from '../../hooks/useUsers';
+import defaultProfilePic from '../../assets/img/icons/default_profile_pic.png';
 
-const imageUri = Image.resolveAssetSource(profilImage).uri
+const imageUri = Image.resolveAssetSource(defaultProfilePic).uri
 
 export default function RightToggleMenu(props) {
 
-    const  {selectors} = useApp();
+    const {selectors} = useApp();
+    const {selectors: selectorsUser} = useUsers();
 
     const [visible, setVisible] = useState(false);
     const toggleBottomNavigationView = () => {
       setVisible(!visible);
     };
 
-    const [mainHeaderState] = useState({
+    const [mainHeaderState, setMainHeaderState] = useState({
         profilePic: null
     });
     const Separator = () => (
       <View style={settings.separator} />
     );
 
+    useEffect(() => {
+      setMainHeaderState({
+        ...mainHeaderState,
+        profilePic: selectorsUser.getConnectedUser().src !== "" && selectorsUser.getConnectedUser().src !== null ? selectorsUser.getConnectedUser().src : null
+      })
+    }, [selectorsUser.getConnectedUser().src]);
+
     return (
       <View>
         <Cta _style={[header.headerProfilePic, globalStyles.m_10]} 
             onPress={toggleBottomNavigationView}
-            backgroundImage={mainHeaderState.profilePic === null ? require('../../assets/img/icons/default_profile_pic.png') : ''} //a changer selon recuperation depuis api
+            backgroundImage={{uri: mainHeaderState.profilePic || imageUri}} //a changer selon recuperation depuis api
         />
         <BottomSheet  visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()}>
           <View style={settings.bg}>
@@ -43,7 +52,7 @@ export default function RightToggleMenu(props) {
             <View style={settings.pic}>
               <Avatar.Image
                 style={settings.borderPic}
-                source={{uri: imageUri}}
+                source={{uri: mainHeaderState.profilePic || imageUri}}
                 size={100}
               />
               <Title style= {settings.name}>

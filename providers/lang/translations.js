@@ -7,7 +7,7 @@ const l = {
         FRIENDS: "Amis",
         HOME: "Accueil",
         NOTIFICATIONS: "Notifications",
-        FAVORITES: "Favoris",
+        BOOKMARKS: "Bookmarks",
         CANCEL: "Annuler",
         ADD_CONTACT_PERSON: "Ajouter un contact",
         SEARCH: "Recherche",
@@ -90,6 +90,9 @@ const l = {
             ADD_TO_GROUP: "Ajouter au groupe",
             CONFIRM_CREATE_GROUP: "Créer le groupe",
             GROUP_MEMBERS: "Membres du groupe",
+            DELETE_THIS_GROUP: "Supprimer ce groupe",
+            DELETE_GROUP: "Supprimer le groupe",
+            SURE_TO_DELETE_GROUP: "Vous êtes sur le point de supprimer le groupe",
             sureToInviteUserToGroup: (userFirstname) => {
                 return `Vous êtes sur le point d'inviter ${userFirstname} à ce groupe`;
             }
@@ -108,6 +111,9 @@ const l = {
             ADD_TO_EVENT: "Ajouter à l'évènement",
             CONFIRM_CREATE_EVENT: "Créer l'évènement",
             EVENT_MEMBERS: "Membres de l'évènement",
+            DELETE_THIS_EVENT: "Supprimer cet évènement",
+            DELETE_EVENT: "Supprimer l'évènement",
+            SURE_TO_DELETE_EVENT: "Vous êtes sur le point de supprimer l'évènement",
             sureToInviteUserToEvent: (userFirstname) => {
                 return `Vous êtes sur le point d'inviter ${userFirstname} à cet évènement`;
             }
@@ -218,6 +224,12 @@ const l = {
             ADD_TO_GROUP: "Ajouter au groupe",
             ADD_TO_CONTACT: "Ajouter aux contacts"
         },
+        bookmarks: {
+            MY_BOOKMARKS: "Mes favoris",
+            NO_BOOKMARK: "Vous n'avez pas encore de favoris",
+            DELETE_BOOKMARK: "Supprimer le favori",
+            SURE_TO_DELETE_BOOKMARK: "Vous êtes sur le point de supprimer le favori"
+        },
         sports: {
             BIATHLON: "Biathlon",
             RUNNING: "Course",
@@ -319,7 +331,7 @@ const l = {
         FRIENDS: "Friends",
         HOME: "Home",
         NOTIFICATIONS: "Notifications",
-        FAVORITES: "Favorites",
+        BOOKMARKS: "Bookmarks",
         CANCEL: "Cancel",
         ADD_CONTACT_PERSON: "Add a contact person",
         SEARCH: "Search",
@@ -402,6 +414,9 @@ const l = {
             CREATE_GROUP: "Create a group",
             CONFIRM_CREATE_GROUP: "Create group",
             GROUP_MEMBERS: "Group members",
+            DELETE_THIS_GROUP: "Delete this group",
+            DELETE_GROUP: "Delete group",
+            SURE_TO_DELETE_GROUP: "You are going to delete the group",
             sureToInviteUserToGroup: (userFirstname) => {
                 return `You are going to invite ${userFirstname} to this group`;
             }
@@ -420,6 +435,9 @@ const l = {
             HERE_EVENT_PLACE: "This is here event take place",
             CONFIRM_CREATE_EVENT: "Create event",
             EVENT_MEMBERS: "Event members",
+            DELETE_THIS_EVENT: "Delete this event",
+            DELETE_EVENT: "Delete event",
+            SURE_TO_DELETE_EVENT: "You are going to delete the event",
             sureToInviteUserToEvent: (userFirstname) => {
                 return `You are going to invite ${userFirstname} to this event`;
             }
@@ -536,6 +554,12 @@ const l = {
             ADD_TO_EVENT: "Add to the event",
             ADD_TO_GROUP: "Add to the group",
             ADD_TO_CONTACT: "Add to contacts"
+        },
+        bookmarks: {
+            MY_BOOKMARKS: "My bookmarks",
+            NO_BOOKMARK: "You don't have bookmark yet",
+            DELETE_BOOKMARK: "Delete bookmark",
+            SURE_TO_DELETE_BOOKMARK: "You are going to delete the bookmark"
         },
         sports: {
             BIATHLON: "Biathlon",

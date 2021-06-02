@@ -52,7 +52,8 @@ export function MapPin({
   longitude, 
   pinColor = null, 
   title = null, 
-  description = null
+  description = null,
+  onPress = () => {}
 }) {
 
 return (
@@ -64,6 +65,7 @@ return (
       pinColor={pinColor !== null ? pinColor : global.colors.MAIN_COLOR}
       title={title}
       description={description}
+      onPress={onPress}
   />
 );
 }

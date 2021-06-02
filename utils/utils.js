@@ -177,12 +177,12 @@ export const getSportById = function(lang, id){
 /**
  * check if user is a connected user's friend
  * 
+ * @param {string} connectedUserId connected user id
  * @param {object} userFriends user firends
  * @returns 
  */
-export const isMyFriend = function(userFriends){
-    let myId = 2; //TODO chnage with real connected id
-    return userFriends.findIndex((user) => user.id === myId) !== -1;
+export const isMyFriend = function(connectedUserId, userFriends){
+    return userFriends.findIndex((user) => user.id === connectedUserId) !== -1;
 }
 
 /**
@@ -233,4 +233,15 @@ export const sortUsersSearchCriteria = (array, value) => {
       return item.firstname.toLowerCase().includes(value.toLowerCase()) || item.lastname.toLowerCase().includes(value.toLowerCase())
     });
     return res.length !== 0 ? res : null;
+}
+
+/**
+ * check if event is in connected user bookmarks
+ * 
+ * @param {object} userBookmarks user bookmarks
+ * @param {*} eventId id of event to check
+ * @returns 
+ */
+export const isInFav = (userBookmarks, eventId) => {
+    return userBookmarks.findIndex((fav) => fav.id === eventId) !== -1;
 }

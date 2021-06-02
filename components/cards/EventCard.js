@@ -7,6 +7,7 @@ import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
 import { ellipsisText, getSportById } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
+import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
@@ -17,13 +18,14 @@ import { useNavigation } from '@react-navigation/native';
 /**
  * Event Cards
  * 
- * @param {object} item event object => id, name, sportId, description, src, users, postalCode
+ * @param {object} item event object => id, name, owner, sportId, description, src, users, postalCode
  * @param {boolean} isMyEvent true if user is in event else false
  * @returns 
  */
 export default function EventCard({ item, isMyEvent = false }) {
     
     const {selectors} = useApp();
+    const {selectors: selectorsUser} = useUsers();
     const navigation = useNavigation();
 
     /**
@@ -70,18 +72,21 @@ export default function EventCard({ item, isMyEvent = false }) {
             {
                 value: t(selectors.getLang()).BOOKMARK_THIS_PLACE,
                 ...favMainOptions
-            },
-            {
-                value: t(selectors.getLang()).event.LEAVE_THIS_EVENT,
-                ...logOutMainOptions
             }
         ] 
     };
 
+    selectorsUser.getConnectedUser().id !== item.owner.id && 
+        options.options.push({
+            value: t(selectors.getLang()).event.LEAVE_THIS_EVENT,
+            ...logOutMainOptions
+        })
+
     /**
      * options for cta swipeable menu
      */
-    const swipeableOptions = [detailsOptions, favMainOptions, logOutMainOptions];
+    const swipeableOptions = [detailsOptions, favMainOptions];
+    selectorsUser.getConnectedUser().id !== item.owner.id && swipeableOptions.push(logOutMainOptions);
     
     return (
         <View style={card.view}>
