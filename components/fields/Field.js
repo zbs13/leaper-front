@@ -564,6 +564,7 @@ export default memo(function Field({
                 onChangeText={value => onChangeMail(value)}
                 {...attr}
                 keyboardType="email-address"
+                defaultValue={defaultValue}
                 style={fields.text}
                 onFocus={() => isFocus(true)}
                 onBlur={() => isFocus(false)}

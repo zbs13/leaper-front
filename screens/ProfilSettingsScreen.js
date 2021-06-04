@@ -4,6 +4,7 @@ import global from '../providers/global';
 import { settings, cta } from '../assets/styles/styles';
 import globalStyles from '../assets/styles/global';
 import useApp from '../hooks/useApp';
+import useUsers from '../hooks/useUsers';
 import t from '../providers/lang/translations';
 import Txt from '../components/Txt';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,15 +20,54 @@ import Cta from '../components/cta/Cta';
  */
 export default function ProfilSettingsScreen({
     sportId = 1,
-    dateValue = "",
+    isEdit = false,
+    lastnameValue = "",
+    firstnameValue = "",
+    mailValue = "",
+    phoneValue = "",
+    countryValue = `{"callingCode": [
+        "33"
+      ],
+      "cca2": "FR",
+      "currency": [
+        "EUR"
+      ],
+      "flag": "flag-fr",
+      "name": "France",
+      "region": "Europe",
+      "subregion": "Western Europe"
+    }`,
+    dateValue = ""
 }) {
 
     const  {selectors} = useApp();
+    const  {selectors: selectorsUsers} = useUsers();
+    
 
-    const [geValues, setGeValues] = useState({
-        sportId: sportId,
-        date: dateValue
+    const [getValues, setValues] = useState({
+        date: selectorsUsers.getConnectedUser().birthdate,
+        lastname: selectorsUsers.getConnectedUser().lastname,
+        firstname: selectorsUsers.getConnectedUser().firstname,
+        mail: selectorsUsers.getConnectedUser().email,
+        phone: selectorsUsers.getConnectedUser().phone, 
+        country: selectorsUsers.getConnectedUser().country, 
+        sport: selectorsUsers.getConnectedUser().fav_sport
+
     });
+
+    const [fieldErrors, setFieldErrors] = useState({
+        lastnameError: isEdit ? false : true,
+        firstnameError: isEdit ? false : true,
+        mailError: isEdit ? false : true,
+        phoneError: isEdit ? false : true,
+        dateError: isEdit ? false : true,
+        oldPasswordError: isEdit ? false : true,
+        newPasswordError: isEdit ? false : true,
+        confirmPasswordError: isEdit ? false : true
+
+    });
+
+
 
     return (
       <View>
@@ -35,33 +75,56 @@ export default function ProfilSettingsScreen({
             <Field
                 label={t(selectors.getLang()).profilSettings.MY_INFORMATIONS}
                 type="lastname"
+                defaultValue={getValues.lastname}
                 placeholder={t(selectors.getLang()).profilSettings.PH_LASTNAME}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, lastnameError: true}) : setFieldErrors({...fieldErrors, lastnameError: false})}
+                onChange={(value) => setValues({
+                    ...getValues,
+                    lastname: value
+                })}
             />
             <Field
                 type="firstname"
+                defaultValue={getValues.firstname}
                 placeholder={t(selectors.getLang()).profilSettings.PH_FIRSTNAME}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, firstnameError: true}) : setFieldErrors({...fieldErrors, firstnameError: false})}
+                onChange={(value) => setValues({
+                    ...getValues,
+                    firstname: value
+                })}
             />
             <Field
                 type="mail"
+                defaultValue={getValues.mail}
                 placeholder={t(selectors.getLang()).profilSettings.PH_MAIL}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, mailError: true}) : setFieldErrors({...fieldErrors, mailError: false})}
+                onChange={(value) => setGeValues({
+                    ...getValues,
+                    mail: value
+                })}
             />
             <Field 
-            type="phone" 
-            label="phone"
-            isError={(error) => console.log(error)}
-            onChangePhone={(number, country) => {
-                console.log("PHHHHOOOONE", number);
-                console.log("COOOUNTRY", country);
-            }}
+                type="phone" 
+                label="phone"
+                defaultValue={getValues.phone}
+                defaultCountry={getValues.defaultCountry}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, phoneError: true}) : setFieldErrors({...fieldErrors, phoneError: false})}
+                onChangePhone={(number, country) => {
+                    setGeValues({
+                     ...getValues,
+                        phone: number,
+                        country: country
+                    })
+                }}
             />
             <Field 
                 type="select"
                 label={t(selectors.getLang()).SPORT}
                 labelIcon="basketball-outline"
                 keyExtractor={(item) => item.id.toString()}
-                defaultSelectValue={(item) => item.id == sportId}
+                defaultSelectValue={(item) => item.id == getValues.sport}
                 items={global.listSports(selectors.getLang())}
-                onChangeSelect={(item) => setGeValues({...geValues, sportId: item.id})}
+                onChangeSelect={(item) => setValues({...getValues, sport: item.id})}
                 renderItem={(item) => 
                     <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                         <Ionicons name={item.icon} />
@@ -69,33 +132,41 @@ export default function ProfilSettingsScreen({
                     </View>
             }
             />
+            <Field
+                type="date"
+                value= {getValues.birthdate}
+                label={t(selectors.getLang()).profilSettings.BIRTH}
+                onChangeDateTime={(date) => setValues({...getValues, date: date})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, dateError: true}) : setFieldErrors({...fieldErrors, dateError: false})}
+            />
             <Cta
                 _style= {[cta.first, cta.main, settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).profilSettings.CTA_UPDATE}
-                onPress={() => {}}
+                onPress={() => {console.log("pozdzuet")}}
+                disabled={fieldErrors.lastnameError || fieldErrors.firstnameError || fieldErrors.mailError ||  fieldErrors.dateError}
             ></Cta>
-            <Field
-                type="date"
-                label={t(selectors.getLang()).profilSettings.BIRTH}
-                onChangeDateTime={(date) => setGeValues({...geValues, date: date})}
-            />
+
             <Field
                 type="password"
                 label={t(selectors.getLang()).profilSettings.CHANGE_PASSWORD}
                 placeholder={t(selectors.getLang()).profilSettings.PH_OLD_PW}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, oldPasswordError: true}) : setFieldErrors({...fieldErrors, oldPasswordError: false})}
             />
             <Field
                 type="password"
                 placeholder={t(selectors.getLang()).profilSettings.PH_NEW_PW}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, newPasswordError: true}) : setFieldErrors({...fieldErrors, newPasswordError: false})}
             />
             <Field
                 type="password"
                 placeholder={t(selectors.getLang()).profilSettings.PH_COMFIRMATION_PW}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, confirmPasswordError: true}) : setFieldErrors({...fieldErrors, confirmPasswordError: false})}
             />
             <Cta
                 _style= {[cta.first, cta.main ,settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).profilSettings.CTA_UPDATE}
                 onPress={() => {}}
+                disabled={fieldErrors.oldPasswordError || fieldErrors.newPasswordError  || fieldErrors.confirmPasswordError }
             ></Cta>
         </ScrollView>
     </View>
