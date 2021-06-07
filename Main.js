@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Platform, StatusBar, View, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useApp from './hooks/useApp';
+import useUsers from './hooks/useUsers';
 import SearchModal from './components/modals/SearchModal';
 import AddModal from './components/modals/AddModal';
 import HomeLoader from './components/loaders/HomeLoader';
@@ -9,18 +10,18 @@ import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
-import { UsersProvider } from './context/usersContext';
 import { RolesProvider } from './context/rolesContext';
 import { deviceYearClass, modelName } from 'expo-device';
+import { manageResponseUI } from './context/actions/apiCall';
 
 export default function Main() {
 
     const [state, setState] = useState({
-        lang: "fr",
         isLoaded: false
     });
 
     const {actions, selectors} = useApp();
+    const {selectors: selectorsUser, actions: actionsUser} = useUsers();
 
     /**
      * configure status bar height according to os
@@ -31,30 +32,51 @@ export default function Main() {
      * configure app os and language
      */
     useEffect(() => {
-        if(Platform.OS === 'ios'){
-            actions.updateUserParameters({
-                os: 'ios'
+        async function getLang(){
+            await AsyncStorage.getItem("lang").then(val => {
+                if(val === null){
+                    AsyncStorage.setItem("lang", "fr").then(() => {
+                    });
+                }else{
+                    actions.updateUserParameters({
+                        lang: val
+                    })
+                }
             })
         }
-        AsyncStorage.getItem("lang").then(val => {
-            if(val !== state.lang){
-                AsyncStorage.setItem("lang", "en").then(() => {
+
+        getLang();
+
+        AsyncStorage.getItem("isConnected").then(isConnected => {
+            if(isConnected === null){
+                AsyncStorage.setItem("isConnected", "false").then(() => {
                     setState({
-                        lang: "en",
                         isLoaded: true
                     });
-                    actions.updateUserParameters({
-                        lang: "en"
-                    })
                 });
             }else{
-                setState({
-                    ...state,
-                    isLoaded: true
-                });
+                if(isConnected === "true"){
+                    actionsUser.fetchConnectedUser().then((data) => {
+                        manageResponseUI(data,
+                          selectors.getLang(),
+                          function (res) {
+                            actionsUser.updateIsConnected(true)
+                            setState({
+                                isLoaded: true
+                            });
+                          },
+                          function (error) {
+                            actions.addPopupStatus(error);
+                          })
+                    })
+                }else{
+                    setState({
+                        isLoaded: true
+                    });
+                }
             }
         })
-    }, [])
+    }, [selectorsUser.isConnected()])
 
     if(state.isLoaded){
         return (
@@ -70,15 +92,13 @@ export default function Main() {
                     behavior={(Platform.OS === 'ios') ? "padding" : ""}
                     style={{flex: 1}}
                 >
-                    <UsersProvider>
-                        <EventsProvider>
-                            <GroupsProvider>
-                                <RolesProvider>
-                                    <AppScreenManager />
-                                </RolesProvider>
-                            </GroupsProvider>
-                        </EventsProvider>
-                    </UsersProvider>
+                    <EventsProvider>
+                        <GroupsProvider>
+                            <RolesProvider>
+                                <AppScreenManager />
+                            </RolesProvider>
+                        </GroupsProvider>
+                    </EventsProvider>
                 </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
                     &&

@@ -123,6 +123,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
             sportId: 2,
             postalCode: 93340,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
@@ -150,6 +153,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi",
             sportId: 2,
             postalCode: 93340,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
@@ -171,6 +177,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi",
             sportId: 2,
             postalCode: 111,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
@@ -192,6 +201,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi",
             sportId: 2,
             postalCode: 93340,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
@@ -213,6 +225,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi",
             sportId: 2,
             postalCode: 93340,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
@@ -234,6 +249,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi",
             sportId: 2,
             postalCode: 93340,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
@@ -255,6 +273,9 @@ export const fetchByCriteria = (criteria) => {
             description: "la description zebi",
             sportId: 2,
             postalCode: 93340,
+            owner: {
+                id: 1
+            },
             users: [{
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
             },{
