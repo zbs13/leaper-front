@@ -18,7 +18,7 @@ const imageUri = Image.resolveAssetSource(defaultProfilePic).uri
 export default function RightToggleMenu(props) {
 
     const {selectors} = useApp();
-    const {selectors: selectorsUser} = useUsers();
+    const {actions: actionsUser, selectors: selectorsUser} = useUsers();
 
     const [visible, setVisible] = useState(false);
     const toggleBottomNavigationView = () => {
@@ -92,7 +92,7 @@ export default function RightToggleMenu(props) {
                 }
                 buttonStyle={settings.buttonStyle}
                 titleStyle={settings.buttonFont}
-                onPress={() => {}}
+                onPress={() => actionsUser.logout()}
                 title={t(selectors.getLang()).settings.LOG_OUT}
               />
             </View>

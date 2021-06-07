@@ -929,7 +929,7 @@ export default memo(function Field({
                 :
                     null
             }
-            <View style={[globalStyles.flexRow, globalStyles.w_100, globalStyles.alignCenter, {backgroundColor: global.colors.WHITE}]}>
+            <View style={[globalStyles.flexRow, globalStyles.w_100, globalStyles.alignCenter]}>
                 {
                     icon !== null || ["password", "mail", "username"].includes(type) ?
                         <View style={[{width: "10%"}, globalStyles.alignCenter, globalStyles.justifyCenter]}>

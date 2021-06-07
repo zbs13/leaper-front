@@ -3,6 +3,8 @@ import { GOOGLE_MAP_API_KEY } from '@env';
 
 export default global = {
     screens: {
+        LOGIN: "Login",
+        REGISTRATION: "Registration",
         HOME: "Home",
         BOOKMARKS: "Bookmarks",
         FRIENDS: "Friends",

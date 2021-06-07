@@ -13,7 +13,20 @@ import ManageRoleScreen from "./screens/ManageRoleScreen";
 import CreateEditRoleScreen from "./screens/CreateEditRoleScreen";
 import AllocateRoleScreen from "./screens/AllocateRoleScreen";
 import AddPersonScreen from "./screens/AddPersonScreen";
+import LoginScreen from "./screens/auth/LoginScreen";
+import RegistrationScreen from "./screens/auth/RegistrationScreen";
 import headerType from "./components/headers/headers";
+
+export const auth = [
+    {
+        name: global.screens.LOGIN,
+        component: LoginScreen
+    },
+    {
+        name: global.screens.REGISTRATION,
+        component: RegistrationScreen
+    }
+]
 
 // routes with home/custom Header and Bottom menu displayed
 export const withBottomMenu = [

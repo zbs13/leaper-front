@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Button } from 'react-native';
-import Txt from '../components/Txt';
 
 /**
- * notifications screen
+ * registration screen
  * 
  * @returns 
  */
-export default function NotificationsScreen({navigation}) {
+export default function RegistrationScreen({navigation}) {
     return (
       <View>
       </View>
     );
-  }
+}
 

@@ -5,7 +5,11 @@ export default globalStyles = StyleSheet.create({
     mpm: {
         flex: 1,
         margin: 5
-    },  
+    },
+    mpp: {
+        flex: 1,
+        padding: 5
+    }, 
     pos_a: {
         position: "absolute",
         zIndex: 1
@@ -132,6 +136,12 @@ export default globalStyles = StyleSheet.create({
         margin: 5,
         width: 2,
         height: "70%",
+        backgroundColor: global.colors.LIGHT_GREY
+    },
+    h_separator: {
+        width: "100%",
+        margin: 20,
+        height: 2,
         backgroundColor: global.colors.LIGHT_GREY
     }
 });

@@ -7,7 +7,7 @@ const l = {
         FRIENDS: "Amis",
         HOME: "Accueil",
         NOTIFICATIONS: "Notifications",
-        BOOKMARKS: "Bookmarks",
+        BOOKMARKS: "Favoris",
         CANCEL: "Annuler",
         ADD_CONTACT_PERSON: "Ajouter un contact",
         SEARCH: "Recherche",
@@ -229,6 +229,11 @@ const l = {
             NO_BOOKMARK: "Vous n'avez pas encore de favoris",
             DELETE_BOOKMARK: "Supprimer le favori",
             SURE_TO_DELETE_BOOKMARK: "Vous êtes sur le point de supprimer le favori"
+        },
+        auth: {
+            LOGIN: "Se connecter",
+            NO_ACCOUNT: "Pas de compte ?",
+            CREATE_AN_ACCOUNT: "Créer un compte"
         },
         sports: {
             BIATHLON: "Biathlon",
@@ -560,6 +565,11 @@ const l = {
             NO_BOOKMARK: "You don't have bookmark yet",
             DELETE_BOOKMARK: "Delete bookmark",
             SURE_TO_DELETE_BOOKMARK: "You are going to delete the bookmark"
+        },
+        auth: {
+            LOGIN: "Log in",
+            NO_ACCOUNT: "No account ?",
+            CREATE_AN_ACCOUNT: "Create an account"
         },
         sports: {
             BIATHLON: "Biathlon",
