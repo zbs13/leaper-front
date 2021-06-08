@@ -107,11 +107,13 @@ const useApp = () => {
 
   const selectors = {
     getUserParameters: () => appState,
-    getLang: () => appState.lang,
+    getLang: () => appState.lang.lang,
+    getCountry: () => appState.lang.flag,
     getSearchBar: () => appState.searchBar,
     getOS: () => appState.os,
     getPopupsStatus: () => appState.popupsStatus,
-    getAddModal: () => appState.addModal
+    getAddModal: () => appState.addModal,
+    isFirstLaunch: () => appState.isFirstLaunch
   };
 
   return { selectors, actions };

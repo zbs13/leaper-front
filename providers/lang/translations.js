@@ -329,6 +329,9 @@ const l = {
             ABOUT: 'A propos',
             TITLE: 'Paramètres',
             LOG_OUT: "Déconnexion"
+        },
+        welcomeLanguageSelection: {
+            SELECT_A_LANGUAGE: "Choisissez une langue"
         }
     },
     en: {
@@ -665,6 +668,9 @@ const l = {
             ABOUT: 'About',
             TITLE: 'Settings',
             LOG_OUT: "Log out"
+        },
+        welcomeLanguageSelection: {
+            SELECT_A_LANGUAGE: "Select a language"
         }
     }
 }

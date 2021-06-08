@@ -1,9 +1,13 @@
 import { Platform } from 'react-native';
 
 export const initialState = {
-    lang: "fr",
+    lang: {
+      lang: 'en', 
+      flag: 'GB'
+    },
     searchBar: null,
     os: Platform.OS,
+    isFirstLaunch: true,
     popupsStatus: [],
     addModal: {
       isOpen: false,

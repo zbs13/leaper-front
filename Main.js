@@ -32,20 +32,38 @@ export default function Main() {
      * configure app os and language
      */
     useEffect(() => {
+        /**
+         * get user language / set user language
+         */
         async function getLang(){
             await AsyncStorage.getItem("lang").then(val => {
                 if(val === null){
-                    AsyncStorage.setItem("lang", "fr").then(() => {
-                    });
+                    AsyncStorage.setItem("lang", "{'lang': 'en', flag: 'GB'}");
                 }else{
                     actions.updateUserParameters({
-                        lang: val
+                        lang: JSON.parse(val)
+                    })
+                }
+            })
+        }
+
+        /**
+         * check if first app launch
+         */
+        async function isFirstAppLaunch(){
+            await AsyncStorage.getItem("isFirstLaunch").then(val => {
+                if(val === null){
+                    AsyncStorage.setItem("isFirstLaunch", "true");
+                }else{
+                    actions.updateUserParameters({
+                        isFirstLaunch: val === "true"
                     })
                 }
             })
         }
 
         getLang();
+        isFirstAppLaunch();
 
         AsyncStorage.getItem("isConnected").then(isConnected => {
             if(isConnected === null){
@@ -76,7 +94,7 @@ export default function Main() {
                 }
             }
         })
-    }, [selectorsUser.isConnected()])
+    }, [selectorsUser.isConnected(), selectors.isFirstLaunch()])
 
     if(state.isLoaded){
         return (

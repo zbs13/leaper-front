@@ -15,6 +15,7 @@ import AllocateRoleScreen from "./screens/AllocateRoleScreen";
 import AddPersonScreen from "./screens/AddPersonScreen";
 import LoginScreen from "./screens/auth/LoginScreen";
 import RegistrationScreen from "./screens/auth/RegistrationScreen";
+import WelcomeLanguageSelectionScreen from "./screens/auth/WelcomeLanguageSelectionScreen";
 import headerType from "./components/headers/headers";
 
 export const auth = [
@@ -25,6 +26,10 @@ export const auth = [
     {
         name: global.screens.REGISTRATION,
         component: RegistrationScreen
+    },
+    {
+        name: global.screens.WELCOME_LANGUAGE_SELECTION,
+        component: WelcomeLanguageSelectionScreen
     }
 ]
 
