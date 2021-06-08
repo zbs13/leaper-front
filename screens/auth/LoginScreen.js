@@ -4,13 +4,14 @@ import BackgroundImage from '../../components/BackgroundImage';
 import globalStyles from '../../assets/styles/global';
 import Field from "../../components/fields/Field";
 import Cta from '../../components/cta/Cta';
-import { cta } from '../../assets/styles/styles';
+import { cta, flag } from '../../assets/styles/styles';
 import Txt from '../../components/Txt';
 import global from '../../providers/global';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
 import { manageResponseUI } from '../../context/actions/apiCall';
+import { Flag } from 'react-native-svg-flagkit';
 
 /**
  * login screen
@@ -80,6 +81,18 @@ export default function LoginScreen({navigation}) {
                         _style={[cta.main, cta.second]}
                         onPress={() => navigation.navigate(global.screens.REGISTRATION)}
                     />
+                </View>
+                <View>
+                    <Cta
+                        onPress={() => navigation.navigate(global.screens.WELCOME_LANGUAGE_SELECTION)}
+                    >
+                        <View style={flag.container}>
+                            <Flag 
+                                id={selectorsApp.getCountry()}
+                                size={0.2}
+                            />
+                        </View>
+                    </Cta>
                 </View>
             </View>
         </ScrollView>

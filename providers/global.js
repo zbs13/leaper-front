@@ -5,6 +5,7 @@ export default global = {
     screens: {
         LOGIN: "Login",
         REGISTRATION: "Registration",
+        WELCOME_LANGUAGE_SELECTION: "WelcomeLanguageSelection",
         HOME: "Home",
         BOOKMARKS: "Bookmarks",
         FRIENDS: "Friends",
@@ -68,6 +69,16 @@ export default global = {
         GOOGLE_MAP_API_KEY: GOOGLE_MAP_API_KEY
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
+    AVAILABLE_LANGUAGES: [
+        {
+            lang: "fr", 
+            flag: "FR"
+        }, 
+        {
+            lang: "en",
+            flag: "GB"
+        }
+    ],
     validator: {
         PASSWORD_MIN_LENGTH: 7,
         regex : {

@@ -602,3 +602,11 @@ export const bookmarkCard = StyleSheet.create({
         borderBottomColor: global.colors.VERY_LIGHT_GREY
     }
 })
+
+export const flag = StyleSheet.create({
+    container: {
+        margin: 20,
+        borderWidth: 2,
+        borderColor: global.colors.ANTHRACITE
+    }
+})

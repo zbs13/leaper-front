@@ -7,7 +7,6 @@ import { getSportById, isMyFriend } from '../utils/utils';
 import Cta from '../components/cta/Cta';
 import Txt from '../components/Txt';
 import t from '../providers/lang/translations';
-import global from '../providers/global';
 import useUsers from '../hooks/useUsers';
 import BackgroundImage from '../components/BackgroundImage';
 import { ScrollView } from 'react-native-gesture-handler';

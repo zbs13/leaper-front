@@ -4,16 +4,18 @@ import global from '../providers/global';
 import BottomMenu from '../components/menus/BottomMenu';
 import { withCustomHeaderOnly, auth } from '../routes';
 import useUsers from '../hooks/useUsers';
+import useApp from '../hooks/useApp';
 
 const Stack = createStackNavigator();
 
 export default function AppScreenManager() {
 
-    const {selectors} = useUsers();
+    const {selectors: selectorsUser} = useUsers();
+    const {selectors: selectorsApp} = useApp();
 
     return (
-        selectors.isConnected() ?
-            <Stack.Navigator initialRouteName={global.screens.BOTTOM_MENU_ROUTING}>
+        selectorsUser.isConnected() ?
+            <Stack.Navigator initialRouteName={global.routing.BOTTOM_MENU_ROUTING}>
                 <Stack.Screen name={global.routing.BOTTOM_MENU_ROUTING} component={BottomMenu} options={{ headerShown: false }} />
                 {
                     withCustomHeaderOnly.map((value, index) => {
@@ -23,7 +25,7 @@ export default function AppScreenManager() {
             </Stack.Navigator>
         :
             <Stack.Navigator 
-                initialRouteName={global.screens.LOGIN} 
+                initialRouteName={selectorsApp.isFirstLaunch() ? global.screens.WELCOME_LANGUAGE_SELECTION : global.screens.LOGIN} 
                 screenOptions={{
                     headerShown: false
                 }}
