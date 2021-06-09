@@ -385,7 +385,7 @@ export const tchatBar = StyleSheet.create({
 export const settings =  StyleSheet.create({
     bg: {
       backgroundColor: 'white',
-      height: 750, 
+      height: '85%', 
       display: "flex"
     },
     borderPic: {
