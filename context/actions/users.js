@@ -8,6 +8,7 @@ export const login = (mail, password) => {
             token: "pqeifopejfg",
             user: {
                 id: 2,
+                fav_sport: 1,
                 src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 friends: [{
                     id: 1,
@@ -525,6 +526,7 @@ export const fetchConnectedUser = () => {
     }).catch(() => {
         return {
             id: 2,
+            fav_sport: 1,
             src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
             friends: [{
                 id: 1,
