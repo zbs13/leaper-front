@@ -330,6 +330,9 @@ const l = {
             TITLE: 'Paramètres',
             LOGOUT: 'Déconnexion'
         },
+        welcomeLanguageSelection: {
+            SELECT_A_LANGUAGE: "Choisissez une langue"
+        },
         settingsApp: {
             TITLE: 'Paramètre de l\'application ',
             NOTIFICATIONS: 'Notifications',
