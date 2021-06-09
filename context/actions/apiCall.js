@@ -96,8 +96,7 @@ export async function req(type, req, vars = null, needAuth = false){
 
         return queryDef
             .then(function(res){
-                if(callback !== null)
-                    return res.data;
+                return res.data;
             }).catch(error => {
                 console.log(error);
                 return {isError: true, type: "global"};
