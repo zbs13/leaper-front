@@ -6,6 +6,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import t from '../../providers/lang/translations';
+import global from '../../providers/global';
 
 /**
  * main graphql request method
@@ -13,24 +14,22 @@ import t from '../../providers/lang/translations';
  * @param {string} type request method => subscription, query, mutation
  * @param {*} req graphql request
  * @param {object|null} vars request variables
- * @param {string|null} waitMessage wait message before rendering result
  * @param {boolean} needAuth is beiing authentificated needed for request
- * @param {function} callback function called after rendering result
  * @returns 
  */
-export async function req(type, req, vars = null, waitMessage = null, needAuth = false, callback = null){
+export async function req(type, req, vars = null, needAuth = false){
     
     if(type === 'subscription'){
         const httpLink = new HttpLink({
             // You should use an absolute URL here
-            uri: provider.url.GRAPHQL,
+            uri: global.api.API_ENDPOINT,
         })
 
         // Create the subscription websocket link
         const wsLink = new WebSocketLink({
-            uri: provider.url.WEBSOCKET_GRAPHQL,
+            uri: global.api.WS_API_ENDPOINT,
             options: {
-            reconnect: true,
+                reconnect: true,
             },
         })
         
@@ -72,17 +71,11 @@ export async function req(type, req, vars = null, waitMessage = null, needAuth =
 
         const graphQLClient = new ApolloClient({
             link: new HttpLink({
-                uri: provider.url.GRAPHQL,
+                uri: global.api.API_ENDPOINT,
                 ...options
             }),
             cache: new InMemoryCache(),
         });
-        
-        let waitPopupId;
-        if(waitMessage !== null){
-            
-
-        }
 
         let queryDef;
         switch(type){
@@ -104,16 +97,17 @@ export async function req(type, req, vars = null, waitMessage = null, needAuth =
         return queryDef
             .then(function(res){
                 if(callback !== null)
-                    return callback(res.data);
+                    return res.data;
             }).catch(error => {
-                //console.log(error);
+                console.log(error);
+                return {isError: true, type: "global"};
                 let jsonStr = JSON.stringify(error, undefined, 2);
                 let errorCode = JSON.parse(jsonStr).response.errors[0].code || null;
                 switch(errorCode){
                     case 3010:
-                        return {isError: true, type: "user"}
+                        return {isError: true, type: "user"};
                     default:
-                        return {isError: true, type: "global"}
+                        return {isError: true, type: "global"};
                 }
             });
     }

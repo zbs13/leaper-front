@@ -38,7 +38,7 @@ export default function Main() {
         async function getLang(){
             await AsyncStorage.getItem("lang").then(val => {
                 if(val === null){
-                    AsyncStorage.setItem("lang", "{'lang': 'en', flag: 'GB'}");
+                    AsyncStorage.setItem("lang", `{"lang": "en", "flag": "GB"}`);
                 }else{
                     actions.updateUserParameters({
                         lang: JSON.parse(val)

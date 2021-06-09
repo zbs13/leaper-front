@@ -26,7 +26,7 @@ const useUsers = () => {
     login: function(mail, password){
       return login(mail, password).then((data) => {
         return response(data, function(res){
-          AsyncStorage.setItem("token", res.token);
+          AsyncStorage.setItem("api_token", res.token);
           AsyncStorage.setItem("isConnected", "true");
         })
       });
@@ -35,7 +35,7 @@ const useUsers = () => {
      * logout
      */
     logout: function(){
-      AsyncStorage.removeItem("token");
+      AsyncStorage.removeItem("api_token");
       AsyncStorage.setItem("isConnected", "false");
       dispatch({
         type: "LOGOUT",

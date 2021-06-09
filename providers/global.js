@@ -73,6 +73,10 @@ export default global = {
         DEFAULT_FAVS_NOT_ZOOM_LONGITUDE_DELTA: 0.0021,
         GOOGLE_MAP_API_KEY: GOOGLE_MAP_API_KEY
     },
+    api: {
+        API_ENDPOINT: "https://pa-5iw-prodd.herokuapp.com/",
+        WS_API_ENDPOINT: "wss://pa-5iw-prodd.herokuapp.com/"
+    },
     MAX_RESULT_PER_LOADED_PAGE: 20,
     AVAILABLE_LANGUAGES: [
         {
