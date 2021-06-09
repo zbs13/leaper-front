@@ -19,25 +19,7 @@ import Cta from '../components/cta/Cta';
  * @returns 
  */
 export default function ProfilSettingsScreen({
-    sportId = 1,
     isEdit = false,
-    lastnameValue = "",
-    firstnameValue = "",
-    mailValue = "",
-    phoneValue = "",
-    countryValue = `{"callingCode": [
-        "33"
-      ],
-      "cca2": "FR",
-      "currency": [
-        "EUR"
-      ],
-      "flag": "flag-fr",
-      "name": "France",
-      "region": "Europe",
-      "subregion": "Western Europe"
-    }`,
-    dateValue = ""
 }) {
 
     const  {selectors} = useApp();
@@ -77,7 +59,7 @@ export default function ProfilSettingsScreen({
                 type="lastname"
                 defaultValue={getValues.lastname}
                 placeholder={t(selectors.getLang()).profilSettings.PH_LASTNAME}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, lastnameError: true}) : setFieldErrors({...fieldErrors, lastnameError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, lastnameError: false}) : setFieldErrors({...fieldErrors, lastnameError: false})}
                 onChange={(value) => setValues({
                     ...getValues,
                     lastname: value
@@ -87,7 +69,7 @@ export default function ProfilSettingsScreen({
                 type="firstname"
                 defaultValue={getValues.firstname}
                 placeholder={t(selectors.getLang()).profilSettings.PH_FIRSTNAME}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, firstnameError: true}) : setFieldErrors({...fieldErrors, firstnameError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, firstnameError: false}) : setFieldErrors({...fieldErrors, firstnameError: false})}
                 onChange={(value) => setValues({
                     ...getValues,
                     firstname: value
@@ -97,8 +79,8 @@ export default function ProfilSettingsScreen({
                 type="mail"
                 defaultValue={getValues.mail}
                 placeholder={t(selectors.getLang()).profilSettings.PH_MAIL}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, mailError: true}) : setFieldErrors({...fieldErrors, mailError: false})}
-                onChange={(value) => setGeValues({
+                isError={(error) => error ? setFieldErrors({...fieldErrors, mailError: false}) : setFieldErrors({...fieldErrors, mailError: false})}
+                onChange={(value) => setValues({
                     ...getValues,
                     mail: value
                 })}
@@ -108,9 +90,9 @@ export default function ProfilSettingsScreen({
                 label="phone"
                 defaultValue={getValues.phone}
                 defaultCountry={getValues.defaultCountry}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, phoneError: true}) : setFieldErrors({...fieldErrors, phoneError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, phoneError: false}) : setFieldErrors({...fieldErrors, phoneError: false})}
                 onChangePhone={(number, country) => {
-                    setGeValues({
+                    setValues({
                      ...getValues,
                         phone: number,
                         country: country
@@ -137,12 +119,12 @@ export default function ProfilSettingsScreen({
                 value= {getValues.birthdate}
                 label={t(selectors.getLang()).profilSettings.BIRTH}
                 onChangeDateTime={(date) => setValues({...getValues, date: date})}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, dateError: true}) : setFieldErrors({...fieldErrors, dateError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, dateError: false}) : setFieldErrors({...fieldErrors, dateError: false})}
             />
             <Cta
                 _style= {[cta.first, cta.main, settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).profilSettings.CTA_UPDATE}
-                onPress={() => {console.log("pozdzuet")}}
+                onPress={() => {console.log('oui')}}
                 disabled={fieldErrors.lastnameError || fieldErrors.firstnameError || fieldErrors.mailError ||  fieldErrors.dateError}
             ></Cta>
 
