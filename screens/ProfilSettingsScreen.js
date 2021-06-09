@@ -25,7 +25,6 @@ export default function ProfilSettingsScreen({
     const  {selectors} = useApp();
     const  {selectors: selectorsUsers} = useUsers();
     
-
     const [getValues, setValues] = useState({
         date: selectorsUsers.getConnectedUser().birthdate,
         lastname: selectorsUsers.getConnectedUser().lastname,
@@ -109,11 +108,12 @@ export default function ProfilSettingsScreen({
                 onChangeSelect={(item) => setValues({...getValues, sport: item.id})}
                 renderItem={(item) => 
                     <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
-                        <Ionicons name={item.icon} />
+                         <Ionicons name={item.icon} />
                         <Txt>{item.name}</Txt>
                     </View>
             }
             />
+
             <Field
                 type="date"
                 value= {getValues.birthdate}
