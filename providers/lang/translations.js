@@ -328,10 +328,47 @@ const l = {
             APPLY: 'Gestion de l\'application',
             ABOUT: 'A propos',
             TITLE: 'Paramètres',
-            LOG_OUT: "Déconnexion"
+            LOGOUT: 'Déconnexion'
         },
-        welcomeLanguageSelection: {
-            SELECT_A_LANGUAGE: "Choisissez une langue"
+        settingsApp: {
+            TITLE: 'Paramètre de l\'application ',
+            NOTIFICATIONS: 'Notifications',
+            LANGUAGE: 'Langue'
+        },
+        changeLanguage: {
+            TITLE: 'Langues',
+            SELECT_LANGUAGES_FR: 'FR',
+            SELECT_LANGUAGES_EN: 'EN'
+        },
+        changeNotifications: {
+            TITLE: 'Notifications',
+            TITLE_MESSAGE: 'Messages',
+            TITLE_MESSAGE_PRIVATE: 'Messages des discutions',
+            TITLE_MESSAGE_EVENT: 'Messages des évènements',
+            TITLE_ADD: 'Invitations',
+            TITLE_ADD_MESSAGE: 'Invitations à une discutions',
+            TITLE_ADD_EVENT: 'Invitations à un évènement :',
+            TITLE_ADD_FRIEND: 'Invitations d\'ami :',
+            TITLE_REMINDER: 'Rappel :',
+            TITLE_REMINDER_EVENT: 'Me rappeler un évènement :'
+        },
+        about: {
+            TITLE: 'À propos',
+            DATA_USE_POLICY: 'politique d\'utilisation des données',
+            TERMS_OF_USE: 'Conditions d\'utilisation',
+            PATCH_NOTE: 'Note de mise à jour',
+        },
+        profilSettings: {
+            MY_INFORMATIONS: 'Mes informations',
+            PH_LASTNAME: 'Nom',
+            PH_FIRSTNAME: 'Prénom',
+            PH_MAIL: 'Mail',
+            CTA_UPDATE: 'Modifier',
+            BIRTH: 'Date de naissance',
+            CHANGE_PASSWORD: 'Modifier mon mot de passe',
+            PH_OLD_PW: 'Ancien mot de passe',
+            PH_NEW_PW: 'Nouveau mot de passe',
+            PH_COMFIRMATION_PW: 'Confirmation du mot de passe'
         }
     },
     en: {
@@ -667,10 +704,50 @@ const l = {
             APPLY: 'Application settings',
             ABOUT: 'About',
             TITLE: 'Settings',
-            LOG_OUT: "Log out"
+            LOGOUT: 'Log out'
         },
         welcomeLanguageSelection: {
             SELECT_A_LANGUAGE: "Select a language"
+        },
+        settingsApp: {
+            TITLE: 'Settings App ',
+            NOTIFICATIONS: 'Notifications',
+            LANGUAGE: 'Language'
+        },
+        changeLanguage: {
+            TITLE: 'Languges',
+            SELECT_LANGUAGES_FR: 'FR',
+            SELECT_LANGUAGES_EN: 'EN'
+        },
+        changeNotifications: {
+            TITLE: 'Notifications',
+            TITLE_MESSAGE: 'Messages :',
+            TITLE_MESSAGE_PRIVATE: 'Chat message :',
+            TITLE_MESSAGE_EVENT: 'Chat event :',
+            TITLE_ADD: 'Invitation :',
+            TITLE_ADD_MESSAGE: 'Chat invitation :',
+            TITLE_ADD_EVENT: 'Event invitation :',
+            TITLE_ADD_FRIEND: 'Friend invitation :',
+            TITLE_REMINDER: 'Reminder :',
+            TITLE_REMINDER_EVENT: 'Remind me of an event :'
+        },
+        about: {
+            TITLE: 'About',
+            DATA_USE_POLICY: 'Data use policy',
+            TERMS_OF_USE: 'Terms of use',
+            PATCH_NOTE: 'Patch note',
+        },
+        profilSettings: {
+            MY_INFORMATIONS: 'My informations',
+            PH_LASTNAME: 'Lastname',
+            PH_FIRSTNAME: 'Firstname',
+            PH_MAIL: 'Mail ',
+            CTA_UPDATE: 'Update',
+            BIRTH: 'Date of birth',
+            CHANGE_PASSWORD: 'Update my password',
+            PH_OLD_PW: 'Old password',
+            PH_NEW_PW: 'New password',
+            PH_COMFIRMATION_PW: 'Comfirmation password'
         }
     }
 }

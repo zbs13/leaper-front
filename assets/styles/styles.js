@@ -197,7 +197,7 @@ export const tag = StyleSheet.create({
 
 export const toggleLeftMenu = StyleSheet.create({
     bottomNavigationView: {
-        backgroundColor: '#fff',
+        backgroundColor: global.colors.WHITE,
         width: '100%',
         height: 350,
         justifyContent: 'center',
@@ -208,7 +208,7 @@ export const toggleLeftMenu = StyleSheet.create({
     },
     contentContainerStyle: {
         padding: 16,
-        backgroundColor: '#F3F4F9',
+        backgroundColor: global.colors.WHITE,
     },
     header: {
         alignItems: 'center',
@@ -385,7 +385,7 @@ export const tchatBar = StyleSheet.create({
 export const settings =  StyleSheet.create({
     bg: {
       backgroundColor: 'white',
-      height: 750, 
+      height: '85%', 
       display: "flex"
     },
     borderPic: {
@@ -401,23 +401,22 @@ export const settings =  StyleSheet.create({
       marginTop: 30,
     },
     titleParams:{
-      fontSize: 25,
+      fontSize: 30,
       margin: 10
     },
     settings:{
       marginTop: 50
     },
     buttonStyle: {
-      backgroundColor: 'white',
       margin: 10
     },
     buttonFont: {
       color: "black",
-      fontSize: 15,
+      fontSize: 20,
     },
     separator: {
       marginVertical: 8,
-      borderBottomColor: '#737373',
+      borderBottomColor: global.colors.GREY,
       borderBottomWidth: StyleSheet.hairlineWidth,
     },
     name: {

@@ -36,7 +36,7 @@ import PhoneInput, { isValidNumber } from "react-native-phone-number-input";
  * @param {function|null} onChangeSelect function called on value change
  * @param {function|null} keyExtractor key to extract for each items (unique id)
  * @param {function|null} defaultSelectValue default selected value
- * @param {object|null} items object with each items
+ * @param {object|null} items object with each items for select type
  * @param {function|null} renderItem render of each item
  * @param {string|null} datetime default date/hour
  * @param {function|null} onChangeDateTime called when date/hour is changed
@@ -564,6 +564,7 @@ export default memo(function Field({
                 onChangeText={value => onChangeMail(value)}
                 {...attr}
                 keyboardType="email-address"
+                defaultValue={defaultValue}
                 style={fields.text}
                 onFocus={() => isFocus(true)}
                 onBlur={() => isFocus(false)}

@@ -17,6 +17,13 @@ import LoginScreen from "./screens/auth/LoginScreen";
 import RegistrationScreen from "./screens/auth/RegistrationScreen";
 import WelcomeLanguageSelectionScreen from "./screens/auth/WelcomeLanguageSelectionScreen";
 import headerType from "./components/headers/headers";
+import AppSettingsScreen from "./screens/AppSettingesScreen";
+import ChangeLanguageScreen from "./screens/ChangeLanguageScreen";
+import ChangeNotificationsScreen from "./screens/ChangeNotificationsScreen";
+import AboutScreen from "./screens/AboutScreen";
+import ProfilSettingsScreen from "./screens/ProfilSettingsScreen";
+
+
 
 export const auth = [
     {
@@ -106,5 +113,36 @@ export const withCustomHeaderOnly = [
         name: global.screens.ADD_PERSON,
         component: AddPersonScreen,
         header: ({navigation}) => (headerType.back())
-    } 
+    }, 
+    { 
+        name: global.screens.APP_SETTINGS,
+        component: AppSettingsScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.CHANGE_LANGUAGE,
+        component: ChangeLanguageScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.CHANGE_NOTIFICATIONS,
+        component: ChangeNotificationsScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.ABOUT,
+        component: AboutScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.PROFIL_SETTINGS,
+        component: ProfilSettingsScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+
+
+
+    
+
+
 ]

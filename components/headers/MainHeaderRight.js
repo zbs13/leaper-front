@@ -25,7 +25,7 @@ export default function MainHeaderRight() {
                 value={<Ionicons style={header.headerIcons} name="search-outline" />}
                 underlayColor={global.colors.LIGHT_GREY}
             />
-            <RightToggleMenu></RightToggleMenu>
+            <RightToggleMenu/>
         </View>
     );
 }
