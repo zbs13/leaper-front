@@ -10,6 +10,7 @@ import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
+import { FirebaseProvider } from "./context/firebaseContext";
 import { RolesProvider } from './context/rolesContext';
 import { deviceYearClass, modelName } from 'expo-device';
 import { manageResponseUI } from './context/actions/apiCall';
@@ -110,13 +111,15 @@ export default function Main() {
                     behavior={(Platform.OS === 'ios') ? "padding" : ""}
                     style={{flex: 1}}
                 >
-                    <EventsProvider>
-                        <GroupsProvider>
-                            <RolesProvider>
-                                <AppScreenManager />
-                            </RolesProvider>
-                        </GroupsProvider>
-                    </EventsProvider>
+                    <FirebaseProvider>
+                        <EventsProvider>
+                            <GroupsProvider>
+                                <RolesProvider>
+                                    <AppScreenManager />
+                                </RolesProvider>
+                            </GroupsProvider>
+                        </EventsProvider>
+                    </FirebaseProvider>
                 </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
                     &&

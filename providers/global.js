@@ -1,5 +1,14 @@
 import t from './lang/translations';
-import { GOOGLE_MAP_API_KEY } from '@env';
+import { 
+    GOOGLE_MAP_API_KEY,
+    FIREBASE_API_KEY,
+    FIREBASE_PROJECT_ID,
+    FIREBASE_MESSAGING_SENDER_ID,
+    FIREBASE_APP_ID,
+    FIREBASE_AUTH_DOMAIN,
+    FIREBASE_DATABASE_URL,
+    FIREBASE_STORAGE_BUCKET
+} from '@env';
 
 export default global = {
     screens: {
@@ -72,6 +81,15 @@ export default global = {
         DEFAULT_FAVS_NOT_ZOOM_LATITUDE_DELTA: 3.0222,
         DEFAULT_FAVS_NOT_ZOOM_LONGITUDE_DELTA: 0.0021,
         GOOGLE_MAP_API_KEY: GOOGLE_MAP_API_KEY
+    },
+    firebase: {
+        apiKey: FIREBASE_API_KEY,
+        authDomain: FIREBASE_AUTH_DOMAIN,
+        databaseURL: FIREBASE_DATABASE_URL,
+        projectId: FIREBASE_PROJECT_ID,
+        storageBucket: FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+        appId: FIREBASE_APP_ID
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
     AVAILABLE_LANGUAGES: [
