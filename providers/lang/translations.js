@@ -44,6 +44,7 @@ const l = {
         PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "L'accès à la bibliothèque du téléphone n'est pas autorisé. Vous pouvez accorder l'accès dans les paramètres du téléphone",
         CAMERA: "Caméra",
         PHOTO_VIDEO_LIBRARY: "Bibliothèque photos/vidéos",
+        PHOTO_LIBRARY: "Bibliothèque photos",
         FILE: "Fichier",
         SHARED_CONTENT: "Contenu partagé",
         NO_SHARED_CONTENT: "Aucun contenu partagé",
@@ -66,7 +67,9 @@ const l = {
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
             EDIT_SUCCESS: "Modifié avec succès",
-            CREATE_SUCCESS: "Créé avec succès"
+            CREATE_SUCCESS: "Créé avec succès",
+            EDIT_PROFILE_SUCCESS: "Profil modifié avec succès",
+            SIGNUP_SUCCESS: "Vous vous êtes inscrit avec succès"
         },
         errors: {
             ERROR_API: "Oups, une erreur est survenue",
@@ -120,6 +123,7 @@ const l = {
         },
         fields: {
             PASSWORD: "Mot de passe",
+            CONFIRM_PASSWORD: "Confirmer le mot de passe",
             MAIL: "Mail",
             USERNAME : "Nom d'utilisateur",
             FIRSTNAME : "Prénom",
@@ -127,6 +131,7 @@ const l = {
             PHONE_NUMBER: "Numéro de téléphone",
             FIELD_INCORRECT_VALUES: "Ce champ contient des caractères interdit",
             FIELD_INCORRECT_PASSWORD: "Le mot de passe doit contenir au moins 7 caractères, un numéro et une majuscule",
+            FIELD_INCORRECT_CONFIRM_PASSWORD: "Les deux mots de passe ne correspondent pas",
             FIELD_INCORRECT_MAIL: "Le format du mail est invalide",
             FIELD_INCORRECT_MAX_LENGTH: "La valeur dépasse la longueur autorisée",
             FIELD_INCORRECT_MIN_LENGTH: "La valeur ne contient pas assez de caractères",
@@ -362,6 +367,7 @@ const l = {
             PATCH_NOTE: 'Note de mise à jour',
         },
         profilSettings: {
+            PROFILE: "Profil",
             MY_INFORMATIONS: 'Mes informations',
             PH_LASTNAME: 'Nom',
             PH_FIRSTNAME: 'Prénom',
@@ -372,6 +378,12 @@ const l = {
             PH_OLD_PW: 'Ancien mot de passe',
             PH_NEW_PW: 'Nouveau mot de passe',
             PH_COMFIRMATION_PW: 'Confirmation du mot de passe'
+        },
+        registration: {
+            REGISTRATION: "Inscription",
+            PASSWORD: "Mot de passe",
+            CONFIRM_PASSWORD: "Confirmer le mot de passe",
+            SIGN_UP: "S'inscrire"
         }
     },
     en: {
@@ -416,6 +428,7 @@ const l = {
         PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "Access to phone library not granted. You can granted the access in phone settings",
         CAMERA: "Camera",
         PHOTO_VIDEO_LIBRARY: "Photo/video library",
+        PHOTO_LIBRARY: "Photo library",
         FILE: "File",
         SHARED_CONTENT: "Shared content",
         NO_SHARED_CONTENT: "No shared content",
@@ -438,7 +451,9 @@ const l = {
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
             EDIT_SUCCESS: "Successfully edited",
-            CREATE_SUCCESS: "Successfully created"
+            CREATE_SUCCESS: "Successfully created",
+            EDIT_PROFILE_SUCCESS: "Profile edited successfully",
+            SIGNUP_SUCCESS: "Profile created successfully"
         },
         errors: {
             ERROR_API: "Oops, an error has occurred !",
@@ -492,6 +507,7 @@ const l = {
         },
         fields: {
             PASSWORD: "Password",
+            CONFIRM_PASSWORD: "Confirm password",
             MAIL: "eMail",
             USERNAME : "Username",
             FIRSTNAME : "Firstname",
@@ -499,6 +515,7 @@ const l = {
             PHONE_NUMBER: "Phone number",
             FIELD_INCORRECT_VALUES: "This field contains forbidden caracters",
             FIELD_INCORRECT_PASSWORD: "The password must contain at least 7 caracters, 1 number and 1 capital letter",
+            FIELD_INCORRECT_CONFIRM_PASSWORD: "Both passwords are not the same",
             FIELD_INCORRECT_MAIL: "Mail format is not valid",
             FIELD_INCORRECT_MAX_LENGTH: "Value exceeds allowable length",
             FIELD_INCORRECT_MIN_LENGTH: "The value does not contain enough caracters",
@@ -741,6 +758,7 @@ const l = {
             PATCH_NOTE: 'Patch note',
         },
         profilSettings: {
+            PROFILE: "Profile",
             MY_INFORMATIONS: 'My informations',
             PH_LASTNAME: 'Lastname',
             PH_FIRSTNAME: 'Firstname',
@@ -750,7 +768,13 @@ const l = {
             CHANGE_PASSWORD: 'Update my password',
             PH_OLD_PW: 'Old password',
             PH_NEW_PW: 'New password',
-            PH_COMFIRMATION_PW: 'Comfirmation password'
+            PH_COMFIRMATION_PW: 'Confirm password'
+        },
+        registration: {
+            REGISTRATION: "Registration",
+            PASSWORD: "Password",
+            CONFIRM_PASSWORD: "Confirm password",
+            SIGN_UP: "Sign up"
         }
     }
 }

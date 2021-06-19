@@ -1,3 +1,6 @@
+import { req } from './apiCall';
+import gql from 'graphql-tag';
+
 export const login = (mail, password) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
@@ -9,7 +12,9 @@ export const login = (mail, password) => {
             user: {
                 id: 2,
                 fav_sport: 1,
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+                firstname: "Lucas",
+                lastname: "zedz",
+                profilePic: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
                 friends: [{
                     id: 1,
                     firstname: "eofj",
@@ -126,6 +131,116 @@ export const login = (mail, password) => {
         }
     })
 }
+
+/**
+ * create user profile
+ * 
+ * @param {string} firstname user firstname
+ * @param {string} lastname user lastname
+ * @param {string} email user email
+ * @param {string} password user password
+ * @param {string} phone user phone
+ * @param {string} country user phone country
+ * @param {string} birthdate user birthdate
+ * @param {number} fav_sport user favorite sport
+ * @param {string|null} profilePic user profile picture
+ */
+ export const signup = ({firstname, lastname, email, password, phone, country, birthdate, fav_sport, profilePic}) => {
+    return req(
+        'mutation',
+        gql`mutation( 
+            $firstname: String!, 
+            $lastname: String!, 
+            $email: String!, 
+            $password: String!, 
+            $phone: String!, 
+            $birthdate: DateTime!, 
+            $fav_sport: Int!, 
+            $profilePic: String!, 
+            $country: String!){
+            signup(
+                firstname: $firstname,
+                lastname: $lastname,
+                email: $email,
+                password: $password,
+                phone: $phone,
+                birthdate: $birthdate,
+                fav_sport: $fav_sport,
+                profilePic: $profilePic,
+                country: $country
+            ),{
+                user{
+                    id
+                }
+            }
+        }`, 
+        {
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password,
+            phone: phone,
+            birthdate: birthdate,
+            fav_sport: fav_sport,
+            profilePic: "",
+            country: country,
+        }
+    )
+};
+
+/**
+ * edit user profile
+ * 
+ * @param {string} firstname user firstname
+ * @param {string} lastname user lastname
+ * @param {string} email user email
+ * @param {string} password user password
+ * @param {string} phone user phone
+ * @param {string} country user phone country
+ * @param {string} birthdate user birthdate
+ * @param {number} fav_sport user favorite sport
+ * @param {string|null} profilePic user profile picture
+ */
+export const editProfile = ({firstname, lastname, email, password, phone, country, birthdate, fav_sport, profilePic}) => {
+    // return req(
+    //     'mutation',
+    //     gql`mutation( 
+    //         $firstname: String!, 
+    //         $lastname: String!, 
+    //         $email: String!, 
+    //         $password: String!, 
+    //         $phone: String!, 
+    //         $birthdate: DateTime!, 
+    //         $fav_sport: Int!, 
+    //         $profilePic: String!, 
+    //         $country: String!){
+    //         updateUser(
+    //             firstname: $firstname,
+    //             lastname: $lastname,
+    //             email: $email,
+    //             password: $password,
+    //             phone: $phone,
+    //             birthdate: $birthdate,
+    //             fav_sport: $fav_sport,
+    //             profilePic: $profilePic,
+    //             country: $country
+    //         ),{
+    //             token
+    //         }
+    //     }`, 
+    //     {
+    //         firstname: firstname,
+    //         lastname: lastname,
+    //         email: email,
+    //         password: password,
+    //         phone: phone,
+    //         birthdate: birthdate,
+    //         fav_sport: fav_sport,
+    //         profilePic: profilePic === null ? "" : profilePic,
+    //         country: country,
+    //     }
+    // )
+};
 
 /**
  * get user datas by id
@@ -527,7 +642,9 @@ export const fetchConnectedUser = () => {
         return {
             id: 2,
             fav_sport: 1,
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
+            firstname: "Lucas",
+            lastname: "Estrade",
+            profilePic: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
             friends: [{
                 id: 1,
                 firstname: "eofj",

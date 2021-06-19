@@ -82,6 +82,10 @@ export default global = {
         DEFAULT_FAVS_NOT_ZOOM_LONGITUDE_DELTA: 0.0021,
         GOOGLE_MAP_API_KEY: GOOGLE_MAP_API_KEY
     },
+    api: {
+        API_ENDPOINT: "https://pa-5iw-prodd.herokuapp.com/",
+        WS_API_ENDPOINT: "wss://pa-5iw-prodd.herokuapp.com/"
+    },
     firebase: {
         apiKey: FIREBASE_API_KEY,
         authDomain: FIREBASE_AUTH_DOMAIN,

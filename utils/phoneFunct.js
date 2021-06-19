@@ -35,6 +35,34 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
 };
 
 /**
+ * pick image in phone gallery
+ * 
+ * @param {function} onSuccessCallback function called if success
+ * @param {function} onNotGrantedCallback function called if access gallery not granted
+ * @returns 
+ */
+ export async function pickImage(onSuccessCallback, onNotGrantedCallback){
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+        onNotGrantedCallback()
+        return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+        base64: true
+    });
+
+    if (!result.cancelled) {
+        onSuccessCallback(result);
+    }
+
+    return;
+};
+
+/**
  * pick document from phone
  * 
  * @param {function} onSuccessCallback function called if success

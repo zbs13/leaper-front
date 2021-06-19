@@ -38,6 +38,7 @@ import PhoneInput, { isValidNumber } from "react-native-phone-number-input";
  * @param {function|null} defaultSelectValue default selected value
  * @param {object|null} items object with each items for select type
  * @param {function|null} renderItem render of each item
+ * @param {string|null} checkWithPassword confirm password with this value
  * @param {string|null} datetime default date/hour
  * @param {function|null} onChangeDateTime called when date/hour is changed
  * @param {string|null} lessThan date/hour must be less than an other date/hour
@@ -64,6 +65,9 @@ export default memo(function Field({
     defaultSelectValue = null,
     items = null,
     renderItem = null,
+    // if type = confirm-password
+    checkWithPassword = null,
+    /////
     /////
     // if type = date or hour :
     datetime = null,
@@ -98,6 +102,7 @@ export default memo(function Field({
         fieldValue: "",
         errorXSS: false,
         errorPassword: false,
+        errorConfirmPassword: false,
         errorMail: false,
         errorUsername: false,
         errorMaxLength: false,
@@ -277,6 +282,31 @@ export default memo(function Field({
                 ...fieldState,
                 fieldValue: val,
                 errorPassword: true
+            })
+            isError !== null && isError(true)
+        }
+    }
+
+    /**
+     * function called while confirm password value changed
+     * 
+     * @param {string} val new value after change
+     */
+     function onChangeConfirmPassword(val){
+        let isValid = val === checkWithPassword;
+        if(isValid){
+            onChange(val);
+            setFieldState({
+                ...fieldState,
+                fieldValue: val,
+                errorConfirmPassword: false
+            })
+            isError !== null && isError(false)
+        }else{
+            setFieldState({
+                ...fieldState,
+                fieldValue: val,
+                errorConfirmPassword: true
             })
             isError !== null && isError(true)
         }
@@ -538,6 +568,30 @@ export default memo(function Field({
         return (
             <TextInput 
                 onChangeText={value => onChangePassword(value)}
+                secureTextEntry={true}
+                {...attr}
+                style={fields.text}
+                onFocus={() => isFocus(true)}
+                onBlur={() => isFocus(false)}
+            />
+        )
+    }
+
+    /**
+     * component returned for confirm password
+     * @returns 
+     */
+     function _ConfirmPassword(){
+        let attr = {};
+        if(selectors.getOS() === "android"){
+            attr = {
+                autoCompleteType: "password",
+            }
+        }
+
+        return (
+            <TextInput 
+                onChangeText={value => onChangeConfirmPassword(value)}
                 secureTextEntry={true}
                 {...attr}
                 style={fields.text}
@@ -884,6 +938,11 @@ export default memo(function Field({
             icon = icon || "lock-closed-outline"
             placeholder = placeholder || t(selectors.getLang()).fields.PASSWORD 
             break;
+        case "confirm-password":
+            _return = _ConfirmPassword();
+            icon = icon || "lock-closed-outline"
+            placeholder = placeholder || t(selectors.getLang()).fields.CONFIRM_PASSWORD 
+            break;
         case "mail":
             _return = _Mail();
             icon = icon || "mail-outline"
@@ -950,6 +1009,7 @@ export default memo(function Field({
                     {_return}
                     {fieldState.errorXSS 
                     || fieldState.errorPassword 
+                    || fieldState.errorConfirmPassword
                     || fieldState.errorMail
                     || fieldState.errorMaxLength 
                     || fieldState.errorMinLength
@@ -969,6 +1029,8 @@ export default memo(function Field({
                                         t(selectors.getLang()).fields.FIELD_INCORRECT_VALUES
                                     : fieldState.errorPassword ?
                                         t(selectors.getLang()).fields.FIELD_INCORRECT_PASSWORD
+                                    : fieldState.errorConfirmPassword ?
+                                        t(selectors.getLang()).fields.FIELD_INCORRECT_CONFIRM_PASSWORD
                                     : fieldState.errorMail ?
                                         t(selectors.getLang()).fields.FIELD_INCORRECT_MAIL
                                     : fieldState.errorMaxLength ?

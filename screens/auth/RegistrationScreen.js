@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import ProfileInfosForm from '../../components/forms/ProfileInfosForm';
 
 /**
  * registration screen
@@ -7,9 +7,9 @@ import { View, Button } from 'react-native';
  * @returns 
  */
 export default function RegistrationScreen({navigation}) {
-    return (
-      <View>
-      </View>
-    );
+
+  return (
+    <ProfileInfosForm />
+  );
 }
 

@@ -6,7 +6,7 @@ import { Avatar, Title} from 'react-native-paper';
 import Cta from '../cta/Cta';
 import globalStyles from '../../assets/styles/global';
 import { settings } from '../../assets/styles/styles';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import global from '../../providers/global';
 
 import t from '../../providers/lang/translations';

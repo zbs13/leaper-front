@@ -4,11 +4,12 @@ import {
   login,
   fetchUserById,
   fetchUsersByName,
-  fetchConnectedUser
+  fetchConnectedUser,
+  signup,
+  editProfile
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import global from "../providers/global";
 
 const useUsers = () => {
   const {
@@ -40,6 +41,26 @@ const useUsers = () => {
       dispatch({
         type: "LOGOUT",
         payload: {},
+      });
+    },
+    /**
+     * create user profile
+     * 
+     * @param {object} datas user datas
+     */
+    signup: async function(datas){
+      return signup(datas).then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * edit user profile
+     * 
+     * @param {object} datas user datas
+     */
+     editProfile: function(datas){
+      return editProfile(datas).then((data) => {
+        return response(data);
       });
     },
     /**

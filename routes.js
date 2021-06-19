@@ -139,10 +139,4 @@ export const withCustomHeaderOnly = [
         component: ProfilSettingsScreen,
         header: ({navigation}) => (headerType.back())
     },
-
-
-
-    
-
-
 ]

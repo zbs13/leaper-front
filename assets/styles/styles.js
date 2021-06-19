@@ -423,7 +423,7 @@ export const settings =  StyleSheet.create({
       fontSize: 15
     },
     buttonLogout: {
-        marginTop: 170
+        marginBottom: 0
     }
 
   });

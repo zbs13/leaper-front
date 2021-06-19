@@ -8,7 +8,7 @@ import Field from '../fields/Field';
 import BackgroundImage from '../BackgroundImage';
 import Cta from '../cta/Cta';
 import OptionsModal from '../modals/OptionsModal';
-import { pickMedia } from '../../utils/phoneFunct';
+import { pickImage } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
 import useGroups from '../../hooks/useGroups';
 import { manageResponseUI } from '../../context/actions/apiCall';
@@ -71,9 +71,9 @@ export default function CreateEditGroupForm({
                                     action: () => alert("aa")
                                 },
                                 {
-                                    value: t(selectors.getLang()).PHOTO_VIDEO_LIBRARY,
+                                    value: t(selectors.getLang()).PHOTO_LIBRARY,
                                     icon: "images-outline",
-                                    action: () => pickMedia(
+                                    action: () => pickImage(
                                         (res) => setGeValues({...geValues, pic: res.uri}),
                                         () => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: true})
                                     )
