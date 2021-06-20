@@ -2,6 +2,7 @@ import { format, isToday, parseISO, isYesterday, isBefore } from 'date-fns';
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 import _ from "lodash";
+import { responsePathAsArray } from 'graphql';
 
 /**
  * generate an uniq id
@@ -247,39 +248,15 @@ export const isInFav = (userBookmarks, eventId) => {
 }
 
 /**
- * get base64 from file uri
+ * get file blob from uri
  * 
  * @param {string} uri file uri 
- * @returns 
+ * @param {function} callback function called to get blob
  */
-//  export const toDataUrl = (uri, callback) => {
-//     var xhr = new XMLHttpRequest(),
-//         fileReader = new FileReader();
-
-//     xhr.open("GET", uri, true);
-//     // Set the responseType to blob
-//     xhr.responseType = "blob";
-
-//     xhr.addEventListener("load", function () {
-//         console.log(xhr.status);
-//         if (xhr.status === 200) {
-//             // onload needed since Google Chrome doesn't support addEventListener for FileReader
-//             fileReader.onload = function (evt) {
-//                 // Read out file contents as a Data URL
-//                 var result = evt.target.result;
-//                 // Set image src to Data URL
-//                 // Store Data URL in localStorage
-//                 try {
-//                     callback(result);
-//                 }
-//                 catch (e) {
-//                     console.log("Storage failed: " + e);
-//                 }
-//             };
-//             // Load blob as Data URL
-//             fileReader.readAsDataURL(xhr.response);
-//         }
-//     }, false);
-//     // Send XHR
-//     xhr.send();
-// }
+export const blobFromUri = (uri, callback) => {
+    fetch(uri).then(function(response){
+        response.blob().then(function(blob){
+            callback(blob);
+        })
+    });
+}

@@ -101,7 +101,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                                 value: t(selectors.getLang()).PHOTO_LIBRARY,
                                 icon: "images-outline",
                                 action: () => pickImage(
-                                    (res) => setValues({...getValues, profilePic: res}),
+                                    (res) => setValues({...getValues, profilePic: res.uri}),
                                     () => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: true})
                                 )
                             }
@@ -114,7 +114,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                         _style={[globalStyles.justifyCenter, globalStyles.alignCenter]}
                     >
                         <View style={[{width: 150, height: 150}, globalStyles.flex, globalStyles.alignCenter]}>
-                            <BackgroundImage isRound image={getValues.profilePic !== null ? typeof getValues.profilePic === "object" ? {uri: getValues.profilePic.uri} : {uri: getValues.profilePic} : require('../../assets/img/icons/default_profile_pic.png')} />
+                            <BackgroundImage isRound image={getValues.profilePic !== null ? {uri: getValues.profilePic} : require('../../assets/img/icons/default_profile_pic.png')} />
                         </View>
                     </Cta>
                 </OptionsModal>
@@ -208,7 +208,7 @@ export default function ProfileInfosForm({isEdit = false}) {
             }
             <Field
                 type="password"
-                label={!isEdit && t(selectors.getLang()).registration.PASSWORD}
+                label={!isEdit ? t(selectors.getLang()).registration.PASSWORD : null}
                 placeholder={isEdit ? t(selectors.getLang()).profilSettings.PH_NEW_PW : t(selectors.getLang()).registration.PASSWORD}
                 isError={(error) => error ? setFieldErrors({...fieldErrors, newPasswordError: true}) : setFieldErrors({...fieldErrors, newPasswordError: false})}
                 onChange={(password) => setValues({...getValues, password: password})}
@@ -232,8 +232,8 @@ export default function ProfileInfosForm({isEdit = false}) {
                         manageResponseUI(data,
                             selectors.getLang(),
                             function (res) {
-                                if(typeof getValues.profilePic === "object"){
-                                    firebase.putUserProfilePic(res.signup.user.id, getValues.profilePic.uri, getValues.profilePic.base64);
+                                if(getValues.profilePic !== null){
+                                    firebase.putUserProfilePic(res.signup.user.id, getValues.profilePic);
                                 }
                                 actionsApp.addPopupStatus({
                                     type: "success",

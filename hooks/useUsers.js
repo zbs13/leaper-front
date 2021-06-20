@@ -27,6 +27,7 @@ const useUsers = () => {
     login: function(mail, password){
       return login(mail, password).then((data) => {
         return response(data, function(res){
+          console.log(res);
           AsyncStorage.setItem("token", res.token);
           AsyncStorage.setItem("isConnected", "true");
         })
@@ -49,6 +50,7 @@ const useUsers = () => {
      * @param {object} datas user datas
      */
     signup: async function(datas){
+      console.log(datas);
       return signup(datas).then((data) => {
         return response(data);
       });

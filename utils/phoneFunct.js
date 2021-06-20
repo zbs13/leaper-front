@@ -51,8 +51,7 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
     let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        quality: 1,
-        base64: true
+        quality: 1
     });
 
     if (!result.cancelled) {
