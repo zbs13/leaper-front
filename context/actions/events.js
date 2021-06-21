@@ -1,3 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { req } from './apiCall';
+import gql from 'graphql-tag';
+
 /**
  * fetch my events according to offset
  * 
@@ -112,6 +116,56 @@ export const fetchMyEvents = (offset) => {
  * @returns 
  */
 export const fetchByCriteria = (criteria) => {
+    // console.log(criteria);
+    // return req(
+    //     'query',
+    //     gql`query(
+    //         $value: String, 
+    //         $offset: Int, 
+    //         $max: Int){
+    //         events(
+    //             where: {
+    //                 OR: [
+    //                     {firstname_contains: $value},
+    //                     {lastname_contains: $value}
+    //                 ]
+    //             },
+    //             first: $max,
+    //             skip: $offset
+    //         ),{
+    //             id,
+    //             firstname,
+    //             lastname,
+    //             roles{
+    //                 id,
+    //                 name,
+    //                 group{
+    //                     id
+    //                 },
+    //                 event{
+    //                     id
+    //                 }
+    //             },
+    //             events{
+    //                 id
+    //             },
+    //             groups{
+    //                 id
+    //             },
+    //             friends{
+    //                 id
+    //             }
+    //         }
+    //     }`,
+    //     {
+    //         value: value,
+    //         offset: criteria.offset,
+    //         max: global.MAX_RESULT_PER_LOADED_PAGE + 2
+    //     },
+    //     true
+    // );
+
+
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
             id: 2
@@ -615,12 +669,56 @@ export const update = (id, datas) => {
  * @param {object} datas datas to update
  */
  export const create = (datas) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation(
+                $owner: ID, 
+                $name: String!,
+                $address: String,
+                $latitude: Float,
+                $longitude: Float,
+                $description: String,
+                $startHour: DateTime,
+                $endHour: DateTime,
+                $date: DateTime){
+                createEvent(
+                    data: {
+                        owner: {
+                            connect: {
+                                id: $owner
+                            }
+                        },
+                        name: $name,
+                        address: $address,
+                        location: {
+                            create: {
+                                latitude: $latitude,
+                                longitude: $longitude
+                            }
+                        },
+                        description: $description,
+                        start_hour: $startHour,
+                        end_hour: $endHour,
+                        date: $date
+                    }
+                ),{
+                    id
+                }
+            }`, 
+            {
+                owner: userId, 
+                name: datas.name,
+                address: datas.address,
+                latitude: datas.location.latitude,
+                longitude: datas.location.longitude,
+                description: datas.description,
+                startHour: "2020-05-05",
+                endHour: "2020-05-05",
+                date: "2020-05-05"
+            },
+            true
+        )
     })
 }
 

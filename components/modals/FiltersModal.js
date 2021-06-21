@@ -10,6 +10,7 @@ import Field from '../fields/Field';
 import t from '../../providers/lang/translations';
 import Title from '../Title';
 import Txt from '../Txt';
+import { getLatLngByAddress } from '../../utils/utils';
 
 /**
  * filters modal
@@ -47,7 +48,14 @@ export default function FiltersModal({setCriteria}){
                         </Title>
                     </View>
                     <Field type="text" placeholder={t(selectors.getLang()).PLACE_FILTER_PLACEHOLDER}
-                        onChange={(val) => setCriteria({place: val})}
+                        onChange={(val) => {
+                            getLatLngByAddress(val, function(location){
+                                if(location.error){
+                                    return;
+                                }
+                                setCriteria({place: {address: val, ...location}})
+                            })
+                        }}
                         icon="pin-outline"
                     />
                     <View style={calendarFilter.container}>

@@ -1,3 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { req } from './apiCall';
+import gql from 'graphql-tag';
+
 /**
  * fetch my groups according to offset
  * 
@@ -1014,12 +1018,34 @@ export const fetchById = (id) => {
  * @param {object} datas datas to update
  */
  export const create = (datas) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation(
+                $owner: ID, 
+                $name: String!,
+                $description: String){
+                createGroup(
+                    data: {
+                        owner: {
+                            connect: {
+                                id: $owner
+                            }
+                        },
+                        name: $name,
+                        description: $description
+                    }
+                ),{
+                    id
+                }
+            }`, 
+            {
+                owner: userId, 
+                name: datas.name,
+                description: datas.description
+            },
+            true
+        )
     })
 }
 

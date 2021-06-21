@@ -48,6 +48,9 @@ export default React.memo(function SportEventScreen({navigation, route}) {
     navigation.setOptions({
       headerTitle: sport,
     });
+  }, []);
+
+  useEffect(() => {
     fetchData();
   }, [ses]);
 
@@ -85,9 +88,6 @@ export default React.memo(function SportEventScreen({navigation, route}) {
 
   return (
     <View style={globalStyles.mpm}>
-      {/* <Title>
-        {t(selectorsApp.getLang()).event.EVENTS} : {sport}
-      </Title> */}
       <SB
           placeholder={t(selectorsApp.getLang()).event.FIND_EVENT_BY + " : " + sport}
           onChangeText={(val) => setSes({...ses, searchValue: val})}
@@ -106,7 +106,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
             {t(selectorsApp.getLang()).PLACE} :
           </Txt>
           <Txt ellipsis={20} _style={globalStyles.c_anth}>
-            {ses.criteria.place || "-"}
+            {ses.criteria.place !== null ? ses.criteria.place.address : "-"}
           </Txt>
         </View>
         <View style={[globalStyles.flexColumn, {flex: 1}]}>
@@ -135,10 +135,9 @@ export default React.memo(function SportEventScreen({navigation, route}) {
             setSes({...ses, 
               criteria: {
                 ...ses.criteria,
-                offset: ses.criteria.offset += global.MAX_RESULT_PER_LOADED_PAGE
+                offset: ses.criteria.offset + global.MAX_RESULT_PER_LOADED_PAGE
               }
             });
-            fetchData();
           }}
           renderItem={({item}) => (
             <EventCard

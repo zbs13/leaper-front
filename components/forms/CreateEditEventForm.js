@@ -15,6 +15,7 @@ import { pickImage } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
 import useEvents from '../../hooks/useEvents';
 import { manageResponseUI } from '../../context/actions/apiCall';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Create/edit event form
@@ -48,6 +49,7 @@ export default function CreateEditEventForm({
 
     const {selectors, actions: actionsApp} = useApp();
     const {actions: actionsEvent} = useEvents();
+    const navigation = useNavigation();
 
     const [geValues, setGeValues] = useState({
         name: nameValue,
@@ -237,6 +239,7 @@ export default function CreateEditEventForm({
                                         type: "success",
                                         message: t(selectors.getLang()).success.CREATE_SUCCESS
                                     });
+                                    navigation.goBack();
                                 },
                                 function (error) {
                                     actionsApp.addPopupStatus(error);

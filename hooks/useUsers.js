@@ -30,6 +30,7 @@ const useUsers = () => {
           console.log(res);
           AsyncStorage.setItem("token", res.token);
           AsyncStorage.setItem("isConnected", "true");
+          AsyncStorage.setItem("connectedUserId", res.user.id);
         })
       });
     },

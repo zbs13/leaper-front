@@ -65,7 +65,7 @@ import global from '../../providers/global';
 
         needAuth ? options = {
             headers: {
-                Authorization: await AsyncStorage.getItem("api_token")
+                Authorization: await AsyncStorage.getItem("token")
             },
         } : null;
 
@@ -96,7 +96,14 @@ import global from '../../providers/global';
 
         return queryDef
             .then(function(res){
-                return res.data;
+                let firstProp;
+                for(let key in res.data) {
+                    if(res.data.hasOwnProperty(key)) {
+                        firstProp = key;
+                        break;
+                    }
+                }
+                return res.data[firstProp];
             }).catch(error => {
                 console.log(error);
                 return {isError: true, type: "global"};

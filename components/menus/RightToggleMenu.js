@@ -63,7 +63,7 @@ export default function RightToggleMenu() {
                 size={100}
               />
               <Title style= {settings.name}>
-                Michelle Lebelle
+                {selectorsUser.getConnectedUser().firstname} {selectorsUser.getConnectedUser().lastname}
               </Title>
             </View>
             

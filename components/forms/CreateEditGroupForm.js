@@ -12,6 +12,7 @@ import { pickImage } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
 import useGroups from '../../hooks/useGroups';
 import { manageResponseUI } from '../../context/actions/apiCall';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Create/edit group form
@@ -33,6 +34,7 @@ export default function CreateEditGroupForm({
 
     const {selectors, actions: actionsApp} = useApp();
     const {actions: actionsGroup} = useGroups();
+    const navigation = useNavigation();
 
     const [geValues, setGeValues] = useState({
         name: nameValue,
@@ -150,6 +152,7 @@ export default function CreateEditGroupForm({
                                         type: "success",
                                         message: t(selectors.getLang()).success.CREATE_SUCCESS
                                     });
+                                    navigation.goBack();
                                 },
                                 function (error) {
                                     actionsApp.addPopupStatus(error);

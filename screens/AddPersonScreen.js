@@ -50,8 +50,8 @@ export default function AddPersonScreen({navigation, route}) {
                 selectorsApp.getLang(),
                 function (res) {
                     if(ap.offset !== 0){
-                        if(apRes.length < ap.offset + global.MAX_RESULT_PER_LOADED_PAGE) return;
-                        setApRes(apRes.push(...res));
+                        if(apRes.length < ap.offset) return;
+                        setApRes(apRes.concat(res));
                         return;
                     }
                     setApRes(res);
