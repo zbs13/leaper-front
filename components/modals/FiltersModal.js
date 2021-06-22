@@ -11,6 +11,7 @@ import t from '../../providers/lang/translations';
 import Title from '../Title';
 import Txt from '../Txt';
 import { getLatLngByAddress } from '../../utils/utils';
+import _ from "lodash";
 
 /**
  * filters modal
@@ -48,14 +49,21 @@ export default function FiltersModal({setCriteria}){
                         </Title>
                     </View>
                     <Field type="text" placeholder={t(selectors.getLang()).PLACE_FILTER_PLACEHOLDER}
-                        onChange={(val) => {
+                        onChange={_.debounce((val) => {
                             getLatLngByAddress(val, function(location){
                                 if(location.error){
+                                    setCriteria({place: null});
+                                    return;
+                                }
+                                if(val === "" || val === null){
+                                    setCriteria({place: null});
                                     return;
                                 }
                                 setCriteria({place: {address: val, ...location}})
+                            }, function() {
+                                setCriteria({place: null});
                             })
-                        }}
+                        }, 1000)}
                         icon="pin-outline"
                     />
                     <View style={calendarFilter.container}>

@@ -51,7 +51,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
   }, []);
 
   useEffect(() => {
-    fetchData();
+      fetchData();
   }, [ses]);
 
   /**
@@ -73,7 +73,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
    * fetch events by criterias
    */
   function fetchData(){
-    actionsEvent.fetchByCriteria(ses.criteria).then((data) => {
+    actionsEvent.fetchByCriteria(ses).then((data) => {
       manageResponseUI(data,
           lang,
           function (res) {
@@ -132,6 +132,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
           data={selectorsEvent.getFetchedByCriteria()}
           onRefresh={() => fetchData()}
           onEndReached={() => {
+            if(selectorsEvent.getNbFetchedByCriteria() < ses.criteria.offset + global.MAX_RESULT_PER_LOADED_PAGE) return;
             setSes({...ses, 
               criteria: {
                 ...ses.criteria,

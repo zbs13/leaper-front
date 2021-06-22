@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { req } from './apiCall';
 import gql from 'graphql-tag';
+import { toGQLDateTimeFormat } from '../../utils/utils';
+import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import global from '../../providers/global';
 
 /**
  * fetch my events according to offset
@@ -116,236 +119,111 @@ export const fetchMyEvents = (offset) => {
  * @returns 
  */
 export const fetchByCriteria = (criteria) => {
-    // console.log(criteria);
-    // return req(
-    //     'query',
-    //     gql`query(
-    //         $value: String, 
-    //         $offset: Int, 
-    //         $max: Int){
-    //         events(
-    //             where: {
-    //                 OR: [
-    //                     {firstname_contains: $value},
-    //                     {lastname_contains: $value}
-    //                 ]
-    //             },
-    //             first: $max,
-    //             skip: $offset
-    //         ),{
-    //             id,
-    //             firstname,
-    //             lastname,
-    //             roles{
-    //                 id,
-    //                 name,
-    //                 group{
-    //                     id
-    //                 },
-    //                 event{
-    //                     id
-    //                 }
-    //             },
-    //             events{
-    //                 id
-    //             },
-    //             groups{
-    //                 id
-    //             },
-    //             friends{
-    //                 id
-    //             }
-    //         }
-    //     }`,
-    //     {
-    //         value: value,
-    //         offset: criteria.offset,
-    //         max: global.MAX_RESULT_PER_LOADED_PAGE + 2
-    //     },
-    //     true
-    // );
+    let searchValue = criteria.searchValue !== "" && criteria.searchValue !== null ? criteria.searchValue : null;
+    let where = {
+        sportId: criteria.criteria.sportId
+    };
 
-
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
+    if(criteria.criteria.place !== null) {
+        where = {
+            ...where,
+            location_every: {
+                AND: [
+                    {latitude_gt: criteria.criteria.place.latitude - 0.1},
+                    {latitude_lt: criteria.criteria.place.latitude + 0.1},
+                    {longitude_gt: criteria.criteria.place.longitude - 0.1},
+                    {longitude_lt: criteria.criteria.place.longitude + 0.1},
+                ]
+            }
         }
-    }).catch(() => {
-        return [{
-            id: 1,
-            name: "l'event 1f gfpker okfoekf o ekf oekf eof keof keof keo kfoek oe",
-            description: "la description zebi f ef efkefoekfo ekoekfoekeokfeo fkeo fkeo keo keokokeokfrkrogujerigjerigjerigjerijgerigjerigjerigjerigjerigjerigjerigjif,ejzfefefijezfizejfijfiezjfiezjfiezjfeeo k",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        },
+    }
+
+    if(criteria.criteria.startDate !== null && criteria.criteria.endDate !== null) {
+        where = {
+            ...where,
+            AND: [
+                {date_gt: toGQLDateTimeFormat(criteria.criteria.startDate.dateString)},
+                {date_lt: toGQLDateTimeFormat(criteria.criteria.endDate.dateString, 1)}
+            ]
+        }
+    }
+
+    if(searchValue !== null){
+        where = {
+            ...where,
+            OR: [
+                {description_contains: searchValue},
+                {name_contains: searchValue}
+            ]
+        }
+    }
+
+    const query = {
+        query: {
+            events: {
+                __args: {
+                    where: where,
+                    first: global.MAX_RESULT_PER_LOADED_PAGE + 2 ,
+                    skip: criteria.criteria.offset
+                },
+                id: true,
+                name: true,
+                owner: {
+                    id: true
+                },
+                sportId: true,
+                description: true,
+                users: {
+                    id: true
+                }
+            }
+        }
+    };
+
+    const graphql_query = jsonToGraphQLQuery(query, { pretty: true });
+
+    return req(
+        'query',
+        gql`${graphql_query}`,
+        null,
+        true
+    );
+}
+
+/**
+ * fetch event details by id
+ * 
+ * @param {number} id event id 
+ * @returns 
+ */
+export const fetchEventDetailsById = (id) => {
+    return req(
+        'query',
+        gql`query($id: ID){
+            event(
+                where: {
+                    id: $id
+                }
+            ),{
+                id,
+                location{
+                    latitude,
+                    longitude
+                },
+                name,
+                address,
+                description,
+                start_hour,
+                end_hour,
+                date,
+                sportId
+            }
+        }`, 
         {
-            id: 2,
-            name: "l'event 2",
-            description: "la description zebi",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
+            id: id
         },
-        {
-            id: 3,
-            name: "l'event 3",
-            description: "la description zebi",
-            sportId: 2,
-            postalCode: 111,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 4,
-            name: "l'event 3",
-            description: "la description zebi",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 5,
-            name: "l'event 3",
-            description: "la description zebi",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 6,
-            name: "l'event 3",
-            description: "la description zebi",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 7,
-            name: "l'event 3",
-            description: "la description zebi",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        }]
-    });
+        true
+    ) 
 }
 
 /**
@@ -354,7 +232,8 @@ export const fetchByCriteria = (criteria) => {
  * @param {number} id event id 
  * @returns 
  */
-export const fetchById = (id) => {
+export const fetchById = (id) => {  
+
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
             id: 2
@@ -681,7 +560,8 @@ export const update = (id, datas) => {
                 $description: String,
                 $startHour: DateTime,
                 $endHour: DateTime,
-                $date: DateTime){
+                $date: DateTime,
+                $sportId: Int){
                 createEvent(
                     data: {
                         owner: {
@@ -700,7 +580,8 @@ export const update = (id, datas) => {
                         description: $description,
                         start_hour: $startHour,
                         end_hour: $endHour,
-                        date: $date
+                        date: $date,
+                        sportId: $sportId
                     }
                 ),{
                     id
@@ -713,9 +594,10 @@ export const update = (id, datas) => {
                 latitude: datas.location.latitude,
                 longitude: datas.location.longitude,
                 description: datas.description,
-                startHour: "2020-05-05",
-                endHour: "2020-05-05",
-                date: "2020-05-05"
+                startHour: toGQLDateTimeFormat(datas.startHour),
+                endHour: toGQLDateTimeFormat(datas.endHour),
+                date: toGQLDateTimeFormat(datas.date),
+                sportId: datas.sportId
             },
             true
         )
@@ -758,3 +640,30 @@ export const update = (id, datas) => {
         return {isError: true}
     })
 }
+
+/**
+ * add user to event
+ * 
+ * @param {string} eventId event id
+ * @param {string} userId user id to add
+ */
+ export const addUserToEvent = (eventId, userId) => {
+    return req(
+        'mutation',
+        gql`mutation($idEvent: ID, $userId: ID){
+            addUsersToEvent(
+                idEvent: $idEvent,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            idEvent: eventId,
+            userId: userId
+        },
+        true
+    )
+  }

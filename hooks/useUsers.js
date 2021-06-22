@@ -6,7 +6,9 @@ import {
   fetchUsersByName,
   fetchConnectedUser,
   signup,
-  editProfile
+  editProfile,
+  addBookmark,
+  addFriend
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -115,6 +117,36 @@ const useUsers = () => {
           dispatch({
             type: "UPDATE_CONNECTED_USER",
             payload: res,
+          });
+        })
+      });
+    },
+    /**
+     * add bookmark
+     * 
+     * @param {string} id event id
+     */
+     addBookmark: function(id){
+      return addBookmark(id).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "ADD_BOOKMARK",
+            payload: res
+          });
+        })
+      });
+    },
+    /**
+     * add friend
+     * 
+     * @param {string} id friend id
+     */
+     addFriend: function(id){
+      return addFriend(id).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "ADD_FRIEND",
+            payload: res
           });
         })
       });

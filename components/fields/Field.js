@@ -338,6 +338,9 @@ export default memo(function Field({
                 })
                 onChange(address, location);
                 isError !== null && isError(false);
+            },
+            function(){
+                isError !== null && isError(true);
             }
         )
     }

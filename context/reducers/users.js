@@ -29,6 +29,22 @@ export const initialState = {
                 ...state,
                 isConnected: false,
             }
+        case "ADD_BOOKMARK":
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    bookmarks: action.payload
+                }
+            }
+        case "ADD_FRIEND":
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    friends: action.payload
+                }
+            }
         default:
             return state;
     }

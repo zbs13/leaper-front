@@ -33,7 +33,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
     const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
-    const { selectors: selectorsUser } = useUsers();
+    const { actions: actionsUser, selectors: selectorsUser } = useUsers();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -54,7 +54,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
      * fetch event details by id
      */
     function fetchEventDetails(){
-        actionsEvent.fetchById(id).then((data) => {
+        actionsEvent.fetchEventDetailsById(id).then((data) => {
           manageResponseUI(data,
               lang,
               function (res) {
@@ -81,19 +81,34 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                 <Ionicons name="star" size={30} color={global.colors.RED_LIKE}/>
                             </Cta>
                         :
-                            <Cta onPress={() => alert("mettre en fav")}>
+                            <Cta onPress={() => {
+                                actionsUser.addBookmark(id).then((data) => {
+                                    manageResponseUI(data,
+                                        lang,
+                                        function (res) {
+                                            actionsApp.addPopupStatus({
+                                                type: "success",
+                                                message: "mis en fav avce succès"
+                                            });
+                                        },
+                                        function (error) {
+                                            actionsApp.addPopupStatus(error);
+                                            setIsLoaded(false)
+                                        })
+                                  })
+                            }}>
                                 <Ionicons name="star-outline" size={30} color={global.colors.ANTHRACITE}/>
                             </Cta>
                         }
                     </View>
                     <View style={eventDetailsMap.container}>
                         <Map
-                            latitude={details.location.latitude}
-                            longitude={details.location.longitude}
+                            latitude={details.location[0].latitude}
+                            longitude={details.location[0].longitude}
                         >
                             <MapPin
-                                latitude={details.location.latitude}
-                                longitude={details.location.longitude}
+                                latitude={details.location[0].latitude}
+                                longitude={details.location[0].longitude}
                                 pinColor={global.colors.MAIN_COLOR}
                                 title={title}
                                 description={t(lang).event.HERE_EVENT_PLACE}
@@ -124,10 +139,10 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                     {t(lang).HOURS} :
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).FROM} : {t(lang).datetime.formats.hour(details.startHour)}
+                                    {t(lang).FROM} : {t(lang).datetime.formats.hour(details.start_hour)}
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).TO} : {t(lang).datetime.formats.hour(details.endHour)}
+                                    {t(lang).TO} : {t(lang).datetime.formats.hour(details.end_hour)}
                                 </Txt>
                             </View>
                         </View>
@@ -160,7 +175,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                             title: title,
                                             content: t(lang).event.CONFIRM_JOIN_EVENT
                                         }}
-                                        onPress={() => console.log("join event")}
+                                        onPress={() => console.log("edojf")}
                                     />
                             :
                                 null

@@ -50,6 +50,7 @@ export default function UserProfileScreen({navigation, route}) {
             manageResponseUI(data,
                 selectorsApp.getLang(),
                 function (res) {
+                    console.log(data);
                     setIsLoaded(true);
                 },
                 function (error) {

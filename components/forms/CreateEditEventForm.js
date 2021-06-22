@@ -16,6 +16,7 @@ import DialogPopup from '../DialogPopup';
 import useEvents from '../../hooks/useEvents';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import { useNavigation } from '@react-navigation/native';
+import { addHours } from 'date-fns';
 
 /**
  * Create/edit event form
@@ -56,8 +57,8 @@ export default function CreateEditEventForm({
         description: descriptionValue,
         sportId: sportId,
         date: dateValue,
-        startHour: startHourValue,
-        endHour: endHourValue,
+        startHour: startHourValue !== "" ? startHourValue : new Date().toISOString(),
+        endHour: endHourValue !== "" ? endHourValue : addHours(new Date(), 1).toISOString(),
         address: addressValue,
         location: locationValue,
         pic: picSrc
@@ -67,9 +68,9 @@ export default function CreateEditEventForm({
         nameError: isEdit ? false : true,
         descriptionError: isEdit ? false : true,
         addressError: isEdit ? false : true,
-        dateError: false,
+        dateError: isEdit ? false : true,
         startHourError: false,
-        endHourError: isEdit ? false : true
+        endHourError: false
     });
 
     const [pickImageRestrictionPopup, setPickImageRestrictionPopup] = useState({

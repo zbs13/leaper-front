@@ -1,8 +1,7 @@
-import { format, isToday, parseISO, isYesterday, isBefore } from 'date-fns';
+import { format, isToday, parseISO, isYesterday, isBefore, addDays } from 'date-fns';
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 import _ from "lodash";
-import { responsePathAsArray } from 'graphql';
 
 /**
  * generate an uniq id
@@ -141,8 +140,9 @@ export const getAddressByLatLng = function(latitude, longitude, callback){
  * 
  * @param {string} address address
  * @param {function} callback function called after end of promise
+ * @param {function} callbackNoResults function called when no results
  */
- export const getLatLngByAddress = function(address, callback){
+ export const getLatLngByAddress = function(address, callback, callbackNoResults = null){
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${global.map.GOOGLE_MAP_API_KEY}`,
         {
             method: 'GET',
@@ -155,6 +155,8 @@ export const getAddressByLatLng = function(latitude, longitude, callback){
         .then(function(res){
             if(res.results.length !== 0){
                 callback({latitude: res.results[0].geometry.location.lat, longitude: res.results[0].geometry.location.lng});
+            }else{
+                callbackNoResults !== null && callbackNoResults();
             }
         })
         .catch(function(error){
@@ -259,4 +261,18 @@ export const blobFromUri = (uri, callback) => {
             callback(blob);
         })
     });
+}
+
+/**
+ * convert dateTime to graphQL date format => "2020-05-05 05:00:00" -> "2020-05-05T05:00:00Z"
+ * 
+ * @param {string} date datetime to convert
+ * @param {number} daysToAdd days to add to date
+ * @return {string} converted datetime
+ */
+export const toGQLDateTimeFormat = (date, daysToAdd = null) => {
+    if(daysToAdd !== null){
+        return addDays(parseISO(date), daysToAdd).toISOString();
+    }
+    return parseISO(date).toISOString();
 }

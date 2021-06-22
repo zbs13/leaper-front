@@ -4,12 +4,14 @@ import {
   fetchMyEvents, 
   fetchByCriteria, 
   fetchById, 
+  fetchEventDetailsById,
   fetchMessages, 
   fetchAllSharedContent, 
   update, 
   create, 
   removeUser,
-  sendMessage
+  sendMessage,
+  addUserToEvent
 } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
@@ -48,10 +50,23 @@ const useEvents = () => {
           dispatch({
             type: "UPDATE_EVENTS_BY_CRITERIA",
             payload: res,
-            offset: criteria.offset
+            offset: criteria.criteria.offset
           });
         })
       });
+    },
+    /**
+     * fetch event details by id
+     * 
+     * @param {string} id event id
+     * @returns 
+     */
+    fetchEventDetailsById: function(id) {
+      return fetchEventDetailsById(id).then((data) => {
+        return response(data, function(res){
+          return res;
+        })
+      })
     },
     /**
      * fetch event by id
@@ -243,6 +258,17 @@ const useEvents = () => {
         type: "DELETE_ROLE_IN_UI",
         payload: id
       });
+    },
+    /**
+     * add user to event
+     * 
+     * @param {string} eventId event id
+     * @param {string} userId user id to add
+     */
+    addUserToEvent: function(eventId, userId){
+      return addUserToEvent(eventId, userId).then((data) => {
+        return response(data);
+      })
     }
   };
 

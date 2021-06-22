@@ -26,7 +26,8 @@ export const initialState = {
           _val = state.fetchedByCriteria.concat(_val)
         return {
           ...state,
-          fetchedByCriteria: _val
+          fetchedByCriteria: _val,
+          nbFetchedByCriteria: _val.length
         };
       case "UPDATE_EVENTS_BY_ID":
         return {

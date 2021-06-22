@@ -396,3 +396,84 @@ export const fetchConnectedUser = () => {
         })
     });
 }
+
+/**
+ * add bookmark
+ * 
+ * @param {string} id event id
+ */
+ export const addBookmark = (id) => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation($userId: ID, $eventId: ID){
+                updateUser(
+                    data: {
+                        bookmarks: {
+                            set: {
+                                id: $eventId
+                            }
+                        }
+                    },
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    bookmarks{
+                        id,
+                        name,
+                        description,
+                        address,
+                        location{
+                            latitude,
+                            longitude
+                        }
+                    }
+                }
+            }`, 
+            {
+                userId: userId,
+                eventId: id
+            },
+            true
+        )
+    })
+  }
+
+/**
+ * add friend
+ * 
+ * @param {string} id friend id
+ */
+ export const addFriend = (id) => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation($userId: ID, $friendId: ID){
+                updateUser(
+                    data: {
+                        friends: {
+                            set: {
+                                id: $friendId
+                            }
+                        }
+                    },
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    friends{
+                        id,
+                        firstname,
+                        lastname,
+                    },
+                }
+            }`, 
+            {
+                userId: userId,
+                friendId: id
+            },
+            true
+        )
+    })
+  }
