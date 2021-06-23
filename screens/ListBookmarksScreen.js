@@ -35,8 +35,8 @@ export default function ListBookmarksScreen() {
     setFav({
       ...fav,
       userBookmarks: favs,
-      focusLatitude: favs.length !== 0 ? favs[0].location.latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE,
-      focusLongitude: favs.length !== 0 ? favs[0].location.longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE
+      focusLatitude: favs.length !== 0 ? favs[0].location[0].latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE,
+      focusLongitude: favs.length !== 0 ? favs[0].location[0].longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE
     })
   }, [selectors.getConnectedUser().bookmarks])
 
@@ -69,8 +69,8 @@ export default function ListBookmarksScreen() {
             fav.userBookmarks.map((bookmark, index) => (
               <MapPin 
                 key={index}
-                latitude={bookmark.location.latitude}
-                longitude={bookmark.location.longitude}
+                latitude={bookmark.location[0].latitude}
+                longitude={bookmark.location[0].longitude}
                 title={bookmark.name}
                 description={bookmark.address}
                 onPress={(e) => setFav({

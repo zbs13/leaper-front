@@ -381,6 +381,9 @@ export const fetchConnectedUser = () => {
                                     location{
                                         latitude,
                                         longitude
+                                    },
+                                    users{
+                                        id
                                     }
                                 }
                             }
@@ -410,7 +413,7 @@ export const fetchConnectedUser = () => {
                 updateUser(
                     data: {
                         bookmarks: {
-                            set: {
+                            connect: {
                                 id: $eventId
                             }
                         }
@@ -427,6 +430,9 @@ export const fetchConnectedUser = () => {
                         location{
                             latitude,
                             longitude
+                        },
+                        users{
+                            id
                         }
                     }
                 }
@@ -438,7 +444,53 @@ export const fetchConnectedUser = () => {
             true
         )
     })
-  }
+}
+
+/**
+ * remove bookmark
+ * 
+ * @param {string} id event id
+ */
+ export const removeBookmark = (id) => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation($userId: ID, $eventId: ID){
+                updateUser(
+                    data: {
+                        bookmarks: {
+                            disconnect: {
+                                id: $eventId
+                            }
+                        }
+                    },
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    bookmarks{
+                        id,
+                        name,
+                        description,
+                        address,
+                        location{
+                            latitude,
+                            longitude
+                        },
+                        users{
+                            id
+                        }
+                    }
+                }
+            }`, 
+            {
+                userId: userId,
+                eventId: id
+            },
+            true
+        )
+    })
+}
 
 /**
  * add friend

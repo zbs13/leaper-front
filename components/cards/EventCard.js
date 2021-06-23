@@ -5,7 +5,7 @@ import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
 import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
-import { ellipsisText, getSportById } from '../../utils/utils';
+import { ellipsisText, getSportById, isInFav } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
@@ -14,6 +14,7 @@ import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
+import { manageResponseUI } from '../../context/actions/apiCall';
 
 /**
  * Event Cards
@@ -24,9 +25,11 @@ import { useNavigation } from '@react-navigation/native';
  */
 export default function EventCard({ item, isMyEvent = false }) {
     
-    const {selectors} = useApp();
-    const {selectors: selectorsUser} = useUsers();
+    const {selectors, actions} = useApp();
+    const {selectors: selectorsUser, actions: actionsUser} = useUsers();
     const navigation = useNavigation();
+
+    const inFav = isInFav(selectorsUser.getConnectedUser().bookmarks, item.id);
 
     /**
      * details options for option modal
@@ -41,8 +44,38 @@ export default function EventCard({ item, isMyEvent = false }) {
      * main fav options for option modal
      */
     const favMainOptions = {
-        action: () => alert("aaaa"),
-        icon: "star-outline"
+        action: () => {
+            if(!inFav){
+                actionsUser.addBookmark(item.id).then((data) => {
+                    manageResponseUI(data,
+                        selectors.getLang(),
+                        function (res) {
+                            actions.addPopupStatus({
+                                type: "success",
+                                message: t(selectors.getLang()).bookmarks.BOOKMARK_SUCCESS
+                            });
+                        },
+                        function (error) {
+                            actions.addPopupStatus(error);
+                        })
+                })
+            }else{
+                actionsUser.removeBookmark(item.id).then((data) => {
+                    manageResponseUI(data,
+                        selectors.getLang(),
+                        function (res) {
+                            actions.addPopupStatus({
+                                type: "success",
+                                message: t(selectors.getLang()).bookmarks.UNBOOKMARK_SUCCESS
+                            });
+                        },
+                        function (error) {
+                            actions.addPopupStatus(error);
+                        })
+                    })
+            }
+        },
+        icon: inFav ? "star" : "star-outline"
     };
 
     /**
@@ -70,7 +103,7 @@ export default function EventCard({ item, isMyEvent = false }) {
         options: [
             detailsOptions,
             {
-                value: t(selectors.getLang()).BOOKMARK_THIS_PLACE,
+                value: inFav ? t(selectors.getLang()).UNBOOKMARK_THIS_PLACE : t(selectors.getLang()).BOOKMARK_THIS_PLACE,
                 ...favMainOptions
             }
         ] 

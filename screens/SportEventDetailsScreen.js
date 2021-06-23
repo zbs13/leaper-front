@@ -16,7 +16,7 @@ import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
-import { getSportById, isInFav } from '../utils/utils';
+import { getSportById, isInFav, isGEOwner } from '../utils/utils';
 
 /**
  * sport event details screen
@@ -48,7 +48,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
           headerTitle: title,
           headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} /> : null
         });
-    }, [isLoaded]);
+    }, [isLoaded, selectorsUser.getConnectedUser().bookmarks]);
 
     /**
      * fetch event details by id
@@ -77,7 +77,22 @@ export default function SportEventDetailsScreen({navigation, route}) {
                 >
                     <View style={{position: "absolute", zIndex: 1, top: 10, right: 10}}>
                         { isInFav(selectorsUser.getConnectedUser().bookmarks, id) ?
-                            <Cta onPress={() => alert("supprimer des fav")}>
+                            <Cta onPress={() => {
+                                actionsUser.removeBookmark(id).then((data) => {
+                                    manageResponseUI(data,
+                                        lang,
+                                        function (res) {
+                                            actionsApp.addPopupStatus({
+                                                type: "success",
+                                                message: t(lang).bookmarks.UNBOOKMARK_SUCCESS
+                                            });
+                                        },
+                                        function (error) {
+                                            actionsApp.addPopupStatus(error);
+                                            setIsLoaded(false)
+                                        })
+                                    })
+                            }}>
                                 <Ionicons name="star" size={30} color={global.colors.RED_LIKE}/>
                             </Cta>
                         :
@@ -88,7 +103,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                         function (res) {
                                             actionsApp.addPopupStatus({
                                                 type: "success",
-                                                message: "mis en fav avce succès"
+                                                message: t(lang).bookmarks.BOOKMARK_SUCCESS
                                             });
                                         },
                                         function (error) {
@@ -158,7 +173,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                     </View>
                     <View style={ctaJoinEventDetails.container}>
                         {
-                            !selectorsEvent.isOwner() ?
+                            !isGEOwner(selectorsUser.getConnectedUser().id, details) ?
                                 isMyEvent ?
                                     <Cta value={t(lang).event.LEAVE_THIS_EVENT} 
                                         _style={[cta.main, cta.b_red_nr, globalStyles.f_bold]}

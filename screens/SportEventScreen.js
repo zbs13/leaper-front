@@ -4,6 +4,7 @@ import useEvents from '../hooks/useEvents';
 import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
+import useUsers from '../hooks/useUsers';
 import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 import { manageResponseUI } from '../context/actions/apiCall';
@@ -12,6 +13,7 @@ import EventCardLoader from '../components/loaders/EventCardLoader';
 import { RefreshViewList } from '../components/RefreshView';
 import FiltersModal from '../components/modals/FiltersModal';
 import Txt from '../components/Txt';
+import { isUserInEventGroup } from '../utils/utils';
 
 /**
  * Sport event screen
@@ -26,6 +28,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
+  const { selectors: selectorsUser } = useUsers();
 
   const [ses, setSes] = useState({
       searchValue: "",
@@ -142,6 +145,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
           }}
           renderItem={({item}) => (
             <EventCard
+              isMyEvent={isUserInEventGroup(selectorsUser.getConnectedUser().events, item.id)}
               item={item}
             />
           )}

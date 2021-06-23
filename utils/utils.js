@@ -181,11 +181,21 @@ export const getSportById = function(lang, id){
  * check if user is a connected user's friend
  * 
  * @param {string} connectedUserId connected user id
- * @param {object} userFriends user firends
+ * @param {object} userFriends user friends
  * @returns 
  */
 export const isMyFriend = function(connectedUserId, userFriends){
     return userFriends.findIndex((user) => user.id === connectedUserId) !== -1;
+}
+
+/**
+ * check if connected user is group/event owner
+ * 
+ * @param {object} ge group/event object
+ * @returns 
+ */
+ export const isGEOwner = function(connectedUserId, ge){
+    return ge.owner.id === connectedUserId;
 }
 
 /**

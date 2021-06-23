@@ -29,19 +29,19 @@ export const initialState = {
                 ...state,
                 isConnected: false,
             }
-        case "ADD_BOOKMARK":
+        case "UPDATE_BOOKMARKS":
             return {
                 ...state,
-                user: {
-                    ...state.user,
+                connectedUser: {
+                    ...state.connectedUser,
                     bookmarks: action.payload
                 }
             }
-        case "ADD_FRIEND":
+        case "UPDATE_FRIENDS":
             return {
                 ...state,
-                user: {
-                    ...state.user,
+                connectedUser: {
+                    ...state.connectedUser,
                     friends: action.payload
                 }
             }

@@ -8,7 +8,8 @@ import {
   signup,
   editProfile,
   addBookmark,
-  addFriend
+  addFriend,
+  removeBookmark
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,7 +30,6 @@ const useUsers = () => {
     login: function(mail, password){
       return login(mail, password).then((data) => {
         return response(data, function(res){
-          console.log(res);
           AsyncStorage.setItem("token", res.token);
           AsyncStorage.setItem("isConnected", "true");
           AsyncStorage.setItem("connectedUserId", res.user.id);
@@ -130,8 +130,23 @@ const useUsers = () => {
       return addBookmark(id).then((data) => {
         return response(data, function(res){
           dispatch({
-            type: "ADD_BOOKMARK",
-            payload: res
+            type: "UPDATE_BOOKMARKS",
+            payload: res.bookmarks
+          });
+        })
+      });
+    },
+    /**
+     * remove bookmark
+     * 
+     * @param {string} id event id
+     */
+     removeBookmark: function(id){
+      return removeBookmark(id).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_BOOKMARKS",
+            payload: res.bookmarks
           });
         })
       });
@@ -145,7 +160,7 @@ const useUsers = () => {
       return addFriend(id).then((data) => {
         return response(data, function(res){
           dispatch({
-            type: "ADD_FRIEND",
+            type: "UPDATE_FRIENDS",
             payload: res
           });
         })

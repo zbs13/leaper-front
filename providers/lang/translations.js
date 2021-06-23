@@ -29,7 +29,8 @@ const l = {
         TO: "à",
         DETAILS: "Détails",
         SEE_DETAILS: "Voir détails",
-        BOOKMARK_THIS_PLACE: "Mettre le lieu en favori",
+        BOOKMARK_THIS_PLACE: "Mettre en favori",
+        UNBOOKMARK_THIS_PLACE: "Retirer des favoris",
         PARAMETERS: "Paramètres",
         MUTE: "Mettre en sourdine",
         PEOPLE_LIST: "Liste des membres",
@@ -233,7 +234,9 @@ const l = {
             MY_BOOKMARKS: "Mes favoris",
             NO_BOOKMARK: "Vous n'avez pas encore de favoris",
             DELETE_BOOKMARK: "Supprimer le favori",
-            SURE_TO_DELETE_BOOKMARK: "Vous êtes sur le point de supprimer le favori"
+            SURE_TO_DELETE_BOOKMARK: "Vous êtes sur le point de supprimer le favori",
+            BOOKMARK_SUCCESS: "Ajouté en favori avec succès",
+            UNBOOKMARK_SUCCESS: "Retiré des favoris avec succès"
         },
         auth: {
             LOGIN: "Se connecter",
@@ -414,6 +417,7 @@ const l = {
         DETAILS: "Details",
         SEE_DETAILS: "See details",
         BOOKMARK_THIS_PLACE: "Bookmark this place",
+        UNBOOKMARK_THIS_PLACE: "Unbookmark this place",
         PARAMETERS: "Parameters",
         MUTE: "Mute",
         PEOPLE_LIST: "Members list",
@@ -624,7 +628,9 @@ const l = {
             MY_BOOKMARKS: "My bookmarks",
             NO_BOOKMARK: "You don't have bookmark yet",
             DELETE_BOOKMARK: "Delete bookmark",
-            SURE_TO_DELETE_BOOKMARK: "You are going to delete the bookmark"
+            SURE_TO_DELETE_BOOKMARK: "You are going to delete the bookmark",
+            BOOKMARK_SUCCESS: "Bookmarked with success",
+            UNBOOKMARK_SUCCESS: "Unbookmarked with success"
         },
         auth: {
             LOGIN: "Log in",

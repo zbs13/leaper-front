@@ -15,6 +15,7 @@ import {
 } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useEvents = () => {
   const {
@@ -64,7 +65,33 @@ const useEvents = () => {
     fetchEventDetailsById: function(id) {
       return fetchEventDetailsById(id).then((data) => {
         return response(data, function(res){
-          return res;
+          let rightsArr = [];
+          let isOwner = false;
+          AsyncStorage.getItem("connectedUserId").then(connectedUserId => {
+            if(res.owner.id === connectedUserId){
+              rightsArr = global.rights.ALL;
+              isOwner = true;
+            }else{
+              res.users.map((index, user) => {
+                if(user.id === connectedUserId){
+                  user.roles.map((index, role) => {
+                    if(role.event.id === id){
+                      for(let right of role.rights){
+                        rightsArr.push(right.id);
+                      }
+                    }
+                  })
+                }
+              })
+            }
+            dispatch({
+              type: "UPDATE_MY_RIGHTS",
+              payload: {
+                rights: rightsArr,
+                isOwner: isOwner
+              }
+            });
+          })
         })
       })
     },

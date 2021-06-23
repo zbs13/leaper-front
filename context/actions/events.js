@@ -216,7 +216,21 @@ export const fetchEventDetailsById = (id) => {
                 start_hour,
                 end_hour,
                 date,
-                sportId
+                sportId,
+                owner{
+                    id
+                },
+                users{
+                    id,
+                    roles{
+                        event{
+                            id
+                        },
+                        rights{
+                            id
+                        }
+                    }
+                }
             }
         }`, 
         {

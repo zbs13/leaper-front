@@ -27,7 +27,6 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
     });
 
     if (!result.cancelled) {
-        console.log(result)
         onSuccessCallback(result)
     }
 
@@ -77,7 +76,6 @@ export async function pickMedia(onSuccessCallback, onNotGrantedCallback){
                 ...result,
                 type: extension
             }
-            console.log(result);
             onSuccessCallback(result);
             return;
         case "cancel":
