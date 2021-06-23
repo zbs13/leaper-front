@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
 import { 
-  fetchMyEvents, 
   fetchByCriteria, 
   fetchById, 
   fetchEventDetailsById,
@@ -24,21 +23,6 @@ const useEvents = () => {
   } = useContext(EventsContext);
 
   const actions = {
-    /**
-     * fetch all my events
-     * 
-     * @returns 
-     */
-    fetchAllMy: function () {
-      return fetchMyEvents().then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_MY_EVENTS",
-            payload: res
-          });
-        })
-      });
-    },
     /**
      * fetch events by criteria
      * 
@@ -300,10 +284,8 @@ const useEvents = () => {
   };
 
   const selectors = {
-    getAllMy: () => eventsState.my_events,
     getFetchedByCriteria: () => eventsState.fetchedByCriteria,
     getNbFetchedByCriteria: () => eventsState.nbFetchedByCriteria,
-    getNbMyFetched: () => eventsState.nbFetchedMy,
     getFetchedById: () => eventsState.fetchedById,
     getMessages: () => eventsState.messages,
     getMyRights: () => eventsState.myRights,

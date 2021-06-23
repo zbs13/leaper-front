@@ -19,6 +19,14 @@ export const initialState = {
                 ...state,
                 connectedUser: action.payload
             }
+        case "UPDATE_CONNECTED_USER_INFOS":
+            return {
+                ...state,
+                connectedUser: {
+                    ...state.connectedUser,
+                    ...action.payload
+                }
+            }
         case "UPDATE_IS_CONNECTED":
             return {
                 ...state,
@@ -43,6 +51,22 @@ export const initialState = {
                 connectedUser: {
                     ...state.connectedUser,
                     friends: action.payload
+                }
+            }
+        case "UPDATE_GROUPS":
+            return {
+                ...state,
+                connectedUser: {
+                    ...state.connectedUser,
+                    groups: action.payload
+                }
+            }
+        case "UPDATE_EVENTS":
+            return {
+                ...state,
+                connectedUser: {
+                    ...state.connectedUser,
+                    events: action.payload
                 }
             }
         default:

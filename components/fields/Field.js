@@ -689,6 +689,7 @@ export default memo(function Field({
                 <DateTimePicker
                     value={dateTimeState.dateTime instanceof Date ? dateTimeState.dateTime : parseISO(dateTimeState.dateTime)}
                     mode={isHour ? "time" : "date"}
+                    display={isHour ? "default" : Platform.OS === "android" ? "spinner" : "default"}
                     onChange={(event, dateTime) => {
                         if(dateTime !== undefined){
                             if(lessThan !== null){

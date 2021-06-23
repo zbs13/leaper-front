@@ -31,13 +31,17 @@ export default function ListBookmarksScreen() {
   })
 
   useEffect(() => {
+    let isMounted = true;
     const favs = selectors.getConnectedUser().bookmarks.length !== 0 ? _.reverse(selectors.getConnectedUser().bookmarks) : [];
-    setFav({
-      ...fav,
-      userBookmarks: favs,
-      focusLatitude: favs.length !== 0 ? favs[0].location[0].latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE,
-      focusLongitude: favs.length !== 0 ? favs[0].location[0].longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE
-    })
+    if(isMounted){
+      setFav({
+        ...fav,
+        userBookmarks: favs,
+        focusLatitude: favs.length !== 0 ? favs[0].location[0].latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE,
+        focusLongitude: favs.length !== 0 ? favs[0].location[0].longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE
+      })
+    }
+    return () => { isMounted = false };
   }, [selectors.getConnectedUser().bookmarks])
 
   /**

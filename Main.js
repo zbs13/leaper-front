@@ -33,6 +33,7 @@ export default function Main() {
      * configure app os and language
      */
     useEffect(() => {
+        let isMounted = true;
         /**
          * get user language / set user language
          */
@@ -41,9 +42,11 @@ export default function Main() {
                 if(val === null){
                     AsyncStorage.setItem("lang", "{'lang': 'en', flag: 'GB'}");
                 }else{
-                    actions.updateUserParameters({
-                        lang: JSON.parse(val)
-                    })
+                    if(isMounted){
+                        actions.updateUserParameters({
+                            lang: JSON.parse(val)
+                        })
+                    }
                 }
             })
         }
@@ -56,9 +59,11 @@ export default function Main() {
                 if(val === null){
                     AsyncStorage.setItem("isFirstLaunch", "true");
                 }else{
-                    actions.updateUserParameters({
-                        isFirstLaunch: val === "true"
-                    })
+                    if(isMounted){
+                        actions.updateUserParameters({
+                            isFirstLaunch: val === "true"
+                        })
+                    }
                 }
             })
         }
@@ -69,9 +74,11 @@ export default function Main() {
         AsyncStorage.getItem("isConnected").then(isConnected => {
             if(isConnected === null){
                 AsyncStorage.setItem("isConnected", "false").then(() => {
-                    setState({
-                        isLoaded: true
-                    });
+                    if(isMounted){
+                        setState({
+                            isLoaded: true
+                        });
+                    }
                 });
             }else{
                 if(isConnected === "true"){
@@ -79,22 +86,29 @@ export default function Main() {
                         manageResponseUI(data,
                           selectors.getLang(),
                           function (res) {
-                            actionsUser.updateIsConnected(true)
-                            setState({
-                                isLoaded: true
-                            });
+                            if(isMounted){
+                                actionsUser.updateIsConnected(true)
+                                setState({
+                                    isLoaded: true
+                                });
+                            }
                           },
                           function (error) {
-                            actions.addPopupStatus(error);
+                            if(isMounted){
+                                actions.addPopupStatus(error);
+                            }
                           })
                     })
                 }else{
-                    setState({
-                        isLoaded: true
-                    });
+                    if(isMounted){
+                        setState({
+                            isLoaded: true
+                        });
+                    }
                 }
             }
         })
+        return () => { isMounted = false };
     }, [selectorsUser.isConnected(), selectors.isFirstLaunch()])
 
     if(state.isLoaded){

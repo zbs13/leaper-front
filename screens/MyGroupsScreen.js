@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View } from 'react-native';
-import useGroups from '../hooks/useGroups';
 import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
+import useUsers from '../hooks/useUsers';
 import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 import { manageResponseUI } from '../context/actions/apiCall';
@@ -25,13 +25,23 @@ import { sortMyGEBySearchCriteria } from '../utils/utils';
 export default React.memo(function MyGroupsScreen({navigation}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
-  const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
+  const { selectors: selectorsUser, actions: actionsUser } = useUsers();
 
   const [mgs, setMgs] = useState({
-    results: selectorsGroups.getAllMy(),
+    results: [],
     sortedResults: null,
     searchValue: ""
   });
+
+  useEffect(() => {
+    let isMounted = true;
+    if(isMounted){
+      setMgs({
+        ...mgs,
+        results: selectorsUser.getConnectedUser().groups
+      })
+    }
+  }, [selectorsUser.getConnectedUser().groups])
 
   let lang = selectorsApp.getLang();
 
@@ -39,7 +49,7 @@ export default React.memo(function MyGroupsScreen({navigation}) {
    * fetch all my groups
    */
   function fetchMyGroups(){
-    actionsGroups.fetchAllMy().then((data) => {
+    actionsUser.fetchConnectedUserGroups().then((data) => {
       manageResponseUI(data,
         lang,
         function (res) {

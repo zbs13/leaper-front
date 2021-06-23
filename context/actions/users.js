@@ -35,9 +35,8 @@ export const login = (mail, password) => {
  * @param {string} country user phone country
  * @param {string} birthdate user birthdate
  * @param {number} fav_sport user favorite sport
- * @param {string|null} profilePic user profile picture
  */
- export const signup = ({firstname, lastname, email, password, phone, country, birthdate, fav_sport, profilePic}) => {
+ export const signup = ({firstname, lastname, email, password, phone, country, birthdate, fav_sport}) => {
     return req(
         'mutation',
         gql`mutation( 
@@ -86,52 +85,61 @@ export const login = (mail, password) => {
  * @param {string} firstname user firstname
  * @param {string} lastname user lastname
  * @param {string} email user email
- * @param {string} password user password
  * @param {string} phone user phone
  * @param {string} country user phone country
  * @param {string} birthdate user birthdate
  * @param {number} fav_sport user favorite sport
- * @param {string|null} profilePic user profile picture
  */
-export const editProfile = ({firstname, lastname, email, password, phone, country, birthdate, fav_sport, profilePic}) => {
-    // return req(
-    //     'mutation',
-    //     gql`mutation( 
-    //         $firstname: String!, 
-    //         $lastname: String!, 
-    //         $email: String!, 
-    //         $password: String!, 
-    //         $phone: String!, 
-    //         $birthdate: DateTime!, 
-    //         $fav_sport: Int!, 
-    //         $profilePic: String!, 
-    //         $country: String!){
-    //         updateUser(
-    //             firstname: $firstname,
-    //             lastname: $lastname,
-    //             email: $email,
-    //             password: $password,
-    //             phone: $phone,
-    //             birthdate: $birthdate,
-    //             fav_sport: $fav_sport,
-    //             profilePic: $profilePic,
-    //             country: $country
-    //         ),{
-    //             token
-    //         }
-    //     }`, 
-    //     {
-    //         firstname: firstname,
-    //         lastname: lastname,
-    //         email: email,
-    //         password: password,
-    //         phone: phone,
-    //         birthdate: birthdate,
-    //         fav_sport: fav_sport,
-    //         profilePic: profilePic === null ? "" : profilePic,
-    //         country: country,
-    //     }
-    // )
+export const editProfile = ({firstname, lastname, email, phone, country, birthdate, fav_sport}) => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation(
+                $userId: ID,
+                $firstname: String,
+                $lastname: String,
+                $email: String,
+                $phone: String,
+                $birthdate: DateTime,
+                $fav_sport: Int,
+                $country: String
+                ){
+                updateUser(
+                    data: {
+                        firstname: $firstname,
+                        lastname: $lastname,
+                        email: $email,
+                        phone: $phone,
+                        birthdate: $birthdate,
+                        fav_sport: $fav_sport,
+                        country: $country
+                    },
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    firstname,
+                    lastname,
+                    email,
+                    phone,
+                    birthdate,
+                    fav_sport,
+                    country
+                }
+            }`, 
+            {
+                userId: userId,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                phone: phone,
+                birthdate: birthdate,
+                fav_sport: fav_sport,
+                country: country
+            },
+            true
+        )
+    })
 };
 
 /**
@@ -286,6 +294,9 @@ export const fetchConnectedUser = () => {
                                             id,
                                             name
                                         }
+                                    },
+                                    users{
+                                        id
                                     }
                                 },
                                 groupsOwner{
@@ -317,7 +328,11 @@ export const fetchConnectedUser = () => {
                                             id,
                                             name
                                         }
-                                    }
+                                    },
+                                    users{
+                                        id
+                                    },
+                                    sportId
                                 },
                                 eventsOwner{
                                     id,
@@ -529,3 +544,135 @@ export const fetchConnectedUser = () => {
         )
     })
   }
+
+/**
+ * fetch connected user groups
+ * 
+ * @returns 
+ */
+export const fetchConnectedUserGroups = () => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'query',
+            gql`query($userId: ID){
+                user(
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    groups{
+                        id,
+                        owner{
+                            id
+                            firstname,
+                            lastname
+                        },
+                        name,
+                        description,
+                        roles{
+                            id,
+                            name,
+                            rights{
+                                id,
+                                name
+                            }
+                        },
+                        users{
+                            id
+                        }
+                    }
+                }
+            }`, 
+            {
+                userId: userId,
+            },
+            true
+        )
+    })
+}
+
+/**
+ * fetch connected user events
+ * 
+ * @returns 
+ */
+ export const fetchConnectedUserEvents = () => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'query',
+            gql`query($userId: ID){
+                user(
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    events{
+                        id,
+                        owner{
+                            id
+                            firstname,
+                            lastname
+                        },
+                        name,
+                        address,
+                        location{
+                            latitude,
+                            longitude
+                        },
+                        description,
+                        start_hour,
+                        end_hour,
+                        date,
+                        roles{
+                            id,
+                            name,
+                            rights{
+                                id,
+                                name
+                            }
+                        },
+                        users{
+                            id
+                        },
+                        sportId
+                    }
+                }
+            }`, 
+            {
+                userId: userId,
+            },
+            true
+        )
+    })
+}
+
+/**
+ * update user password
+ * 
+ * @param {string} oldPassword old password
+ * @param {string} newPassword new password
+ */
+ export const updateUserPassword = (oldPassword, newPassword) => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation($userId: ID, $password: String){
+                updateUser(
+                    where: {
+                        id: $userId
+                    },
+                    data: {
+                        password: $password
+                    }
+                ),{
+                    id
+                }
+            }`, 
+            {
+                userId: userId,
+                password: newPassword
+            },
+            true
+        )
+    })
+}

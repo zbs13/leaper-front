@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View } from 'react-native';
-import useEvents from '../hooks/useEvents';
 import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
+import useUsers from '../hooks/useUsers';
 import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 import { manageResponseUI } from '../context/actions/apiCall';
@@ -25,21 +25,31 @@ import { sortMyGEBySearchCriteria } from '../utils/utils';
 export default React.memo(function MyEventsScreen({navigation}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
-  const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
+  const { selectors: selectorsUser, actions: actionsUser } = useUsers();
 
   const [mes, setMes] = useState({
-      results: selectorsEvent.getAllMy(),
+      results: [],
       sortedResults: null,
       searchValue: "",
   });
 
   let lang = selectorsApp.getLang();
 
+  useEffect(() => {
+    let isMounted = true;
+    if(isMounted){
+      setMes({
+        ...mes,
+        results: selectorsUser.getConnectedUser().events
+      })
+    }
+  }, [selectorsUser.getConnectedUser().events])
+
   /**
    * fetch all my events
    */
   function fetchMyEvents(){
-    actionsEvent.fetchAllMy().then((data) => {
+    actionsUser.fetchConnectedUserEvents().then((data) => {
       manageResponseUI(data,
           lang,
           function (res) {

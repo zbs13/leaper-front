@@ -53,7 +53,6 @@ import global from '../../providers/global';
             connectToDevTools: true,
         })
 
-
         return queryDef = graphQLClient.subscribe({
             query: req,
             variables: vars

@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import useGroups from '../../hooks/useGroups';
 import useEvents from '../../hooks/useEvents';
 import useApp from '../../hooks/useApp';
+import useUsers from '../../hooks/useUsers';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
@@ -27,10 +28,10 @@ export default function MyGroupsEventsCards({ type }) {
     const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
     const { actions: actionsEvents, selectors: selectorsEvents } = useEvents();
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
+    const { actions: actionsUser, selectors: selectorsUser } = useUsers();
     const navigation = useNavigation();
 
     const [groupEvent, setGroupEvent] = useState({
-        isLoaded: false,
         nbGroups: 0,
         nbEvents: 0,
         nbNotifsGroups: 0,
@@ -55,67 +56,52 @@ export default function MyGroupsEventsCards({ type }) {
      * page is loading => get groups/events where user is in 
      */
     useEffect(() => {
-        action.fetchAllMy().then((data) => {
-            manageResponseUI(data,
-                lang,
-                function (res) {
-                    setGroupEvent({
-                        ...groupEvent,
-                        isLoaded: true,
-                        [nb]: res.length
-                    })
-                },
-                function (error) {
-                    actionsApp.addPopupStatus(error);
-                    setGroupEvent({
-                        ...groupEvent,
-                        isLoaded: false
-                    })
-                })
-        })
-    }, [])
+        let isMounted = true;
+        if (isMounted) {
+            setGroupEvent({
+                ...groupEvent,
+                isLoaded: true,
+                [nb]: selectorsUser.getConnectedUser()[type].length
+            })
+        }
+        return () => { isMounted = false };
+    }, [selectorsUser.getConnectedUser()[type]])
 
-    if (groupEvent.isLoaded) {
-        return (
-            <View style={home.view}>
-                <Cta
-                    onPress={() => navigation.navigate(type === "groups" ? global.screens.MY_GROUPS : global.screens.MY_EVENTS)}
-                    _style={card.cardContainer}
-                    underlayColor={global.colors.WHITE}
-                >
-                    <View style={[globalStyles.p_10, globalStyles.h_100, globalStyles.flexAround, globalStyles.alignStretch, globalStyles.flex, globalStyles.alignAround]}>
-                        <View style={[globalStyles.flexRow, globalStyles.flexBetween]}>
-                            <TagNbGroupsEvents>
-                                {type === "groups" ? groupEvent.nbGroups : groupEvent.nbEvents}
-                            </TagNbGroupsEvents>
-                            <TagNbNotifs>
-                                {type === "groups" ?
-                                    groupEvent.nbNotifsGroups
-                                    :
-                                    groupEvent.nbNotifsEvents
-                                }
-                            </TagNbNotifs>
-                        </View>
-                        <View>
-                            <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Txt>
-                        </View>
-                        <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
-                            {selector.getAllMy().map((value, index) => {
-                                if (index > groupEvent[nb] - 11) {
-                                    return <ImageIcon key={index} src={value.src} />
-                                }
-                            })}
-                            {
-                                groupEvent[nb] > 10 ? <TagNbGroupsEvents>+{groupEvent[nb] - 10}</TagNbGroupsEvents> : null
+    return (
+        <View style={home.view}>
+            <Cta
+                onPress={() => navigation.navigate(type === "groups" ? global.screens.MY_GROUPS : global.screens.MY_EVENTS)}
+                _style={card.cardContainer}
+                underlayColor={global.colors.WHITE}
+            >
+                <View style={[globalStyles.p_10, globalStyles.h_100, globalStyles.flexAround, globalStyles.alignStretch, globalStyles.flex, globalStyles.alignAround]}>
+                    <View style={[globalStyles.flexRow, globalStyles.flexBetween]}>
+                        <TagNbGroupsEvents>
+                            {type === "groups" ? groupEvent.nbGroups : groupEvent.nbEvents}
+                        </TagNbGroupsEvents>
+                        <TagNbNotifs>
+                            {type === "groups" ?
+                                groupEvent.nbNotifsGroups
+                                :
+                                groupEvent.nbNotifsEvents
                             }
-                        </View>
+                        </TagNbNotifs>
                     </View>
-                </Cta>
-            </View>
-        );
-    } else {
-        return (
-            <GroupsEventsCardLoader />
-        );
-    }
+                    <View>
+                        <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Txt>
+                    </View>
+                    <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
+                        {selectorsUser.getConnectedUser()[type].map((value, index) => {
+                            if (index > groupEvent[nb] - 11) {
+                                return <ImageIcon key={index} src={value.src} />
+                            }
+                        })}
+                        {
+                            groupEvent[nb] > 10 ? <TagNbGroupsEvents>+{groupEvent[nb] - 10}</TagNbGroupsEvents> : null
+                        }
+                    </View>
+                </View>
+            </Cta>
+        </View>
+    );
 }

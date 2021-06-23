@@ -1,19 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Text, View, Switch } from 'react-native';
-import Cta from '../components/cta/Cta';
 import global from '../providers/global';
-import { settings } from '../assets/styles/styles';
 import globalStyles from '../assets/styles/global';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
-import { RadioButton } from 'react-native-paper';
 
 /**
- * app settings screen
+ * notifications settings screen
  * 
  * @returns 
  */
-export default function ChangeNotificationsScreen() {
+export default function ChangeNotificationsScreen({navigation}) {
 
     const  {selectors} = useApp();
 
@@ -35,11 +32,15 @@ export default function ChangeNotificationsScreen() {
     const [Remember, setRemember] = React.useState(false);
     const toggleSwitchRememeber = () => setRemember(previousState => !previousState);
 
+    useEffect(() => {
+      navigation.setOptions({
+          headerTitle: t(selectors.getLang()).changeNotifications.TITLE
+      });
+    }, [])
+
     return (
       <View>
-        <Text style={settings.titleParams}>{t(selectors.getLang()).changeNotifications.TITLE}</Text>
         <View style={{justifyContent: 'center', alignItems: 'center' }}>
-
           <Text style={[globalStyles.f_bold, globalStyles.title_size, globalStyles.mt_20]}>
             {t(selectors.getLang()).changeNotifications.TITLE_MESSAGE}
           </Text>

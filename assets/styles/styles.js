@@ -386,7 +386,9 @@ export const settings =  StyleSheet.create({
     bg: {
       backgroundColor: 'white',
       height: '85%', 
-      display: "flex"
+      display: "flex",
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5
     },
     borderPic: {
       borderRadius: 100,
@@ -408,7 +410,9 @@ export const settings =  StyleSheet.create({
       marginTop: 50
     },
     buttonStyle: {
-      margin: 10
+      padding: 15,
+      borderColor: global.colors.VERY_LIGHT_GREY,
+      borderBottomWidth: 1
     },
     buttonFont: {
       color: "black",

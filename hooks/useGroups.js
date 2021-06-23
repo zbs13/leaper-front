@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import GroupsContext from "../context/groupsContext";
-import { 
-  fetchMyGroups, 
+import {
   fetchById, 
   fetchMessages, 
   fetchAllSharedContent, 
@@ -20,21 +19,6 @@ const useGroups = () => {
   } = useContext(GroupsContext);
 
   const actions = {
-    /**
-     * fetch all my groups
-     * 
-     * @returns 
-     */
-    fetchAllMy: function () {
-      return fetchMyGroups().then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_MY_GROUPS",
-            payload: res
-          });
-        })
-      });
-    },
     /**
      * fetch group by id
      * 
@@ -228,8 +212,6 @@ const useGroups = () => {
   };
 
   const selectors = {
-    getAllMy: () => groupsState.my_groups,
-    getNbMyFetched: () => groupsState.nbFetchedMy,
     getFetchedById: () => groupsState.fetchedById,
     getMessages: () => groupsState.messages,
     getMyRights: () => groupsState.myRights,

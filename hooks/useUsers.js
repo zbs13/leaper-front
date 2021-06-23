@@ -9,7 +9,10 @@ import {
   editProfile,
   addBookmark,
   addFriend,
-  removeBookmark
+  removeBookmark,
+  fetchConnectedUserGroups,
+  fetchConnectedUserEvents,
+  updateUserPassword
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -65,7 +68,12 @@ const useUsers = () => {
      */
      editProfile: function(datas){
       return editProfile(datas).then((data) => {
-        return response(data);
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_CONNECTED_USER_INFOS",
+            payload: res,
+          });
+        });
       });
     },
     /**
@@ -164,6 +172,47 @@ const useUsers = () => {
             payload: res
           });
         })
+      });
+    },
+    /**
+     * fetch connected user groups
+     * 
+     * @returns 
+     */
+     fetchConnectedUserGroups: function () {
+      return fetchConnectedUserGroups().then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_GROUPS",
+            payload: res.groups
+          });
+        })
+      });
+    },
+    /**
+     * fetch connected user events
+     * 
+     * @returns 
+     */
+     fetchConnectedUserEvents: function () {
+      return fetchConnectedUserEvents().then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_EVENTS",
+            payload: res.events
+          });
+        })
+      });
+    },
+    /**
+     * update user password
+     * 
+     * @param {string} oldPassword old password
+     * @param {string} newPassword new password
+     */
+    updateUserPassword: function({oldPassword, newPassword}){
+      return updateUserPassword(oldPassword, newPassword).then((data) => {
+        return response(data);
       });
     }
   };

@@ -64,7 +64,7 @@
     "react-native-maps": "^0.27.1",
     "react-native-paper": "^4.7.2",
     "react-native-phone-number-input": "^2.1.0",
-    "react-native-reanimated": "^1.13.3",
+    "react-native-reanimated": "^2.2.0",
     "react-native-screens": "^2.15.2",
     "react-native-scroll-bottom-sheet": "^0.7.0",
     "react-native-svg-flagkit": "^0.9.5",

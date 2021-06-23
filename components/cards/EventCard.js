@@ -75,7 +75,8 @@ export default function EventCard({ item, isMyEvent = false }) {
                     })
             }
         },
-        icon: inFav ? "star" : "star-outline"
+        icon: inFav ? "star" : "star-outline",
+        iconColor: inFav ? global.colors.RED_LIKE : global.colors.ANTHRACITE
     };
 
     /**
@@ -165,7 +166,6 @@ export default function EventCard({ item, isMyEvent = false }) {
                             }
                             <Txt _style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
                                 <Ionicons name="location-outline" size={20}/>
-                                {/* {item.postalCode} */}
                             </Txt>
                         </View>
                     </View>

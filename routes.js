@@ -17,7 +17,7 @@ import LoginScreen from "./screens/auth/LoginScreen";
 import RegistrationScreen from "./screens/auth/RegistrationScreen";
 import WelcomeLanguageSelectionScreen from "./screens/auth/WelcomeLanguageSelectionScreen";
 import headerType from "./components/headers/headers";
-import AppSettingsScreen from "./screens/AppSettingesScreen";
+import AppSettingsScreen from "./screens/AppSettingsScreen";
 import ChangeLanguageScreen from "./screens/ChangeLanguageScreen";
 import ChangeNotificationsScreen from "./screens/ChangeNotificationsScreen";
 import AboutScreen from "./screens/AboutScreen";

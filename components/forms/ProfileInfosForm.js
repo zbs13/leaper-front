@@ -124,7 +124,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                 type="lastname"
                 defaultValue={getValues.lastname}
                 placeholder={t(selectors.getLang()).profilSettings.PH_LASTNAME}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, lastnameError: false}) : setFieldErrors({...fieldErrors, lastnameError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, lastnameError: true}) : setFieldErrors({...fieldErrors, lastnameError: false})}
                 onChange={(value) => setValues({
                     ...getValues,
                     lastname: value
@@ -134,7 +134,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                 type="firstname"
                 defaultValue={getValues.firstname}
                 placeholder={t(selectors.getLang()).profilSettings.PH_FIRSTNAME}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, firstnameError: false}) : setFieldErrors({...fieldErrors, firstnameError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, firstnameError: true}) : setFieldErrors({...fieldErrors, firstnameError: false})}
                 onChange={(value) => setValues({
                     ...getValues,
                     firstname: value
@@ -144,7 +144,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                 type="mail"
                 defaultValue={getValues.email}
                 placeholder={t(selectors.getLang()).profilSettings.PH_MAIL}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, mailError: false}) : setFieldErrors({...fieldErrors, mailError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, mailError: true}) : setFieldErrors({...fieldErrors, mailError: false})}
                 onChange={(value) => setValues({
                     ...getValues,
                     email: value
@@ -155,7 +155,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                 label={t(selectors.getLang()).fields.PHONE_NUMBER}
                 defaultValue={getValues.phone}
                 defaultCountry={getValues.defaultCountry}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, phoneError: false}) : setFieldErrors({...fieldErrors, phoneError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, phoneError: true}) : setFieldErrors({...fieldErrors, phoneError: false})}
                 onChangePhone={(number, country) => {
                     setValues({
                      ...getValues,
@@ -182,18 +182,36 @@ export default function ProfileInfosForm({isEdit = false}) {
 
             <Field
                 type="date"
-                value= {getValues.birthdate}
+                datetime={getValues.birthdate}
+                lessThan={new Date()}
                 label={t(selectors.getLang()).profilSettings.BIRTH}
                 onChangeDateTime={(date) => setValues({...getValues, birthdate: format(parseISO(date), "yyyy-MM-dd")})}
-                isError={(error) => error ? setFieldErrors({...fieldErrors, dateError: false}) : setFieldErrors({...fieldErrors, dateError: false})}
+                isError={(error) => error ? setFieldErrors({...fieldErrors, dateError: true}) : setFieldErrors({...fieldErrors, dateError: false})}
             />
             {
                 isEdit &&
                     <Cta
-                        _style= {[cta.first, cta.main, settings.buttonStyle, settings.buttonFont]}
+                        _style= {[cta.first, cta.main, globalStyles.mt_10, globalStyles.mb_10]}
                         value={t(selectors.getLang()).profilSettings.CTA_UPDATE}
-                        onPress={() => {console.log('oui')}}
-                        disabled={fieldErrors.lastnameError || fieldErrors.firstnameError || fieldErrors.mailError ||  fieldErrors.dateError}
+                        onPress={() => {
+                            actionsUsers.editProfile(getValues).then((data) => {
+                                manageResponseUI(data,
+                                    selectors.getLang(),
+                                    function (res) {
+                                        if(getValues.profilePic !== null && getValues.profilePic !== "" && getValues.profilePic !== undefined){
+                                            firebase.putUserProfilePic(res.id, getValues.profilePic);
+                                        }
+                                        actionsApp.addPopupStatus({
+                                            type: "success",
+                                            message: t(selectors.getLang()).success.EDIT_PROFILE_SUCCESS
+                                        });
+                                    },
+                                    function (error) {
+                                        actionsApp.addPopupStatus(error);
+                                    })
+                            })
+                        }}
+                        disabled={fieldErrors.lastnameError || fieldErrors.firstnameError || fieldErrors.mailError || fieldErrors.dateError || fieldErrors.phoneError}
                     ></Cta>
             }
             {
@@ -221,26 +239,30 @@ export default function ProfileInfosForm({isEdit = false}) {
                 onChange={(password) => setValues({...getValues, confirmPassword: password})}
             />
             <Cta
-                _style= {[cta.first, cta.main ,settings.buttonStyle, settings.buttonFont]}
+                _style= {[cta.first, cta.main, globalStyles.mt_10, globalStyles.mb_10]}
                 value={isEdit ? t(selectors.getLang()).profilSettings.CTA_UPDATE : t(selectors.getLang()).registration.SIGN_UP}
                 onPress={() => {
                     let func = "signup"
                     if(isEdit){
-                        func = "editProfile"
+                        func = "updateUserPassword"
                     }
-                    actionsUsers[func](getValues).then((data) => {
+                    actionsUsers[func](isEdit ? {oldPassword: getValues.oldPassword, newPassword: getValues.password} : getValues).then((data) => {
                         manageResponseUI(data,
                             selectors.getLang(),
                             function (res) {
-                                if(getValues.profilePic !== null){
-                                    firebase.putUserProfilePic(res.signup.user.id, getValues.profilePic);
+                                if(!isEdit){
+                                    if(getValues.profilePic !== null){
+                                        firebase.putUserProfilePic(res.signup.user.id, getValues.profilePic);
+                                    }
                                 }
                                 actionsApp.addPopupStatus({
                                     type: "success",
-                                    message: isEdit ? t(selectors.getLang()).success.EDIT_PROFILE_SUCCESS : t(selectors.getLang()).success.SIGNUP_SUCCESS
+                                    message: isEdit ? t(selectors.getLang()).success.EDIT_PASSWORD_SUCCESS : t(selectors.getLang()).success.SIGNUP_SUCCESS
                                 });
                                 if(!isEdit){
                                     navigation.navigate(global.screens.LOGIN);
+                                }else{
+                                    actionsUsers.logout();
                                 }
                             },
                             function (error) {
@@ -248,7 +270,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                             })
                     })
                 }}
-                disabled={isEdit ? fieldErrors.oldPasswordError || fieldErrors.newPasswordError || fieldErrors.confirmPasswordError : fieldErrors.lastnameError || fieldErrors.firstnameError || fieldErrors.mailError ||  fieldErrors.dateError || fieldErrors.newPasswordError || !(getValues.confirmPassword === getValues.password)}
+                disabled={isEdit ? fieldErrors.oldPasswordError || fieldErrors.newPasswordError || fieldErrors.confirmPasswordError || !(getValues.confirmPassword === getValues.password) : fieldErrors.lastnameError || fieldErrors.firstnameError || fieldErrors.mailError ||  fieldErrors.dateError || fieldErrors.newPasswordError || !(getValues.confirmPassword === getValues.password)}
             ></Cta>
         </ScrollView>
     </View>

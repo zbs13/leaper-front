@@ -70,7 +70,8 @@ const l = {
             EDIT_SUCCESS: "Modifié avec succès",
             CREATE_SUCCESS: "Créé avec succès",
             EDIT_PROFILE_SUCCESS: "Profil modifié avec succès",
-            SIGNUP_SUCCESS: "Vous vous êtes inscrit avec succès"
+            SIGNUP_SUCCESS: "Vous vous êtes inscrit avec succès",
+            EDIT_PASSWORD_SUCCESS: "Mot de passe modifié avec succès"
         },
         errors: {
             ERROR_API: "Oups, une erreur est survenue",
@@ -342,7 +343,7 @@ const l = {
             SELECT_A_LANGUAGE: "Choisissez une langue"
         },
         settingsApp: {
-            TITLE: 'Paramètre de l\'application ',
+            TITLE: 'Paramètres de l\'application ',
             NOTIFICATIONS: 'Notifications',
             LANGUAGE: 'Langue'
         },
@@ -453,11 +454,12 @@ const l = {
         MANAGE_ROLE: "Manage role",
         INVITE: "Invite",
         success: {
-            SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
+            SUCCESS_DOWNLOAD_FILE: "Download successfully completed",
             EDIT_SUCCESS: "Successfully edited",
             CREATE_SUCCESS: "Successfully created",
-            EDIT_PROFILE_SUCCESS: "Profile edited successfully",
-            SIGNUP_SUCCESS: "Profile created successfully"
+            EDIT_PROFILE_SUCCESS: "Profile successfully edited",
+            SIGNUP_SUCCESS: "Profile successfully created",
+            EDIT_PASSWORD_SUCCESS: "Password successfully edited"
         },
         errors: {
             ERROR_API: "Oops, an error has occurred !",
@@ -736,12 +738,12 @@ const l = {
             SELECT_A_LANGUAGE: "Select a language"
         },
         settingsApp: {
-            TITLE: 'Settings App ',
+            TITLE: 'App settings',
             NOTIFICATIONS: 'Notifications',
             LANGUAGE: 'Language'
         },
         changeLanguage: {
-            TITLE: 'Languges',
+            TITLE: 'Languages',
             SELECT_LANGUAGES_FR: 'FR',
             SELECT_LANGUAGES_EN: 'EN'
         },
