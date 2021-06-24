@@ -18,6 +18,7 @@ import useEvents from '../../hooks/useEvents';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import { useNavigation } from '@react-navigation/native';
 import { addHours } from 'date-fns';
+import { sortListSport } from '../../utils/utils';
 
 /**
  * Create/edit event form
@@ -177,12 +178,12 @@ export default function CreateEditEventForm({
                         labelIcon="basketball-outline"
                         keyExtractor={(item) => item.id.toString()}
                         defaultSelectValue={(item) => item.id == sportId}
-                        items={global.listSports(selectors.getLang())}
+                        items={global.listSports(selectors.getLang()).sort(sortListSport)}
                         onChangeSelect={(item) => setGeValues({...geValues, sportId: item.id})}
                         renderItem={(item) => 
                             <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                                 <Ionicons name={item.icon} />
-                                <Txt>{item.name}</Txt>
+                                <Txt _style={globalStyles.p_5} >{item.name}</Txt>
                             </View>
                         }
                     />

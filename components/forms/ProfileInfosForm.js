@@ -19,6 +19,7 @@ import BackgroundImage from '../BackgroundImage';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import { format, parseISO } from 'date-fns';
 import useFirebase from '../../hooks/useFirebase';
+import { sortListSport } from '../../utils/utils';
 
 /**
  * profile infos form
@@ -170,12 +171,12 @@ export default function ProfileInfosForm({isEdit = false}) {
                 labelIcon="basketball-outline"
                 keyExtractor={(item) => item.id.toString()}
                 defaultSelectValue={(item) => item.id == getValues.fav_sport}
-                items={global.listSports(selectors.getLang())}
+                items={global.listSports(selectors.getLang()).sort(sortListSport)}
                 onChangeSelect={(item) => setValues({...getValues, fav_sport: item.id})}
                 renderItem={(item) => 
                     <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                          <Ionicons name={item.icon} />
-                        <Txt>{item.name}</Txt>
+                        <Txt _style={globalStyles.p_5}>{item.name}</Txt>
                     </View>
             }
             />

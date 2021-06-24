@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Dimensions } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Cta from '../cta/Cta';
 import useApp from '../../hooks/useApp';
@@ -12,6 +12,7 @@ import Title from '../Title';
 import Txt from '../Txt';
 import { getLatLngByAddress } from '../../utils/utils';
 import _ from "lodash";
+import useKeyboard from '../../hooks/useKeyboard';
 
 /**
  * filters modal
@@ -24,15 +25,32 @@ export default function FiltersModal({setCriteria}){
     const sheetRef = React.useRef(null);
     const {selectors} = useApp();
 
+    const [filterModalOpen, setFilterModalOpen] = useState(false);
+    const [h, setH] = useState(Dimensions.get("window").height * 0.70);
+    const [keyboardHeight] = useKeyboard();
+
+    useEffect(() => {
+        setH(Dimensions.get("window").height * 0.70 - keyboardHeight);
+    }, [keyboardHeight])
+
     return (
         <BottomSheet
             ref={sheetRef}
-            snapPoints={[35, "70%"]}
+            snapPoints={[35, h]}
             initialSnap={0}
+            onCloseEnd={() => setFilterModalOpen(false)}
+            onOpenEnd={() => setFilterModalOpen(true)}
             enabledInnerScrolling={true}
             renderHeader={() => (
                 <Cta _style={filtersModal.ctaTitle}
-                    onPress={() => sheetRef.current.snapTo(1)}
+                    onPress={() => {
+                        if(filterModalOpen){
+                            sheetRef.current.snapTo(0);
+                        }else{
+                            sheetRef.current.snapTo(1);
+                        }
+                        setFilterModalOpen(!filterModalOpen);
+                    }}
                     underlayColor={filtersModal.ctaTitle.backgroundColor}
                 >
                     <View style={[globalStyles.flexRow, globalStyles.justifyCenter, globalStyles.alignCenter, globalStyles.h_100]}>
@@ -42,7 +60,7 @@ export default function FiltersModal({setCriteria}){
                 </Cta>
             )}
             renderContent={() => (
-                <View style={filtersModal.contentContainer}>
+                <View style={[filtersModal.contentContainer]}>
                     <View style={globalStyles.m_10} >
                         <Title type="second">
                             {t(selectors.getLang()).FILTER_BY} :

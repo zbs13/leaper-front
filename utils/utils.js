@@ -10,6 +10,12 @@ import _ from "lodash";
 export const randId = () => '_' + Math.random().toString(36).substr(2, 9);
 
 /**
+ * sort list sports by name => ex: listSport.sort(sortListSport)
+ * @returns 
+ */
+export const sortListSport = (a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
+
+/**
  * create a text ellipse
  * 
  * @param {string} text value
@@ -244,6 +250,20 @@ export const sortMyGEBySearchCriteria = (array, value) => {
 export const sortUsersSearchCriteria = (array, value) => {
     let res = _.filter(array, function(item){
       return item.firstname.toLowerCase().includes(value.toLowerCase()) || item.lastname.toLowerCase().includes(value.toLowerCase())
+    });
+    return res.length !== 0 ? res : null;
+}
+
+/**
+ * sort sports results by search value
+ * 
+ * @param {object} array sports in array
+ * @param {string} value search value
+ * @return {object} sorted array
+ */
+ export const sortSportsSearchCriteria = (array, value) => {
+    let res = _.filter(array, function(item){
+      return item.name.toLowerCase().includes(value.toLowerCase())
     });
     return res.length !== 0 ? res : null;
 }

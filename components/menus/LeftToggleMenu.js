@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Button, Modal  } from 'react-native';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
-import { header, logo, toggleLeftMenu } from '../../assets/styles/styles';
+import { cta, header, logo, toggleLeftMenu } from '../../assets/styles/styles';
 import Cta from '../cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import global from '../../providers/global';
@@ -11,6 +11,9 @@ import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import globalStyles from '../../assets/styles/global';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
+import { sortListSport } from '../../utils/utils';
+import SB from '../search/SearchBar';
+import { sortSportsSearchCriteria } from '../../utils/utils';
 
 /**
  * left menu (sports)
@@ -26,6 +29,12 @@ export default function LeftToggleMenu() {
     const toggleBottomNavigationView = () => {
       setVisible(!visible);
     };
+
+    const [search, setSearch] = useState({
+      searchValue: "",
+      sportsList: global.listSports(selectors.getLang()),
+      sortedSports: null
+    })
 
     return (
       <View>
@@ -48,12 +57,32 @@ export default function LeftToggleMenu() {
               snapPoints={[0, '50%', 20]}
               initialSnapIndex={2}
               renderHandle={() => (
-                <View style={toggleLeftMenu.header}>
-                  <View style={toggleLeftMenu.panelHandle} />
-                  <Button style={{color: global.colors.MAIN_COLOR}} onPress={() => {toggleBottomNavigationView()}} title={t(selectors.getLang()).CLOSE} />
+                <View style={[toggleLeftMenu.header, globalStyles.flexRow, globalStyles.flexBetween]}>
+                  <View style={{flex: 6}}>
+                    <SB
+                      placeholder={t(selectors.getLang()).search.SEARCH_A_SPORT}
+                      onChangeText={(val) => setSearch({
+                        ...search, 
+                        searchValue: val,
+                        sortedSports: sortSportsSearchCriteria(search.sportsList, val)
+                      })}
+                      value={search.searchValue}
+                      cancelButtonTitle={t(selectors.getLang()).CANCEL}
+                      containerStyle={{backgroundColor: "transparent"}}
+                      cancelButtonProps={{color: global.colors.MAIN_COLOR}}
+                    />
+                  </View>
+                  <View style={{flex: 1}}>
+                    <Cta 
+                      _style={[cta.main, cta.first, globalStyles.m_5, globalStyles.alignCenter]} 
+                      onPress={() => {toggleBottomNavigationView()}}
+                    >
+                      <Ionicons name="close" size={20}/>
+                    </Cta>
+                  </View>
                 </View>
               )}
-              data={global.listSports(selectors.getLang()).map((value) => value)}
+              data={(search.sortedSports || search.sportsList).sort(sortListSport).map((value) => value)}
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => (
                 <Cta onPress={() => {
@@ -66,11 +95,12 @@ export default function LeftToggleMenu() {
                     <View style={globalStyles.flex, globalStyles.flexRow}>
                       <Ionicons
                         name= {item.icon}
-                        size={40}
+                        size={25}
                         style={{marginRight: 30}}
+                        color={global.colors.MAIN_COLOR}
                       />
                       <View style={globalStyles.justifyCenter}>
-                        <Txt _style={globalStyles.title_size}> {item.name}</Txt>
+                        <Txt _style={globalStyles.title_size}>{item.name}</Txt>
                       </View>
                     </View>
                   </View>

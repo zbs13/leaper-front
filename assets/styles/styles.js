@@ -225,11 +225,10 @@ export const toggleLeftMenu = StyleSheet.create({
         marginBottom: 20
     },
     item: {
-        padding: 10,
+        padding: 20,
         justifyContent: 'center',
         backgroundColor: 'white',
         alignItems: 'flex-start',
-        marginVertical: 10,
     },
 });
 
