@@ -77,7 +77,8 @@ const l = {
             ERROR_API: "Oups, une erreur est survenue",
             ERROR_DOWNLOAD_FILE: "Une erreur est survenue lors du téléchargement du fichier",
             ERROR_IMPORTING_FILE: "Une erreur est survenue lors de l'importation du document",
-            ERROR_SHARE_FILE: "Une erreur est survenue lors du partage du fichier"
+            ERROR_SHARE_FILE: "Une erreur est survenue lors du partage du fichier",
+            ERROR_EDIT_PASSWORD: "L'ancien mot de passe est invalide"
         },
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
@@ -465,7 +466,8 @@ const l = {
             ERROR_API: "Oops, an error has occurred !",
             ERROR_DOWNLOAD_FILE: "An error occured while downloading file",
             ERROR_IMPORTING_FILE: "An error occured while importing file",
-            ERROR_SHARE_FILE: "An error occured while sharing file"
+            ERROR_SHARE_FILE: "An error occured while sharing file",
+            ERROR_EDIT_PASSWORD: "Old password is wrong"
         },
         message: {
             WRITE_A_MESSAGE: "Write a message...",

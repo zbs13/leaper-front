@@ -11,6 +11,7 @@ import {
 } from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const useGroups = () => {
   const {
@@ -28,25 +29,19 @@ const useGroups = () => {
     fetchById: function(id) {
       return fetchById(id).then((data) => {
         return response(data, function(res){
-          dispatch({
-            type: "UPDATE_GROUPS_BY_ID",
-            payload: res
-          });
-          /**
-           * //TODO get real own id
-           */
-            const myId = 2;
-            /**
-            * 
-            */
+          AsyncStorage.getItem("connectedUserId").then((userId) => {
+            dispatch({
+              type: "UPDATE_GROUPS_BY_ID",
+              payload: res
+            });
             let rightsArr = [];
             let isOwner = false;
-            if(res.owner.id === myId){
+            if(res.owner.id === userId){
               rightsArr = global.rights.ALL;
               isOwner = true;
             }else{
               res.users.map((user, index) => {
-                if(user.id === myId){
+                if(user.id === userId){
                   user.roles.map((role, index) => {
                     if(role.group.id === id){
                       for(let right of role.rights){
@@ -65,6 +60,7 @@ const useGroups = () => {
                 isOwner: isOwner
               }
             });
+          })
         })
       });
     },
@@ -139,7 +135,12 @@ const useGroups = () => {
      */
      updateById: function(id, values){
       return update(id, values).then((data) => {
-        return response(data);
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_GROUPS_BY_ID",
+            payload: res
+          });
+        });
       });
     },
     /**

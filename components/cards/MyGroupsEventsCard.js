@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import useGroups from '../../hooks/useGroups';
 import useEvents from '../../hooks/useEvents';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
-import { manageResponseUI } from '../../context/actions/apiCall';
+import useFirebase from '../../hooks/useFirebase';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import { home, card } from '../../assets/styles/styles';
@@ -13,7 +13,6 @@ import t from '../../providers/lang/translations';
 import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
 import TagNbNotifs from '../tags/TagNbNotifs';
 import ImageIcon from '../icons/ImageIcon';
-import GroupsEventsCardLoader from "../loaders/GroupsEventsCardLoader";
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
 
@@ -27,8 +26,9 @@ export default function MyGroupsEventsCards({ type }) {
 
     const { actions: actionsGroups, selectors: selectorsGroups } = useGroups();
     const { actions: actionsEvents, selectors: selectorsEvents } = useEvents();
-    const { actions: actionsApp, selectors: selectorsApp } = useApp();
-    const { actions: actionsUser, selectors: selectorsUser } = useUsers();
+    const { selectors: selectorsApp } = useApp();
+    const { selectors: selectorsUser } = useUsers();
+    const { actions: firebase } = useFirebase();
     const navigation = useNavigation();
 
     const [groupEvent, setGroupEvent] = useState({
@@ -37,6 +37,8 @@ export default function MyGroupsEventsCards({ type }) {
         nbNotifsGroups: 0,
         nbNotifsEvents: 0
     });
+
+    const [logoUrls, setLogoUrls] = useState([]);
 
     let lang = selectorsApp.getLang();
     let action;
@@ -67,6 +69,22 @@ export default function MyGroupsEventsCards({ type }) {
         return () => { isMounted = false };
     }, [selectorsUser.getConnectedUser()[type]])
 
+    useEffect(() => {
+        let res = logoUrls;
+        let isMounted = true;
+        if (isMounted) {
+            selectorsUser.getConnectedUser()[type].map((value, index) => {
+                if (index < 10 && res.length < selectorsUser.getConnectedUser()[type].length) {
+                    firebase.getGELogo(value.id).then(function(url){
+                        res.push(url)
+                        setLogoUrls(res);
+                    })
+                }
+            })
+        }
+        return () => { isMounted = false };
+    }, [])
+
     return (
         <View style={home.view}>
             <Cta
@@ -91,11 +109,9 @@ export default function MyGroupsEventsCards({ type }) {
                         <Txt _style={[globalStyles.f_bold, globalStyles.c_anth]}>{type === "groups" ? t(lang).group.MY_GROUPS.toUpperCase() : t(lang).event.MY_EVENTS.toUpperCase()}</Txt>
                     </View>
                     <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.w_100]}>
-                        {selectorsUser.getConnectedUser()[type].map((value, index) => {
-                            if (index > groupEvent[nb] - 11) {
-                                return <ImageIcon key={index} src={value.src} />
-                            }
-                        })}
+                        {
+                            logoUrls.map((url, index) => <ImageIcon key={index} src={url || require("../../assets/img/logos/Mini_Leaper_Logo.png")} />)
+                        }
                         {
                             groupEvent[nb] > 10 ? <TagNbGroupsEvents>+{groupEvent[nb] - 10}</TagNbGroupsEvents> : null
                         }

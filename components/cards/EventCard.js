@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
@@ -7,6 +7,7 @@ import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
 import { ellipsisText, getSportById, isInFav } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
+import useFirebase from '../../hooks/useFirebase';
 import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,9 +28,22 @@ export default function EventCard({ item, isMyEvent = false }) {
     
     const {selectors, actions} = useApp();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
+    const {actions: firebase} = useFirebase();
     const navigation = useNavigation();
 
     const inFav = isInFav(selectorsUser.getConnectedUser().bookmarks, item.id);
+
+    const [eventLogo, setEventLogo] = useState(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            firebase.getGELogo(item.id).then(function(url){
+                setEventLogo(url);
+            })
+        }
+        return () => { isMounted = false };
+    }, [])
 
     /**
      * details options for option modal
@@ -139,7 +153,7 @@ export default function EventCard({ item, isMyEvent = false }) {
                     >
                         <View style={[globalStyles.flexColumn, {flex: 1}]}>
                             <Txt _style={globalStyles.ta_c}>{getSportById(selectors.getLang(), item.sportId).name}</Txt>
-                            <ImageIcon _style={card.pic} src={item.src} />
+                            <ImageIcon _style={card.pic} src={eventLogo || require("../../assets/img/logos/Mini_Leaper_Logo.png")} />
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>
                             <Txt ellipsis={50} _style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{item.name}</Txt>

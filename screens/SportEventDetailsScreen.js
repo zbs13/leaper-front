@@ -54,7 +54,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
      * fetch event details by id
      */
     function fetchEventDetails(){
-        actionsEvent.fetchEventDetailsById(id).then((data) => {
+        actionsEvent.fetchById(id).then((data) => {
           manageResponseUI(data,
               lang,
               function (res) {

@@ -9,174 +9,68 @@ import gql from 'graphql-tag';
  * @returns 
  */
 export const fetchById = (id) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
+    return req(
+        'query',
+        gql`query($id: ID){
+            group(
+                where: {
+                    id: $id
+                }
+            ),{
+                id,
+                name,
+                description,
+                owner{
+                    id
+                },
+                roles{
+                    id,
+                    name,
+                    rights{
+                        id
+                    }
+                },
+                users{
+                    id,
+                    firstname,
+                    lastname,
+                    birthdate,
+                    fav_sport,
+                    create_at,
+                    email,
+                    country,
+                    phone,
+                    events{
+                        id,
+                        name,
+                        owner{
+                            id
+                        },
+                        description,
+                        users{
+                            id
+                        }
+                    },
+                    friends{
+                        id
+                    },
+                    roles{
+                        id,
+                        name,
+                        group{
+                            id
+                        },
+                        rights{
+                            id
+                        }
+                    }
+                }
+            }
+        }`, 
+        {
+            id: id
         }
-    }).catch(() => {
-        return {
-            id: 1,
-            name: "le groupe 3",
-            description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
-            owner: {
-                id: 2
-            },
-            roles: [{
-                id: 1,
-                name: "le roole",
-                rights: [{
-                    id: 1
-                },
-                {
-                    id: 3
-                }]
-            },
-            {
-                id: 2,
-                name: "le rooooole 2",
-                rights: [{
-                    id: 2
-                },
-                {
-                    id: 4
-                }]
-            }],
-            users: [{
-                id: 1,
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                firstname: "Ta",
-                lastname: "gueule",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 7
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 3,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 4,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                },
-                {
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 2
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        },
-                        {
-                            id: 3
-                        }
-                    ]
-                }],
-            },{
-                id: 5,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 6,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 7,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                    ]
-                }],
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        }
-    })
+    )
 }
 
 /**
@@ -882,13 +776,60 @@ export const fetchById = (id) => {
  * @param {object} datas datas to update
  */
  export const update = (id, datas) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
-    })
+     console.log(datas);
+     console.log(id);
+    return req(
+        'mutation',
+        gql`mutation(
+            $id: ID, 
+            $name: String,
+            $description: String){
+            updateGroup(
+                data: {
+                    name: $name,
+                    description: $description
+                },
+                where: {
+                    id: $id
+                }
+            ),{
+                id, 
+                name,
+                description,
+                owner{
+                    id
+                },
+                roles{
+                    id,
+                    name,
+                    rights{
+                        id
+                    }
+                },
+                users{
+                    id,
+                    firstname,
+                    lastname,
+                    roles{
+                        id,
+                        name,
+                        group{
+                            id
+                        },
+                        rights{
+                            id
+                        }
+                    }
+                }
+            }
+        }`, 
+        {
+            id: id, 
+            name: datas.name,
+            description: datas.description
+        },
+        true
+    )
 }
 
 /**

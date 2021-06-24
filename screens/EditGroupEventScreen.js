@@ -21,10 +21,7 @@ export default function EditGroupEventScreen({navigation, route}) {
             headerTitle: `${t(selectors.getLang()).EDITING} : ${infos.name}`
         });
     }, [])
-
-    console.log(id);
-    console.log(infos);
-
+    
     return (
         <View>
             {

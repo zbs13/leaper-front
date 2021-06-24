@@ -259,6 +259,15 @@ export default function ProfileInfosForm({isEdit = false}) {
                                         firebase.putUserProfilePic(res.signup.user.id, getValues.profilePic);
                                     }
                                 }
+                                if(isEdit){
+                                    if(!res.isUpdated){
+                                        actionsApp.addPopupStatus({
+                                            type: "error",
+                                            message: t(selectors.getLang()).errors.ERROR_EDIT_PASSWORD
+                                        });
+                                        return;
+                                    }
+                                }
                                 actionsApp.addPopupStatus({
                                     type: "success",
                                     message: isEdit ? t(selectors.getLang()).success.EDIT_PASSWORD_SUCCESS : t(selectors.getLang()).success.SIGNUP_SUCCESS

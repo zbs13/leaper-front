@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View } from 'react-native';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
@@ -8,6 +8,7 @@ import globalStyles from '../../assets/styles/global';
 import { ellipsisText } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
+import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionsModal from '../modals/OptionsModal';
@@ -27,6 +28,19 @@ export default function GroupCard({ item, isMyGroup = false }) {
     const {selectors} = useApp();
     const {selectors: selectorsUser} = useUsers();
     const navigation = useNavigation();
+    const {actions: firebase} = useFirebase();
+
+    const [groupLogo, setGroupLogo] = useState(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            firebase.getGELogo(item.id).then(function(url){
+                setGroupLogo(url);
+            })
+        }
+        return () => { isMounted = false };
+    }, [])
 
     /**
      * main options in options modal (for swipeable option)
@@ -81,7 +95,7 @@ export default function GroupCard({ item, isMyGroup = false }) {
                         style={[card.cardContainer, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.flexBetween]}
                     >
                         <View style={{flex: 1}}>
-                            <ImageIcon _style={card.pic} src={item.src} />
+                            <ImageIcon _style={card.pic} src={groupLogo || require("../../assets/img/logos/Mini_Leaper_Logo.png")} />
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>
                             <Txt ellipsis={50} _style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{item.name}</Txt>

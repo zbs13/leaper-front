@@ -2,8 +2,7 @@ import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
 import { 
   fetchByCriteria, 
-  fetchById, 
-  fetchEventDetailsById,
+  fetchById,
   fetchMessages, 
   fetchAllSharedContent, 
   update, 
@@ -41,49 +40,6 @@ const useEvents = () => {
       });
     },
     /**
-     * fetch event details by id
-     * 
-     * @param {string} id event id
-     * @returns 
-     */
-    fetchEventDetailsById: function(id) {
-      return fetchEventDetailsById(id).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_EVENTS_BY_ID",
-            payload: res
-          });
-          let rightsArr = [];
-          let isOwner = false;
-          AsyncStorage.getItem("connectedUserId").then(connectedUserId => {
-            if(res.owner.id === connectedUserId){
-              rightsArr = global.rights.ALL;
-              isOwner = true;
-            }else{
-              res.users.map((index, user) => {
-                if(user.id === connectedUserId){
-                  user.roles.map((index, role) => {
-                    if(role.event.id === id){
-                      for(let right of role.rights){
-                        rightsArr.push(right.id);
-                      }
-                    }
-                  })
-                }
-              })
-            }
-            dispatch({
-              type: "UPDATE_MY_RIGHTS",
-              payload: {
-                rights: rightsArr,
-                isOwner: isOwner
-              }
-            });
-          })
-        })
-      })
-    },
-    /**
      * fetch event by id
      * 
      * @param {string} id event id
@@ -92,44 +48,39 @@ const useEvents = () => {
     fetchById: function(id) {
       return fetchById(id).then((data) => {
         return response(data, function(res){
-          dispatch({
-            type: "UPDATE_EVENTS_BY_ID",
-            payload: res
-          });
-          /**
-           * //TODO get real own id
-           */
-          const myId = 2;
-          /**
-           * 
-           */
-          let rightsArr = [];
-          let isOwner = false;
-          if(res.owner.id === myId){
-            rightsArr = global.rights.ALL;
-            isOwner = true;
-          }else{
-            res.users.map((index, user) => {
-              if(user.id === myId){
-                user.roles.map((index, role) => {
-                  if(role.event.id === id){
-                    
-                    for(let right of role.rights){
-                      rightsArr.push(right.id);
+          AsyncStorage.getItem("connectedUserId").then((userId) => {
+            dispatch({
+              type: "UPDATE_EVENTS_BY_ID",
+              payload: res
+            });
+            let rightsArr = [];
+            let isOwner = false;
+            if(res.owner.id === userId){
+              rightsArr = global.rights.ALL;
+              isOwner = true;
+            }else{
+              res.users.map((index, user) => {
+                if(user.id === userId){
+                  user.roles.map((index, role) => {
+                    if(role.event.id === id){
+                      
+                      for(let right of role.rights){
+                        rightsArr.push(right.id);
+                      }
                     }
-                  }
-                })
-              }
-            })
-          }
-
-          dispatch({
-            type: "UPDATE_MY_RIGHTS",
-            payload: {
-              rights: rightsArr,
-              isOwner: isOwner
+                  })
+                }
+              })
             }
-          });
+
+            dispatch({
+              type: "UPDATE_MY_RIGHTS",
+              payload: {
+                rights: rightsArr,
+                isOwner: isOwner
+              }
+            });
+          })
         })
       });
     },
@@ -204,7 +155,12 @@ const useEvents = () => {
      */
     updateById: function(id, values){
       return update(id, values).then((data) => {
-        return response(data);
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_EVENTS_BY_ID",
+            payload: res
+          });
+        });
       });
     },
     /**

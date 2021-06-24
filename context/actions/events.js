@@ -84,12 +84,12 @@ export const fetchByCriteria = (criteria) => {
 }
 
 /**
- * fetch event details by id
+ * fetch events by id
  * 
  * @param {number} id event id 
  * @returns 
  */
-export const fetchEventDetailsById = (id) => {
+export const fetchById = (id) => {  
     return req(
         'query',
         gql`query($id: ID){
@@ -99,24 +99,55 @@ export const fetchEventDetailsById = (id) => {
                 }
             ),{
                 id,
+                name,
+                description,
+                sportId,
                 location{
                     latitude,
                     longitude
-                },
-                name,
-                address,
-                description,
-                start_hour,
-                end_hour,
-                date,
-                sportId,
+                }
                 owner{
                     id
                 },
+                address,
+                start_hour,
+                end_hour,
+                date,
+                roles{
+                    id,
+                    name,
+                    rights{
+                        id
+                    }
+                },
                 users{
                     id,
+                    firstname,
+                    lastname,
+                    birthdate,
+                    fav_sport,
+                    create_at,
+                    email,
+                    country,
+                    phone,
+                    events{
+                        id,
+                        name,
+                        owner{
+                            id
+                        },
+                        description,
+                        users{
+                            id
+                        }
+                    },
+                    friends{
+                        id
+                    },
                     roles{
-                        event{
+                        id,
+                        name,
+                        group{
                             id
                         },
                         rights{
@@ -128,175 +159,8 @@ export const fetchEventDetailsById = (id) => {
         }`, 
         {
             id: id
-        },
-        true
-    ) 
-}
-
-/**
- * fetch events by id
- * 
- * @param {number} id event id 
- * @returns 
- */
-export const fetchById = (id) => {  
-
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
         }
-    }).catch(() => {
-        return {
-            id: 7,
-            name: "l'event 3",
-            description: "la descrip  lf,jekfjekfjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
-            sportId: 2,
-            postalCode: 93340,
-            owner: {
-                id: 2
-            },
-            location: {
-                latitude: 46.90049103281167, 
-                longitude: 1.510714120997393
-            },
-            roles: [{
-                id: 1,
-                name: "le rooooole",
-                rights: [{
-                    id: 1
-                },
-                {
-                    id: 3
-                }]
-            }],
-            address: "2 rue de ta mere",
-            startHour: "2021-01-01 22:30:00",
-            endHour: "2021-01-01 23:30:00",
-            date: "2021-05-19 00:00:00",
-            users: [{
-                id: 1,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    event: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 3,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    event: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 4,
-                firstname: "ezf",
-                lastname: "gueuffffffffffffffle",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    event: {
-                        id: 7
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 5,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    event: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 6,
-                firstname: "efsofgsdoàif",
-                lastname: "gueuleds^pfgiosdàogisçoghiujhçg",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    event: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 7,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    event: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        }
-    })
+    )
 }
 
 /**
@@ -440,13 +304,91 @@ export const fetchAllSharedContent = (id, offset) => {
  * @param {object} datas datas to update
  */
 export const update = (id, datas) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
-    })
+    return req(
+        'mutation',
+        gql`mutation(
+            $id: ID, 
+            $name: String!,
+            $description: String,
+            $address: String,
+            $latitude: Float,
+            $longitude: Float,
+            $start_hour: DateTime,
+            $end_hour: DateTime,
+            $date: DateTime,
+            $sportId: Int
+            ){
+            updateEvent(
+                data: {
+                    name: $name,
+                    description: $description,
+                    address: $address,
+                    location: {
+                        create: {
+                            latitude: $latitude,
+                            longitude: $longitude
+                        }
+                    },
+                    start_hour: $start_hour,
+                    end_hour: $end_hour,
+                    date: $date,
+                    sportId: $sportId
+                },
+                where: {
+                    id: $id
+                }
+            ),{
+                id,
+                location{
+                    latitude,
+                    longitude
+                },
+                name,
+                address,
+                description,
+                start_hour,
+                end_hour,
+                date,
+                sportId,
+                owner{
+                    id
+                },
+                users{
+                    id,
+                    firstname,
+                    lastname,
+                    roles{
+                        event{
+                            id
+                        },
+                        rights{
+                            id
+                        }
+                    }
+                },
+                roles{
+                    id,
+                    name,
+                    rights{
+                        id
+                    }
+                }
+            }
+        }`, 
+        {
+            id: id, 
+            name: datas.name,
+            description: datas.description,
+            address: datas.address,
+            latitude: datas.location.latitude,
+            longitude: datas.location.longitude,
+            start_hour: datas.startHour,
+            end_hour: datas.endHour,
+            date: datas.date,
+            sportId: datas.sportId
+        },
+        true
+    )
 }
 
 /**

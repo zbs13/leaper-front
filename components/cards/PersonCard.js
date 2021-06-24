@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View } from 'react-native';
 import useGroups from '../../hooks/useGroups';
 import useEvents from '../../hooks/useEvents';
 import useUsers from '../../hooks/useUsers';
+import useFirebase from '../../hooks/useFirebase';
 import useApp from '../../hooks/useApp';
 import { manageResponseUI } from '../../context/actions/apiCall';
 import Cta from '../cta/Cta';
@@ -37,12 +38,15 @@ export default function PersonCard({
     addAsFriend = false,
     geId = null,
 }) {
-
+    
     const navigation = useNavigation();
     const {selectors: selectorsEvent, actions: actionsEvent} = useEvents();
     const {selectors: selectorsGroup, actions: actionsGroup} = useGroups();
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
+    const {actions: firebase} = useFirebase();
     const { selectors: selectorsUser } = useUsers();
+
+    const [userProfilePic, setUserProfilePic] = useState(null);
 
     let selector = selectorsGroup;
     let action = actionsGroup;
@@ -50,6 +54,16 @@ export default function PersonCard({
         selector = selectorsEvent;
         action = actionsEvent;
     }
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            firebase.getUserProfilePic(datas.id).then(function(url){
+                setUserProfilePic(url);
+            })
+        }
+        return () => {isMounted = false};
+    }, [])
 
     const personOptions = [
         {
@@ -113,7 +127,7 @@ export default function PersonCard({
                     <View style={[globalStyles.w_100, globalStyles.flexRow, globalStyles.flexBetween, globalStyles.alignCenter]}>
                         <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                             <View style={personCard.profilePic}>
-                                <BackgroundImage isRound image={{uri: datas.src}}/>
+                                <BackgroundImage isRound image={userProfilePic !== null ? {uri: userProfilePic} : require("../../assets/img/icons/default_profile_pic.png")}/>
                             </View>
                             <View style={globalStyles.flexColumn}>
                                 <View style={globalStyles.p_5}>

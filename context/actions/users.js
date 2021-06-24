@@ -176,7 +176,8 @@ export const fetchUserById = (id) => {
                     description,
                     users{
                         id
-                    }
+                    },
+                    sportId
                 },
                 friends{
                     id
@@ -657,20 +658,20 @@ export const fetchConnectedUserGroups = () => {
     return AsyncStorage.getItem("connectedUserId").then(userId => {
         return req(
             'mutation',
-            gql`mutation($userId: ID, $password: String){
-                updateUser(
+            gql`mutation($userId: ID, $password: String!, $oldPassword: String!){
+                updatePassword(
+                    password: $oldPassword,
+                    newPassword: $password,
                     where: {
                         id: $userId
-                    },
-                    data: {
-                        password: $password
                     }
                 ),{
-                    id
+                    isUpdated
                 }
             }`, 
             {
                 userId: userId,
+                oldPassword: oldPassword,
                 password: newPassword
             },
             true
