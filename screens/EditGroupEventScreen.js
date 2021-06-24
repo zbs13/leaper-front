@@ -22,6 +22,9 @@ export default function EditGroupEventScreen({navigation, route}) {
         });
     }, [])
 
+    console.log(id);
+    console.log(infos);
+
     return (
         <View>
             {
@@ -36,8 +39,7 @@ export default function EditGroupEventScreen({navigation, route}) {
                         startHourValue={infos.startHour}
                         endHourValue={infos.endHour}
                         addressValue={infos.address}
-                        locationValue={infos.location}
-                        picSrc={infos.src}
+                        locationValue={infos.location[0]}
                     />
                 :
                     <CreateEditGroupForm 
@@ -45,7 +47,6 @@ export default function EditGroupEventScreen({navigation, route}) {
                         groupId={id}
                         nameValue={infos.name}
                         descriptionValue={infos.description}
-                        picSrc={infos.src}
                     />
             }
         </View>

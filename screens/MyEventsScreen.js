@@ -43,6 +43,7 @@ export default React.memo(function MyEventsScreen({navigation}) {
         results: selectorsUser.getConnectedUser().events
       })
     }
+    return () => { isMounted = false };
   }, [selectorsUser.getConnectedUser().events])
 
   /**

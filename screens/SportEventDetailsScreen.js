@@ -46,7 +46,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
     useEffect(() => {
         navigation.setOptions({
           headerTitle: title,
-          headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} /> : null
+          headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} geId={id} /> : null
         });
     }, [isLoaded, selectorsUser.getConnectedUser().bookmarks]);
 

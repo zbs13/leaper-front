@@ -41,6 +41,7 @@ export default React.memo(function MyGroupsScreen({navigation}) {
         results: selectorsUser.getConnectedUser().groups
       })
     }
+    return () => { isMounted = false };
   }, [selectorsUser.getConnectedUser().groups])
 
   let lang = selectorsApp.getLang();

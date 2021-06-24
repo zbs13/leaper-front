@@ -77,6 +77,28 @@ const useUsers = () => {
       });
     },
     /**
+     * main state update
+     * 
+     * @param {object} toUpdate parameters to update
+     */
+    update: function(toUpdate){
+      dispatch({
+        type: "UPDATE",
+        payload: toUpdate,
+      });
+    },
+    /**
+     * mupdate connected user profile pic
+     * 
+     * @param {string} url connected user profile pic url
+     */
+     updateConnectedUserProfilePic: function(url){
+      dispatch({
+        type: "UPDATE_CONNECTED_USER_PROFILE_PIC",
+        payload: url,
+      });
+    },
+    /**
      * update user connection status
      * 
      * @param {boolean} isConnected is user connected
@@ -220,7 +242,8 @@ const useUsers = () => {
   const selectors = {
     getUser: () => usersState.user,
     isConnected: () => usersState.isConnected,
-    getConnectedUser: () => usersState.connectedUser
+    getConnectedUser: () => usersState.connectedUser,
+    getConnectedUserProfilePic: () => usersState.connectedUserProfilePic
   };
 
   return { selectors, actions };

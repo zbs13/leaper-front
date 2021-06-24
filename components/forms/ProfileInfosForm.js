@@ -34,7 +34,7 @@ export default function ProfileInfosForm({isEdit = false}) {
     const navigation = useNavigation();
     
     const [getValues, setValues] = useState({
-        profilePic: isEdit ? selectorsUsers.getConnectedUser().profilePic : null,
+        profilePic: isEdit ? selectorsUsers.getConnectedUserProfilePic() : null,
         birthdate: isEdit ? selectorsUsers.getConnectedUser().birthdate : null,
         lastname: isEdit ? selectorsUsers.getConnectedUser().lastname : null,
         firstname: isEdit ? selectorsUsers.getConnectedUser().firstname : null,
@@ -199,7 +199,11 @@ export default function ProfileInfosForm({isEdit = false}) {
                                     selectors.getLang(),
                                     function (res) {
                                         if(getValues.profilePic !== null && getValues.profilePic !== "" && getValues.profilePic !== undefined){
-                                            firebase.putUserProfilePic(res.id, getValues.profilePic);
+                                            firebase.putUserProfilePic(res.id, getValues.profilePic, function(){
+                                                firebase.getUserProfilePic(res.id).then(function(url){
+                                                    actionsUsers.updateConnectedUserProfilePic(url);
+                                                })
+                                            });
                                         }
                                         actionsApp.addPopupStatus({
                                             type: "success",

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import globalStyles from '../../assets/styles/global';
 import { cta } from '../../assets/styles/styles';
 import useApp from '../../hooks/useApp';
+import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Txt from '../Txt';
 import global from '../../providers/global';
@@ -31,7 +32,6 @@ import { addHours } from 'date-fns';
  * @param {string} endHourValue event end hour
  * @param {string} addressValue event address
  * @param {object|null} locationValue address location => latitude, longitude
- * @param {string|null} picSrc event picture
  * @returns 
  */
 export default function CreateEditEventForm({
@@ -44,12 +44,12 @@ export default function CreateEditEventForm({
     startHourValue = "",
     endHourValue = "",
     addressValue = "",
-    locationValue = null,
-    picSrc = null
+    locationValue = null
 }){
 
     const {selectors, actions: actionsApp} = useApp();
     const {actions: actionsEvent} = useEvents();
+    const {actions: firebase} = useFirebase();
     const navigation = useNavigation();
 
     const [geValues, setGeValues] = useState({
@@ -61,7 +61,7 @@ export default function CreateEditEventForm({
         endHour: endHourValue !== "" ? endHourValue : addHours(new Date(), 1).toISOString(),
         address: addressValue,
         location: locationValue,
-        pic: picSrc
+        pic: null
     });
 
     const [fieldErrors, setFieldErrors] = useState({
@@ -78,6 +78,19 @@ export default function CreateEditEventForm({
         title: t(selectors.getLang()).NO_ACCESS_GRANTED,
         content: t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA
     })
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted && isEdit){
+            firebase.getGELogo(eventId).then(function(url){
+                setGeValues({
+                    ...geValues,
+                    pic: url
+                })
+            });
+        }
+        return () => {isMounted = false};
+    }, [])
 
     return(
         <View style={globalStyles.h_100}>
@@ -221,6 +234,9 @@ export default function CreateEditEventForm({
                                 manageResponseUI(data,
                                     selectors.getLang(),
                                     function (res) {
+                                        if(geValues.pic !== null){
+                                            firebase.putGELogo(res.id, geValues.pic);
+                                        }
                                         actionsApp.addPopupStatus({
                                             type: "success",
                                             message: t(selectors.getLang()).success.EDIT_SUCCESS
@@ -236,6 +252,9 @@ export default function CreateEditEventForm({
                             manageResponseUI(data,
                                 selectors.getLang(),
                                 function (res) {
+                                    if(geValues.pic !== null){
+                                        firebase.putGELogo(res.id, geValues.pic);
+                                    }
                                     actionsApp.addPopupStatus({
                                         type: "success",
                                         message: t(selectors.getLang()).success.CREATE_SUCCESS

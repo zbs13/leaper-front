@@ -49,6 +49,10 @@ const useEvents = () => {
     fetchEventDetailsById: function(id) {
       return fetchEventDetailsById(id).then((data) => {
         return response(data, function(res){
+          dispatch({
+            type: "UPDATE_EVENTS_BY_ID",
+            payload: res
+          });
           let rightsArr = [];
           let isOwner = false;
           AsyncStorage.getItem("connectedUserId").then(connectedUserId => {

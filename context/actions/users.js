@@ -118,6 +118,7 @@ export const editProfile = ({firstname, lastname, email, phone, country, birthda
                         id: $userId
                     }
                 ),{
+                    id,
                     firstname,
                     lastname,
                     email,

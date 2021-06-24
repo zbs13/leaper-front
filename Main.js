@@ -14,6 +14,7 @@ import { FirebaseProvider } from "./context/firebaseContext";
 import { RolesProvider } from './context/rolesContext';
 import { deviceYearClass, modelName } from 'expo-device';
 import { manageResponseUI } from './context/actions/apiCall';
+import useFirebase from './hooks/useFirebase';
 
 export default function Main() {
 
@@ -23,6 +24,7 @@ export default function Main() {
 
     const {actions, selectors} = useApp();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
+    const {actions: actionsFirebase} = useFirebase();
 
     /**
      * configure status bar height according to os
@@ -82,23 +84,28 @@ export default function Main() {
                 });
             }else{
                 if(isConnected === "true"){
-                    actionsUser.fetchConnectedUser().then((data) => {
-                        manageResponseUI(data,
-                          selectors.getLang(),
-                          function (res) {
-                            if(isMounted){
-                                actionsUser.updateIsConnected(true)
+                    if(isMounted){
+                        actionsUser.fetchConnectedUser().then((data) => {
+                            manageResponseUI(data,
+                            selectors.getLang(),
+                            async function (res) {
+                                let profilePic = await actionsFirebase.getUserProfilePic(res.id);
+                                actionsUser.update({
+                                    isConnected: true,
+                                    connectedUserProfilePic: profilePic
+                                });
                                 setState({
                                     isLoaded: true
                                 });
-                            }
-                          },
-                          function (error) {
-                            if(isMounted){
-                                actions.addPopupStatus(error);
-                            }
-                          })
-                    })
+                            },
+                            function (error) {
+                                if(isMounted){
+                                    actions.addPopupStatus(error);
+                                }
+                            })
+                            
+                        })
+                    }
                 }else{
                     if(isMounted){
                         setState({
@@ -125,15 +132,13 @@ export default function Main() {
                     behavior={(Platform.OS === 'ios') ? "padding" : ""}
                     style={{flex: 1}}
                 >
-                    <FirebaseProvider>
-                        <EventsProvider>
-                            <GroupsProvider>
-                                <RolesProvider>
-                                    <AppScreenManager />
-                                </RolesProvider>
-                            </GroupsProvider>
-                        </EventsProvider>
-                    </FirebaseProvider>
+                    <EventsProvider>
+                        <GroupsProvider>
+                            <RolesProvider>
+                                <AppScreenManager />
+                            </RolesProvider>
+                        </GroupsProvider>
+                    </EventsProvider>
                 </KeyboardAvoidingView>
                 {selectors.getSearchBar() !== null 
                     &&

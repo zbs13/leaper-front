@@ -2,6 +2,7 @@ export const initialState = {
     fetchedByCriteria: [],
     nbFetchedByCriteria: 0,
     fetchedById: {},
+    fetchedDetailsById: {},
     messages: [],
     myRights: [],
     isOwner: false,
@@ -26,6 +27,11 @@ export const initialState = {
         return {
           ...state,
           fetchedById: action.payload
+        };
+      case "UPDATE_EVENTS_DETAILS_BY_ID":
+        return {
+          ...state,
+          fetchedDetailsById: action.payload
         };
       case "UPDATE_EVENTS_MESSAGES":
         let __val = action.payload;

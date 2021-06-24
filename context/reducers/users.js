@@ -1,7 +1,8 @@
 export const initialState = {
     user: {},
     isConnected: false,
-    connectedUser: {}
+    connectedUser: {},
+    connectedUserProfilePic: null
 };
   
   /**
@@ -26,6 +27,16 @@ export const initialState = {
                     ...state.connectedUser,
                     ...action.payload
                 }
+            }
+        case "UPDATE_CONNECTED_USER_PROFILE_PIC":
+            return {
+                ...state,
+                connectedUserProfilePic: action.payload
+            }
+        case "UPDATE":
+            return {
+                ...state,
+                ...action.payload
             }
         case "UPDATE_IS_CONNECTED":
             return {

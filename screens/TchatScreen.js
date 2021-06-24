@@ -49,7 +49,11 @@ export default function TchatScreen({navigation, route}) {
   let lang = selectorsApp.getLang();
 
   useEffect(() => {
-    fetchAllById();
+    let isMounted = true;
+    if(isMounted){
+      fetchAllById();
+    }
+    return () => { isMounted = false };
   }, [ts.offset]);
 
   useEffect(() => {

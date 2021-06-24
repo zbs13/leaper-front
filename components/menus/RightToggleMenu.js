@@ -43,11 +43,11 @@ export default function RightToggleMenu() {
       if(isMounted){
         setMainHeaderState({
           ...mainHeaderState,
-          profilePic: selectorsUser.getConnectedUser().src !== "" && selectorsUser.getConnectedUser().src !== null ? selectorsUser.getConnectedUser().src : null
+          profilePic: selectorsUser.getConnectedUserProfilePic()
         })
       }
       return () => { isMounted = false };
-    }, [selectorsUser.getConnectedUser().src]);
+    }, [selectorsUser.getConnectedUserProfilePic()]);
 
     return (
       <View >
