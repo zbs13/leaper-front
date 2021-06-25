@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import FirebaseContext from "../context/firebaseContext";
 import {} from '../context/actions/firebase';
-import { ext, blobFromUri } from '../utils/utils';
+import { ext, blobFromUri, urlNoParams } from '../utils/utils';
 
 const useFirebase = () => {
   const { fb } = useContext(FirebaseContext);
@@ -13,14 +13,14 @@ const useFirebase = () => {
      * 
      * @param {string} elementId element id to get 
      */
-    getElementURLFromStorage: (elementId) => {
-        let element = storage.ref(elementId);
-        element.getDownloadURL().then(url => {
-            console.log(url);
-        }).catch(function(error){
-            console.log(error)
-        })
-    },
+    // getElementURLFromStorage: (elementId) => {
+    //     let element = storage.ref(elementId);
+    //     element.getDownloadURL().then(url => {
+    //         console.log(url);
+    //     }).catch(function(error){
+    //         console.log(error)
+    //     })
+    // },
     /**
      * get user profile pic
      * 
@@ -90,7 +90,37 @@ const useFirebase = () => {
         }).catch(function(){
             return null;
         });
-    }
+    },
+    /**
+     * get shared content
+     * 
+     * @param {string} geId group/event id
+     * @param {number} limit results limit to fetch
+     * @param {function} callback return function
+     */
+     getSharedContent: (geId, limit, callback) => {
+        let element = storage.ref(`${geId}/shared`);
+        element.list({maxResults: limit}).then(function(result){
+            result.items.map(res => {
+                res.getDownloadURL().then(function(url){
+                    let urlMetadatas = urlNoParams(url);
+                    fetch(urlMetadatas).then((result) => 
+                        result.json()
+                    ).then((res) => {
+                        callback({
+                            ...res,
+                            downloadUrl: url
+                        })
+                    })
+                }).catch(function(){
+                    callback(null);
+                })
+            })
+            callback(null);
+        }).catch(function(){
+            callback(null);
+        });
+    },
   };
 
   return { actions };

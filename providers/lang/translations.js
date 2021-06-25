@@ -356,14 +356,14 @@ const l = {
         changeNotifications: {
             TITLE: 'Notifications',
             TITLE_MESSAGE: 'Messages',
-            TITLE_MESSAGE_PRIVATE: 'Messages des discutions',
-            TITLE_MESSAGE_EVENT: 'Messages des évènements',
+            TITLE_MESSAGE_GROUP: 'Messages de groupe',
+            TITLE_MESSAGE_EVENT: 'Messages d\'évènement',
             TITLE_ADD: 'Invitations',
-            TITLE_ADD_MESSAGE: 'Invitations à une discutions',
-            TITLE_ADD_EVENT: 'Invitations à un évènement :',
-            TITLE_ADD_FRIEND: 'Invitations d\'ami :',
-            TITLE_REMINDER: 'Rappel :',
-            TITLE_REMINDER_EVENT: 'Me rappeler un évènement :'
+            TITLE_ADD_GROUP: 'Invitations à des groupes',
+            TITLE_ADD_EVENT: 'Invitations à des évènements',
+            TITLE_ADD_FRIEND: 'Invitations d\'amis',
+            TITLE_REMINDER: 'Rappel',
+            TITLE_REMINDER_EVENT: 'Me rappeler un évènement'
         },
         about: {
             TITLE: 'À propos',
@@ -751,15 +751,15 @@ const l = {
         },
         changeNotifications: {
             TITLE: 'Notifications',
-            TITLE_MESSAGE: 'Messages :',
-            TITLE_MESSAGE_PRIVATE: 'Chat message :',
-            TITLE_MESSAGE_EVENT: 'Chat event :',
-            TITLE_ADD: 'Invitation :',
-            TITLE_ADD_MESSAGE: 'Chat invitation :',
-            TITLE_ADD_EVENT: 'Event invitation :',
-            TITLE_ADD_FRIEND: 'Friend invitation :',
-            TITLE_REMINDER: 'Reminder :',
-            TITLE_REMINDER_EVENT: 'Remind me of an event :'
+            TITLE_MESSAGE: 'Messages',
+            TITLE_MESSAGE_GROUP: 'Chat group',
+            TITLE_MESSAGE_EVENT: 'Chat event',
+            TITLE_ADD: 'Invitation',
+            TITLE_ADD_GROUP: 'Group invitation',
+            TITLE_ADD_EVENT: 'Event invitation',
+            TITLE_ADD_FRIEND: 'Friend invitation',
+            TITLE_REMINDER: 'Reminder',
+            TITLE_REMINDER_EVENT: 'Remind me of an event'
         },
         about: {
             TITLE: 'About',

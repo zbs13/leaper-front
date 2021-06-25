@@ -180,10 +180,10 @@ export const fetchById = (id) => {
             id: 1,
             content: "ta mere la pute",
             attachment: {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/830803906027454514/1585832659398.png"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -197,10 +197,10 @@ export const fetchById = (id) => {
             id: 2,
             content: "ta mere la pute 2",
             attachment: {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "video",
-                uri: "https://media.tenor.co/videos/e34c8f6730986f42163745064476eb46/mp4"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -214,10 +214,10 @@ export const fetchById = (id) => {
             id: 3,
             content: "ta mere la pute",
             attachment: {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://tenor.com/byHW4.gif"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -270,28 +270,28 @@ export const fetchAllSharedContent = (id, offset) => {
     }).catch(() => {
         return [
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+                contentType: "image/png",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
             },
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
+                contentType: "image/gif",
+                downloadUrl: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
             },
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "pdf",
-                uri: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
+                contentType: "application/pdf",
+                downloadUrl: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
             },
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "video",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             }
         ]
     })

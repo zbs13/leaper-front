@@ -74,7 +74,7 @@ export default function RightToggleMenu() {
                 value={t(selectors.getLang()).settings.PROFIL}
                 onPress={() => {
                   toggleBottomNavigationView()
-                  navigation.navigate(global.screens.PROFIL_SETTINGS)}}
+                  navigation.navigate(global.screens.PROFILE_SETTINGS)}}
                 underlayColor="transparent"
                 icon="person-outline"
                 iconSize={25}

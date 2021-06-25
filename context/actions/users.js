@@ -2,6 +2,7 @@ import { req } from './apiCall';
 import gql from 'graphql-tag';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import global from '../../providers/global';
+import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 
 export const login = (mail, password) => {
     return req(
@@ -676,5 +677,40 @@ export const fetchConnectedUserGroups = () => {
             },
             true
         )
+    })
+}
+
+/**
+ * edit connected user notifications
+ * 
+ * @param {object} notification name and new value of notification
+ */
+ export const editConnectedUserNotification = (notification) => {
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        const notif = Object.keys(notification)[0];
+        const mutation = {
+            mutation: {
+                updateUser: {
+                    __args: {
+                        where: {
+                            id: userId
+                        },
+                        data: {
+                            [notif]: notification[notif]
+                        }
+                    },
+                    [notif]: true
+                }
+            }
+        };
+    
+        const graphql_mutation = jsonToGraphQLQuery(mutation, { pretty: true });
+    
+        return req(
+            'mutation',
+            gql`${graphql_mutation}`,
+            null,
+            true
+        );
     })
 }

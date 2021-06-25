@@ -16,6 +16,33 @@ export const randId = () => '_' + Math.random().toString(36).substr(2, 9);
 export const sortListSport = (a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
 
 /**
+ * split url to remove params
+ * 
+ * @param {string} url url to split and dont have params 
+ * @returns 
+ */
+export const urlNoParams = (url) => url.split('?')[0];
+
+/**
+ * split content type to get only the file type
+ * 
+ * @param {string} contentType content type
+ * @returns 
+ */
+export const getTypeFromContentType = (contentType) => contentType.split('/')[1];
+
+/**
+ * extract exact file name from path
+ * 
+ * @param {string} path file path
+ * @returns 
+ */
+export const getExactFileNameFromPath = (path) => {
+    let splitted = path.split('/');
+    return splitted[splitted.length - 1];
+}
+
+/**
  * create a text ellipse
  * 
  * @param {string} text value

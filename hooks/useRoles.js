@@ -33,12 +33,13 @@ const useRoles = () => {
      * update a role
      * 
      * @param {boolean} isEvent is an event's role
-     * @param {string} geId group/event id
+     * @param {string} roleId role id to update
      * @param {object} role role object => id, name, rights (format -> [1,2...])
      * @returns 
      */
-    updateRole: function(isEvent, geId, role){
-      return updateRole(isEvent, geId, role).then((data) => {
+    updateRole: function(roleId, role){
+      return updateRole(roleId, role).then((data) => {
+        console.log(data);
         return response(data)
       });
     },

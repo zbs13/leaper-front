@@ -87,7 +87,7 @@ export default function TchatScreen({navigation, route}) {
             actionsApp.addPopupStatus(error);
             setLoader({
               ...loader,
-              isTchatLoaded: false,
+              isTchatLoaded: false
             });
         })
     })

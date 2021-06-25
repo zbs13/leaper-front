@@ -38,7 +38,7 @@ export default global = {
         CHANGE_LANGUAGE: "ChangeLanguage",
         CHANGE_NOTIFICATIONS: "ChangeNotifications",
         ABOUT: "About",
-        PROFIL_SETTINGS: "ProfilSettings"
+        PROFILE_SETTINGS: "ProfileSettings"
     },
     routing: {
         HOME_ROUTING: "HomeRouting",

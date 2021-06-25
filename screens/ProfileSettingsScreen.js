@@ -4,12 +4,12 @@ import t from '../providers/lang/translations';
 import ProfileInfosForm from '../components/forms/ProfileInfosForm';
 
 /**
- * app settings screen
+ * profile settings screen
  * 
  * @param {object} navigation for routing 
  * @returns 
  */
-export default function ProfilSettingsScreen({navigation, isEdit= false}) {
+export default function ProfileSettingsScreen({navigation}) {
 
     const  {selectors} = useApp();
 

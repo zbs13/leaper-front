@@ -12,7 +12,8 @@ import {
   removeBookmark,
   fetchConnectedUserGroups,
   fetchConnectedUserEvents,
-  updateUserPassword
+  updateUserPassword,
+  editConnectedUserNotification
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -68,6 +69,21 @@ const useUsers = () => {
      */
      editProfile: function(datas){
       return editProfile(datas).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_CONNECTED_USER_INFOS",
+            payload: res,
+          });
+        });
+      });
+    },
+    /**
+     * edit connected user notifications
+     * 
+     * @param {object} notification name and new value of notification
+     */
+     editConnectedUserNotification: function(notification){
+      return editConnectedUserNotification(notification).then((data) => {
         return response(data, function(res){
           dispatch({
             type: "UPDATE_CONNECTED_USER_INFOS",
