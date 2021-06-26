@@ -93,19 +93,18 @@ export const getDatesBetweenTwoDates = function(start, end) {
 /**
  * format date for messages
  * 
- * @param {string} date message date to format
+ * @param {object} date message date to format
  * @param {string} lang lang for format
  * @returns {string} correct date format
  */
 export const messageDateFormat = function(date, lang) {
-    let formDate = parseISO(date);
-    if(isToday(formDate)){
-        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(formDate)}`;
-    }else if(isYesterday(formDate)){
-        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(formDate)}`;
+    if(isToday(date)){
+        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(date)}`;
+    }else if(isYesterday(date)){
+        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(date)}`;
     }
 
-    return `${t(lang).datetime.formats.date(format(formDate, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(formDate)}`;
+    return `${t(lang).datetime.formats.date(format(date, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(date)}`;
 }
 
 /**

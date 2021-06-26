@@ -5,6 +5,8 @@ import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
 import useEvents from '../hooks/useEvents';
 import useGroups from '../hooks/useGroups';
+import useUsers from '../hooks/useUsers';
+import useFirebase from '../hooks/useFirebase';
 import { manageResponseUI } from '../context/actions/apiCall';
 import MessageCard from '../components/cards/MessageCard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -33,6 +35,8 @@ export default function TchatScreen({navigation, route}) {
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
   const { actions: actionsGroup, selectors: selectorsGroup } = useGroups();
+  const { selectors: selectorsUser } = useUsers();
+  const { actions: firebase } = useFirebase();
 
   const scrollViewRef = React.useRef();
 
@@ -46,15 +50,25 @@ export default function TchatScreen({navigation, route}) {
     isMoreContentLoading: false
   });
 
+  const [messages, setMessages] = useState([]);
+
   let lang = selectorsApp.getLang();
+
+  useEffect(() => {
+    const msgs = firebase.lastMessagesSnapshot(id, function(msg){
+      const data = msg.docs.map(doc => doc.data());
+      setMessages(data);
+    });
+    return () => msgs();
+  }, [id]);
 
   useEffect(() => {
     let isMounted = true;
     if(isMounted){
-      fetchAllById();
+      fetchById();
     }
     return () => { isMounted = false };
-  }, [ts.offset]);
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -73,8 +87,8 @@ export default function TchatScreen({navigation, route}) {
   /**
    * fetch group/event messages
    */
-  function fetchAllById(){
-    action.fetchAllById(id, ts.offset).then((resp) => {
+  function fetchById(){
+    action.fetchById(id, ts.offset).then((resp) => {
       manageResponseUI(resp,
         lang,
         function (res) {
@@ -186,7 +200,7 @@ export default function TchatScreen({navigation, route}) {
         // }}
       >
         {loader.isTchatLoaded ? 
-          selector.getMessages().map((message, index) => <View key={index}><MessageCard message={message} isEvent={isEvent} /></View>)
+          messages.map((message, index) => <View key={index}><MessageCard message={message} isEvent={isEvent} /></View>)
         :
           <TchatLoader />
         }
@@ -195,10 +209,10 @@ export default function TchatScreen({navigation, route}) {
         <TchatBar
           onChangeInput={() => scrollViewRef.current.scrollToEnd({ animated: true })} 
           onSend={async ({textValue, attachment}) => {
-            await action.sendMessage(id, textValue, attachment);
+            firebase.postMessage(id, selectorsUser.getConnectedUser(), textValue, attachment);
             scrollViewRef.current.scrollToEnd({ animated: true });
           }}
-          />
+        />
       </View>
     </>
   );

@@ -4,6 +4,7 @@ import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
 import useUsers from '../hooks/useUsers';
+import useGroups from '../hooks/useGroups';
 import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
 import { manageResponseUI } from '../context/actions/apiCall';
@@ -26,12 +27,24 @@ export default React.memo(function MyGroupsScreen({navigation}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { selectors: selectorsUser, actions: actionsUser } = useUsers();
+  const { selectors: selectorsGroup, actions: actionsGroup } = useGroups();
 
   const [mgs, setMgs] = useState({
     results: [],
     sortedResults: null,
     searchValue: ""
   });
+
+  useEffect(() => {
+    let isMounted = true;
+    if(isMounted){
+      if(selectorsGroup.needReload()){
+        fetchMyGroups();
+        actionsGroup.updateNeedReload(false);
+      }
+    }
+    return () => { isMounted = false };
+  }, [selectorsGroup.needReload()])
 
   useEffect(() => {
     let isMounted = true;

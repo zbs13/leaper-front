@@ -39,7 +39,6 @@ const useRoles = () => {
      */
     updateRole: function(roleId, role){
       return updateRole(roleId, role).then((data) => {
-        console.log(data);
         return response(data)
       });
     },

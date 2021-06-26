@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { messageCard } from '../../assets/styles/styles';
@@ -14,7 +14,7 @@ import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
-import { messageDateFormat } from '../../utils/utils';
+import { messageDateFormat, urlNoParams } from '../../utils/utils';
 import ContentDisplay from '../display/ContentDisplay';
 import { saveFileOnPhone, shareFile } from '../../utils/phoneFunct';
 import { useNavigation } from '@react-navigation/native';
@@ -27,7 +27,7 @@ import { useNavigation } from '@react-navigation/native';
  * @returns 
  */
 export default function MessageCard({ message, isEvent}) {
-
+    
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
@@ -37,6 +37,7 @@ export default function MessageCard({ message, isEvent}) {
     const isMyMessage = selectorsUser.getConnectedUser().id === message.sentBy.id
 
     const [isSharing, setIsSharing] = useState(false);
+    const [attachment, setAttachment] = useState(null);
 
     let selector = selectorsGroup;
     if(isEvent){
@@ -68,7 +69,7 @@ export default function MessageCard({ message, isEvent}) {
     function displayContent(options){
         return(
             <View>
-                {typeof message.attachment === "object" && Object.entries(message.attachment).length !== 0 ?
+                {message.attachment !== null ?
                     <FileDisplay file={message.attachment} options={options}/>
                 :
                     null
@@ -118,16 +119,16 @@ export default function MessageCard({ message, isEvent}) {
         /**
          * if attachment not void
          */
-         if(message.attachment.type !== undefined && message.attachment !== null){
+         if(message.attachment !== null){
             options.options.splice(1, 0, ...[{
                 value: t(selectorsApp.getLang()).COPY_ATTACHMENT_LINK,
                 icon: "copy-outline",
-                action: () => Clipboard.setString(message.attachment.uri)
+                action: () => Clipboard.setString(message.attachment)
             },
             {
                 value: t(selectorsApp.getLang()).SAVE_ATTACHMENT,
                 icon: "save-outline",
-                action: () => saveFileOnPhone(message.attachment.uri,
+                action: () => saveFileOnPhone(message.attachment,
                     () => {
                         actionsApp.addPopupStatus({
                             type: "error",
@@ -141,7 +142,7 @@ export default function MessageCard({ message, isEvent}) {
                 disabled: isSharing,
                 action: () => {
                     setIsSharing(true);
-                    shareFile(message.attachment.uri,
+                    shareFile(message.attachment,
                         () => {
                             actionsApp.addPopupStatus({
                                 type: "error",
@@ -167,7 +168,7 @@ export default function MessageCard({ message, isEvent}) {
                                 null
                             }
                             <View style={[messageCard.content, isMyMessage ? messageCard.contentMy : messageCard.contentNotMy]}>
-                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{messageDateFormat(message.date, selectorsApp.getLang())}</Txt>
+                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{messageDateFormat(message.createdAt.toDate(), selectorsApp.getLang())}</Txt>
                                 {displayContent(options)}
                             </View>
                         </View>

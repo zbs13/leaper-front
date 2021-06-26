@@ -3,7 +3,8 @@ export const initialState = {
     messages: [],
     myRights: [],
     isOwner: false,
-    sharedContent: []
+    sharedContent: [],
+    needReload: false
 };
   
   /**
@@ -11,6 +12,11 @@ export const initialState = {
    */
   export const reducer = (state, action) => {
     switch (action.type) {
+      case "UPDATE_NEED_RELOAD":
+        return {
+          ...state,
+          needReload: action.payload
+        }
       case "UPDATE_GROUPS_BY_ID":
         return {
           ...state,

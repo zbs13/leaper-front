@@ -884,22 +884,25 @@ export const removeUser = (userId, groupId) => {
 }
 
 /**
- * send a message
+ * delete a group by id
  * 
- * @param {string} userId user id (owner of message)
- * @param {string} groupId group id
- * @param {string} value text value 
- * @param {object} attachment message attachment => 
- *                                        if image/video : height, type, uri, width 
- *                                        if file        : name, size, type, uri
+ * @param {string} id group id to delete
  */
-export const sendMessage = (userId, groupId, value, attachment) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {};
-        return {isError: true}
-    })
+export const deleteById = (id) => {
+    return req(
+        'mutation',
+        gql`mutation($id: ID){
+            deleteGroup(
+                where: {
+                    id: $id
+                }
+            ),{
+                id
+            }
+        }`, 
+        {
+            id: id,
+        },
+        true
+    )
 }

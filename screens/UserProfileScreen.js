@@ -4,7 +4,7 @@ import useApp from '../hooks/useApp';
 import useFirebase from '../hooks/useFirebase';
 import globalStyles from '../assets/styles/global';
 import { manageResponseUI } from '../context/actions/apiCall';
-import { getSportById, isMyFriend } from '../utils/utils';
+import { getSportById, isMyFriend, isUserInEventGroup } from '../utils/utils';
 import Cta from '../components/cta/Cta';
 import Txt from '../components/Txt';
 import t from '../providers/lang/translations';
@@ -94,22 +94,25 @@ export default function UserProfileScreen({navigation, route}) {
                         </View>
                         <View style={globalStyles.mt_10}>
                             {
-                                isMyFriend(user.id, user.friends) ?
-                                    <Cta 
-                                        onPress={() => console.log("DELETE AMI")}
-                                        _style={[cta.main, cta.b_red]}
-                                        value={t(selectorsApp.getLang()).profile.DELETE_FRIEND}
-                                        confirm={{
-                                            title: t(selectorsApp.getLang()).profile.DELETE_FRIEND,
-                                            content: t(selectorsApp.getLang()).profile.SURE_TO_DELETE_FRIEND
-                                        }}
-                                    />
+                                userId !== selectorsUser.getConnectedUser().id ?
+                                    isMyFriend(user.id, user.friends) ?
+                                        <Cta 
+                                            onPress={() => console.log("DELETE AMI")}
+                                            _style={[cta.main, cta.b_red]}
+                                            value={t(selectorsApp.getLang()).profile.DELETE_FRIEND}
+                                            confirm={{
+                                                title: t(selectorsApp.getLang()).profile.DELETE_FRIEND,
+                                                content: t(selectorsApp.getLang()).profile.SURE_TO_DELETE_FRIEND
+                                            }}
+                                        />
+                                    :
+                                        <Cta 
+                                            onPress={() => console.log("ajouter en ami")}
+                                            _style={[cta.main, cta.first]}
+                                            value={t(selectorsApp.getLang()).profile.ADD_AS_FRIEND}
+                                        />
                                 :
-                                    <Cta 
-                                        onPress={() => console.log("ajouter en ami")}
-                                        _style={[cta.main, cta.first]}
-                                        value={t(selectorsApp.getLang()).profile.ADD_AS_FRIEND}
-                                    />
+                                    null
                             }
                         </View>
                     </View>
@@ -201,8 +204,10 @@ export default function UserProfileScreen({navigation, route}) {
                         <View style={[globalStyles.flexColumn, globalStyles.m_5]}>
                             {
                                 user.events.length !== 0 ?
-                                    (user.events).map((event, index) =>
-                                        <EventCard item={event} key={index} />
+                                    (user.events).map((event, index) => {
+                                            let isMyEvent = isUserInEventGroup(selectorsUser.getConnectedUser().events, event.id);
+                                            return <EventCard item={event} isMyEvent={isMyEvent} key={index} />
+                                        }
                                     ) 
                                 :
                                     <Txt>

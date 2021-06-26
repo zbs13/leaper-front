@@ -5,7 +5,8 @@ export const initialState = {
     messages: [],
     myRights: [],
     isOwner: false,
-    sharedContent: []
+    sharedContent: [],
+    needReload: false
 };
   
   /**
@@ -13,6 +14,11 @@ export const initialState = {
    */
   export const reducer = (state, action) => {
     switch (action.type) {
+      case "UPDATE_NEED_RELOAD":
+        return {
+          ...state,
+          needReload: action.payload
+        }
       case "UPDATE_EVENTS_BY_CRITERIA":
         let _val = action.payload;
         if(action.offset !== 0)

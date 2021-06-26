@@ -459,33 +459,12 @@ export const update = (id, datas) => {
  * @param {*} userId user id to remove from an event
  * @param {*} eventId event id
  */
- export const removeUser = (userId, eventId) => {
+export const removeUser = (userId, eventId) => {
     return fetch("https://sdgdfghrdh.fr").then(() => {
         return {
             id: 2
         }
     }).catch(() => {
-        return {isError: true}
-    })
-}
-
-/**
- * send a message
- * 
- * @param {string} userId user id (owner of message)
- * @param {string} eventId event id
- * @param {string} value text value 
- * @param {object} attachment message attachment => 
- *                                        if image/video : height, type, uri, width 
- *                                        if file        : name, size, type, uri
- */
- export const sendMessage = (userId, eventId, value, attachment) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {};
         return {isError: true}
     })
 }
@@ -496,7 +475,7 @@ export const update = (id, datas) => {
  * @param {string} eventId event id
  * @param {string} userId user id to add
  */
- export const addUserToEvent = (eventId, userId) => {
+export const addUserToEvent = (eventId, userId) => {
     return req(
         'mutation',
         gql`mutation($idEvent: ID, $userId: ID){
@@ -515,4 +494,28 @@ export const update = (id, datas) => {
         },
         true
     )
-  }
+}
+
+/**
+ * delete an event by id
+ * 
+ * @param {string} id event id to delete
+ */
+export const deleteById = (id) => {
+    return req(
+        'mutation',
+        gql`mutation($id: ID){
+            deleteEvent(
+                where: {
+                    id: $id
+                }
+            ),{
+                id
+            }
+        }`, 
+        {
+            id: id,
+        },
+        true
+    )
+}

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import SB from '../components/search/SearchBar';
 import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
+import useEvents from '../hooks/useEvents';
 import useUsers from '../hooks/useUsers';
 import globalStyles from '../assets/styles/global';
 import global from '../providers/global';
@@ -26,6 +27,7 @@ export default React.memo(function MyEventsScreen({navigation}) {
 
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { selectors: selectorsUser, actions: actionsUser } = useUsers();
+  const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
 
   const [mes, setMes] = useState({
       results: [],
@@ -34,6 +36,17 @@ export default React.memo(function MyEventsScreen({navigation}) {
   });
 
   let lang = selectorsApp.getLang();
+
+  useEffect(() => {
+    let isMounted = true;
+    if(isMounted){
+      if(selectorsEvent.needReload()){
+        fetchMyEvents();
+        actionsEvent.updateNeedReload(false);
+      }
+    }
+    return () => { isMounted = false };
+  }, [selectorsEvent.needReload()])
 
   useEffect(() => {
     let isMounted = true;

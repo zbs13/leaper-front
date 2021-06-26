@@ -15,6 +15,7 @@ export const FirebaseProvider = ({ children }) => {
 
     let fb = {
         firestore: firebase.firestore(),
+        firestoreAsObf: firebase.firestore,
         storage: firebase.storage()
     }
 

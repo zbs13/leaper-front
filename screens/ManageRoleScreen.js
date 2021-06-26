@@ -46,9 +46,13 @@ export default function ManageRoleScreen({navigation, route}) {
     }, [])
 
     useEffect(() => {
-        if(selectorsRole.needReload()){
-            fetchRoles();
+        let isMounted = true;
+        if(isMounted){
+            if(selectorsRole.needReload()){
+                fetchRoles();
+            }
         }
+        return () => { isMounted = false };
     }, [selectorsRole.needReload()])
 
     /**

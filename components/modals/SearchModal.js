@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useState, useEffect } from 'react';
 import { View, Modal } from 'react-native';
 import SB from '../search/SearchBar';
 import useApp from '../../hooks/useApp';
@@ -20,6 +20,10 @@ export default function SearchModal({type}) {
         value: "",
         res: []
     });
+
+    useEffect(() => {
+        console.log("zojed");
+    }, [search.value])
 
     const searchBarRef = createRef();
 

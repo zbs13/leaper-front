@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import FirebaseContext from "../context/firebaseContext";
 import {} from '../context/actions/firebase';
-import { ext, blobFromUri, urlNoParams } from '../utils/utils';
+import { ext, blobFromUri, urlNoParams, getExactFileNameFromPath } from '../utils/utils';
 
 const useFirebase = () => {
   const { fb } = useContext(FirebaseContext);
-  const { firestore, storage } = fb;
+  const { firestore, firestoreAsObf, storage } = fb;
 
   const actions = {
     /**
@@ -121,6 +121,80 @@ const useFirebase = () => {
             callback(null);
         });
     },
+    /**
+     * get last messages in real time
+     * 
+     * @param {string} id group/event id 
+     */
+     lastMessagesSnapshot: (id, callback) => {
+        return firestore
+            .collection(id)
+            .orderBy("createdAt", "asc")
+            .limit(50)
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
+    /**
+     * 
+     * @param {string} id group/event id 
+     * @param {object} user user who post the message (connected user id)
+     * @param {string} textValue message text
+     * @param {object} attachment attchment object
+     */
+    postMessage: (id, user, textValue, attachment) => {
+        function postMessageDatas(attachmentUrl = null){
+            firestore.collection(id).add({
+                content: textValue,
+                attachment: attachmentUrl,
+                sentBy: {
+                    id: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname
+                },
+                createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+            })
+        }
+        if(Object.keys(attachment).length !== 0){
+            let _ext = ext(attachment.uri);
+            blobFromUri(attachment.uri, async function(blob){
+                let type = "application";
+                switch(attachment.type){
+                    case "image":
+                        type = "image";
+                        break;
+                    case "video":
+                        type = "video";
+                        break;
+                    default:
+                        type = "application";
+                }
+                let metadata = {
+                    contentType: `${type}/${_ext}`
+                };
+                const ref = storage.ref(`${id}/shared/${Date.now().toString()}-${getExactFileNameFromPath(attachment.uri)}`);
+                const task = ref.put(blob, metadata);
+                task.on('state_changed',
+                    function progress (snapshot) {
+                        
+                    },
+                    function error () {
+                        
+                    },
+                    function complete (event) {
+                        ref.getDownloadURL().then((url) => { 
+                            postMessageDatas({
+                                ...attachment,
+                                downloadUrl: url
+                            });
+                        })
+                    }
+                )
+            })
+        }else{
+            postMessageDatas();
+        }
+    }
   };
 
   return { actions };

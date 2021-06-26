@@ -57,7 +57,6 @@ const useUsers = () => {
      * @param {object} datas user datas
      */
     signup: async function(datas){
-      console.log(datas);
       return signup(datas).then((data) => {
         return response(data);
       });

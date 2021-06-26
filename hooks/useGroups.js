@@ -7,7 +7,7 @@ import {
   update, 
   create,
   removeUser,
-  sendMessage
+  deleteById
 } from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
@@ -83,23 +83,6 @@ const useGroups = () => {
       });
     },
     /**
-     * fetch group datas + messages + my rights by id
-     * 
-     * @param {string} id group id
-     * @param {number} offset from position in db
-     */
-    fetchAllById: async function(id, offset){
-      let respFBI = await actions.fetchById(id);
-      let respFM = await actions.fetchMessages(id, offset);
-      if(typeof respFBI.isError !== "undefined" || typeof respFM.isError !== "undefined"){
-        if(respFBI.isError || respFM.isError){
-            return {"error": true};
-        }
-      }
-
-      return {};
-    },
-    /**
      * fetch group shared content
      * 
      * @param {string} id group id
@@ -124,7 +107,12 @@ const useGroups = () => {
      */
      create: function(values){
       return create(values).then((data) => {
-        return response(data);
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_NEED_RELOAD",
+            payload: true
+          });
+        });
       });
     },
     /**
@@ -160,43 +148,18 @@ const useGroups = () => {
       });
     },
     /**
-     * send a message
+     * delete a group by id
      * 
-     * @param {string} groupId group id
-     * @param {string} value text value 
-     * @param {object} attachment message attachment => 
-     *                                        if image/video : height, type, uri, width 
-     *                                        if file        : name, size, type, uri
+     * @param {string} id group id to delete
      */
-    sendMessage: function(groupId, value, attachment){
-      /**
-     * TODO change with correct user id
-     */
-      let userId = 2;
-      let userSrc = "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png";
-      let userFirstname = "Johnny";
-      let userLastname = "matttttttttt";
-      /***
-     * 
-     */
-      return sendMessage(userId, groupId, value, attachment).then((data) => {
+    deleteById: function(id){
+      return deleteById(id).then((data) => {
         return response(data, function(res){
           dispatch({
-            type: "SEND_MESSAGE",
-            payload: {
-              id: "jzaeifhuezi",
-              content: value,
-              attachment: attachment,
-              sentBy: {
-                  id: userId,
-                  firstname: userFirstname,
-                  lastname: userLastname,
-                  profilePic: userSrc
-              },
-              date: "2021-05-21 10:03:54"
-            }
+            type: "UPDATE_NEED_RELOAD",
+            payload: true
           });
-        })
+        });
       });
     },
     /**
@@ -209,6 +172,17 @@ const useGroups = () => {
         type: "DELETE_ROLE_IN_UI",
         payload: id
       });
+    },
+    /**
+     * called to check if groups need a refresh or not
+     * 
+     * @param {boolean} needReload true if groups need a refresh
+     */
+    updateNeedReload: function(needReload){
+      dispatch({
+        type: "UPDATE_NEED_RELOAD",
+        payload: needReload
+      });
     }
   };
 
@@ -218,7 +192,8 @@ const useGroups = () => {
     getMyRights: () => groupsState.myRights,
     hasRight: (right) => groupsState.myRights.includes(right),
     isOwner: () => groupsState.isOwner,
-    getSharedContent: () => groupsState.sharedContent
+    getSharedContent: () => groupsState.sharedContent,
+    needReload: () => groupsState.needReload
   };
 
   return { selectors, actions };

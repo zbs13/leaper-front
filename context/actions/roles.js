@@ -60,7 +60,7 @@ export const updateRole = (roleId, role) => {
                     data: {
                         name: role.name,
                         rights: {
-                            disconnect: [
+                            set: [
                                 ...role.rights.map(right => ({id: right}))
                             ]
                         }
@@ -75,7 +75,7 @@ export const updateRole = (roleId, role) => {
     };
 
     const graphql_mutation = jsonToGraphQLQuery(mutation, { pretty: true });
-    console.log(graphql_mutation);
+    
     return req(
         'mutation',
         gql`${graphql_mutation}`,
@@ -93,7 +93,7 @@ export const updateRole = (roleId, role) => {
 export const deleteRole = (id) => {
     return req(
         'mutation',
-        gql`mutation($roleId: String){
+        gql`mutation($roleId: ID){
             deleteRole(
                 where: {
                     id: $roleId

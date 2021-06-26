@@ -107,7 +107,7 @@ export default function PersonCard({
         /**
          * if user is the group/event owner
          */
-        if(selector.isOwner()){
+        if(selector.isOwner() && myId !== datas.id){
             personOptions.splice(1, 0, {
                 value: t(selectorsApp.getLang()).MANAGE_ROLE,
                 icon: "lock-closed-outline",
@@ -155,6 +155,7 @@ export default function PersonCard({
                                     (addAsFriend && isMyFriend(selectorsUser.getConnectedUser().id, datas.friends))
                                     || (addToGE && isEvent && isUserInEventGroup(datas.events, geId))
                                     || (addToGE && !isEvent && isUserInEventGroup(datas.groups, geId))
+                                    || selectorsUser.getConnectedUser().id === datas.id
                                     ?
                                         null
                                     :
