@@ -54,7 +54,11 @@ export default React.memo(function SportEventScreen({navigation, route}) {
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
+    if(isMounted){
       fetchData();
+    }
+    return () => {isMounted = false}
   }, [ses]);
 
   /**

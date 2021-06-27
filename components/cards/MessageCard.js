@@ -9,6 +9,7 @@ import FileDisplay from '../display/FileDisplay';
 import OptionsModal from '../modals/OptionsModal';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
+import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
@@ -22,22 +23,23 @@ import { useNavigation } from '@react-navigation/native';
 /**
  * message card
  * 
+ * @param {string} geId group/event id
  * @param {object} message message => id, attachment, content, date, sentBy
  * @param {boolean} isEvent is an event message
  * @returns 
  */
-export default function MessageCard({ message, isEvent}) {
-    
+export default function MessageCard({ geId, message, isEvent}) {
+
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
     const { selectors: selectorsUser } = useUsers();
+    const { actions: firebase } = useFirebase();
     const navigation = useNavigation();
 
     const isMyMessage = selectorsUser.getConnectedUser().id === message.sentBy.id
 
     const [isSharing, setIsSharing] = useState(false);
-    const [attachment, setAttachment] = useState(null);
 
     let selector = selectorsGroup;
     if(isEvent){
@@ -53,7 +55,7 @@ export default function MessageCard({ message, isEvent}) {
             <View style={[globalStyles.flexColumn, globalStyles.alignCenter]}>
                 <Cta onPress={() => navigation.navigate(global.screens.USER_PROFILE, {userId: message.sentBy.id, userFirstname: message.sentBy.firstname})}>
                     <View style={messageCard.profilePicContainer}>
-                        <BackgroundImage _style={messageCard.profilePic} image={{uri: message.sentBy.profilePic}}/>
+                        <BackgroundImage _style={messageCard.profilePic} image={message.sentBy.profilePic !== null ? {uri: message.sentBy.profilePic} : require("../../assets/img/icons/default_profile_pic.png")}/>
                     </View>
                 </Cta>
             </View>
@@ -101,7 +103,11 @@ export default function MessageCard({ message, isEvent}) {
             options.options.splice(1, 0, {
                 value: t(selectorsApp.getLang()).message.DELETE_MESSAGE,
                 icon: "trash-outline",
-                action: () => alert("ajouter a la conv")
+                action: () => firebase.deleteMessage(geId, message, function(){
+                    actionsApp.addPopupStatus({
+                        type: "error"
+                    })
+                })
             })
         }
 

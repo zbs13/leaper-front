@@ -96,6 +96,7 @@ export default global = {
         appId: FIREBASE_APP_ID
     },
     MAX_RESULT_PER_LOADED_PAGE: 20,
+    MAX_RESULT_PER_LOADED_TCHAT: 30,
     AVAILABLE_LANGUAGES: [
         {
             lang: "fr", 

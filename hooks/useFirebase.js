@@ -2,25 +2,13 @@ import { useContext } from "react";
 import FirebaseContext from "../context/firebaseContext";
 import {} from '../context/actions/firebase';
 import { ext, blobFromUri, urlNoParams, getExactFileNameFromPath } from '../utils/utils';
+import global from '../providers/global';
 
 const useFirebase = () => {
   const { fb } = useContext(FirebaseContext);
   const { firestore, firestoreAsObf, storage } = fb;
 
   const actions = {
-    /**
-     * get element url from firebase storage
-     * 
-     * @param {string} elementId element id to get 
-     */
-    // getElementURLFromStorage: (elementId) => {
-    //     let element = storage.ref(elementId);
-    //     element.getDownloadURL().then(url => {
-    //         console.log(url);
-    //     }).catch(function(error){
-    //         console.log(error)
-    //     })
-    // },
     /**
      * get user profile pic
      * 
@@ -129,8 +117,8 @@ const useFirebase = () => {
      lastMessagesSnapshot: (id, callback) => {
         return firestore
             .collection(id)
-            .orderBy("createdAt", "asc")
-            .limit(50)
+            .orderBy("createdAt", "desc")
+            .limit(global.MAX_RESULT_PER_LOADED_TCHAT)
             .onSnapshot(documentSnapshot => {
                 callback(documentSnapshot);
             });
@@ -140,19 +128,23 @@ const useFirebase = () => {
      * @param {string} id group/event id 
      * @param {object} user user who post the message (connected user id)
      * @param {string} textValue message text
-     * @param {object} attachment attchment object
+     * @param {object} attachment attachment object
+     * @param {function} callbackError callback if post message failed
      */
-    postMessage: (id, user, textValue, attachment) => {
+    postMessage: (id, user, textValue, attachment, callbackError) => {
         function postMessageDatas(attachmentUrl = null){
-            firestore.collection(id).add({
-                content: textValue,
-                attachment: attachmentUrl,
-                sentBy: {
-                    id: user.id,
-                    firstname: user.firstname,
-                    lastname: user.lastname
-                },
-                createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+            actions.getUserProfilePic(user.id).then(function(profilePicUrl){
+                firestore.collection(id).add({
+                    content: textValue,
+                    attachment: attachmentUrl,
+                    sentBy: {
+                        id: user.id,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        profilePic: profilePicUrl
+                    },
+                    createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+                })
             })
         }
         if(Object.keys(attachment).length !== 0){
@@ -172,14 +164,13 @@ const useFirebase = () => {
                 let metadata = {
                     contentType: `${type}/${_ext}`
                 };
-                const ref = storage.ref(`${id}/shared/${Date.now().toString()}-${getExactFileNameFromPath(attachment.uri)}`);
+                const createdAt = Date.now().toString();
+                const ref = storage.ref(`${id}/shared/${createdAt}-${getExactFileNameFromPath(attachment.uri)}`);
                 const task = ref.put(blob, metadata);
                 task.on('state_changed',
-                    function progress (snapshot) {
-                        
-                    },
+                    function progress (snapshot) {},
                     function error () {
-                        
+                        callbackError();
                     },
                     function complete (event) {
                         ref.getDownloadURL().then((url) => { 
@@ -194,6 +185,50 @@ const useFirebase = () => {
         }else{
             postMessageDatas();
         }
+    },
+    /**
+     * delete a message
+     * 
+     * @param {string} geId group/event id
+     * @param {object} message message to delete
+     * @param {function} callbackError callback when delete message failed
+     */
+    deleteMessage: (geId, message, callbackError) => {
+        firestore.collection(geId).doc(message.id).delete().then(function(){
+            if(message.attachment !== null){
+                fetch(urlNoParams(message.attachment.downloadUrl)).then((data) => data.json()).then(function(result){
+                    storage.ref().child(result.name).delete().then(function(){}).catch(function(){
+                        callbackError();
+                    });
+                })
+            }
+        }).catch(function(){
+            callbackError();
+        });
+    },
+    /**
+     * get old messages
+     * 
+     * @param {string} geId group/event id
+     * @param {*} offset search offset
+     * @param {*} callback callback when old messages getted
+     */
+    getOldMessages: (geId, offset, callback) => {
+        firestore
+            .collection(geId)
+            .orderBy("createdAt", "desc")
+            .get()
+            .then(result => {
+                firestore
+                    .collection(geId)
+                    .orderBy("createdAt", "desc")
+                    .startAfter(result.docs[offset - 1])
+                    .limit(global.MAX_RESULT_PER_LOADED_TCHAT)
+                    .get()
+                    .then(result => {
+                        callback(result);
+                    })
+            })
     }
   };
 
