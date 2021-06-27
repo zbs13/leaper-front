@@ -1,6 +1,5 @@
 export const initialState = {
     user: {},
-    isConnected: false,
     connectedUser: {},
     connectedUserProfilePic: null
 };
@@ -37,16 +36,6 @@ export const initialState = {
             return {
                 ...state,
                 ...action.payload
-            }
-        case "UPDATE_IS_CONNECTED":
-            return {
-                ...state,
-                isConnected: action.payload
-            }
-        case "LOGOUT":
-            return {
-                ...state,
-                isConnected: false,
             }
         case "UPDATE_BOOKMARKS":
             return {

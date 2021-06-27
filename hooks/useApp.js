@@ -46,6 +46,17 @@ const useApp = () => {
       })
     },
     /**
+     * update user connection status
+     * 
+     * @param {boolean} isConnected is user connected
+     */
+    updateIsConnected: function(isConnected){
+      dispatch({
+        type: "UPDATE_IS_CONNECTED",
+        payload: isConnected,
+      });
+    },
+    /**
      * create an app status popup => error, success, info 
      * 
      * @param {string} type popup type => error, success, info
@@ -102,6 +113,17 @@ const useApp = () => {
         type: "TOGGLE_SEARCH_BAR",
         payload: type
       })
+    },
+    /**
+     * set user notifs
+     * 
+     * @param {object} notifs user notifs
+     */
+    setNotifs: function(notifs){
+      dispatch({
+        type: "SET_NOTIFS",
+        payload: notifs
+      })
     }
   };
 
@@ -113,7 +135,8 @@ const useApp = () => {
     getOS: () => appState.os,
     getPopupsStatus: () => appState.popupsStatus,
     getAddModal: () => appState.addModal,
-    isFirstLaunch: () => appState.isFirstLaunch
+    isFirstLaunch: () => appState.isFirstLaunch,
+    isConnected: () => appState.isConnected
   };
 
   return { selectors, actions };

@@ -14,7 +14,7 @@ export default function AppScreenManager() {
     const {selectors: selectorsApp} = useApp();
 
     return (
-        selectorsUser.isConnected() ?
+        selectorsApp.isConnected() ?
             <Stack.Navigator initialRouteName={global.routing.BOTTOM_MENU_ROUTING}>
                 <Stack.Screen name={global.routing.BOTTOM_MENU_ROUTING} component={BottomMenu} options={{ headerShown: false }} />
                 {

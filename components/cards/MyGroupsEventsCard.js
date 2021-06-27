@@ -53,7 +53,7 @@ export default function MyGroupsEventsCards({ type }) {
         selector = selectorsEvents;
         nb = "nbEvents";
     }
-
+    
     /**
      * page is loading => get groups/events where user is in 
      */

@@ -6,6 +6,7 @@ import { UsersProvider } from './context/usersContext';
 import { FirebaseProvider } from './context/firebaseContext';
 
 export default function App() {
+
   return (
     <AppProvider>
       <FirebaseProvider>
