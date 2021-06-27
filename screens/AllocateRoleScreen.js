@@ -94,16 +94,29 @@ export default function AllocateRoleScreen({navigation, route}) {
                                         })
                                 });
                             }else{
-                                actionRoles.updateUserRole(selectedValue, item.id, userId).then((data) => {
-                                    manageResponseUI(data,
-                                        selectorsApp.getLang(),
-                                        function (res) {
-                                            setSelectedValue(item.id);
-                                        },
-                                        function (error) {
-                                            actionsApp.addPopupStatus(error);
-                                        })
-                                });
+                                if(selectedValue !== null){
+                                    actionRoles.updateUserRole(selectedValue, item.id, userId).then((data) => {
+                                        manageResponseUI(data,
+                                            selectorsApp.getLang(),
+                                            function (res) {
+                                                setSelectedValue(item.id);
+                                            },
+                                            function (error) {
+                                                actionsApp.addPopupStatus(error);
+                                            })
+                                    });
+                                }else{
+                                    actionRoles.addRoleToUser(item.id, userId).then((data) => {
+                                        manageResponseUI(data,
+                                            selectorsApp.getLang(),
+                                            function (res) {
+                                                setSelectedValue(item.id);
+                                            },
+                                            function (error) {
+                                                actionsApp.addPopupStatus(error);
+                                            })
+                                    });
+                                }
                             }
                         }}
                     />

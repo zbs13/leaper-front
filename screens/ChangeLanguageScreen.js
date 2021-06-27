@@ -1,75 +1,58 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, {useEffect} from 'react';
+import { View, ScrollView } from 'react-native';
 import Cta from '../components/cta/Cta';
-import global from '../providers/global';
-import { settings } from '../assets/styles/styles';
 import globalStyles from '../assets/styles/global';
+import { flag } from '../assets/styles/styles';
+import global from '../providers/global';
+import { Flag } from 'react-native-svg-flagkit';
 import useApp from '../hooks/useApp';
 import t from '../providers/lang/translations';
-import { RadioButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
- * app settings screen
+ * change language settings screen
  * 
  * @returns 
  */
-export default function ChangeLanguageScreen() {
+export default function ChangeLanguageScreen({navigation}) {
     const  {selectors, actions} = useApp();
-    const [checked, setChecked] = React.useState(selectors.getLang());
     
+    useEffect(() => {
+      navigation.setOptions({
+          headerTitle: t(selectors.getLang()).changeLanguage.TITLE
+      });
+    }, [])
 
     return (
-      <View>
-        <Text style={settings.titleParams}>{t(selectors.getLang()).changeLanguage.TITLE}</Text>
-        <View style={{justifyContent: 'center', alignItems: 'center' }}>
-          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter]}>
-            <Text>
-              {t(selectors.getLang()).changeLanguage.SELECT_LANGUAGES_FR}
-            </Text>
-            <RadioButton
-              value="fr"
-              status={ checked === 'fr' ? 'checked' : 'unchecked' }
-              onPress={() => {
-                actions.updateUserParameters({
-                  lang: 
-                  {
-                    lang: 'fr',
-                    flag: 'FR'
-                  }
-                  });
-                AsyncStorage.setItem("lang", JSON.stringify({
-                  lang: 'fr',
-                  flag: 'FR'
-                }));
-                setChecked('fr')
-              }}
-            />  
-          </View>
-          <View style={[globalStyles.flex, globalStyles.flexRow, globalStyles.alignCenter, globalStyles.mt_20]}>
-            <Text>
-              {t(selectors.getLang()).changeLanguage.SELECT_LANGUAGES_EN}
-            </Text>
-            <RadioButton
-              value="en"
-              status={ checked === 'en' ? 'checked' : 'unchecked' }
-              onPress={() => {
-                actions.updateUserParameters({
-                  lang: 
-                  {
-                    lang: 'en',
-                    flag: 'GB'
-                  }
-                  });
-                AsyncStorage.setItem("lang", JSON.stringify({
-                  lang: 'en',
-                  flag: 'GB'
-                }));
-                setChecked('en')
-              }}
-            />
-          </View>
-        </View>
-    </View>
+      <ScrollView>
+            <View style={[globalStyles.mpm, globalStyles.flexColumn, globalStyles.alignCenter, globalStyles.justifyCenter]}>
+                <View style={globalStyles.mt_20}>
+                    {
+                        global.AVAILABLE_LANGUAGES.map((country, index) =>
+                            <Cta
+                                key={index}
+                                onPress={() => {
+                                    actions.updateUserParameters({
+                                        lang: country,
+                                        isFirstLaunch: false
+                                    });
+                                    AsyncStorage.setItem("isFirstLaunch", "false");
+                                    AsyncStorage.setItem("lang", JSON.stringify(country)).then(function(){
+                                        navigation.goBack()
+                                    });
+                                }}
+                            >
+                                <View style={flag.container}>
+                                    <Flag 
+                                        id={country.flag}
+                                        size={0.5}
+                                    />
+                                </View>
+                            </Cta>
+                        )
+                    }
+                </View>
+            </View>
+        </ScrollView>
     );
   }

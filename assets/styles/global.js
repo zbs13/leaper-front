@@ -133,7 +133,7 @@ export default globalStyles = StyleSheet.create({
         fontWeight: "bold"
     },
     title_size: {
-        fontSize: 20
+        fontSize: 17
     },
     separator: {
         margin: 5,

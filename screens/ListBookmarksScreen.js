@@ -11,6 +11,7 @@ import { RefreshViewList } from '../components/RefreshView';
 import Title from '../components/Title';
 import BookmarkCard from '../components/cards/BookmarkCard';
 import t from '../providers/lang/translations';
+import { manageResponseUI } from '../context/actions/apiCall';
 
 /**
  * bookmark list screen
@@ -18,8 +19,8 @@ import t from '../providers/lang/translations';
  */
 export default function ListBookmarksScreen() {
 
-  const {selectors: selectorsApp} = useApp();
-  const {selectors} = useUsers();
+  const {actions: actionsApp, selectors: selectorsApp} = useApp();
+  const {actions: actionsUser, selectors} = useUsers();
 
   const [fav, setFav] = useState({
     userBookmarks: [],
@@ -30,14 +31,34 @@ export default function ListBookmarksScreen() {
   })
 
   useEffect(() => {
+    let isMounted = true;
     const favs = selectors.getConnectedUser().bookmarks.length !== 0 ? _.reverse(selectors.getConnectedUser().bookmarks) : [];
-    setFav({
-      ...fav,
-      userBookmarks: favs,
-      focusLatitude: favs.length !== 0 ? favs[0].location.latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE,
-      focusLongitude: favs.length !== 0 ? favs[0].location.longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE
-    })
+    if(isMounted){
+      setFav({
+        ...fav,
+        userBookmarks: favs,
+        focusLatitude: favs.length !== 0 ? favs[0].location[0].latitude : global.map.DEFAULT_NOT_ZOOM_LATITUDE,
+        focusLongitude: favs.length !== 0 ? favs[0].location[0].longitude : global.map.DEFAULT_NOT_ZOOM_LONGITUDE
+      })
+    }
+    return () => { isMounted = false };
   }, [selectors.getConnectedUser().bookmarks])
+
+  /**
+   * fetch bookmarks
+   */
+  function fetchBookmarks(){
+    actionsUser.fetchConnectedUser().then((data) => {
+    manageResponseUI(data,
+      selectorsApp.getLang(),
+      function (res) {
+          return;
+      },
+      function (error) {
+          actionsApp.addPopupStatus(error);
+      })
+    })
+  }
 
   return (
     <View style={[globalStyles.mpm, globalStyles.flexColumn]} >
@@ -52,8 +73,8 @@ export default function ListBookmarksScreen() {
             fav.userBookmarks.map((bookmark, index) => (
               <MapPin 
                 key={index}
-                latitude={bookmark.location.latitude}
-                longitude={bookmark.location.longitude}
+                latitude={bookmark.location[0].latitude}
+                longitude={bookmark.location[0].longitude}
                 title={bookmark.name}
                 description={bookmark.address}
                 onPress={(e) => setFav({
@@ -75,7 +96,7 @@ export default function ListBookmarksScreen() {
         <RefreshViewList
           data={fav.userBookmarks}
           noDataMessage={t(selectorsApp.getLang()).bookmarks.NO_BOOKMARK}
-          onRefresh={() => console.log("az")}
+          onRefresh={() => fetchBookmarks()}
           renderItem={({item}) => 
             <BookmarkCard item={item} />
           }

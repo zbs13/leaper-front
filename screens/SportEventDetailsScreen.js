@@ -16,7 +16,7 @@ import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
-import { getSportById, isInFav } from '../utils/utils';
+import { getSportById, isInFav, isGEOwner } from '../utils/utils';
 
 /**
  * sport event details screen
@@ -33,7 +33,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
     const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
-    const { selectors: selectorsUser } = useUsers();
+    const { actions: actionsUser, selectors: selectorsUser } = useUsers();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -46,9 +46,9 @@ export default function SportEventDetailsScreen({navigation, route}) {
     useEffect(() => {
         navigation.setOptions({
           headerTitle: title,
-          headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} /> : null
+          headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} geId={id} /> : null
         });
-    }, [isLoaded]);
+    }, [isLoaded, selectorsUser.getConnectedUser().bookmarks]);
 
     /**
      * fetch event details by id
@@ -77,23 +77,53 @@ export default function SportEventDetailsScreen({navigation, route}) {
                 >
                     <View style={{position: "absolute", zIndex: 1, top: 10, right: 10}}>
                         { isInFav(selectorsUser.getConnectedUser().bookmarks, id) ?
-                            <Cta onPress={() => alert("supprimer des fav")}>
+                            <Cta onPress={() => {
+                                actionsUser.removeBookmark(id).then((data) => {
+                                    manageResponseUI(data,
+                                        lang,
+                                        function (res) {
+                                            actionsApp.addPopupStatus({
+                                                type: "success",
+                                                message: t(lang).bookmarks.UNBOOKMARK_SUCCESS
+                                            });
+                                        },
+                                        function (error) {
+                                            actionsApp.addPopupStatus(error);
+                                            setIsLoaded(false)
+                                        })
+                                    })
+                            }}>
                                 <Ionicons name="star" size={30} color={global.colors.RED_LIKE}/>
                             </Cta>
                         :
-                            <Cta onPress={() => alert("mettre en fav")}>
+                            <Cta onPress={() => {
+                                actionsUser.addBookmark(id).then((data) => {
+                                    manageResponseUI(data,
+                                        lang,
+                                        function (res) {
+                                            actionsApp.addPopupStatus({
+                                                type: "success",
+                                                message: t(lang).bookmarks.BOOKMARK_SUCCESS
+                                            });
+                                        },
+                                        function (error) {
+                                            actionsApp.addPopupStatus(error);
+                                            setIsLoaded(false)
+                                        })
+                                  })
+                            }}>
                                 <Ionicons name="star-outline" size={30} color={global.colors.ANTHRACITE}/>
                             </Cta>
                         }
                     </View>
                     <View style={eventDetailsMap.container}>
                         <Map
-                            latitude={details.location.latitude}
-                            longitude={details.location.longitude}
+                            latitude={details.location[0].latitude}
+                            longitude={details.location[0].longitude}
                         >
                             <MapPin
-                                latitude={details.location.latitude}
-                                longitude={details.location.longitude}
+                                latitude={details.location[0].latitude}
+                                longitude={details.location[0].longitude}
                                 pinColor={global.colors.MAIN_COLOR}
                                 title={title}
                                 description={t(lang).event.HERE_EVENT_PLACE}
@@ -124,10 +154,10 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                     {t(lang).HOURS} :
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).FROM} : {t(lang).datetime.formats.hour(details.startHour)}
+                                    {t(lang).FROM} : {t(lang).datetime.formats.hour(details.start_hour)}
                                 </Txt>
                                 <Txt _style={[globalStyles.c_anth]}>
-                                    {t(lang).TO} : {t(lang).datetime.formats.hour(details.endHour)}
+                                    {t(lang).TO} : {t(lang).datetime.formats.hour(details.end_hour)}
                                 </Txt>
                             </View>
                         </View>
@@ -143,7 +173,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                     </View>
                     <View style={ctaJoinEventDetails.container}>
                         {
-                            !selectorsEvent.isOwner() ?
+                            !isGEOwner(selectorsUser.getConnectedUser().id, details) ?
                                 isMyEvent ?
                                     <Cta value={t(lang).event.LEAVE_THIS_EVENT} 
                                         _style={[cta.main, cta.b_red_nr, globalStyles.f_bold]}
@@ -160,7 +190,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                             title: title,
                                             content: t(lang).event.CONFIRM_JOIN_EVENT
                                         }}
-                                        onPress={() => console.log("join event")}
+                                        onPress={() => console.log("edojf")}
                                     />
                             :
                                 null

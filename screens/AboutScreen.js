@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, {useEffect} from 'react';
+import { View } from 'react-native';
 import Cta from '../components/cta/Cta';
 import global from '../providers/global';
 import { settings } from '../assets/styles/styles';
@@ -17,10 +17,15 @@ export default function AboutScreen({navigation}) {
 
     const  {selectors} = useApp();
 
+    useEffect(() => {
+      navigation.setOptions({
+          headerTitle: t(selectors.getLang()).about.TITLE
+      });
+    }, [])
+
     return (
       <View>
-        <Text style={settings.titleParams}>{t(selectors.getLang()).about.TITLE}</Text>
-        <View style={{justifyContent: 'center', alignItems: 'center' }}>
+        <View>
           <Cta
             _style= {[globalStyles.mt_50,settings.buttonStyle, settings.buttonFont]}
             onPress={() => {navigation.navigate(global.screens.CHANGE_NOTIFICATIONS)}}

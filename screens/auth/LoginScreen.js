@@ -24,8 +24,11 @@ export default function LoginScreen({navigation}) {
     const {actions: actionsUser} = useUsers();
 
     const [loginState, setLoginState] = useState({
-        mail: "",
-        password: "",
+        mail: null,
+        password: null
+    })
+
+    const [loginError, setLoginError] = useState({
         mailError: true,
         passwordError: true
     })
@@ -41,7 +44,7 @@ export default function LoginScreen({navigation}) {
                         <Field
                             type="mail"
                             placeholder={t(selectorsApp.getLang()).fields.MAIL}
-                            isError={error => setLoginState({...loginState, mailError: error})}
+                            isError={error => setLoginError({...loginError, mailError: error})}
                             onChange={value => setLoginState({...loginState, mail: value})}
                         />
                     </View>
@@ -49,7 +52,7 @@ export default function LoginScreen({navigation}) {
                         <Field
                             type="password"
                             placeholder={t(selectorsApp.getLang()).fields.PASSWORD}
-                            isError={error => setLoginState({...loginState, passwordError: error})}
+                            isError={error => setLoginError({...loginError, passwordError: error})}
                             onChange={value => setLoginState({...loginState, password: value})}
                         />
                     </View>
@@ -57,8 +60,9 @@ export default function LoginScreen({navigation}) {
                         <Cta 
                             value={t(selectorsApp.getLang()).auth.LOGIN}
                             _style={[cta.main, cta.first]}
-                            disabled={loginState.mailError || loginState.passwordError}
-                            onPress={() => actionsUser.login(loginState.mail, loginState.password).then((data) => {
+                            disabled={loginError.mailError || loginError.passwordError}
+                            onPress={() => {
+                                actionsUser.login(loginState.mail, loginState.password).then((data) => {
                                 manageResponseUI(data,
                                     selectorsApp.getLang(),
                                     function (res) {
@@ -68,6 +72,7 @@ export default function LoginScreen({navigation}) {
                                         actionsApp.addPopupStatus(error);
                                     })
                                 })}
+                            }
                         />
                     </View>
                 </View>

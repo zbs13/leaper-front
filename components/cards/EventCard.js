@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
 import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
-import { ellipsisText, getSportById } from '../../utils/utils';
+import { ellipsisText, getSportById, isInFav } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
+import useFirebase from '../../hooks/useFirebase';
 import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,6 +15,7 @@ import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
+import { manageResponseUI } from '../../context/actions/apiCall';
 
 /**
  * Event Cards
@@ -24,9 +26,24 @@ import { useNavigation } from '@react-navigation/native';
  */
 export default function EventCard({ item, isMyEvent = false }) {
     
-    const {selectors} = useApp();
-    const {selectors: selectorsUser} = useUsers();
+    const {selectors, actions} = useApp();
+    const {selectors: selectorsUser, actions: actionsUser} = useUsers();
+    const {actions: firebase} = useFirebase();
     const navigation = useNavigation();
+
+    const inFav = isInFav(selectorsUser.getConnectedUser().bookmarks, item.id);
+
+    const [eventLogo, setEventLogo] = useState(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            firebase.getGELogo(item.id).then(function(url){
+                setEventLogo(url);
+            })
+        }
+        return () => { isMounted = false };
+    }, [])
 
     /**
      * details options for option modal
@@ -41,8 +58,39 @@ export default function EventCard({ item, isMyEvent = false }) {
      * main fav options for option modal
      */
     const favMainOptions = {
-        action: () => alert("aaaa"),
-        icon: "star-outline"
+        action: () => {
+            if(!inFav){
+                actionsUser.addBookmark(item.id).then((data) => {
+                    manageResponseUI(data,
+                        selectors.getLang(),
+                        function (res) {
+                            actions.addPopupStatus({
+                                type: "success",
+                                message: t(selectors.getLang()).bookmarks.BOOKMARK_SUCCESS
+                            });
+                        },
+                        function (error) {
+                            actions.addPopupStatus(error);
+                        })
+                })
+            }else{
+                actionsUser.removeBookmark(item.id).then((data) => {
+                    manageResponseUI(data,
+                        selectors.getLang(),
+                        function (res) {
+                            actions.addPopupStatus({
+                                type: "success",
+                                message: t(selectors.getLang()).bookmarks.UNBOOKMARK_SUCCESS
+                            });
+                        },
+                        function (error) {
+                            actions.addPopupStatus(error);
+                        })
+                    })
+            }
+        },
+        icon: inFav ? "star" : "star-outline",
+        iconColor: inFav ? global.colors.RED_LIKE : global.colors.ANTHRACITE
     };
 
     /**
@@ -70,7 +118,7 @@ export default function EventCard({ item, isMyEvent = false }) {
         options: [
             detailsOptions,
             {
-                value: t(selectors.getLang()).BOOKMARK_THIS_PLACE,
+                value: inFav ? t(selectors.getLang()).UNBOOKMARK_THIS_PLACE : t(selectors.getLang()).BOOKMARK_THIS_PLACE,
                 ...favMainOptions
             }
         ] 
@@ -105,7 +153,7 @@ export default function EventCard({ item, isMyEvent = false }) {
                     >
                         <View style={[globalStyles.flexColumn, {flex: 1}]}>
                             <Txt _style={globalStyles.ta_c}>{getSportById(selectors.getLang(), item.sportId).name}</Txt>
-                            <ImageIcon _style={card.pic} src={item.src} />
+                            <ImageIcon _style={card.pic} src={eventLogo || require("../../assets/img/logos/Mini_Leaper_Logo.png")} />
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>
                             <Txt ellipsis={50} _style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{item.name}</Txt>
@@ -132,7 +180,6 @@ export default function EventCard({ item, isMyEvent = false }) {
                             }
                             <Txt _style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
                                 <Ionicons name="location-outline" size={20}/>
-                                {/* {item.postalCode} */}
                             </Txt>
                         </View>
                     </View>

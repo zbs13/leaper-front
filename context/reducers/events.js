@@ -1,13 +1,12 @@
 export const initialState = {
-    my_events: [],
     fetchedByCriteria: [],
     nbFetchedByCriteria: 0,
-    nbFetchedMy: 0,
     fetchedById: {},
     messages: [],
     myRights: [],
     isOwner: false,
-    sharedContent: []
+    sharedContent: [],
+    needReload: false
 };
   
   /**
@@ -15,18 +14,19 @@ export const initialState = {
    */
   export const reducer = (state, action) => {
     switch (action.type) {
-      case "UPDATE_MY_EVENTS":
-        return {
-            ...state,
-            my_events: action.payload
-        };
-      case "UPDATE_EVENTS_BY_CRITERIA":
-        let _val = action.payload;
-        // if(action.offset !== 0)
-        //   _val = state.fetchedByCriteria.push(_val)
+      case "UPDATE_NEED_RELOAD":
         return {
           ...state,
-          fetchedByCriteria: _val
+          needReload: action.payload
+        }
+      case "UPDATE_EVENTS_BY_CRITERIA":
+        let _val = action.payload;
+        if(action.offset !== 0)
+          _val = state.fetchedByCriteria.concat(_val)
+        return {
+          ...state,
+          fetchedByCriteria: _val,
+          nbFetchedByCriteria: _val.length
         };
       case "UPDATE_EVENTS_BY_ID":
         return {

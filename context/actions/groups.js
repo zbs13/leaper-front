@@ -1,123 +1,6 @@
-/**
- * fetch my groups according to offset
- * 
- * @param {number} offset offset for getting results  
- * @returns 
- */
-export const fetchMyGroups = (offset) => {
-    return fetch("https://sdgdfghrdh.fr").then().catch(() => {
-        return [{
-            id: 1,
-            name: "le groupe 1",
-            description: "yaaaa",
-            owner: {
-                id: 2
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 2,
-            name: "le groupe 2",
-            description: "yaaaa",
-            owner: {
-                id: 2
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 3,
-            name: "le groupe 3",
-            description: "yaaaa",
-            owner: {
-                id: 1
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 4,
-            name: "le groupe 4",
-            description: "yaaaa",
-            owner: {
-                id: 2
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
-        },
-        {
-            id: 5,
-            name: "le groupe 5",
-            description: "yaaaa",
-            owner: {
-                id: 2
-            },
-            users: [{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            },{
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822043275552489492/image0.jpg?width=457&height=609"
-        }]
-    });
-}
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { req } from './apiCall';
+import gql from 'graphql-tag';
 
 /**
  * fetch my groups by id
@@ -126,174 +9,68 @@ export const fetchMyGroups = (offset) => {
  * @returns 
  */
 export const fetchById = (id) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
+    return req(
+        'query',
+        gql`query($id: ID){
+            group(
+                where: {
+                    id: $id
+                }
+            ),{
+                id,
+                name,
+                description,
+                owner{
+                    id
+                },
+                roles{
+                    id,
+                    name,
+                    rights{
+                        id
+                    }
+                },
+                users{
+                    id,
+                    firstname,
+                    lastname,
+                    birthdate,
+                    fav_sport,
+                    create_at,
+                    email,
+                    country,
+                    phone,
+                    events{
+                        id,
+                        name,
+                        owner{
+                            id
+                        },
+                        description,
+                        users{
+                            id
+                        }
+                    },
+                    friends{
+                        id
+                    },
+                    roles{
+                        id,
+                        name,
+                        group{
+                            id
+                        },
+                        rights{
+                            id
+                        }
+                    }
+                }
+            }
+        }`, 
+        {
+            id: id
         }
-    }).catch(() => {
-        return {
-            id: 1,
-            name: "le groupe 3",
-            description: "la descriptionjfoezj fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezon zeb zerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezerko ozej oezj eofj eo fjez fjz fjzepo fjezop fjezfop jezof pezjf oezjfoezjf ozejf oezj foze fjozefj zepjfezpf jezp fejf pejpi",
-            owner: {
-                id: 2
-            },
-            roles: [{
-                id: 1,
-                name: "le roole",
-                rights: [{
-                    id: 1
-                },
-                {
-                    id: 3
-                }]
-            },
-            {
-                id: 2,
-                name: "le rooooole 2",
-                rights: [{
-                    id: 2
-                },
-                {
-                    id: 4
-                }]
-            }],
-            users: [{
-                id: 1,
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                firstname: "Ta",
-                lastname: "gueule",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 7
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 3,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 4,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                },
-                {
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 2
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        },
-                        {
-                            id: 3
-                        }
-                    ]
-                }],
-            },{
-                id: 5,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 6,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ]
-                }],
-            },{
-                id: 7,
-                firstname: "Ta",
-                lastname: "gueule",
-                src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609",
-                roles: [{
-                    id: 1,
-                    name: "le role",
-                    group: {
-                        id: 1
-                    },
-                    rights: [
-                    ]
-                }],
-            }],
-            src: "https://media.discordapp.net/attachments/500026022150930443/822075080162934844/image0.jpg?width=457&height=609"
-        }
-    })
+    )
 }
 
 /**
@@ -327,10 +104,10 @@ export const fetchById = (id) => {
                 id: 42,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -349,10 +126,10 @@ export const fetchById = (id) => {
                 id: 21,
                 content: "",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "image",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/830803906027454514/1585832659398.png"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -366,10 +143,10 @@ export const fetchById = (id) => {
                 id: 22,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -383,10 +160,10 @@ export const fetchById = (id) => {
                 id: 23,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -400,10 +177,10 @@ export const fetchById = (id) => {
                 id: 24,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -417,10 +194,10 @@ export const fetchById = (id) => {
                 id: 25,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -434,10 +211,10 @@ export const fetchById = (id) => {
                 id: 26,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -451,10 +228,10 @@ export const fetchById = (id) => {
                 id: 27,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -468,10 +245,10 @@ export const fetchById = (id) => {
                 id: 28,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -485,10 +262,10 @@ export const fetchById = (id) => {
                 id: 29,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -502,10 +279,10 @@ export const fetchById = (id) => {
                 id: 30,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -519,10 +296,10 @@ export const fetchById = (id) => {
                 id: 31,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -536,10 +313,10 @@ export const fetchById = (id) => {
                 id: 32,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -553,10 +330,10 @@ export const fetchById = (id) => {
                 id: 33,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -570,10 +347,10 @@ export const fetchById = (id) => {
                 id: 34,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -587,10 +364,10 @@ export const fetchById = (id) => {
                 id: 35,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -604,10 +381,10 @@ export const fetchById = (id) => {
                 id: 36,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -621,10 +398,10 @@ export const fetchById = (id) => {
                 id: 37,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -638,10 +415,10 @@ export const fetchById = (id) => {
                 id: 38,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -655,10 +432,10 @@ export const fetchById = (id) => {
                 id: 39,
                 content: "ta mere la pute 2",
                 attachment: {
-                    size: 11000,
+                    size: "11000",
                     name: "le mega file",
-                    type: "video",
-                    uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                    contentType: "video/mp4",
+                    downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
                 },
                 sentBy: {
                     id: 1,
@@ -688,10 +465,10 @@ export const fetchById = (id) => {
             id: 1,
             content: "",
             attachment: {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/830803906027454514/1585832659398.png"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -705,10 +482,10 @@ export const fetchById = (id) => {
             id: 2,
             content: "ta mere la pute 2",
             attachment: {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "video",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -722,10 +499,10 @@ export const fetchById = (id) => {
             id: 3,
             content: "ta mere la pute",
             attachment: {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -739,10 +516,10 @@ export const fetchById = (id) => {
             id: 4,
             content: "voila le pdf",
             attachment: {
-                size: 51422,
-                name: "le pdf ifjie jfeijfi ejfiej feij feif jeifjeifjeiiiie fj i",
-                type: "pdf",
-                uri: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
+                size: "11000",
+                name: "le mega file",
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             },
             sentBy: {
                 id: 1,
@@ -965,28 +742,28 @@ export const fetchById = (id) => {
     }).catch(() => {
         return [
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
+                contentType: "image/png",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
             },
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "image",
-                uri: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
+                contentType: "image/gif",
+                downloadUrl: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
             },
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "pdf",
-                uri: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
+                contentType: "application/pdf",
+                downloadUrl: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
             },
             {
-                size: 11000,
+                size: "11000",
                 name: "le mega file",
-                type: "video",
-                uri: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
+                contentType: "video/mp4",
+                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
             }
         ]
     })
@@ -999,13 +776,58 @@ export const fetchById = (id) => {
  * @param {object} datas datas to update
  */
  export const update = (id, datas) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
-    })
+    return req(
+        'mutation',
+        gql`mutation(
+            $id: ID, 
+            $name: String,
+            $description: String){
+            updateGroup(
+                data: {
+                    name: $name,
+                    description: $description
+                },
+                where: {
+                    id: $id
+                }
+            ),{
+                id, 
+                name,
+                description,
+                owner{
+                    id
+                },
+                roles{
+                    id,
+                    name,
+                    rights{
+                        id
+                    }
+                },
+                users{
+                    id,
+                    firstname,
+                    lastname,
+                    roles{
+                        id,
+                        name,
+                        group{
+                            id
+                        },
+                        rights{
+                            id
+                        }
+                    }
+                }
+            }
+        }`, 
+        {
+            id: id, 
+            name: datas.name,
+            description: datas.description
+        },
+        true
+    )
 }
 
 /**
@@ -1014,12 +836,34 @@ export const fetchById = (id) => {
  * @param {object} datas datas to update
  */
  export const create = (datas) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
+    return AsyncStorage.getItem("connectedUserId").then(userId => {
+        return req(
+            'mutation',
+            gql`mutation(
+                $owner: ID, 
+                $name: String!,
+                $description: String){
+                createGroup(
+                    data: {
+                        owner: {
+                            connect: {
+                                id: $owner
+                            }
+                        },
+                        name: $name,
+                        description: $description
+                    }
+                ),{
+                    id
+                }
+            }`, 
+            {
+                owner: userId, 
+                name: datas.name,
+                description: datas.description
+            },
+            true
+        )
     })
 }
 
@@ -1040,22 +884,25 @@ export const removeUser = (userId, groupId) => {
 }
 
 /**
- * send a message
+ * delete a group by id
  * 
- * @param {string} userId user id (owner of message)
- * @param {string} groupId group id
- * @param {string} value text value 
- * @param {object} attachment message attachment => 
- *                                        if image/video : height, type, uri, width 
- *                                        if file        : name, size, type, uri
+ * @param {string} id group id to delete
  */
-export const sendMessage = (userId, groupId, value, attachment) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {};
-        return {isError: true}
-    })
+export const deleteById = (id) => {
+    return req(
+        'mutation',
+        gql`mutation($id: ID){
+            deleteGroup(
+                where: {
+                    id: $id
+                }
+            ),{
+                id
+            }
+        }`, 
+        {
+            id: id,
+        },
+        true
+    )
 }

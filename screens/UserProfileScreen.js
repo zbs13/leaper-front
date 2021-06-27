@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { View, Linking, Platform } from 'react-native';
 import useApp from '../hooks/useApp';
+import useFirebase from '../hooks/useFirebase';
 import globalStyles from '../assets/styles/global';
 import { manageResponseUI } from '../context/actions/apiCall';
-import { getSportById, isMyFriend } from '../utils/utils';
+import { getSportById, isMyFriend, isUserInEventGroup } from '../utils/utils';
 import Cta from '../components/cta/Cta';
 import Txt from '../components/Txt';
 import t from '../providers/lang/translations';
@@ -32,14 +33,28 @@ export default function UserProfileScreen({navigation, route}) {
 
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
+    const {actions: firebase} = useFirebase();
 
     const [isLoaded, setIsLoaded] = useState(false);
+
+    const [user, setUser] = useState(null);
+    const [userProfilePic, setUserProfilePic] = useState(null);
 
     useEffect(() => {
         navigation.setOptions({
             headerTitle: t(selectorsApp.getLang()).profile.title(userFirstname)
         });
         fetchProfile();
+    }, [])
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            firebase.getUserProfilePic(userId).then(function(url){
+                setUserProfilePic(url);
+            })
+        }
+        return () => {isMounted = false};
     }, [])
 
     /**
@@ -50,6 +65,7 @@ export default function UserProfileScreen({navigation, route}) {
             manageResponseUI(data,
                 selectorsApp.getLang(),
                 function (res) {
+                    setUser(res);
                     setIsLoaded(true);
                 },
                 function (error) {
@@ -66,34 +82,37 @@ export default function UserProfileScreen({navigation, route}) {
                     <View style={[globalStyles.flexColumn, globalStyles.w_100, globalStyles.alignCenter, globalStyles.p_10, profile.header]}>
                         <View style={[profile.headerPicContainer, globalStyles.m_10]}>
                             <BackgroundImage 
-                                image={{uri: selectorsUser.getUser().src}} 
+                                image={userProfilePic !== null ? {uri: userProfilePic} : require("../assets/img/icons/default_profile_pic.png")} 
                                 isRound 
                                 _style={profile.headerPic}
                             />
                         </View>
                         <View>
                             <Txt _style={profile.headerName}>
-                                {`${selectorsUser.getUser().firstname} ${selectorsUser.getUser().lastname}, ${differenceInYears(new Date(), parseISO(selectorsUser.getUser().birthdate))}`}
+                                {`${user.firstname} ${user.lastname}, ${differenceInYears(new Date(), parseISO(user.birthdate))}`}
                             </Txt>
                         </View>
                         <View style={globalStyles.mt_10}>
                             {
-                                isMyFriend(selectorsUser.getConnectedUser().id, selectorsUser.getUser().friends) ?
-                                    <Cta 
-                                        onPress={() => console.log("DELETE AMI")}
-                                        _style={[cta.main, cta.b_red]}
-                                        value={t(selectorsApp.getLang()).profile.DELETE_FRIEND}
-                                        confirm={{
-                                            title: t(selectorsApp.getLang()).profile.DELETE_FRIEND,
-                                            content: t(selectorsApp.getLang()).profile.SURE_TO_DELETE_FRIEND
-                                        }}
-                                    />
+                                userId !== selectorsUser.getConnectedUser().id ?
+                                    isMyFriend(user.id, user.friends) ?
+                                        <Cta 
+                                            onPress={() => console.log("DELETE AMI")}
+                                            _style={[cta.main, cta.b_red]}
+                                            value={t(selectorsApp.getLang()).profile.DELETE_FRIEND}
+                                            confirm={{
+                                                title: t(selectorsApp.getLang()).profile.DELETE_FRIEND,
+                                                content: t(selectorsApp.getLang()).profile.SURE_TO_DELETE_FRIEND
+                                            }}
+                                        />
+                                    :
+                                        <Cta 
+                                            onPress={() => console.log("ajouter en ami")}
+                                            _style={[cta.main, cta.first]}
+                                            value={t(selectorsApp.getLang()).profile.ADD_AS_FRIEND}
+                                        />
                                 :
-                                    <Cta 
-                                        onPress={() => console.log("ajouter en ami")}
-                                        _style={[cta.main, cta.first]}
-                                        value={t(selectorsApp.getLang()).profile.ADD_AS_FRIEND}
-                                    />
+                                    null
                             }
                         </View>
                     </View>
@@ -107,7 +126,7 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.LASTNAME}
                                 </Txt>
                                 <Txt _style={{flex: 1}}>
-                                    {selectorsUser.getUser().lastname} 
+                                    {user.lastname} 
                                 </Txt>
                             </View>
                             <View style={globalStyles.flexRow}>
@@ -115,7 +134,7 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.FIRSTNAME}
                                 </Txt>
                                 <Txt _style={{flex: 1}}>
-                                    {selectorsUser.getUser().firstname} 
+                                    {user.firstname} 
                                 </Txt>
                             </View>
                             <View style={globalStyles.flexRow}>
@@ -123,7 +142,7 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.BIRTHDATE} 
                                 </Txt>
                                 <Txt _style={{flex: 1}}>
-                                    {t(selectorsApp.getLang()).datetime.formats.readableDate(selectorsUser.getUser().birthdate)} 
+                                    {t(selectorsApp.getLang()).datetime.formats.readableDate(user.birthdate)} 
                                 </Txt>
                             </View>
                             <View style={globalStyles.flexRow}>
@@ -131,7 +150,7 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.FAVORITE_SPORT} 
                                 </Txt>
                                 <Txt _style={{flex: 1}}>
-                                    {getSportById(selectorsApp.getLang(), selectorsUser.getUser().fav_sport).name} 
+                                    {getSportById(selectorsApp.getLang(), user.fav_sport).name} 
                                 </Txt>
                             </View>
                             <View style={globalStyles.flexRow}>
@@ -139,7 +158,7 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.REGISTRATION_DATE} 
                                 </Txt>
                                 <Txt _style={{flex: 1}}>
-                                    {t(selectorsApp.getLang()).datetime.formats.date(selectorsUser.getUser().create_at)} 
+                                    {t(selectorsApp.getLang()).datetime.formats.date(user.create_at)} 
                                 </Txt>
                             </View>
                         </View>
@@ -152,10 +171,10 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.EMAIL}  
                                 </Txt>
                                 <Txt
-                                    onPress={() => Linking.openURL(`mailto:${selectorsUser.getUser().email}`)}
+                                    onPress={() => Linking.openURL(`mailto:${user.email}`)}
                                     _style={{flex: 1}}
                                 >
-                                    {selectorsUser.getUser().email} 
+                                    {user.email} 
                                 </Txt>
                             </View>
                             <View style={globalStyles.flexRow}>
@@ -163,18 +182,18 @@ export default function UserProfileScreen({navigation, route}) {
                                     {t(selectorsApp.getLang()).profile.PHONE_NUMBER}  
                                 </Txt>
                                 <Flag 
-                                    id={JSON.parse(selectorsUser.getUser().country).cca2}
+                                    id={JSON.parse(user.country).cca2}
                                     size={0.1}
                                 />
                                 <Txt 
-                                    onPress={() => Linking.openURL(`${Platform.OS === "android" ? "tel" : "telprompt"}:${selectorsUser.getUser().phone}`)}
+                                    onPress={() => Linking.openURL(`${Platform.OS === "android" ? "tel" : "telprompt"}:${user.phone}`)}
                                     _style={[{flex: 1}, globalStyles.pl_5]}
                                 >
                                     {
-                                        JSON.parse(selectorsUser.getUser().country).callingCode.length !== 0 ?
-                                            formatPhoneNumber(`+${JSON.parse(selectorsUser.getUser().country).callingCode[0]}${selectorsUser.getUser().phone}`)
+                                        JSON.parse(user.country).callingCode.length !== 0 ?
+                                            formatPhoneNumber(`+${JSON.parse(user.country).callingCode[0]}${user.phone}`)
                                         :
-                                            selectorsUser.getUser().phone
+                                        user.phone
                                     } 
                                 </Txt>
                             </View>
@@ -184,9 +203,11 @@ export default function UserProfileScreen({navigation, route}) {
                         </Title>
                         <View style={[globalStyles.flexColumn, globalStyles.m_5]}>
                             {
-                                selectorsUser.getUser().events.length !== 0 ?
-                                    (selectorsUser.getUser().events).map((event, index) =>
-                                        <EventCard item={event} key={index} />
+                                user.events.length !== 0 ?
+                                    (user.events).map((event, index) => {
+                                            let isMyEvent = isUserInEventGroup(selectorsUser.getConnectedUser().events, event.id);
+                                            return <EventCard item={event} isMyEvent={isMyEvent} key={index} />
+                                        }
                                     ) 
                                 :
                                     <Txt>

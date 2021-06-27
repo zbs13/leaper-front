@@ -4,6 +4,7 @@ import t from '../providers/lang/translations';
 import useApp from '../hooks/useApp';
 import useEvents from '../hooks/useEvents';
 import useGroups from '../hooks/useGroups';
+import useFirebase from '../hooks/useFirebase';
 import { manageResponseUI } from '../context/actions/apiCall';
 import SharedContentCard from '../components/cards/SharedContentCard';
 import globalStyles from '../assets/styles/global';
@@ -26,34 +27,38 @@ export default function SharedContentScreen({navigation, route}) {
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
     const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
     const { actions: actionsGroup, selectors: selectorsGroup } = useGroups();
+    const { actions: firebase } = useFirebase();
 
     const lang = selectorsApp.getLang();
 
-    const [scOffset, setScOffset] = useState(0);
+    const [scLimit, setScLimit] = useState(global.MAX_RESULT_PER_LOADED_PAGE);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [results, setResults] = useState([]);
 
     useEffect(() => {
+        let isMounted = true;
         navigation.setOptions({
             headerTitle: t(lang).SHARED_CONTENT
         });
-        fetchAllSharedContent();
-    }, [scOffset])
+        if(isMounted){
+            fetchAllSharedContent();
+        }
+        return () => {isMounted = false}
+    }, [])
 
     /**
      * fetch group/event shared content
+     * 
+     * @param offset
      */
-    function fetchAllSharedContent(){
-        action.fetchAllSharedContent(id, scOffset).then((resp) => {
-            manageResponseUI(resp,
-                lang,
-                function (res) {
-                    setIsLoaded(true);
-                },
-                function (error) {
-                    actionsApp.addPopupStatus(error);
-                    setIsLoaded(false)
-                }
-            )
+    function fetchAllSharedContent(offset = global.MAX_RESULT_PER_LOADED_PAGE){
+        let results = []
+        return firebase.getSharedContent(id, offset, function(result){
+            if(result !== null){
+                results.push(result);
+                setResults(results);
+            }
+            setIsLoaded(true);
         })
     }
 
@@ -68,10 +73,15 @@ export default function SharedContentScreen({navigation, route}) {
         isLoaded ?
             <View style={globalStyles.m_5}>
                 <RefreshViewList
-                    data={selector.getSharedContent()}
+                    data={results}
                     onRefresh={() => fetchAllSharedContent()}
                     noDataMessage={t(lang).NO_SHARED_CONTENT}
-                    onEndReached={() => setScOffset(scOffset + global.MAX_RESULT_PER_LOADED_PAGE)}
+                    onEndReached={() => {
+                        if(results.length >= scLimit + global.MAX_RESULT_PER_LOADED_PAGE){
+                            fetchAllSharedContent(scLimit + global.MAX_RESULT_PER_LOADED_PAGE);
+                            setScLimit(scLimit + global.MAX_RESULT_PER_LOADED_PAGE);
+                        }
+                    }}
                     renderItem={({item, index}) => <SharedContentCard content={item} index={index} />}
                 />
             </View>

@@ -17,11 +17,11 @@ import LoginScreen from "./screens/auth/LoginScreen";
 import RegistrationScreen from "./screens/auth/RegistrationScreen";
 import WelcomeLanguageSelectionScreen from "./screens/auth/WelcomeLanguageSelectionScreen";
 import headerType from "./components/headers/headers";
-import AppSettingsScreen from "./screens/AppSettingesScreen";
+import AppSettingsScreen from "./screens/AppSettingsScreen";
 import ChangeLanguageScreen from "./screens/ChangeLanguageScreen";
 import ChangeNotificationsScreen from "./screens/ChangeNotificationsScreen";
 import AboutScreen from "./screens/AboutScreen";
-import ProfilSettingsScreen from "./screens/ProfilSettingsScreen";
+import ProfileSettingsScreen from "./screens/ProfileSettingsScreen";
 
 
 
@@ -135,14 +135,8 @@ export const withCustomHeaderOnly = [
         header: ({navigation}) => (headerType.back())
     },
     {
-        name: global.screens.PROFIL_SETTINGS,
-        component: ProfilSettingsScreen,
+        name: global.screens.PROFILE_SETTINGS,
+        component: ProfileSettingsScreen,
         header: ({navigation}) => (headerType.back())
     },
-
-
-
-    
-
-
 ]

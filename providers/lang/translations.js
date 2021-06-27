@@ -29,7 +29,8 @@ const l = {
         TO: "à",
         DETAILS: "Détails",
         SEE_DETAILS: "Voir détails",
-        BOOKMARK_THIS_PLACE: "Mettre le lieu en favori",
+        BOOKMARK_THIS_PLACE: "Mettre en favori",
+        UNBOOKMARK_THIS_PLACE: "Retirer des favoris",
         PARAMETERS: "Paramètres",
         MUTE: "Mettre en sourdine",
         PEOPLE_LIST: "Liste des membres",
@@ -44,6 +45,7 @@ const l = {
         PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "L'accès à la bibliothèque du téléphone n'est pas autorisé. Vous pouvez accorder l'accès dans les paramètres du téléphone",
         CAMERA: "Caméra",
         PHOTO_VIDEO_LIBRARY: "Bibliothèque photos/vidéos",
+        PHOTO_LIBRARY: "Bibliothèque photos",
         FILE: "Fichier",
         SHARED_CONTENT: "Contenu partagé",
         NO_SHARED_CONTENT: "Aucun contenu partagé",
@@ -66,13 +68,17 @@ const l = {
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
             EDIT_SUCCESS: "Modifié avec succès",
-            CREATE_SUCCESS: "Créé avec succès"
+            CREATE_SUCCESS: "Créé avec succès",
+            EDIT_PROFILE_SUCCESS: "Profil modifié avec succès",
+            SIGNUP_SUCCESS: "Vous vous êtes inscrit avec succès",
+            EDIT_PASSWORD_SUCCESS: "Mot de passe modifié avec succès"
         },
         errors: {
             ERROR_API: "Oups, une erreur est survenue",
             ERROR_DOWNLOAD_FILE: "Une erreur est survenue lors du téléchargement du fichier",
             ERROR_IMPORTING_FILE: "Une erreur est survenue lors de l'importation du document",
-            ERROR_SHARE_FILE: "Une erreur est survenue lors du partage du fichier"
+            ERROR_SHARE_FILE: "Une erreur est survenue lors du partage du fichier",
+            ERROR_EDIT_PASSWORD: "L'ancien mot de passe est invalide"
         },
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
@@ -120,6 +126,7 @@ const l = {
         },
         fields: {
             PASSWORD: "Mot de passe",
+            CONFIRM_PASSWORD: "Confirmer le mot de passe",
             MAIL: "Mail",
             USERNAME : "Nom d'utilisateur",
             FIRSTNAME : "Prénom",
@@ -127,6 +134,7 @@ const l = {
             PHONE_NUMBER: "Numéro de téléphone",
             FIELD_INCORRECT_VALUES: "Ce champ contient des caractères interdit",
             FIELD_INCORRECT_PASSWORD: "Le mot de passe doit contenir au moins 7 caractères, un numéro et une majuscule",
+            FIELD_INCORRECT_CONFIRM_PASSWORD: "Les deux mots de passe ne correspondent pas",
             FIELD_INCORRECT_MAIL: "Le format du mail est invalide",
             FIELD_INCORRECT_MAX_LENGTH: "La valeur dépasse la longueur autorisée",
             FIELD_INCORRECT_MIN_LENGTH: "La valeur ne contient pas assez de caractères",
@@ -228,7 +236,9 @@ const l = {
             MY_BOOKMARKS: "Mes favoris",
             NO_BOOKMARK: "Vous n'avez pas encore de favoris",
             DELETE_BOOKMARK: "Supprimer le favori",
-            SURE_TO_DELETE_BOOKMARK: "Vous êtes sur le point de supprimer le favori"
+            SURE_TO_DELETE_BOOKMARK: "Vous êtes sur le point de supprimer le favori",
+            BOOKMARK_SUCCESS: "Ajouté en favori avec succès",
+            UNBOOKMARK_SUCCESS: "Retiré des favoris avec succès"
         },
         auth: {
             LOGIN: "Se connecter",
@@ -330,8 +340,11 @@ const l = {
             TITLE: 'Paramètres',
             LOGOUT: 'Déconnexion'
         },
+        welcomeLanguageSelection: {
+            SELECT_A_LANGUAGE: "Choisissez une langue"
+        },
         settingsApp: {
-            TITLE: 'Paramètre de l\'application ',
+            TITLE: 'Paramètres de l\'application ',
             NOTIFICATIONS: 'Notifications',
             LANGUAGE: 'Langue'
         },
@@ -343,14 +356,14 @@ const l = {
         changeNotifications: {
             TITLE: 'Notifications',
             TITLE_MESSAGE: 'Messages',
-            TITLE_MESSAGE_PRIVATE: 'Messages des discutions',
-            TITLE_MESSAGE_EVENT: 'Messages des évènements',
+            TITLE_MESSAGE_GROUP: 'Messages de groupe',
+            TITLE_MESSAGE_EVENT: 'Messages d\'évènement',
             TITLE_ADD: 'Invitations',
-            TITLE_ADD_MESSAGE: 'Invitations à une discutions',
-            TITLE_ADD_EVENT: 'Invitations à un évènement :',
-            TITLE_ADD_FRIEND: 'Invitations d\'ami :',
-            TITLE_REMINDER: 'Rappel :',
-            TITLE_REMINDER_EVENT: 'Me rappeler un évènement :'
+            TITLE_ADD_GROUP: 'Invitations à des groupes',
+            TITLE_ADD_EVENT: 'Invitations à des évènements',
+            TITLE_ADD_FRIEND: 'Invitations d\'amis',
+            TITLE_REMINDER: 'Rappel',
+            TITLE_REMINDER_EVENT: 'Me rappeler un évènement'
         },
         about: {
             TITLE: 'À propos',
@@ -359,6 +372,7 @@ const l = {
             PATCH_NOTE: 'Note de mise à jour',
         },
         profilSettings: {
+            PROFILE: "Profil",
             MY_INFORMATIONS: 'Mes informations',
             PH_LASTNAME: 'Nom',
             PH_FIRSTNAME: 'Prénom',
@@ -369,6 +383,12 @@ const l = {
             PH_OLD_PW: 'Ancien mot de passe',
             PH_NEW_PW: 'Nouveau mot de passe',
             PH_COMFIRMATION_PW: 'Confirmation du mot de passe'
+        },
+        registration: {
+            REGISTRATION: "Inscription",
+            PASSWORD: "Mot de passe",
+            CONFIRM_PASSWORD: "Confirmer le mot de passe",
+            SIGN_UP: "S'inscrire"
         }
     },
     en: {
@@ -399,6 +419,7 @@ const l = {
         DETAILS: "Details",
         SEE_DETAILS: "See details",
         BOOKMARK_THIS_PLACE: "Bookmark this place",
+        UNBOOKMARK_THIS_PLACE: "Unbookmark this place",
         PARAMETERS: "Parameters",
         MUTE: "Mute",
         PEOPLE_LIST: "Members list",
@@ -413,6 +434,7 @@ const l = {
         PHONE_ACCESS_NOT_GRANTED_TO_MEDIA: "Access to phone library not granted. You can granted the access in phone settings",
         CAMERA: "Camera",
         PHOTO_VIDEO_LIBRARY: "Photo/video library",
+        PHOTO_LIBRARY: "Photo library",
         FILE: "File",
         SHARED_CONTENT: "Shared content",
         NO_SHARED_CONTENT: "No shared content",
@@ -433,15 +455,19 @@ const l = {
         MANAGE_ROLE: "Manage role",
         INVITE: "Invite",
         success: {
-            SUCCESS_DOWNLOAD_FILE: "Download completed successfully",
+            SUCCESS_DOWNLOAD_FILE: "Download successfully completed",
             EDIT_SUCCESS: "Successfully edited",
-            CREATE_SUCCESS: "Successfully created"
+            CREATE_SUCCESS: "Successfully created",
+            EDIT_PROFILE_SUCCESS: "Profile successfully edited",
+            SIGNUP_SUCCESS: "Profile successfully created",
+            EDIT_PASSWORD_SUCCESS: "Password successfully edited"
         },
         errors: {
             ERROR_API: "Oops, an error has occurred !",
             ERROR_DOWNLOAD_FILE: "An error occured while downloading file",
             ERROR_IMPORTING_FILE: "An error occured while importing file",
-            ERROR_SHARE_FILE: "An error occured while sharing file"
+            ERROR_SHARE_FILE: "An error occured while sharing file",
+            ERROR_EDIT_PASSWORD: "Old password is wrong"
         },
         message: {
             WRITE_A_MESSAGE: "Write a message...",
@@ -489,6 +515,7 @@ const l = {
         },
         fields: {
             PASSWORD: "Password",
+            CONFIRM_PASSWORD: "Confirm password",
             MAIL: "eMail",
             USERNAME : "Username",
             FIRSTNAME : "Firstname",
@@ -496,6 +523,7 @@ const l = {
             PHONE_NUMBER: "Phone number",
             FIELD_INCORRECT_VALUES: "This field contains forbidden caracters",
             FIELD_INCORRECT_PASSWORD: "The password must contain at least 7 caracters, 1 number and 1 capital letter",
+            FIELD_INCORRECT_CONFIRM_PASSWORD: "Both passwords are not the same",
             FIELD_INCORRECT_MAIL: "Mail format is not valid",
             FIELD_INCORRECT_MAX_LENGTH: "Value exceeds allowable length",
             FIELD_INCORRECT_MIN_LENGTH: "The value does not contain enough caracters",
@@ -604,7 +632,9 @@ const l = {
             MY_BOOKMARKS: "My bookmarks",
             NO_BOOKMARK: "You don't have bookmark yet",
             DELETE_BOOKMARK: "Delete bookmark",
-            SURE_TO_DELETE_BOOKMARK: "You are going to delete the bookmark"
+            SURE_TO_DELETE_BOOKMARK: "You are going to delete the bookmark",
+            BOOKMARK_SUCCESS: "Bookmarked with success",
+            UNBOOKMARK_SUCCESS: "Unbookmarked with success"
         },
         auth: {
             LOGIN: "Log in",
@@ -710,26 +740,26 @@ const l = {
             SELECT_A_LANGUAGE: "Select a language"
         },
         settingsApp: {
-            TITLE: 'Settings App ',
+            TITLE: 'App settings',
             NOTIFICATIONS: 'Notifications',
             LANGUAGE: 'Language'
         },
         changeLanguage: {
-            TITLE: 'Languges',
+            TITLE: 'Languages',
             SELECT_LANGUAGES_FR: 'FR',
             SELECT_LANGUAGES_EN: 'EN'
         },
         changeNotifications: {
             TITLE: 'Notifications',
-            TITLE_MESSAGE: 'Messages :',
-            TITLE_MESSAGE_PRIVATE: 'Chat message :',
-            TITLE_MESSAGE_EVENT: 'Chat event :',
-            TITLE_ADD: 'Invitation :',
-            TITLE_ADD_MESSAGE: 'Chat invitation :',
-            TITLE_ADD_EVENT: 'Event invitation :',
-            TITLE_ADD_FRIEND: 'Friend invitation :',
-            TITLE_REMINDER: 'Reminder :',
-            TITLE_REMINDER_EVENT: 'Remind me of an event :'
+            TITLE_MESSAGE: 'Messages',
+            TITLE_MESSAGE_GROUP: 'Chat group',
+            TITLE_MESSAGE_EVENT: 'Chat event',
+            TITLE_ADD: 'Invitation',
+            TITLE_ADD_GROUP: 'Group invitation',
+            TITLE_ADD_EVENT: 'Event invitation',
+            TITLE_ADD_FRIEND: 'Friend invitation',
+            TITLE_REMINDER: 'Reminder',
+            TITLE_REMINDER_EVENT: 'Remind me of an event'
         },
         about: {
             TITLE: 'About',
@@ -738,6 +768,7 @@ const l = {
             PATCH_NOTE: 'Patch note',
         },
         profilSettings: {
+            PROFILE: "Profile",
             MY_INFORMATIONS: 'My informations',
             PH_LASTNAME: 'Lastname',
             PH_FIRSTNAME: 'Firstname',
@@ -747,7 +778,13 @@ const l = {
             CHANGE_PASSWORD: 'Update my password',
             PH_OLD_PW: 'Old password',
             PH_NEW_PW: 'New password',
-            PH_COMFIRMATION_PW: 'Comfirmation password'
+            PH_COMFIRMATION_PW: 'Confirm password'
+        },
+        registration: {
+            REGISTRATION: "Registration",
+            PASSWORD: "Password",
+            CONFIRM_PASSWORD: "Confirm password",
+            SIGN_UP: "Sign up"
         }
     }
 }

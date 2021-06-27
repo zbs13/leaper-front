@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { messageCard } from '../../assets/styles/styles';
@@ -9,12 +9,13 @@ import FileDisplay from '../display/FileDisplay';
 import OptionsModal from '../modals/OptionsModal';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
+import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Cta from '../cta/Cta';
 import global from '../../providers/global';
 import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
-import { messageDateFormat } from '../../utils/utils';
+import { messageDateFormat, urlNoParams } from '../../utils/utils';
 import ContentDisplay from '../display/ContentDisplay';
 import { saveFileOnPhone, shareFile } from '../../utils/phoneFunct';
 import { useNavigation } from '@react-navigation/native';
@@ -22,16 +23,18 @@ import { useNavigation } from '@react-navigation/native';
 /**
  * message card
  * 
+ * @param {string} geId group/event id
  * @param {object} message message => id, attachment, content, date, sentBy
  * @param {boolean} isEvent is an event message
  * @returns 
  */
-export default function MessageCard({ message, isEvent}) {
+export default function MessageCard({ geId, message, isEvent}) {
 
     const {selectors: selectorsApp, actions: actionsApp} = useApp();
     const { selectors: selectorsEvent } = useEvents();
     const { selectors: selectorsGroup } = useGroups();
     const { selectors: selectorsUser } = useUsers();
+    const { actions: firebase } = useFirebase();
     const navigation = useNavigation();
 
     const isMyMessage = selectorsUser.getConnectedUser().id === message.sentBy.id
@@ -52,7 +55,7 @@ export default function MessageCard({ message, isEvent}) {
             <View style={[globalStyles.flexColumn, globalStyles.alignCenter]}>
                 <Cta onPress={() => navigation.navigate(global.screens.USER_PROFILE, {userId: message.sentBy.id, userFirstname: message.sentBy.firstname})}>
                     <View style={messageCard.profilePicContainer}>
-                        <BackgroundImage _style={messageCard.profilePic} image={{uri: message.sentBy.profilePic}}/>
+                        <BackgroundImage _style={messageCard.profilePic} image={message.sentBy.profilePic !== null ? {uri: message.sentBy.profilePic} : require("../../assets/img/icons/default_profile_pic.png")}/>
                     </View>
                 </Cta>
             </View>
@@ -68,7 +71,7 @@ export default function MessageCard({ message, isEvent}) {
     function displayContent(options){
         return(
             <View>
-                {typeof message.attachment === "object" && Object.entries(message.attachment).length !== 0 ?
+                {message.attachment !== null ?
                     <FileDisplay file={message.attachment} options={options}/>
                 :
                     null
@@ -100,7 +103,11 @@ export default function MessageCard({ message, isEvent}) {
             options.options.splice(1, 0, {
                 value: t(selectorsApp.getLang()).message.DELETE_MESSAGE,
                 icon: "trash-outline",
-                action: () => alert("ajouter a la conv")
+                action: () => firebase.deleteMessage(geId, message, function(){
+                    actionsApp.addPopupStatus({
+                        type: "error"
+                    })
+                })
             })
         }
 
@@ -118,16 +125,16 @@ export default function MessageCard({ message, isEvent}) {
         /**
          * if attachment not void
          */
-         if(message.attachment.type !== undefined && message.attachment !== null){
+         if(message.attachment !== null){
             options.options.splice(1, 0, ...[{
                 value: t(selectorsApp.getLang()).COPY_ATTACHMENT_LINK,
                 icon: "copy-outline",
-                action: () => Clipboard.setString(message.attachment.uri)
+                action: () => Clipboard.setString(message.attachment)
             },
             {
                 value: t(selectorsApp.getLang()).SAVE_ATTACHMENT,
                 icon: "save-outline",
-                action: () => saveFileOnPhone(message.attachment.uri,
+                action: () => saveFileOnPhone(message.attachment,
                     () => {
                         actionsApp.addPopupStatus({
                             type: "error",
@@ -141,7 +148,7 @@ export default function MessageCard({ message, isEvent}) {
                 disabled: isSharing,
                 action: () => {
                     setIsSharing(true);
-                    shareFile(message.attachment.uri,
+                    shareFile(message.attachment,
                         () => {
                             actionsApp.addPopupStatus({
                                 type: "error",
@@ -167,7 +174,7 @@ export default function MessageCard({ message, isEvent}) {
                                 null
                             }
                             <View style={[messageCard.content, isMyMessage ? messageCard.contentMy : messageCard.contentNotMy]}>
-                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{messageDateFormat(message.date, selectorsApp.getLang())}</Txt>
+                                <Txt _style={[messageCard.date, isMyMessage ? globalStyles.ta_r : {}]}>{messageDateFormat(message.createdAt.toDate(), selectorsApp.getLang())}</Txt>
                                 {displayContent(options)}
                             </View>
                         </View>

@@ -12,6 +12,7 @@ import OptionsModal from '../modals/OptionsModal';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
 import t from '../../providers/lang/translations';
+import { manageResponseUI } from '../../context/actions/apiCall';
 
 /**
  * bookmark Cards
@@ -21,8 +22,8 @@ import t from '../../providers/lang/translations';
  */
 export default function BookmarkCard({ item }) {
     
-    const {selectors} = useApp();
-    const {selectors: selectorsUser} = useUsers();
+    const {actions, selectors} = useApp();
+    const {selectors: selectorsUser, actions: actionsUser} = useUsers();
     const navigation = useNavigation();
     
     const options = {
@@ -36,7 +37,21 @@ export default function BookmarkCard({ item }) {
         },
         icon: "close-outline",
         iconColor: global.colors.WHITE,
-        action: () => console.log("a quitter")
+        action: () => {
+            actionsUser.removeBookmark(item.id).then((data) => {
+                manageResponseUI(data,
+                    selectors.getLang(),
+                    function (res) {
+                        actions.addPopupStatus({
+                            type: "success",
+                            message: t(selectors.getLang()).bookmarks.UNBOOKMARK_SUCCESS
+                        });
+                    },
+                    function (error) {
+                        actions.addPopupStatus(error);
+                    })
+                })
+        }
     } 
 
     /**
@@ -55,7 +70,6 @@ export default function BookmarkCard({ item }) {
      * main delete options for swipeable options
      */
     const swipeableOptions = [options];
-
     const isMyEvent = isUserInEventGroup(item.users, selectorsUser.getConnectedUser().id);
 
     return (

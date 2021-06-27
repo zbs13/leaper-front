@@ -21,7 +21,7 @@ export default function EditGroupEventScreen({navigation, route}) {
             headerTitle: `${t(selectors.getLang()).EDITING} : ${infos.name}`
         });
     }, [])
-
+    
     return (
         <View>
             {
@@ -36,8 +36,7 @@ export default function EditGroupEventScreen({navigation, route}) {
                         startHourValue={infos.startHour}
                         endHourValue={infos.endHour}
                         addressValue={infos.address}
-                        locationValue={infos.location}
-                        picSrc={infos.src}
+                        locationValue={infos.location[0]}
                     />
                 :
                     <CreateEditGroupForm 
@@ -45,7 +44,6 @@ export default function EditGroupEventScreen({navigation, route}) {
                         groupId={id}
                         nameValue={infos.name}
                         descriptionValue={infos.description}
-                        picSrc={infos.src}
                     />
             }
         </View>

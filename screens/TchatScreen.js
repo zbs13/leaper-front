@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { View, Keyboard, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import useApp from '../hooks/useApp';
 import TchatBar from '../components/fields/TchatBar';
 import globalStyles from '../assets/styles/global';
 import useEvents from '../hooks/useEvents';
 import useGroups from '../hooks/useGroups';
+import useUsers from '../hooks/useUsers';
+import useFirebase from '../hooks/useFirebase';
 import { manageResponseUI } from '../context/actions/apiCall';
 import MessageCard from '../components/cards/MessageCard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -16,6 +18,7 @@ import t from '../providers/lang/translations';
 import global from '../providers/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniLoader from '../components/loaders/MiniLoader';
+import _ from 'lodash';
 
 /**
  * tchat screen
@@ -33,6 +36,8 @@ export default function TchatScreen({navigation, route}) {
   const { actions: actionsApp, selectors: selectorsApp } = useApp();
   const { actions: actionsEvent, selectors: selectorsEvent } = useEvents();
   const { actions: actionsGroup, selectors: selectorsGroup } = useGroups();
+  const { selectors: selectorsUser } = useUsers();
+  const { actions: firebase } = useFirebase();
 
   const scrollViewRef = React.useRef();
 
@@ -46,11 +51,26 @@ export default function TchatScreen({navigation, route}) {
     isMoreContentLoading: false
   });
 
+  const [messages, setMessages] = useState([]);
+  const [oldMessages, setOldMessages] = useState([]);
+
   let lang = selectorsApp.getLang();
 
   useEffect(() => {
-    fetchAllById();
-  }, [ts.offset]);
+    const msgs = firebase.lastMessagesSnapshot(id, function(msg){
+      const data = msg.docs.map(doc => ({...doc.data(), id: doc.id}));
+      setMessages(_.reverse(data));
+    });
+    return () => msgs();
+  }, [id]);
+
+  useEffect(() => {
+    let isMounted = true;
+    if(isMounted){
+      fetchById();
+    }
+    return () => { isMounted = false };
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -69,8 +89,8 @@ export default function TchatScreen({navigation, route}) {
   /**
    * fetch group/event messages
    */
-  function fetchAllById(){
-    action.fetchAllById(id, ts.offset).then((resp) => {
+  function fetchById(){
+    action.fetchById(id, ts.offset).then((resp) => {
       manageResponseUI(resp,
         lang,
         function (res) {
@@ -83,7 +103,7 @@ export default function TchatScreen({navigation, route}) {
             actionsApp.addPopupStatus(error);
             setLoader({
               ...loader,
-              isTchatLoaded: false,
+              isTchatLoaded: false
             });
         })
     })
@@ -166,23 +186,30 @@ export default function TchatScreen({navigation, route}) {
         onKeyboardWillShow={() => scrollViewRef.current.scrollToEnd({ animated: true })}
         extraScrollHeight={-225}
         removeClippedSubviews
-        // onScroll={(e) => {
-        //   if(e.nativeEvent.contentOffset.y === 0){
-        //     if(selector.getMessages().length >= (ts.offset + global.MAX_RESULT_PER_LOADED_PAGE)){
-        //       setLoader({...loader, isMoreContentLoading: true});
-        //       setTs({...ts, offset: ts.offset + global.MAX_RESULT_PER_LOADED_PAGE})
-        //     }
-        //   }else{
-        //     setTs({
-        //       ...ts, 
-        //       yPos: e.nativeEvent.contentOffset.y,
-        //       endPos: e.nativeEvent.contentSize.height - e.nativeEvent.layoutMeasurement.height
-        //     })
-        //   }
-        // }}
+        onScroll={(e) => {
+          if(e.nativeEvent.contentOffset.y === 0){
+            if(messages.length >= (ts.offset + global.MAX_RESULT_PER_LOADED_TCHAT)){
+              setLoader({...loader, isMoreContentLoading: true});
+              firebase.getOldMessages(id, ts.offset + global.MAX_RESULT_PER_LOADED_TCHAT, function(otherOldMessages){
+                let inOldSetMessages = oldMessages;
+                const data = otherOldMessages.docs.map(doc => ({...doc.data(), id: doc.id}));
+                inOldSetMessages.push(..._.reverse(data));
+                setTs({...ts, offset: ts.offset + global.MAX_RESULT_PER_LOADED_TCHAT})
+                setOldMessages(inOldSetMessages);
+                setLoader({...loader, isMoreContentLoading: false});
+              })
+            }
+          }else{
+            setTs({
+              ...ts, 
+              yPos: e.nativeEvent.contentOffset.y,
+              endPos: e.nativeEvent.contentSize.height - e.nativeEvent.layoutMeasurement.height
+            })
+          }
+        }}
       >
         {loader.isTchatLoaded ? 
-          selector.getMessages().map((message, index) => <View key={index}><MessageCard message={message} isEvent={isEvent} /></View>)
+          oldMessages.concat(messages).map((message, index) => <View key={index}><MessageCard geId={id} message={message} isEvent={isEvent} /></View>)
         :
           <TchatLoader />
         }
@@ -190,11 +217,14 @@ export default function TchatScreen({navigation, route}) {
       <View>
         <TchatBar
           onChangeInput={() => scrollViewRef.current.scrollToEnd({ animated: true })} 
-          onSend={async ({textValue, attachment}) => {
-            await action.sendMessage(id, textValue, attachment);
-            scrollViewRef.current.scrollToEnd({ animated: true });
+          onSend={({textValue, attachment}) => {
+            firebase.postMessage(id, selectorsUser.getConnectedUser(), textValue, attachment, function(){
+              actionsApp.addPopupStatus({
+                type: "error"
+              })
+            });
           }}
-          />
+        />
       </View>
     </>
   );

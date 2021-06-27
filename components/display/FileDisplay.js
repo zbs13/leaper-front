@@ -9,6 +9,7 @@ import Cta from '../cta/Cta';
 import OptionsModal from '../modals/OptionsModal';
 import * as WebBrowser from 'expo-web-browser';
 import FullscreenDisplay from './FullscreenDisplay';
+import { getTypeFromContentType, getExactFileNameFromPath } from '../../utils/utils';
 
 /**
  * display any media => file (pdf, doc...), any media => video, image
@@ -30,41 +31,41 @@ export default function FileDisplay({file, isPreview = false, options = null}){
         return (
             <Cta onPress={async () => {
                 if(!isPreview){
-                    if(file.type === "video"){
+                    if(file.type !== undefined ? file.type === "video" : (file.contentType).includes("video")){
                         return {};
-                    }else if(file.type === "image"){
+                    }else if(file.type !== undefined ? file.type === "image" : (file.contentType).includes("image")){
                         setFileState({
                             ...fileState,
                             isFullScreen: true
                         })
                     }else{
-                        await WebBrowser.openBrowserAsync(file.uri);
+                        await WebBrowser.openBrowserAsync(file.downloadUrl);
                     }
                 }else{
                     return {};
                 }
             }}>
-                {file.type === "video" ?
+                {(file.type !== undefined ? file.type === "video" : (file.contentType).includes("video")) ?
                     <Video
                         style={isPreview ? video.containerPreview : video.container}
                         source={{
-                            uri: file.uri,
+                            uri: file.downloadUrl || file.uri,
                         }}
                         useNativeControls
                         resizeMode="contain"
                     />
                 :
-                file.type === "image" ?
+                (file.type !== undefined ? file.type === "image" : (file.contentType).includes("image")) ?
                         <View>
                             <FullscreenDisplay 
                                 isFullScreen={fileState.isFullScreen} 
                                 onClose={() => setFileState({...fileState, isFullScreen: false})}
-                                file={file.uri}
+                                file={file.downloadUrl || file.uri}
                             >
                                 <Image
                                     style={isPreview ? image.containerPreview : image.container}
                                     source={{
-                                        uri: file.uri
+                                        uri: file.downloadUrl || file.uri
                                     }}
                                     resizeMode="contain"
                                     onError={() => setFileState({...fileState, isImageError: true, isImageLoading: false})}
@@ -83,11 +84,11 @@ export default function FileDisplay({file, isPreview = false, options = null}){
                                     image={require("../../assets/img/icons/file-icon.png")}
                                     resizeMode="contain"
                                 >
-                                    <Txt _style={[globalStyles.ta_c, globalStyles.c_anth]}>{file.type}</Txt>
+                                    <Txt _style={[globalStyles.ta_c, globalStyles.c_anth]}>{file.type !== undefined ? file.type : getTypeFromContentType(file.contentType)}</Txt>
                                 </BackgroundImage>
                             </View>
                             <View>
-                                <Txt ellipsis={25} _style={globalStyles.c_anth}>{file.name}</Txt>
+                                <Txt ellipsis={25} _style={globalStyles.c_anth}>{getExactFileNameFromPath(file.name)}</Txt>
                             </View>
                             <View style={globalStyles.separator} />
                             <View>

@@ -7,6 +7,7 @@ import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
 import useApp from '../../hooks/useApp';
 import { useNavigation } from '@react-navigation/native';
+import { manageResponseUI } from '../../context/actions/apiCall';
 
 /**
  * Header right part with group/event options
@@ -18,14 +19,16 @@ import { useNavigation } from '@react-navigation/native';
  */
 export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, geId}) {
 
-    const { selectors: selectorsApp } = useApp();
-    const { selectors: selectorsEvent } = useEvents();
-    const { selectors: selectorsGroup } = useGroups();
+    const { selectors: selectorsApp, actions: actionsApp } = useApp();
+    const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
+    const { selectors: selectorsGroup, actions: actionsGroup } = useGroups();
     const navigation = useNavigation();
 
     let selector = selectorsGroup;
+    let action = actionsGroup;
     if(isEvent){
       selector = selectorsEvent;
+      action = actionsEvent;
     }
 
     let mainOptions = [
@@ -56,7 +59,19 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
             title: isEvent ? selector.isOwner() ? t(selectorsApp.getLang()).event.DELETE_EVENT : t(selectorsApp.getLang()).event.LEAVE_EVENT : selector.isOwner() ? t(selectorsApp.getLang()).event.DELETE_GROUP : t(selectorsApp.getLang()).group.LEAVE_GROUP,
             content: `${isEvent ? selector.isOwner() ? t(selectorsApp.getLang()).event.SURE_TO_DELETE_EVENT : t(selectorsApp.getLang()).event.SURE_TO_LEAVE_EVENT : selector.isOwner() ? t(selectorsApp.getLang()).group.SURE_TO_DELETE_GROUP : t(selectorsApp.getLang()).group.SURE_TO_LEAVE_GROUP} ${geTitle}`
           },
-          action: selector.isOwner() ? () => alert("Supprimer") : () => alert("Quitter")
+          action: selector.isOwner() ? 
+              () => action.deleteById(geId).then((data) => {
+                manageResponseUI(data,
+                    selectorsApp.getLang(),
+                    function (res) {
+                        navigation.navigate(isEvent ? global.screens.MY_EVENTS : global.screens.MY_GROUPS);
+                    },
+                    function (error) {
+                        actionsApp.addPopupStatus(error);
+                    })
+                }) 
+            : 
+              () => alert("Quitter")
         },
     ];
   

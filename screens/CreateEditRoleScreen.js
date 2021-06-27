@@ -29,10 +29,8 @@ export default function CreateEditRoleScreen({navigation, route}) {
     const { selectors: selectorApp, actions: actionsApp } = useApp();
     const { actions: actionRole } = useRoles();
     
-    const [roleState, setRoleState] = useState({
-        name: isEdit ? role.name : "",
-        isError: !isEdit
-    })
+    const [roleName, setRoleName] = useState(isEdit ? role.name : "");
+    const [roleError, setRoleError] = useState(!isEdit);
 
     const [sw, setSw] = useState({
         isRightRemoveUser: isEdit ? roleHasRight(role.rights, global.rights.REMOVE_USER) ? true : false : false,
@@ -55,9 +53,9 @@ export default function CreateEditRoleScreen({navigation, route}) {
                         type="text"
                         min={2}
                         placeholder={t(selectorApp.getLang()).roles.ROLE_NAME}
-                        defaultValue={isEdit ? role.name : null}
-                        isError={(error) => error ? setRoleState({...roleState, isError: true}) : setRoleState({...roleState, isError: false})}
-                        onChange={(name) => setRoleState({...roleState, name: name})}
+                        defaultValue={isEdit ? roleName : null}
+                        isError={(error) => setRoleError(error)}
+                        onChange={(name) => setRoleName(name)}
                     />
                 </View>
                 <View>
@@ -95,7 +93,6 @@ export default function CreateEditRoleScreen({navigation, route}) {
                         </View>
                     </View>
                 </View>
-                
             </ScrollView>
             <View style={[{flex: 1, position: "absolute", bottom: 0}, globalStyles.mb_10, globalStyles.w_100]}>
                 <Cta _style={[cta.main, cta.first]}
@@ -106,11 +103,9 @@ export default function CreateEditRoleScreen({navigation, route}) {
                         sw.isRightAddUser && rights.push(global.rights.ADD_USER);
                         sw.isRightDeleteMessage && rights.push(global.rights.DELETE_MESSAGE);
                         sw.isRightEditInfos && rights.push(global.rights.EDIT_INFOS);
-
                         if(isEdit){
-                            actionRole.updateRole(isEvent, geId, {
-                                id: role.id,
-                                name: roleState.name,
+                            actionRole.updateRole(role.id, {
+                                name: roleName,
                                 rights: rights
                             }).then((data) => {
                                 manageResponseUI(data,
@@ -125,7 +120,7 @@ export default function CreateEditRoleScreen({navigation, route}) {
                             });
                         }else{
                             actionRole.createRole(isEvent, geId, {
-                                name: roleState.name,
+                                name: roleName,
                                 rights: rights
                             }).then((data) => {
                                 manageResponseUI(data,
@@ -140,7 +135,7 @@ export default function CreateEditRoleScreen({navigation, route}) {
                             });;
                         }
                     }}
-                    disabled={roleState.isError}
+                    disabled={roleError || (!sw.isRightAddUser && !sw.isRightDeleteMessage && !sw.isRightEditInfos && !sw.isRightRemoveUser)}
                 />
             </View>
         </View>

@@ -225,11 +225,10 @@ export const toggleLeftMenu = StyleSheet.create({
         marginBottom: 20
     },
     item: {
-        padding: 10,
+        padding: 20,
         justifyContent: 'center',
         backgroundColor: 'white',
         alignItems: 'flex-start',
-        marginVertical: 10,
     },
 });
 
@@ -386,7 +385,9 @@ export const settings =  StyleSheet.create({
     bg: {
       backgroundColor: 'white',
       height: '85%', 
-      display: "flex"
+      display: "flex",
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5
     },
     borderPic: {
       borderRadius: 100,
@@ -408,7 +409,9 @@ export const settings =  StyleSheet.create({
       marginTop: 50
     },
     buttonStyle: {
-      margin: 10
+      padding: 15,
+      borderColor: global.colors.VERY_LIGHT_GREY,
+      borderBottomWidth: 1
     },
     buttonFont: {
       color: "black",
@@ -423,7 +426,7 @@ export const settings =  StyleSheet.create({
       fontSize: 15
     },
     buttonLogout: {
-        marginTop: 170
+        marginBottom: 0
     }
 
   });

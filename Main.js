@@ -10,9 +10,11 @@ import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
+import { FirebaseProvider } from "./context/firebaseContext";
 import { RolesProvider } from './context/rolesContext';
 import { deviceYearClass, modelName } from 'expo-device';
 import { manageResponseUI } from './context/actions/apiCall';
+import useFirebase from './hooks/useFirebase';
 
 export default function Main() {
 
@@ -22,6 +24,7 @@ export default function Main() {
 
     const {actions, selectors} = useApp();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
+    const {actions: actionsFirebase} = useFirebase();
 
     /**
      * configure status bar height according to os
@@ -32,6 +35,7 @@ export default function Main() {
      * configure app os and language
      */
     useEffect(() => {
+        let isMounted = true;
         /**
          * get user language / set user language
          */
@@ -40,9 +44,11 @@ export default function Main() {
                 if(val === null){
                     AsyncStorage.setItem("lang", "{'lang': 'en', flag: 'GB'}");
                 }else{
-                    actions.updateUserParameters({
-                        lang: JSON.parse(val)
-                    })
+                    if(isMounted){
+                        actions.updateUserParameters({
+                            lang: JSON.parse(val)
+                        })
+                    }
                 }
             })
         }
@@ -55,9 +61,11 @@ export default function Main() {
                 if(val === null){
                     AsyncStorage.setItem("isFirstLaunch", "true");
                 }else{
-                    actions.updateUserParameters({
-                        isFirstLaunch: val === "true"
-                    })
+                    if(isMounted){
+                        actions.updateUserParameters({
+                            isFirstLaunch: val === "true"
+                        })
+                    }
                 }
             })
         }
@@ -68,32 +76,46 @@ export default function Main() {
         AsyncStorage.getItem("isConnected").then(isConnected => {
             if(isConnected === null){
                 AsyncStorage.setItem("isConnected", "false").then(() => {
-                    setState({
-                        isLoaded: true
-                    });
+                    if(isMounted){
+                        setState({
+                            isLoaded: true
+                        });
+                    }
                 });
             }else{
                 if(isConnected === "true"){
-                    actionsUser.fetchConnectedUser().then((data) => {
-                        manageResponseUI(data,
-                          selectors.getLang(),
-                          function (res) {
-                            actionsUser.updateIsConnected(true)
-                            setState({
-                                isLoaded: true
-                            });
-                          },
-                          function (error) {
-                            actions.addPopupStatus(error);
-                          })
-                    })
+                    if(isMounted){
+                        actionsUser.fetchConnectedUser().then((data) => {
+                            manageResponseUI(data,
+                            selectors.getLang(),
+                            async function (res) {
+                                let profilePic = await actionsFirebase.getUserProfilePic(res.id);
+                                actionsUser.update({
+                                    isConnected: true,
+                                    connectedUserProfilePic: profilePic
+                                });
+                                setState({
+                                    isLoaded: true
+                                });
+                            },
+                            function (error) {
+                                if(isMounted){
+                                    actions.addPopupStatus(error);
+                                }
+                            })
+                            
+                        })
+                    }
                 }else{
-                    setState({
-                        isLoaded: true
-                    });
+                    if(isMounted){
+                        setState({
+                            isLoaded: true
+                        });
+                    }
                 }
             }
         })
+        return () => { isMounted = false };
     }, [selectorsUser.isConnected(), selectors.isFirstLaunch()])
 
     if(state.isLoaded){

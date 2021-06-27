@@ -1,18 +1,19 @@
 import { useContext } from "react";
 import EventsContext from "../context/eventsContext";
 import { 
-  fetchMyEvents, 
   fetchByCriteria, 
-  fetchById, 
+  fetchById,
   fetchMessages, 
   fetchAllSharedContent, 
   update, 
   create, 
   removeUser,
-  sendMessage
+  addUserToEvent,
+  deleteById
 } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useEvents = () => {
   const {
@@ -21,21 +22,6 @@ const useEvents = () => {
   } = useContext(EventsContext);
 
   const actions = {
-    /**
-     * fetch all my events
-     * 
-     * @returns 
-     */
-    fetchAllMy: function () {
-      return fetchMyEvents().then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_MY_EVENTS",
-            payload: res
-          });
-        })
-      });
-    },
     /**
      * fetch events by criteria
      * 
@@ -48,7 +34,7 @@ const useEvents = () => {
           dispatch({
             type: "UPDATE_EVENTS_BY_CRITERIA",
             payload: res,
-            offset: criteria.offset
+            offset: criteria.criteria.offset
           });
         })
       });
@@ -62,44 +48,39 @@ const useEvents = () => {
     fetchById: function(id) {
       return fetchById(id).then((data) => {
         return response(data, function(res){
-          dispatch({
-            type: "UPDATE_EVENTS_BY_ID",
-            payload: res
-          });
-          /**
-           * //TODO get real own id
-           */
-          const myId = 2;
-          /**
-           * 
-           */
-          let rightsArr = [];
-          let isOwner = false;
-          if(res.owner.id === myId){
-            rightsArr = global.rights.ALL;
-            isOwner = true;
-          }else{
-            res.users.map((index, user) => {
-              if(user.id === myId){
-                user.roles.map((index, role) => {
-                  if(role.event.id === id){
-                    
-                    for(let right of role.rights){
-                      rightsArr.push(right.id);
+          AsyncStorage.getItem("connectedUserId").then((userId) => {
+            dispatch({
+              type: "UPDATE_EVENTS_BY_ID",
+              payload: res
+            });
+            let rightsArr = [];
+            let isOwner = false;
+            if(res.owner.id === userId){
+              rightsArr = global.rights.ALL;
+              isOwner = true;
+            }else{
+              res.users.map((index, user) => {
+                if(user.id === userId){
+                  user.roles.map((index, role) => {
+                    if(role.event.id === id){
+                      
+                      for(let right of role.rights){
+                        rightsArr.push(right.id);
+                      }
                     }
-                  }
-                })
-              }
-            })
-          }
-
-          dispatch({
-            type: "UPDATE_MY_RIGHTS",
-            payload: {
-              rights: rightsArr,
-              isOwner: isOwner
+                  })
+                }
+              })
             }
-          });
+
+            dispatch({
+              type: "UPDATE_MY_RIGHTS",
+              payload: {
+                rights: rightsArr,
+                isOwner: isOwner
+              }
+            });
+          })
         })
       });
     },
@@ -120,23 +101,6 @@ const useEvents = () => {
           });
         })
       });
-    },
-    /**
-     * fetch event datas + messages + my rights by id
-     * 
-     * @param {string} id event id
-     * @param {number} offset from position in db
-     */
-     fetchAllById: async function(id, offset){
-      let respFBI = await actions.fetchById(id);
-      let respFM = await actions.fetchMessages(id, offset);
-      if(typeof respFBI.isError !== "undefined" || typeof respFM.isError !== "undefined"){
-        if(respFBI.isError || respFM.isError){
-            return {"error": true};
-        }
-      }
-
-      return {};
     },
     /**
      * fetch event shared content
@@ -163,7 +127,12 @@ const useEvents = () => {
      */
     create: function(values){
       return create(values).then((data) => {
-        return response(data);
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_NEED_RELOAD",
+            payload: true
+          });
+        });
       });
     },
     /**
@@ -174,7 +143,12 @@ const useEvents = () => {
      */
     updateById: function(id, values){
       return update(id, values).then((data) => {
-        return response(data);
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_EVENTS_BY_ID",
+            payload: res
+          });
+        });
       });
     },
     /**
@@ -194,46 +168,6 @@ const useEvents = () => {
       });
     },
     /**
-     * send a message
-     * 
-     * @param {string} eventId event id
-     * @param {string} value text value 
-     * @param {object} attachment message attachment => 
-     *                                        if image/video : height, type, uri, width 
-     *                                        if file        : name, size, type, uri
-     */
-     sendMessage: function(eventId, value, attachment){
-      /**
-       * TODO change with correct user id
-       */
-      let userId = 2;
-      let userSrc = "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png";
-      let userFirstname = "Johnny";
-      let userLastname = "matttttttttt";
-      /***
-      * 
-      */
-      return sendMessage(userId, eventId, value, attachment).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "SEND_MESSAGE",
-            payload: {
-              id: "jzaeifhuezi",
-              content: value,
-              attachment: attachment,
-              sentBy: {
-                  id: userId,
-                  firstname: userFirstname,
-                  lastname: userLastname,
-                  profilePic: userSrc
-              },
-              date: "2021-05-21 10:03:54"
-            }
-          });
-        })
-      });
-    },
-    /**
      * delete a role in UI from fetched event by id
      * 
      * @param {string} id role id to delete in UI
@@ -243,20 +177,56 @@ const useEvents = () => {
         type: "DELETE_ROLE_IN_UI",
         payload: id
       });
+    },
+    /**
+     * add user to event
+     * 
+     * @param {string} eventId event id
+     * @param {string} userId user id to add
+     */
+    addUserToEvent: function(eventId, userId){
+      return addUserToEvent(eventId, userId).then((data) => {
+        return response(data);
+      })
+    },
+    /**
+     * delete an event by id
+     * 
+     * @param {string} id event id to delete
+     */
+    deleteById: function(id){
+      return deleteById(id).then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_NEED_RELOAD",
+            payload: true
+          });
+        });
+      });
+    },
+    /**
+     * called to check if events need a refresh or not
+     * 
+     * @param {boolean} needReload true if events need a refresh
+     */
+     updateNeedReload: function(needReload){
+      dispatch({
+        type: "UPDATE_NEED_RELOAD",
+        payload: needReload
+      });
     }
   };
 
   const selectors = {
-    getAllMy: () => eventsState.my_events,
     getFetchedByCriteria: () => eventsState.fetchedByCriteria,
     getNbFetchedByCriteria: () => eventsState.nbFetchedByCriteria,
-    getNbMyFetched: () => eventsState.nbFetchedMy,
     getFetchedById: () => eventsState.fetchedById,
     getMessages: () => eventsState.messages,
     getMyRights: () => eventsState.myRights,
     hasRight: (right) => eventsState.myRights.includes(right),
     isOwner: () => eventsState.isOwner,
-    getSharedContent: () => eventsState.sharedContent
+    getSharedContent: () => eventsState.sharedContent,
+    needReload: () => eventsState.needReload
   };
 
   return { selectors, actions };

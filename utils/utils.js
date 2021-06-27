@@ -1,4 +1,4 @@
-import { format, isToday, parseISO, isYesterday, isBefore } from 'date-fns';
+import { format, isToday, parseISO, isYesterday, isBefore, addDays } from 'date-fns';
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 import _ from "lodash";
@@ -8,6 +8,39 @@ import _ from "lodash";
  * @returns {string}
  */
 export const randId = () => '_' + Math.random().toString(36).substr(2, 9);
+
+/**
+ * sort list sports by name => ex: listSport.sort(sortListSport)
+ * @returns 
+ */
+export const sortListSport = (a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
+
+/**
+ * split url to remove params
+ * 
+ * @param {string} url url to split and dont have params 
+ * @returns 
+ */
+export const urlNoParams = (url) => url.split('?')[0];
+
+/**
+ * split content type to get only the file type
+ * 
+ * @param {string} contentType content type
+ * @returns 
+ */
+export const getTypeFromContentType = (contentType) => contentType.split('/')[1];
+
+/**
+ * extract exact file name from path
+ * 
+ * @param {string} path file path
+ * @returns 
+ */
+export const getExactFileNameFromPath = (path) => {
+    let splitted = path.split('/');
+    return splitted[splitted.length - 1];
+}
 
 /**
  * create a text ellipse
@@ -60,19 +93,18 @@ export const getDatesBetweenTwoDates = function(start, end) {
 /**
  * format date for messages
  * 
- * @param {string} date message date to format
+ * @param {object} date message date to format
  * @param {string} lang lang for format
  * @returns {string} correct date format
  */
 export const messageDateFormat = function(date, lang) {
-    let formDate = parseISO(date);
-    if(isToday(formDate)){
-        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(formDate)}`;
-    }else if(isYesterday(formDate)){
-        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(formDate)}`;
+    if(isToday(date)){
+        return `${t(lang).datetime.AT_MAJ} ${t(lang).datetime.formats.hour(date)}`;
+    }else if(isYesterday(date)){
+        return `${t(lang).datetime.YESTERDAY_AT} ${t(lang).datetime.formats.hour(date)}`;
     }
 
-    return `${t(lang).datetime.formats.date(format(formDate, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(formDate)}`;
+    return `${t(lang).datetime.formats.date(format(date, "yyyy-MM-dd"))} ${t(lang).datetime.AT_MIN} ${t(lang).datetime.formats.hour(date)}`;
 }
 
 /**
@@ -140,8 +172,9 @@ export const getAddressByLatLng = function(latitude, longitude, callback){
  * 
  * @param {string} address address
  * @param {function} callback function called after end of promise
+ * @param {function} callbackNoResults function called when no results
  */
- export const getLatLngByAddress = function(address, callback){
+ export const getLatLngByAddress = function(address, callback, callbackNoResults = null){
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${global.map.GOOGLE_MAP_API_KEY}`,
         {
             method: 'GET',
@@ -154,6 +187,8 @@ export const getAddressByLatLng = function(latitude, longitude, callback){
         .then(function(res){
             if(res.results.length !== 0){
                 callback({latitude: res.results[0].geometry.location.lat, longitude: res.results[0].geometry.location.lng});
+            }else{
+                callbackNoResults !== null && callbackNoResults();
             }
         })
         .catch(function(error){
@@ -178,11 +213,21 @@ export const getSportById = function(lang, id){
  * check if user is a connected user's friend
  * 
  * @param {string} connectedUserId connected user id
- * @param {object} userFriends user firends
+ * @param {object} userFriends user friends
  * @returns 
  */
 export const isMyFriend = function(connectedUserId, userFriends){
     return userFriends.findIndex((user) => user.id === connectedUserId) !== -1;
+}
+
+/**
+ * check if connected user is group/event owner
+ * 
+ * @param {object} ge group/event object
+ * @returns 
+ */
+ export const isGEOwner = function(connectedUserId, ge){
+    return ge.owner.id === connectedUserId;
 }
 
 /**
@@ -236,6 +281,20 @@ export const sortUsersSearchCriteria = (array, value) => {
 }
 
 /**
+ * sort sports results by search value
+ * 
+ * @param {object} array sports in array
+ * @param {string} value search value
+ * @return {object} sorted array
+ */
+ export const sortSportsSearchCriteria = (array, value) => {
+    let res = _.filter(array, function(item){
+      return item.name.toLowerCase().includes(value.toLowerCase())
+    });
+    return res.length !== 0 ? res : null;
+}
+
+/**
  * check if event is in connected user bookmarks
  * 
  * @param {object} userBookmarks user bookmarks
@@ -244,4 +303,32 @@ export const sortUsersSearchCriteria = (array, value) => {
  */
 export const isInFav = (userBookmarks, eventId) => {
     return userBookmarks.findIndex((fav) => fav.id === eventId) !== -1;
+}
+
+/**
+ * get file blob from uri
+ * 
+ * @param {string} uri file uri 
+ * @param {function} callback function called to get blob
+ */
+export const blobFromUri = (uri, callback) => {
+    fetch(uri).then(function(response){
+        response.blob().then(function(blob){
+            callback(blob);
+        })
+    });
+}
+
+/**
+ * convert dateTime to graphQL date format => "2020-05-05 05:00:00" -> "2020-05-05T05:00:00Z"
+ * 
+ * @param {string} date datetime to convert
+ * @param {number} daysToAdd days to add to date
+ * @return {string} converted datetime
+ */
+export const toGQLDateTimeFormat = (date, daysToAdd = null) => {
+    if(daysToAdd !== null){
+        return addDays(parseISO(date), daysToAdd).toISOString();
+    }
+    return parseISO(date).toISOString();
 }

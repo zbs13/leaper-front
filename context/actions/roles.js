@@ -1,3 +1,8 @@
+import { req } from './apiCall';
+import gql from 'graphql-tag';
+import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import RolesContext from '../rolesContext';
+
 /**
  * create a role
  * 
@@ -7,31 +12,76 @@
  * @returns 
  */
 export const createRole = (isEvent, geId, role) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
+    let mutation = {
+        mutation: {
+            createRole: {
+                __args: {
+                    data: {
+                        name: role.name,
+                        [isEvent ? "event" : "group"]: {
+                            connect: {
+                                id: geId
+                            }
+                        },
+                        rights: {
+                            connect: [
+                                ...role.rights.map(right => ({id: right}))
+                            ]
+                        }
+                    }
+                },
+                id: true
+            }
         }
-    }).catch(() => {
-        return {error: true}
-    })
+    };
+
+    const graphql_mutation = jsonToGraphQLQuery(mutation, { pretty: true });
+
+    return req(
+        'mutation',
+        gql`${graphql_mutation}`,
+        null,
+        true
+    );
 }
 
 /**
  * update a role
  * 
- * @param {boolean} isEvent is an event's role
- * @param {string} geId group/event id
+ * @param {string} roleId role id to update
  * @param {object} role role object => id, name, rights (format -> [1,2...])
  * @returns 
  */
- export const updateRole = (isEvent, geId, role) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
+export const updateRole = (roleId, role) => {
+    let mutation = {
+        mutation: {
+            updateRole: {
+                __args: {
+                    data: {
+                        name: role.name,
+                        rights: {
+                            set: [
+                                ...role.rights.map(right => ({id: right}))
+                            ]
+                        }
+                    },
+                    where: {
+                        id: roleId
+                    }
+                },
+                id: true
+            }
         }
-    }).catch(() => {
-        return {error: true}
-    })
+    };
+
+    const graphql_mutation = jsonToGraphQLQuery(mutation, { pretty: true });
+    
+    return req(
+        'mutation',
+        gql`${graphql_mutation}`,
+        null,
+        true
+    );
 }
 
 /**
@@ -41,13 +91,22 @@ export const createRole = (isEvent, geId, role) => {
  * @returns 
  */
 export const deleteRole = (id) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {error: true}
-    })
+    return req(
+        'mutation',
+        gql`mutation($roleId: ID){
+            deleteRole(
+                where: {
+                    id: $roleId
+                }
+            ),{
+                id
+            }
+        }`, 
+        {
+            roleId: id,
+        },
+        true
+    )
 }
 
 /**
@@ -57,13 +116,24 @@ export const deleteRole = (id) => {
  * @param {string} userId user id
  */
 export const addRoleToUser = (roleId, userId) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {error: true}
-    })
+    return req(
+        'mutation',
+        gql`mutation($roleId: ID!, $userId: ID!){
+            addUsersToRole(
+                idRole: $roleId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            roleId: roleId,
+            userId: userId
+        },
+        true
+    )
 }
 
 /**
@@ -73,11 +143,22 @@ export const addRoleToUser = (roleId, userId) => {
  * @param {string} userId user id
  */
 export const removeUserRole = (roleId, userId) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {error: true}
-    })
+    return req(
+        'mutation',
+        gql`mutation($roleId: ID!, $userId: ID!){
+            removeUsersToRole(
+                idRole: $roleId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            roleId: roleId,
+            userId: userId
+        },
+        true
+    )
 }

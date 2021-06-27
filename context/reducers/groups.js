@@ -1,11 +1,10 @@
 export const initialState = {
-    my_groups: [],
-    nbFetchedMy: 0,
     fetchedById: {},
     messages: [],
     myRights: [],
     isOwner: false,
-    sharedContent: []
+    sharedContent: [],
+    needReload: false
 };
   
   /**
@@ -13,11 +12,11 @@ export const initialState = {
    */
   export const reducer = (state, action) => {
     switch (action.type) {
-      case "UPDATE_MY_GROUPS":
+      case "UPDATE_NEED_RELOAD":
         return {
-            ...state,
-            my_groups: action.payload
-        };
+          ...state,
+          needReload: action.payload
+        }
       case "UPDATE_GROUPS_BY_ID":
         return {
           ...state,

@@ -23,12 +23,12 @@ export default function SharedContentCard({content, index}) {
         options: [{
             value: t(selectors.getLang()).COPY_ATTACHMENT_LINK,
             icon: "copy-outline",
-            action: () => Clipboard.setString(content.uri)
+            action: () => Clipboard.setString(content.downloadUrl)
         },
         {
             value: t(selectors.getLang()).SAVE_ATTACHMENT,
             icon: "save-outline",
-            action: () => saveFileOnPhone(content.uri,
+            action: () => saveFileOnPhone(content.downloadUrl,
                 () => {
                     actions.addPopupStatus({
                         type: "error",
@@ -42,7 +42,7 @@ export default function SharedContentCard({content, index}) {
             disabled: isSharing,
             action: () => {
                 setIsSharing(true);
-                shareFile(content.uri,
+                shareFile(content.downloadUrl,
                     () => {
                         actions.addPopupStatus({
                             type: "error",

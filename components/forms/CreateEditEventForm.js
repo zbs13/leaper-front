@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import globalStyles from '../../assets/styles/global';
 import { cta } from '../../assets/styles/styles';
 import useApp from '../../hooks/useApp';
+import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Txt from '../Txt';
 import global from '../../providers/global';
@@ -11,10 +12,13 @@ import Field from '../fields/Field';
 import BackgroundImage from '../BackgroundImage';
 import Cta from '../cta/Cta';
 import OptionsModal from '../modals/OptionsModal';
-import { pickMedia } from '../../utils/phoneFunct';
+import { pickImage } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
 import useEvents from '../../hooks/useEvents';
 import { manageResponseUI } from '../../context/actions/apiCall';
+import { useNavigation } from '@react-navigation/native';
+import { addHours } from 'date-fns';
+import { sortListSport } from '../../utils/utils';
 
 /**
  * Create/edit event form
@@ -29,7 +33,6 @@ import { manageResponseUI } from '../../context/actions/apiCall';
  * @param {string} endHourValue event end hour
  * @param {string} addressValue event address
  * @param {object|null} locationValue address location => latitude, longitude
- * @param {string|null} picSrc event picture
  * @returns 
  */
 export default function CreateEditEventForm({
@@ -42,32 +45,33 @@ export default function CreateEditEventForm({
     startHourValue = "",
     endHourValue = "",
     addressValue = "",
-    locationValue = null,
-    picSrc = null
+    locationValue = null
 }){
 
     const {selectors, actions: actionsApp} = useApp();
     const {actions: actionsEvent} = useEvents();
+    const {actions: firebase} = useFirebase();
+    const navigation = useNavigation();
 
     const [geValues, setGeValues] = useState({
         name: nameValue,
         description: descriptionValue,
         sportId: sportId,
         date: dateValue,
-        startHour: startHourValue,
-        endHour: endHourValue,
+        startHour: startHourValue !== "" ? startHourValue : new Date().toISOString(),
+        endHour: endHourValue !== "" ? endHourValue : addHours(new Date(), 1).toISOString(),
         address: addressValue,
         location: locationValue,
-        pic: picSrc
+        pic: null
     });
 
     const [fieldErrors, setFieldErrors] = useState({
         nameError: isEdit ? false : true,
         descriptionError: isEdit ? false : true,
         addressError: isEdit ? false : true,
-        dateError: false,
+        dateError: isEdit ? false : true,
         startHourError: false,
-        endHourError: isEdit ? false : true
+        endHourError: false
     });
 
     const [pickImageRestrictionPopup, setPickImageRestrictionPopup] = useState({
@@ -75,6 +79,19 @@ export default function CreateEditEventForm({
         title: t(selectors.getLang()).NO_ACCESS_GRANTED,
         content: t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA
     })
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted && isEdit){
+            firebase.getGELogo(eventId).then(function(url){
+                setGeValues({
+                    ...geValues,
+                    pic: url
+                })
+            });
+        }
+        return () => {isMounted = false};
+    }, [])
 
     return(
         <View style={globalStyles.h_100}>
@@ -96,9 +113,9 @@ export default function CreateEditEventForm({
                                     action: () => alert("aa")
                                 },
                                 {
-                                    value: t(selectors.getLang()).PHOTO_VIDEO_LIBRARY,
+                                    value: t(selectors.getLang()).PHOTO_LIBRARY,
                                     icon: "images-outline",
-                                    action: () => pickMedia(
+                                    action: () => pickImage(
                                         (res) => setGeValues({...geValues, pic: res.uri}),
                                         () => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: true})
                                     )
@@ -161,12 +178,12 @@ export default function CreateEditEventForm({
                         labelIcon="basketball-outline"
                         keyExtractor={(item) => item.id.toString()}
                         defaultSelectValue={(item) => item.id == sportId}
-                        items={global.listSports(selectors.getLang())}
+                        items={global.listSports(selectors.getLang()).sort(sortListSport)}
                         onChangeSelect={(item) => setGeValues({...geValues, sportId: item.id})}
                         renderItem={(item) => 
                             <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
                                 <Ionicons name={item.icon} />
-                                <Txt>{item.name}</Txt>
+                                <Txt _style={globalStyles.p_5} >{item.name}</Txt>
                             </View>
                         }
                     />
@@ -218,6 +235,9 @@ export default function CreateEditEventForm({
                                 manageResponseUI(data,
                                     selectors.getLang(),
                                     function (res) {
+                                        if(geValues.pic !== null){
+                                            firebase.putGELogo(res.id, geValues.pic);
+                                        }
                                         actionsApp.addPopupStatus({
                                             type: "success",
                                             message: t(selectors.getLang()).success.EDIT_SUCCESS
@@ -233,10 +253,14 @@ export default function CreateEditEventForm({
                             manageResponseUI(data,
                                 selectors.getLang(),
                                 function (res) {
+                                    if(geValues.pic !== null){
+                                        firebase.putGELogo(res.id, geValues.pic);
+                                    }
                                     actionsApp.addPopupStatus({
                                         type: "success",
                                         message: t(selectors.getLang()).success.CREATE_SUCCESS
                                     });
+                                    navigation.goBack();
                                 },
                                 function (error) {
                                     actionsApp.addPopupStatus(error);

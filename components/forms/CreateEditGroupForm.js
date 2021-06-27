@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import globalStyles from '../../assets/styles/global';
 import { cta } from '../../assets/styles/styles';
 import useApp from '../../hooks/useApp';
+import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Field from '../fields/Field';
 import BackgroundImage from '../BackgroundImage';
 import Cta from '../cta/Cta';
 import OptionsModal from '../modals/OptionsModal';
-import { pickMedia } from '../../utils/phoneFunct';
+import { pickImage } from '../../utils/phoneFunct';
 import DialogPopup from '../DialogPopup';
 import useGroups from '../../hooks/useGroups';
 import { manageResponseUI } from '../../context/actions/apiCall';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Create/edit group form
@@ -27,17 +29,18 @@ export default function CreateEditGroupForm({
     isEdit = false,
     groupId = null,
     nameValue = "",
-    descriptionValue = "",
-    picSrc = null
+    descriptionValue = ""
 }){
 
     const {selectors, actions: actionsApp} = useApp();
     const {actions: actionsGroup} = useGroups();
+    const {actions: firebase} = useFirebase();
+    const navigation = useNavigation();
 
     const [geValues, setGeValues] = useState({
         name: nameValue,
         description: descriptionValue,
-        pic: picSrc
+        pic: null
     });
 
     const [fieldErrors, setFieldErrors] = useState({
@@ -50,6 +53,19 @@ export default function CreateEditGroupForm({
         title: t(selectors.getLang()).NO_ACCESS_GRANTED,
         content: t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA
     })
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted && isEdit){
+            firebase.getGELogo(groupId).then(function(url){
+                setGeValues({
+                    ...geValues,
+                    pic: url
+                })
+            });
+        }
+        return () => {isMounted = false};
+    }, [])
 
     return(
         <View style={globalStyles.h_100}>
@@ -71,9 +87,9 @@ export default function CreateEditGroupForm({
                                     action: () => alert("aa")
                                 },
                                 {
-                                    value: t(selectors.getLang()).PHOTO_VIDEO_LIBRARY,
+                                    value: t(selectors.getLang()).PHOTO_LIBRARY,
                                     icon: "images-outline",
-                                    action: () => pickMedia(
+                                    action: () => pickImage(
                                         (res) => setGeValues({...geValues, pic: res.uri}),
                                         () => setPickImageRestrictionPopup({...pickImageRestrictionPopup, isVisible: true})
                                     )
@@ -131,6 +147,9 @@ export default function CreateEditGroupForm({
                                 manageResponseUI(data,
                                     selectors.getLang(),
                                     function (res) {
+                                        if(geValues.pic !== null){
+                                            firebase.putGELogo(res.id, geValues.pic);
+                                        }
                                         actionsApp.addPopupStatus({
                                             type: "success",
                                             message: t(selectors.getLang()).success.EDIT_SUCCESS
@@ -146,10 +165,14 @@ export default function CreateEditGroupForm({
                             manageResponseUI(data,
                                 selectors.getLang(),
                                 function (res) {
+                                    if(geValues.pic !== null){
+                                        firebase.putGELogo(res.id, geValues.pic);
+                                    }
                                     actionsApp.addPopupStatus({
                                         type: "success",
                                         message: t(selectors.getLang()).success.CREATE_SUCCESS
                                     });
+                                    navigation.goBack();
                                 },
                                 function (error) {
                                     actionsApp.addPopupStatus(error);

@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import { header } from '../../assets/styles/styles';
 import { Avatar, Title} from 'react-native-paper';
 import Cta from '../cta/Cta';
 import globalStyles from '../../assets/styles/global';
 import { settings } from '../../assets/styles/styles';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import global from '../../providers/global';
-
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
@@ -40,41 +39,45 @@ export default function RightToggleMenu() {
     );
 
     useEffect(() => {
-      setMainHeaderState({
-        ...mainHeaderState,
-        profilePic: selectorsUser.getConnectedUser().src !== "" && selectorsUser.getConnectedUser().src !== null ? selectorsUser.getConnectedUser().src : null
-      })
-    }, [selectorsUser.getConnectedUser().src]);
+      let isMounted = true;
+      if(isMounted){
+        setMainHeaderState({
+          ...mainHeaderState,
+          profilePic: selectorsUser.getConnectedUserProfilePic()
+        })
+      }
+      return () => { isMounted = false };
+    }, [selectorsUser.getConnectedUserProfilePic()]);
 
     return (
-      <View style={globalStyles.h_100}>
+      <View >
         <Cta _style={[header.headerProfilePic, globalStyles.m_10]} 
             onPress={toggleBottomNavigationView}
             backgroundImage={{uri: mainHeaderState.profilePic || imageUri}} //a changer selon recuperation depuis api
         />
-        <BottomSheet  visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()}>
+        <BottomSheet visible={visible} onBackButtonPress={() => toggleBottomNavigationView()} onBackdropPress={() => toggleBottomNavigationView()}>
           <View style={settings.bg}>
-            <Text style={settings.titleParams}>{t(selectors.getLang()).settings.TITLE}</Text>
-            <Separator />
             <View style={settings.pic}>
               <Avatar.Image
                 style={settings.borderPic}
                 source={{uri: mainHeaderState.profilePic || imageUri}}
                 size={100}
               />
-              <Title style= {settings.name}>
-                Michelle Lebelle
+              <Title style={settings.name}>
+                {selectorsUser.getConnectedUser().firstname} {selectorsUser.getConnectedUser().lastname}
               </Title>
             </View>
             
-            <View style= {settings.settings}>
+            <ScrollView style= {settings.settings}>
               <Cta
                 _style= {[settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).settings.PROFIL}
                 onPress={() => {
                   toggleBottomNavigationView()
-                  navigation.navigate(global.screens.PROFIL_SETTINGS)}}
+                  navigation.navigate(global.screens.PROFILE_SETTINGS)}}
                 underlayColor="transparent"
+                icon="person-outline"
+                iconSize={25}
               ></Cta>
               <Cta
                 _style= {[settings.buttonStyle, settings.buttonFont]}
@@ -84,6 +87,8 @@ export default function RightToggleMenu() {
                   navigation.navigate(global.screens.APP_SETTINGS)
                 }}
                 underlayColor="transparent"
+                icon="cog-outline"
+                iconSize={25}
               ></Cta>
               <Cta
                 _style= {[settings.buttonStyle, settings.buttonFont]}
@@ -93,15 +98,17 @@ export default function RightToggleMenu() {
                   navigation.navigate(global.screens.ABOUT)
                 }}
                 underlayColor="transparent"
+                icon="information-circle-outline"
+                iconSize={25}
               ></Cta>
-            </View>
+            </ScrollView>
             <View style= {[settings.settings, settings.buttonLogout]}>
               <Separator />
               <Cta
                 _style= {[settings.buttonStyle, settings.buttonFont]}
                 value={t(selectors.getLang()).settings.LOGOUT}
                 icon='log-out-outline'
-                iconSize={30}
+                iconSize={25}
                 onPress={() => actionsUser.logout()}
               />
             </View>
