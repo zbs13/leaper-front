@@ -68,6 +68,18 @@ export const cta = StyleSheet.create({
     second_nr: {
         backgroundColor: global.colors.VERY_LIGHT_GREY,
         color: global.colors.ANTHRACITE
+    },
+    globalSearch: {
+        fontSize: 15,
+        color: global.colors.ANTHRACITE,
+        borderBottomWidth: 2,
+        borderBottomColor: global.colors.ANTHRACITE
+    },
+    globalSearch_in: {
+        fontSize: 15,
+        color: global.colors.MAIN_COLOR,
+        borderBottomWidth: 2,
+        borderBottomColor: global.colors.MAIN_COLOR
     }
 });
 

@@ -32,11 +32,11 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
     }
 
     let mainOptions = [
-        {
-          value: t(selectorsApp.getLang()).MUTE,
-          icon: "notifications-off-outline",
-          action: () => alert("mettre en sourdine")
-        },
+        // {
+        //   value: t(selectorsApp.getLang()).MUTE,
+        //   icon: "notifications-off-outline",
+        //   action: () => alert("mettre en sourdine")
+        // },
         {
           value: t(selectorsApp.getLang()).PEOPLE_LIST,
           icon: "people-outline",

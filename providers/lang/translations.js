@@ -83,9 +83,11 @@ const l = {
         message: {
             WRITE_A_MESSAGE: "Ecrire un message...",
             DELETE_MESSAGE: "Supprimer le message",
-            PIN_MESSAGE: "Epingler le message"
+            PIN_MESSAGE: "Epingler le message",
+            UNPIN_MESSAGE: "Désépingler le message"
         },
         group: {
+            GROUPS: "Groupes",
             LEAVE_THIS_GROUP: "Quitter ce groupe",
             LEAVE_GROUP: "Quitter le groupe",
             SURE_TO_LEAVE_GROUP: "Vous êtes sur le point de quitter le groupe",
@@ -389,6 +391,10 @@ const l = {
             PASSWORD: "Mot de passe",
             CONFIRM_PASSWORD: "Confirmer le mot de passe",
             SIGN_UP: "S'inscrire"
+        },
+        pinnedMessages: {
+            PINNED_MESSAGES: "Messages épinglés",
+            NO_PINNED_MESSAGES: "Aucun message épinglé"
         }
     },
     en: {
@@ -472,9 +478,11 @@ const l = {
         message: {
             WRITE_A_MESSAGE: "Write a message...",
             DELETE_MESSAGE: "Delete message",
-            PIN_MESSAGE: "Pin message"
+            PIN_MESSAGE: "Pin message",
+            UNPIN_MESSAGE: "Unpin message"
         },
         group: {
+            GROUPS: "Groups",
             ADD_TO_GROUP: "Add to group",
             SURE_TO_LEAVE_GROUP: "You are going to leave the group",
             LEAVE_GROUP: "Leave group",
@@ -785,6 +793,10 @@ const l = {
             PASSWORD: "Password",
             CONFIRM_PASSWORD: "Confirm password",
             SIGN_UP: "Sign up"
+        },
+        pinnedMessages: {
+            PINNED_MESSAGES: "Pinned messages",
+            NO_PINNED_MESSAGES: "No pinned message"
         }
     }
 }

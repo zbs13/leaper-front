@@ -114,13 +114,30 @@ const useFirebase = () => {
      * @param {string} id group/event id 
      * @param {function} callback function called when messages getted
      */
-     lastMessagesSnapshot: (id, callback) => {
+    lastMessagesSnapshot: (id, callback) => {
         return firestore
             .collection("chat")
             .doc(id)
             .collection("messages")
             .orderBy("createdAt", "desc")
             .limit(global.MAX_RESULT_PER_LOADED_TCHAT)
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
+    /**
+     * get last pinned messages in real time
+     * 
+     * @param {string} id group/event id 
+     * @param {function} callback function called when pinned messages getted
+     */
+    lastPinnedMessagesSnapshot: (id, callback) => {
+        return firestore
+            .collection("chat")
+            .doc(id)
+            .collection("messages")
+            .where("pinned", "==", true)
+            .orderBy("createdAt", "desc")
             .onSnapshot(documentSnapshot => {
                 callback(documentSnapshot);
             });
@@ -145,7 +162,8 @@ const useFirebase = () => {
                         lastname: user.lastname,
                         profilePic: profilePicUrl
                     },
-                    createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+                    createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000),
+                    pinned: false
                 })
             })
         }
@@ -291,6 +309,23 @@ const useFirebase = () => {
             .doc(userId)
             .set({
                 pushToken: pushToken
+            })
+     },
+     /**
+      * pin/unpin message
+      * 
+      * @param {string} geId group/event id
+      * @param {string} messageId message id
+      * @param {boolean} pinned is pinned
+      */
+     updatePinnedMessage: (geId, messageId, pinned) => {
+        firestore
+            .collection("chat")
+            .doc(geId)
+            .collection("messages")
+            .doc(messageId)
+            .update({
+                pinned: pinned
             })
      }
   };

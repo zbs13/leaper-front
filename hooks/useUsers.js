@@ -39,8 +39,16 @@ const useUsers = () => {
           AsyncStorage.setItem("connectedUserId", res.user.id);
           dispatch({
             type: "UPDATE_CONNECTED_USER",
-            payload: res.user,
+            payload: res.user
           });
+          // dispatch({
+          //   type: "UPDATE_CONNECTED_USER",
+          //   payload: {
+          //     ...res.user,
+          //     events: [],
+          //     groups: []
+          //   },
+          // });
         })
       });
     },

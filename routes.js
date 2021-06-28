@@ -22,6 +22,7 @@ import ChangeLanguageScreen from "./screens/ChangeLanguageScreen";
 import ChangeNotificationsScreen from "./screens/ChangeNotificationsScreen";
 import AboutScreen from "./screens/AboutScreen";
 import ProfileSettingsScreen from "./screens/ProfileSettingsScreen";
+import PinnedMessagesScreen from "./screens/PinnedMessagesScreen";
 
 
 
@@ -102,6 +103,11 @@ export const withCustomHeaderOnly = [
     {
         name: global.screens.CREATE_EDIT_ROLE,
         component: CreateEditRoleScreen,
+        header: ({navigation}) => (headerType.back())
+    },
+    {
+        name: global.screens.PINNED_MESSAGES,
+        component: PinnedMessagesScreen,
         header: ({navigation}) => (headerType.back())
     },
     {

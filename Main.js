@@ -120,8 +120,7 @@ export default function Main() {
                         manageResponseUI(data,
                         selectors.getLang(),
                         async function (res) {
-                            console.log(res);
-                            console.log("state", selectorsUser.getConnectedUser());
+                            console.log(selectorsUser.getConnectedUser())
                             // const notifs = firebase.notifsListener(res.id, function(notif){
                             //     const data = notif.docs.map(doc => ({...doc.data(), id: doc.id}));
                             //     console.log(data);
@@ -131,8 +130,8 @@ export default function Main() {
                             //     firebase.setUserPushNotificationsToken(res.id, token);
                             // })
                             let profilePic = await firebase.getUserProfilePic(res.id);
+                            actions.updateIsConnected(true);
                             actionsUser.update({
-                                isConnected: true,
                                 connectedUserProfilePic: profilePic
                             });
                             setState({

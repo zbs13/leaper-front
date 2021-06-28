@@ -89,9 +89,11 @@ export default function MessageCard({ geId, message, isEvent}) {
         let options = {
             options: [
                 {
-                    value: t(selectorsApp.getLang()).message.PIN_MESSAGE,
+                    value: message.pinned ? t(selectorsApp.getLang()).message.UNPIN_MESSAGE : t(selectorsApp.getLang()).message.PIN_MESSAGE,
                     icon: "pricetag-outline",
-                    action: () => alert("message epinglé")
+                    action: () => {
+                        firebase.updatePinnedMessage(geId, message.id, !message.pinned);
+                    }
                 },
             ]
         }

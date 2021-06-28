@@ -21,14 +21,19 @@ import { useNavigation } from '@react-navigation/native';
  * 
  * @param {object} item group object => id, name, owner, description, src, users 
  * @param {boolean} isMyGroup true if user is in group else false
+ * @param {object|null} navigation only used in global search to access to navigation
+ * @param {function|null} onPress only used in global search to close search modal while pressing cta 
  * @returns 
  */
-export default function GroupCard({ item, isMyGroup = false }) {
+export default function GroupCard({ item, isMyGroup = false, navigation = null, onPress = null }) {
     
     const {selectors} = useApp();
     const {selectors: selectorsUser} = useUsers();
-    const navigation = useNavigation();
     const {actions: firebase} = useFirebase();
+
+    if(navigation === null){
+        navigation = useNavigation();
+    }
 
     const [groupLogo, setGroupLogo] = useState(null);
 
@@ -86,7 +91,10 @@ export default function GroupCard({ item, isMyGroup = false }) {
                 {...options}
             >
                 <Cta
-                    onPress={() => navigation.navigate(isMyGroup ? global.screens.TCHAT : null, {title: item.name, id: item.id, isEvent: false})}
+                    onPress={() => {
+                        navigation.navigate(isMyGroup ? global.screens.TCHAT : null, {title: item.name, id: item.id, isEvent: false});
+                        onPress !== null ? onPress() : null;
+                    }}
                     _style={card.cardContainer}
                     underlayColor={global.colors.WHITE}
                     swipeableRightOptions={selectorsUser.getConnectedUser().id !== item.owner.id ? swipeableOptions : null}

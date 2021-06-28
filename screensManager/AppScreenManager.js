@@ -3,14 +3,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import global from '../providers/global';
 import BottomMenu from '../components/menus/BottomMenu';
 import { withCustomHeaderOnly, auth } from '../routes';
-import useUsers from '../hooks/useUsers';
 import useApp from '../hooks/useApp';
 
 const Stack = createStackNavigator();
 
 export default function AppScreenManager() {
 
-    const {selectors: selectorsUser} = useUsers();
     const {selectors: selectorsApp} = useApp();
 
     return (
