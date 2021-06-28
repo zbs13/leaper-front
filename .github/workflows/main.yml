@@ -31,7 +31,7 @@ jobs:
           key: npm-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
 
-      #- run: npm ci --ignore-scripts
+      - run: npm ci --ignore-scripts
 
       - name: Run lint
         run: npm run lint
