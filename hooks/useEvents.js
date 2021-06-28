@@ -3,8 +3,6 @@ import EventsContext from "../context/eventsContext";
 import { 
   fetchByCriteria, 
   fetchById,
-  fetchMessages, 
-  fetchAllSharedContent, 
   update, 
   create, 
   removeUser,
@@ -81,42 +79,6 @@ const useEvents = () => {
               }
             });
           })
-        })
-      });
-    },
-    /**
-     * fetch event messages
-     * 
-     * @param {string} id event id
-     * @param {number} offset from position in db
-     * @returns 
-     */
-    fetchMessages: function(id, offset){
-      return fetchMessages(id, offset).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_EVENTS_MESSAGES",
-            payload: res,
-            offset: offset
-          });
-        })
-      });
-    },
-    /**
-     * fetch event shared content
-     * 
-     * @param {string} id event id
-     * @param {number} offset from position in db
-     * @returns 
-     */
-     fetchAllSharedContent: function(id, offset){
-      return fetchAllSharedContent(id, offset).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_EVENT_SHARED_CONTENT",
-            payload: res,
-            offset: offset
-          });
         })
       });
     },
@@ -221,11 +183,8 @@ const useEvents = () => {
     getFetchedByCriteria: () => eventsState.fetchedByCriteria,
     getNbFetchedByCriteria: () => eventsState.nbFetchedByCriteria,
     getFetchedById: () => eventsState.fetchedById,
-    getMessages: () => eventsState.messages,
-    getMyRights: () => eventsState.myRights,
     hasRight: (right) => eventsState.myRights.includes(right),
     isOwner: () => eventsState.isOwner,
-    getSharedContent: () => eventsState.sharedContent,
     needReload: () => eventsState.needReload
   };
 

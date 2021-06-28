@@ -1,9 +1,7 @@
 export const initialState = {
     fetchedById: {},
-    messages: [],
     myRights: [],
     isOwner: false,
-    sharedContent: [],
     needReload: false
 };
   
@@ -22,28 +20,11 @@ export const initialState = {
           ...state,
           fetchedById: action.payload
         }
-      case "UPDATE_GROUPS_MESSAGES":
-        let _val = action.payload;
-        if(action.offset !== 0){
-          _val.push(...state.messages)
-        }
-        return {
-          ...state,
-          messages: _val
-        };
       case "UPDATE_MY_RIGHTS":
         return {
           ...state,
           myRights: action.payload.rights,
           isOwner: action.payload.isOwner
-        };
-      case "UPDATE_GROUP_SHARED_CONTENT":
-        let __val = action.payload;
-        // if(action.offset !== 0)
-        //   __val = state.messages.push(__val)
-        return {
-          ...state,
-          sharedContent: __val
         };
       case "REMOVE_USER":
         let users = state.fetchedById.users;
@@ -55,13 +36,6 @@ export const initialState = {
             users: users
           }
         }
-      case "SEND_MESSAGE":
-        let messages = state.messages
-        messages.push(action.payload);
-        return {
-          ...state,
-          messages: messages
-        };
       case "DELETE_ROLE_IN_UI":
         let roles = state.fetchedById.roles;
         roles.splice(roles.findIndex(o => o.id === action.payload), 1);

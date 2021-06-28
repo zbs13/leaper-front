@@ -1,9 +1,7 @@
 import { useContext } from "react";
 import GroupsContext from "../context/groupsContext";
 import {
-  fetchById, 
-  fetchMessages, 
-  fetchAllSharedContent, 
+  fetchById,
   update, 
   create,
   removeUser,
@@ -61,42 +59,6 @@ const useGroups = () => {
               }
             });
           })
-        })
-      });
-    },
-    /**
-     * fetch group messages
-     * 
-     * @param {string} id group id
-     * @param {number} offset from position in db
-     * @returns 
-     */
-    fetchMessages: function(id, offset){
-      return fetchMessages(id, offset).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_GROUPS_MESSAGES",
-            payload: res,
-            offset: offset
-          });
-        })
-      });
-    },
-    /**
-     * fetch group shared content
-     * 
-     * @param {string} id group id
-     * @param {number} offset from position in db
-     * @returns 
-     */
-    fetchAllSharedContent: function(id, offset){
-      return fetchAllSharedContent(id, offset).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_GROUP_SHARED_CONTENT",
-            payload: res,
-            offset: offset
-          });
         })
       });
     },
@@ -188,11 +150,8 @@ const useGroups = () => {
 
   const selectors = {
     getFetchedById: () => groupsState.fetchedById,
-    getMessages: () => groupsState.messages,
-    getMyRights: () => groupsState.myRights,
     hasRight: (right) => groupsState.myRights.includes(right),
     isOwner: () => groupsState.isOwner,
-    getSharedContent: () => groupsState.sharedContent,
     needReload: () => groupsState.needReload
   };
 

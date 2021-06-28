@@ -2,10 +2,8 @@ export const initialState = {
     fetchedByCriteria: [],
     nbFetchedByCriteria: 0,
     fetchedById: {},
-    messages: [],
     myRights: [],
     isOwner: false,
-    sharedContent: [],
     needReload: false
 };
   
@@ -33,28 +31,11 @@ export const initialState = {
           ...state,
           fetchedById: action.payload
         };
-      case "UPDATE_EVENTS_MESSAGES":
-        let __val = action.payload;
-        if(action.offset !== 0){
-          __val.push(...state.messages)
-        }
-        return {
-          ...state,
-          messages: __val
-        };
       case "UPDATE_MY_RIGHTS":
         return {
           ...state,
           myRights: action.payload.rights,
           isOwner: action.payload.isOwner
-        };
-      case "UPDATE_EVENT_SHARED_CONTENT":
-        let ___val = action.payload;
-        // if(action.offset !== 0)
-        //   ___val = state.messages.push(___val)
-        return {
-          ...state,
-          sharedContent: ___val
         };
       case "REMOVE_USER":
         let users = state.fetchedById.users;
@@ -65,13 +46,6 @@ export const initialState = {
             ...state.fetchedById,
             users: users
           }
-        };
-      case "SEND_MESSAGE":
-        let messages = state.messages
-        messages.push(action.payload);
-        return {
-          ...state,
-          messages: messages
         };
       case "DELETE_ROLE_IN_UI":
         let roles = state.fetchedById.roles;

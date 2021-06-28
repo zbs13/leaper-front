@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import FirebaseContext from "../context/firebaseContext";
-import {} from '../context/actions/firebase';
 import { ext, blobFromUri, urlNoParams, getExactFileNameFromPath } from '../utils/utils';
 import global from '../providers/global';
 
@@ -113,12 +112,32 @@ const useFirebase = () => {
      * get last messages in real time
      * 
      * @param {string} id group/event id 
+     * @param {function} callback function called when messages getted
      */
-     lastMessagesSnapshot: (id, callback) => {
+    lastMessagesSnapshot: (id, callback) => {
         return firestore
-            .collection(id)
+            .collection("chat")
+            .doc(id)
+            .collection("messages")
             .orderBy("createdAt", "desc")
             .limit(global.MAX_RESULT_PER_LOADED_TCHAT)
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
+    /**
+     * get last pinned messages in real time
+     * 
+     * @param {string} id group/event id 
+     * @param {function} callback function called when pinned messages getted
+     */
+    lastPinnedMessagesSnapshot: (id, callback) => {
+        return firestore
+            .collection("chat")
+            .doc(id)
+            .collection("messages")
+            .where("pinned", "==", true)
+            .orderBy("createdAt", "desc")
             .onSnapshot(documentSnapshot => {
                 callback(documentSnapshot);
             });
@@ -134,7 +153,7 @@ const useFirebase = () => {
     postMessage: (id, user, textValue, attachment, callbackError) => {
         function postMessageDatas(attachmentUrl = null){
             actions.getUserProfilePic(user.id).then(function(profilePicUrl){
-                firestore.collection(id).add({
+                firestore.collection("chat").doc(id).collection("messages").add({
                     content: textValue,
                     attachment: attachmentUrl,
                     sentBy: {
@@ -143,7 +162,8 @@ const useFirebase = () => {
                         lastname: user.lastname,
                         profilePic: profilePicUrl
                     },
-                    createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+                    createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000),
+                    pinned: false
                 })
             })
         }
@@ -194,17 +214,23 @@ const useFirebase = () => {
      * @param {function} callbackError callback when delete message failed
      */
     deleteMessage: (geId, message, callbackError) => {
-        firestore.collection(geId).doc(message.id).delete().then(function(){
-            if(message.attachment !== null){
-                fetch(urlNoParams(message.attachment.downloadUrl)).then((data) => data.json()).then(function(result){
-                    storage.ref().child(result.name).delete().then(function(){}).catch(function(){
-                        callbackError();
-                    });
-                })
-            }
-        }).catch(function(){
-            callbackError();
-        });
+        firestore
+            .collection("chat")
+            .doc(geId)
+            .collection("messages")
+            .doc(message.id)
+            .delete()
+            .then(function(){
+                if(message.attachment !== null){
+                    fetch(urlNoParams(message.attachment.downloadUrl)).then((data) => data.json()).then(function(result){
+                        storage.ref().child(result.name).delete().then(function(){}).catch(function(){
+                            callbackError();
+                        });
+                    })
+                }
+            }).catch(function(){
+                callbackError();
+            });
     },
     /**
      * get old messages
@@ -215,12 +241,16 @@ const useFirebase = () => {
      */
     getOldMessages: (geId, offset, callback) => {
         firestore
-            .collection(geId)
+            .collection("chat")
+            .doc(geId)
+            .collection("messages")
             .orderBy("createdAt", "desc")
             .get()
             .then(result => {
                 firestore
-                    .collection(geId)
+                    .collection("chat")
+                    .doc(geId)
+                    .collection("messages")
                     .orderBy("createdAt", "desc")
                     .startAfter(result.docs[offset - 1])
                     .limit(global.MAX_RESULT_PER_LOADED_TCHAT)
@@ -229,7 +259,75 @@ const useFirebase = () => {
                         callback(result);
                     })
             })
-    }
+    },
+    /**
+     * listener for user notifications
+     * 
+     * @param {string} userId group/event id 
+     * @param {function} callback function called when notifs getted
+     */
+     notifsListener: (userId, callback) => {
+        return firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("notifs")
+            .orderBy("createdAt", "desc")
+            .limit(20)
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
+    /**
+     * send a notif to a user
+     * 
+     * @param {string} type notif type
+     * @param {string} to notif receiver
+     * @param {object} from notif sender => id, firstname, lastname
+     * @param {string} geId group/event id
+     */
+    sendNotif: (type, to, from, geId = null) => {
+        firestore
+            .collection("notifications")
+            .doc(to)
+            .collection("notifs")
+            .add({
+                type: type,
+                from: from,
+                geId: geId,
+                createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+            })
+    },
+    /**
+     * set user push notifications token
+     * 
+     * @param {string} userId user id
+     * @param {string} pushToken push notifications token
+     */
+     setUserPushNotificationsToken: (userId, pushToken) => {
+        firestore
+            .collection("users")
+            .doc(userId)
+            .set({
+                pushToken: pushToken
+            })
+     },
+     /**
+      * pin/unpin message
+      * 
+      * @param {string} geId group/event id
+      * @param {string} messageId message id
+      * @param {boolean} pinned is pinned
+      */
+     updatePinnedMessage: (geId, messageId, pinned) => {
+        firestore
+            .collection("chat")
+            .doc(geId)
+            .collection("messages")
+            .doc(messageId)
+            .update({
+                pinned: pinned
+            })
+     }
   };
 
   return { actions };

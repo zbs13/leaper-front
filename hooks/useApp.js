@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import AppContext from "../context/appContext";
-import { fetchUserParameters, updateUserParameters } from '../context/actions/app';
+import { fetchGlobal } from '../context/actions/app';
 import { randId } from '../utils/utils';
+import { response } from '../context/actions/apiCall';
 
 const useApp = () => {
   const {
@@ -11,39 +12,26 @@ const useApp = () => {
 
   const actions = {
     /**
-     * fetch user parameters
-     * 
-     * @returns 
-     */
-    fetchUserParameters: function () {
-      return fetchUserParameters().then((data) => {
-        // dispatch({
-        //   type: "UPDATE_USER_PARAMETERS",
-        //   payload: data
-        // });
-        return [data]
-      });
-    //   dispatch({
-    //     type: "UPDATE_USER_PARAMETERS",
-    //     payload: datas
-    // })
-    },
-    /**
      * update user parameters
      * 
      * @param {object} datas parameters to update
      */
     updateUserParameters: function (datas) {
-    //     updateUserParameters(datas).then((data) =>
-    //         dispatch({
-    //         type: "UPDATE_USER_PARAMETERS",
-    //         payload: data
-    //     })
-    //   );
       dispatch({
         type: "UPDATE_USER_PARAMETERS",
         payload: datas
       })
+    },
+    /**
+     * update user connection status
+     * 
+     * @param {boolean} isConnected is user connected
+     */
+    updateIsConnected: function(isConnected){
+      dispatch({
+        type: "UPDATE_IS_CONNECTED",
+        payload: isConnected,
+      });
     },
     /**
      * create an app status popup => error, success, info 
@@ -102,18 +90,42 @@ const useApp = () => {
         type: "TOGGLE_SEARCH_BAR",
         payload: type
       })
+    },
+    /**
+     * set user notifs
+     * 
+     * @param {object} notifs user notifs
+     */
+    setNotifs: function(notifs){
+      dispatch({
+        type: "SET_NOTIFS",
+        payload: notifs
+      })
+    },
+    /**
+     * fetch global
+     * 
+     * @param {object} search search value
+     * @param {number} offsetEvents offset events for search
+     * @param {number} offsetGroups offset groups for search
+     * @returns 
+     */
+    fetchGlobal: function(search, offsetEvents, offsetGroups) {
+      return fetchGlobal(search, offsetEvents, offsetGroups).then((data) => {
+        return response(data);
+      });
     }
   };
 
   const selectors = {
-    getUserParameters: () => appState,
     getLang: () => appState.lang.lang,
     getCountry: () => appState.lang.flag,
     getSearchBar: () => appState.searchBar,
     getOS: () => appState.os,
     getPopupsStatus: () => appState.popupsStatus,
     getAddModal: () => appState.addModal,
-    isFirstLaunch: () => appState.isFirstLaunch
+    isFirstLaunch: () => appState.isFirstLaunch,
+    isConnected: () => appState.isConnected
   };
 
   return { selectors, actions };

@@ -66,7 +66,7 @@ export default function LoginScreen({navigation}) {
                                 manageResponseUI(data,
                                     selectorsApp.getLang(),
                                     function (res) {
-                                        actionsUser.updateIsConnected(true)
+                                        actionsApp.updateIsConnected(true)
                                     },
                                     function (error) {
                                         actionsApp.addPopupStatus(error);

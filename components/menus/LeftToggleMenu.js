@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Button, Modal  } from 'react-native';
+import { View, Modal  } from 'react-native';
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import { cta, header, logo, toggleLeftMenu } from '../../assets/styles/styles';

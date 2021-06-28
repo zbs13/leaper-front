@@ -56,7 +56,7 @@ export const fetchByCriteria = (criteria) => {
             events: {
                 __args: {
                     where: where,
-                    first: global.MAX_RESULT_PER_LOADED_PAGE + 2 ,
+                    first: global.MAX_RESULT_PER_LOADED_PAGE + 2,
                     skip: criteria.criteria.offset
                 },
                 id: true,
@@ -161,140 +161,6 @@ export const fetchById = (id) => {
             id: id
         }
     )
-}
-
-/**
- * fetch messages in event
- * 
- * @param {number} id event id 
- * @param {number} offset offset for getting results
- * @returns 
- */
- export const fetchMessages = (id, offset) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return [{
-            id: 1,
-            content: "ta mere la pute",
-            attachment: {
-                size: "11000",
-                name: "le mega file",
-                contentType: "video/mp4",
-                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
-            },
-            sentBy: {
-                id: 1,
-                firstname: "Lucas",
-                lastname: "Estrade",
-                username: "lucasestrade",
-                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
-            },
-            date: "2021-03-12 21:03:54"
-        },{
-            id: 2,
-            content: "ta mere la pute 2",
-            attachment: {
-                size: "11000",
-                name: "le mega file",
-                contentType: "video/mp4",
-                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
-            },
-            sentBy: {
-                id: 1,
-                firstname: "Lucas",
-                lastname: "Estrade",
-                username: "lucasestrade",
-                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
-            },
-            date: "2021-03-12 21:03:54"
-        },{
-            id: 3,
-            content: "ta mere la pute",
-            attachment: {
-                size: "11000",
-                name: "le mega file",
-                contentType: "video/mp4",
-                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
-            },
-            sentBy: {
-                id: 1,
-                firstname: "Lucas",
-                lastname: "Estrade",
-                username: "lucasestrade",
-                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
-            },
-            date: "2021-03-12 21:03:54"
-        },{
-            id: 4,
-            content: "ta mere la pute",
-            attachment: {},
-            sentBy: {
-                id: 2,
-                firstname: "Lucas",
-                lastname: "Estrade",
-                username: "lucasestrade",
-                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
-            },
-            date: "2021-03-12 21:03:54"
-        },{
-            id: 5,
-            content: "ta mere la pute",
-            attachment: {},
-            sentBy: {
-                id: 1,
-                firstname: "Lucas",
-                lastname: "Estrade",
-                username: "lucasestrade",
-                profilePic: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
-            },
-            date: "2021-03-12 21:03:54"
-        },]
-    })
-}
-
-/**
- * fetch shared content in event
- * 
- * @param {number} id event id 
- * @param {number} offset offset for getting results
- * @returns 
- */
-export const fetchAllSharedContent = (id, offset) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return [
-            {
-                size: "11000",
-                name: "le mega file",
-                contentType: "image/png",
-                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/828685727218925588/Roti-de-cotes-Angus-Maison-Lascours-big.png"
-            },
-            {
-                size: "11000",
-                name: "le mega file",
-                contentType: "image/gif",
-                downloadUrl: "https://media.giphy.com/media/l396Uasr95XqhSFJm/giphy.gif"
-            },
-            {
-                size: "11000",
-                name: "le mega file",
-                contentType: "application/pdf",
-                downloadUrl: "https://www.tesla.com/sites/default/files/model_3_owners_manual_north_america_fr_ca.pdf"
-            },
-            {
-                size: "11000",
-                name: "le mega file",
-                contentType: "video/mp4",
-                downloadUrl: "https://cdn.discordapp.com/attachments/500026022150930443/811957082537459714/video0.mp4"
-            }
-        ]
-    })
 }
 
 /**

@@ -22,14 +22,18 @@ import { manageResponseUI } from '../../context/actions/apiCall';
  * 
  * @param {object} item event object => id, name, owner, sportId, description, src, users, postalCode
  * @param {boolean} isMyEvent true if user is in event else false
+ * @param {object|null} navigation only used in global search to access to navigation
+ * @param {function|null} onPress only used in global search to close search modal while pressing cta  
  * @returns 
  */
-export default function EventCard({ item, isMyEvent = false }) {
+export default function EventCard({ item, isMyEvent = false, navigation = null, onPress = null }) {
     
     const {selectors, actions} = useApp();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
     const {actions: firebase} = useFirebase();
-    const navigation = useNavigation();
+    if(navigation === null){
+        navigation = useNavigation();
+    }
 
     const inFav = isInFav(selectorsUser.getConnectedUser().bookmarks, item.id);
 
@@ -143,7 +147,10 @@ export default function EventCard({ item, isMyEvent = false }) {
                 {...options}
             >
                 <Cta
-                    onPress={() => navigation.navigate(isMyEvent ? global.screens.TCHAT : global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id, isEvent: true})}
+                    onPress={() => {
+                        navigation.navigate(isMyEvent ? global.screens.TCHAT : global.screens.SPORT_EVENT_DETAILS, {title: item.name, id: item.id, isEvent: true});
+                        onPress !== null ? onPress() : null;
+                    }}
                     _style={card.cardContainer}
                     underlayColor={global.colors.WHITE}
                     swipeableRightOptions={isMyEvent ? swipeableOptions : null}

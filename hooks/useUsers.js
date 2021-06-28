@@ -37,19 +37,30 @@ const useUsers = () => {
           AsyncStorage.setItem("token", res.token);
           AsyncStorage.setItem("isConnected", "true");
           AsyncStorage.setItem("connectedUserId", res.user.id);
+          dispatch({
+            type: "UPDATE_CONNECTED_USER",
+            payload: res.user
+          });
+          // dispatch({
+          //   type: "UPDATE_CONNECTED_USER",
+          //   payload: {
+          //     ...res.user,
+          //     events: [],
+          //     groups: []
+          //   },
+          // });
         })
       });
     },
     /**
      * logout
+     * 
+     * @param {function} callback function called to logout
      */
-    logout: function(){
+    logout: function(callback){
       AsyncStorage.removeItem("token");
       AsyncStorage.setItem("isConnected", "false");
-      dispatch({
-        type: "LOGOUT",
-        payload: {},
-      });
+      callback()
     },
     /**
      * create user profile
@@ -111,17 +122,6 @@ const useUsers = () => {
       dispatch({
         type: "UPDATE_CONNECTED_USER_PROFILE_PIC",
         payload: url,
-      });
-    },
-    /**
-     * update user connection status
-     * 
-     * @param {boolean} isConnected is user connected
-     */
-    updateIsConnected: function(isConnected){
-      dispatch({
-        type: "UPDATE_IS_CONNECTED",
-        payload: isConnected,
       });
     },
     /**
@@ -256,7 +256,6 @@ const useUsers = () => {
 
   const selectors = {
     getUser: () => usersState.user,
-    isConnected: () => usersState.isConnected,
     getConnectedUser: () => usersState.connectedUser,
     getConnectedUserProfilePic: () => usersState.connectedUserProfilePic
   };

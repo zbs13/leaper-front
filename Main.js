@@ -10,11 +10,13 @@ import PopupStatus from './components/PopupStatus';
 import AppScreenManager from './screensManager/AppScreenManager';
 import { GroupsProvider } from "./context/groupsContext";
 import { EventsProvider } from "./context/eventsContext";
-import { FirebaseProvider } from "./context/firebaseContext";
 import { RolesProvider } from './context/rolesContext';
 import { deviceYearClass, modelName } from 'expo-device';
 import { manageResponseUI } from './context/actions/apiCall';
 import useFirebase from './hooks/useFirebase';
+import _ from 'lodash';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 export default function Main() {
 
@@ -24,13 +26,44 @@ export default function Main() {
 
     const {actions, selectors} = useApp();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
-    const {actions: actionsFirebase} = useFirebase();
+    const {actions: firebase} = useFirebase();
 
     /**
      * configure status bar height according to os
      */
     const STATUS_BAR_HEIGHT = Platform.OS === "ios" ? deviceYearClass >= 2017 && modelName !== "iPhone 8" && modelName !== "iPhone 8 Plus" ? 44 : 30 : StatusBar.currentHeight;
-    
+
+    /**
+     * register notification token
+     * 
+     * @param {function} callback called when notification token is getted
+     * @returns 
+     */
+     async function registerForPushNotificationsAsync() {
+        let token;
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+      
+        if (Platform.OS === 'android') {
+          Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+          });
+        }
+      
+        return token;
+      }
+
     /**
      * configure app os and language
      */
@@ -72,7 +105,6 @@ export default function Main() {
 
         getLang();
         isFirstAppLaunch();
-
         AsyncStorage.getItem("isConnected").then(isConnected => {
             if(isConnected === null){
                 AsyncStorage.setItem("isConnected", "false").then(() => {
@@ -84,28 +116,36 @@ export default function Main() {
                 });
             }else{
                 if(isConnected === "true"){
-                    if(isMounted){
-                        actionsUser.fetchConnectedUser().then((data) => {
-                            manageResponseUI(data,
-                            selectors.getLang(),
-                            async function (res) {
-                                let profilePic = await actionsFirebase.getUserProfilePic(res.id);
-                                actionsUser.update({
-                                    isConnected: true,
-                                    connectedUserProfilePic: profilePic
-                                });
-                                setState({
-                                    isLoaded: true
-                                });
-                            },
-                            function (error) {
-                                if(isMounted){
-                                    actions.addPopupStatus(error);
-                                }
-                            })
-                            
+                    actionsUser.fetchConnectedUser().then((data) => {
+                        manageResponseUI(data,
+                        selectors.getLang(),
+                        async function (res) {
+                            console.log(selectorsUser.getConnectedUser())
+                            // const notifs = firebase.notifsListener(res.id, function(notif){
+                            //     const data = notif.docs.map(doc => ({...doc.data(), id: doc.id}));
+                            //     console.log(data);
+                            //     actions.setNotifs(_.reverse(data));
+                            // });
+                            // registerForPushNotificationsAsync().then(token => {
+                            //     firebase.setUserPushNotificationsToken(res.id, token);
+                            // })
+                            let profilePic = await firebase.getUserProfilePic(res.id);
+                            actions.updateIsConnected(true);
+                            actionsUser.update({
+                                connectedUserProfilePic: profilePic
+                            });
+                            setState({
+                                isLoaded: true
+                            });
+                            //return () => notifs();
+                        },
+                        function (error) {
+                            if(isMounted){
+                                actions.addPopupStatus(error);
+                            }
                         })
-                    }
+                        
+                    })
                 }else{
                     if(isMounted){
                         setState({
@@ -116,7 +156,7 @@ export default function Main() {
             }
         })
         return () => { isMounted = false };
-    }, [selectorsUser.isConnected(), selectors.isFirstLaunch()])
+    }, [selectors.isConnected(), selectors.isFirstLaunch()])
 
     if(state.isLoaded){
         return (

@@ -22,7 +22,7 @@ const imageUri = Image.resolveAssetSource(defaultProfilePic).uri
  */
 export default function RightToggleMenu() {
 
-    const {selectors} = useApp();
+    const {actions, selectors} = useApp();
     const {actions: actionsUser, selectors: selectorsUser} = useUsers();
     const navigation = useNavigation();
 
@@ -109,7 +109,9 @@ export default function RightToggleMenu() {
                 value={t(selectors.getLang()).settings.LOGOUT}
                 icon='log-out-outline'
                 iconSize={25}
-                onPress={() => actionsUser.logout()}
+                onPress={() => actionsUser.logout(function(){
+                  actions.updateIsConnected(false);
+                })}
               />
             </View>
           </View>

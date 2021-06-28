@@ -163,6 +163,16 @@ export default function TchatScreen({navigation, route}) {
           :
             null
           }
+          <View style={{flex: 1}}>
+            <Cta
+              onPress={() => navigation.navigate(global.screens.PINNED_MESSAGES, {geId: id, isEvent: isEvent})}
+              _style={globalStyles.h_50p}
+            >
+              <View style={[globalStyles.h_100, globalStyles.alignCenter, globalStyles.justifyCenter]}>
+                <Ionicons name="pricetag-outline" size={25}/>
+              </View>
+            </Cta>
+          </View>
         </View>
       :
         null

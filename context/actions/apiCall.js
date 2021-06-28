@@ -15,9 +15,10 @@ import global from '../../providers/global';
  * @param {*} req graphql request
  * @param {object|null} vars request variables
  * @param {boolean} needAuth is beiing authentificated needed for request
+ * @param {boolean} multiple multiple queries in one request
  * @returns 
  */
- export async function req(type, req, vars = null, needAuth = false){
+ export async function req(type, req, vars = null, needAuth = false, multiple = false){
     
     if(type === 'subscription'){
         const httpLink = new HttpLink({
@@ -95,6 +96,7 @@ import global from '../../providers/global';
 
         return queryDef
             .then(function(res){
+                if(multiple) return res.data;
                 let firstProp;
                 for(let key in res.data) {
                     if(res.data.hasOwnProperty(key)) {

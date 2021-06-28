@@ -3,18 +3,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import global from '../providers/global';
 import BottomMenu from '../components/menus/BottomMenu';
 import { withCustomHeaderOnly, auth } from '../routes';
-import useUsers from '../hooks/useUsers';
 import useApp from '../hooks/useApp';
 
 const Stack = createStackNavigator();
 
 export default function AppScreenManager() {
 
-    const {selectors: selectorsUser} = useUsers();
     const {selectors: selectorsApp} = useApp();
 
     return (
-        selectorsUser.isConnected() ?
+        selectorsApp.isConnected() ?
             <Stack.Navigator initialRouteName={global.routing.BOTTOM_MENU_ROUTING}>
                 <Stack.Screen name={global.routing.BOTTOM_MENU_ROUTING} component={BottomMenu} options={{ headerShown: false }} />
                 {

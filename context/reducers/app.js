@@ -12,7 +12,9 @@ export const initialState = {
     addModal: {
       isOpen: false,
       navigation: null
-    }
+    },
+    notifications: [],
+    isConnected: false
 };
   
   /**
@@ -47,6 +49,16 @@ export const initialState = {
         return {
           ...state,
           searchBar: action.payload
+        }
+      case "SET_NOTIFS":
+        return {
+          ...state,
+          notifications: action.payload
+        }
+      case "UPDATE_IS_CONNECTED":
+        return {
+            ...state,
+            isConnected: action.payload
         }
       default:
         return state;
