@@ -13,7 +13,8 @@
     "test": "jest",
     "build:android": "expo build:android -t app-bundle",
     "upload:android": "expo upload:android --type aab --key C://Users/Lucas/Documents/Downloads/pc-api-8010628069015158901-969-153a2d5c82ff.json",
-    "deploy:android": "npm run build:android && npm run upload:android"
+    "deploy:android": "npm run build:android && npm run upload:android",
+    "lint": "eslint ./"
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
