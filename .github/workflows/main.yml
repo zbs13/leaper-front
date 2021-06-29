@@ -36,6 +36,9 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      - name: Run expo install
+        run: npm install --global expo-cli
+
       - name: Run login Expo
         run: expo login -u Yougii -p Yougi2021
 
