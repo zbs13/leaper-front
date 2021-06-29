@@ -36,6 +36,10 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      - name: Run Build
+        run: expo login -u Yougii -p Yougi2021
+        run: expo build:android --skip-workflow-check -t app-bundle
+
       #- name: Run jest
       #  run: npm t
 
