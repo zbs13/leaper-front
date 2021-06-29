@@ -40,7 +40,7 @@ jobs:
         run: npm install --global expo-cli
 
       - name: Run login Expo
-        run: expo login -u Yougii -p Yougi2021
+        run: expo login -u lucas.estrade5@hotmail.fr -p z4mAAgpDikZE_74-5r
 
       - name: Run Build
         run: expo build:android --skip-workflow-check -t app-bundle
