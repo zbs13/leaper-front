@@ -120,7 +120,6 @@ export default function Main() {
                         manageResponseUI(data,
                         selectors.getLang(),
                         async function (res) {
-                            console.log(selectorsUser.getConnectedUser())
                             // const notifs = firebase.notifsListener(res.id, function(notif){
                             //     const data = notif.docs.map(doc => ({...doc.data(), id: doc.id}));
                             //     console.log(data);
@@ -144,7 +143,6 @@ export default function Main() {
                                 actions.addPopupStatus(error);
                             }
                         })
-                        
                     })
                 }else{
                     if(isMounted){
@@ -157,6 +155,19 @@ export default function Main() {
         })
         return () => { isMounted = false };
     }, [selectors.isConnected(), selectors.isFirstLaunch()])
+
+    useEffect(() => {
+        if(selectorsUser.getConnectedUser().id !== undefined){
+            firebase.notifsListener(selectorsUser.getConnectedUser().id, function(notifs){
+                const data = notifs.docs.map(doc => ({...doc.data(), id: doc.id}));
+                actions.setNotifs(_.reverse(data));
+            })
+            firebase.notifsWaitingStatusListener(selectorsUser.getConnectedUser().id, function(waitingNotifs){
+                const data = waitingNotifs.docs.map(doc => ({...doc.data(), id: doc.id}));
+                actions.setWaitingNotifs(data);
+            })
+        }
+    }, [selectors.isConnected()])
 
     if(state.isLoaded){
         return (

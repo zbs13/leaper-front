@@ -653,7 +653,7 @@ export const fetchConnectedUser = () => {
                 updateUser(
                     data: {
                         friends: {
-                            set: {
+                            connect: {
                                 id: $friendId
                             }
                         }

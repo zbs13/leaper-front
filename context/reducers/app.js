@@ -14,6 +14,7 @@ export const initialState = {
       navigation: null
     },
     notifications: [],
+    waitingNotifications: [],
     isConnected: false
 };
   
@@ -54,6 +55,11 @@ export const initialState = {
         return {
           ...state,
           notifications: action.payload
+        }
+      case "SET_WAITING_NOTIFS":
+        return {
+          ...state,
+          waitingNotifications: action.payload
         }
       case "UPDATE_IS_CONNECTED":
         return {

@@ -9,6 +9,7 @@ import global from '../providers/global';
 import SB from '../components/search/SearchBar';
 import NoData from '../components/NoData';
 import PersonCard from '../components/cards/PersonCard';
+import { isFriendRequestWaiting } from '../utils/utils';
 
 /**
  * add person (friend or add person to group/event) screen
@@ -38,7 +39,11 @@ export default function AddPersonScreen({navigation, route}) {
     }, [])
 
     useEffect(() => {
-        fetchDatas();
+        let isMounted = true;
+        if(isMounted){
+            fetchDatas();
+        }
+        return () => {isMounted = false};
     }, [ap])
 
     /**
@@ -76,7 +81,14 @@ export default function AddPersonScreen({navigation, route}) {
                 <FlatList
                     data={apRes}
                     renderItem={({item}) => (
-                        <PersonCard isEvent={asFriend ? false : isEvent} addAsFriend={asFriend} addToGE={!asFriend} geId={!asFriend ? geId : null} datas={item} />
+                        <PersonCard 
+                            isEvent={asFriend ? false : isEvent} 
+                            addAsFriend={asFriend} 
+                            addToGE={!asFriend} 
+                            geId={!asFriend ? geId : null} 
+                            inWaiting={asFriend ? isFriendRequestWaiting(selectorsApp.getWaitingNotifs(), item.id) : false} 
+                            datas={item} 
+                        />
                     )}
                     ListEmptyComponent={() => <NoData />}
                     keyExtractor={(data, index) => index.toString()}

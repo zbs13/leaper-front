@@ -37,18 +37,18 @@ const useUsers = () => {
           AsyncStorage.setItem("token", res.token);
           AsyncStorage.setItem("isConnected", "true");
           AsyncStorage.setItem("connectedUserId", res.user.id);
-          dispatch({
-            type: "UPDATE_CONNECTED_USER",
-            payload: res.user
-          });
           // dispatch({
           //   type: "UPDATE_CONNECTED_USER",
-          //   payload: {
-          //     ...res.user,
-          //     events: [],
-          //     groups: []
-          //   },
+          //   payload: res.user
           // });
+          dispatch({
+            type: "UPDATE_CONNECTED_USER",
+            payload: {
+              ...res.user,
+              events: [],
+              groups: []
+            },
+          });
         })
       });
     },

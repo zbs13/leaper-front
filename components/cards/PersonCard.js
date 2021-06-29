@@ -17,7 +17,7 @@ import BackgroundImage from '../BackgroundImage';
 import OptionsModal from '../modals/OptionsModal';
 import { cta } from '../../assets/styles/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { isMyFriend, isUserInEventGroup } from '../../utils/utils';
+import { isMyFriend, isUserInEventGroup, isFriendRequestWaiting } from '../../utils/utils';
 
 /**
  * person card
@@ -28,6 +28,7 @@ import { isMyFriend, isUserInEventGroup } from '../../utils/utils';
  * @param {boolean} addToGE true if card for add user in group/event
  * @param {boolean} addAsFriend true if card for add user as friend
  * @param {string} geId group/event id (if addToGE is true)
+ * @param {boolean} inWaiting is add request sended
  * @returns 
  */
 export default function PersonCard({ 
@@ -37,6 +38,7 @@ export default function PersonCard({
     addToGE = false,
     addAsFriend = false,
     geId = null,
+    inWaiting = false
 }) {
     
     const navigation = useNavigation();
@@ -47,6 +49,7 @@ export default function PersonCard({
     const { selectors: selectorsUser } = useUsers();
 
     const [userProfilePic, setUserProfilePic] = useState(null);
+    const [friendRequestWaiting, setFriendRequestWaiting] = useState(false);
 
     let selector = selectorsGroup;
     let action = actionsGroup;
@@ -64,6 +67,14 @@ export default function PersonCard({
         }
         return () => {isMounted = false};
     }, [])
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            setFriendRequestWaiting(addAsFriend && inWaiting);
+        }
+        return () => { isMounted = false };
+    }, [datas])
 
     const personOptions = [
         {
@@ -161,48 +172,57 @@ export default function PersonCard({
                                     :
                                         <Cta
                                             onPress={async () => {
-                                                    const message = {
-                                                      to: "ExponentPushToken[QXsSLQEoZMe8U1cp9xDuwz]",
-                                                      sound: 'default',
-                                                      title: 'Original Title',
-                                                      body: 'And here is the body!',
-                                                      data: { someData: 'goes here' },
-                                                    };
-                                                  
-                                                    await fetch('https://exp.host/--/api/v2/push/send', {
-                                                      method: 'POST',
-                                                      headers: {
-                                                        Accept: 'application/json',
-                                                        'Accept-encoding': 'gzip, deflate',
-                                                        'Content-Type': 'application/json',
-                                                      },
-                                                      body: JSON.stringify(message),
+                                                // const message = {
+                                                //   to: "ExponentPushToken[QXsSLQEoZMe8U1cp9xDuwz]",
+                                                //   sound: 'default',
+                                                //   title: 'Original Title',
+                                                //   body: 'And here is the body!',
+                                                //   data: { someData: 'goes here' },
+                                                // };
+                                                
+                                                // await fetch('https://exp.host/--/api/v2/push/send', {
+                                                //   method: 'POST',
+                                                //   headers: {
+                                                //     Accept: 'application/json',
+                                                //     'Accept-encoding': 'gzip, deflate',
+                                                //     'Content-Type': 'application/json',
+                                                //   },
+                                                //   body: JSON.stringify(message),
+                                                // });
+                                                if(addAsFriend){
+                                                    firebase.sendNotif(global.notifications.ASK_FRIEND, datas.id, {
+                                                        id: selectorsUser.getConnectedUser().id,
+                                                        firstname: selectorsUser.getConnectedUser().firstname,
+                                                        lastname: selectorsUser.getConnectedUser().lastname
                                                     });
-                                                // if(addAsFriend){
-                                                //     firebase.sendNotif("addAsFriend", datas.id, {
-                                                //         id: selectorsUser.getConnectedUser().id,
-                                                //         firstname: selectorsUser.getConnectedUser().firstname,
-                                                //         lastname: selectorsUser.getConnectedUser().lastname
-                                                //     });
-                                                //     return;
-                                                // }
+                                                    setFriendRequestWaiting(true);
+                                                    return;
+                                                }
 
-                                                // firebase.sendNotif(isEvent ? "addToEvent" : "addToGroup", datas.id, {
-                                                //     id: selectorsUser.getConnectedUser().id,
-                                                //     firstname: selectorsUser.getConnectedUser().firstname,
-                                                //     lastname: selectorsUser.getConnectedUser().lastname
-                                                // }, geId);
+                                                firebase.sendNotif(isEvent ? global.notifications.ADD_EVENT : global.notifications.ADD_GROUP, datas.id, {
+                                                    id: selectorsUser.getConnectedUser().id,
+                                                    firstname: selectorsUser.getConnectedUser().firstname,
+                                                    lastname: selectorsUser.getConnectedUser().lastname
+                                                }, geId);
                                             }}
-                                            _style={cta.main}
+                                            _style={[cta.main, friendRequestWaiting ? cta.second : {}]}
                                             underlayColor="transparent"
+                                            disabled={friendRequestWaiting}
                                             confirm={{
                                                 title: addAsFriend ? t(selectorsApp.getLang()).friends.SEND_A_FRIEND_REQUEST : t(selectorsApp.getLang()).INVITE,
                                                 content: addAsFriend ? `${t(selectorsApp.getLang()).friends.CONFIRM_SEND_A_FRIEND_REQUEST} ${datas.firstname}` : isEvent ? t(selectorsApp.getLang()).event.sureToInviteUserToEvent(datas.firstname) : t(selectorsApp.getLang()).group.sureToInviteUserToGroup(datas.firstname) 
                                             }}
                                         >
-                                            <View style={globalStyles.alignCenter}>
-                                                <Ionicons name="add-outline" color={global.colors.MAIN_COLOR} size={30} />
-                                            </View>
+                                            {
+                                                friendRequestWaiting ?
+                                                    <View style={globalStyles.alignCenter}>
+                                                        <Ionicons name="mail-outline" color={global.colors.ANTHRACITE} size={30} />
+                                                    </View>
+                                                :
+                                                    <View style={globalStyles.alignCenter}>
+                                                        <Ionicons name="add-outline" color={global.colors.MAIN_COLOR} size={30} />
+                                                    </View>
+                                            }
                                         </Cta>
                                 :
                                     <OptionsModal options={personOptions} icon="ellipsis-horizontal-outline" buttonColor={global.colors.MAIN_COLOR} buttonSize={25} />

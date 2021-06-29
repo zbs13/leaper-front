@@ -263,7 +263,7 @@ const useFirebase = () => {
     /**
      * listener for user notifications
      * 
-     * @param {string} userId group/event id 
+     * @param {string} userId user id 
      * @param {function} callback function called when notifs getted
      */
      notifsListener: (userId, callback) => {
@@ -271,6 +271,23 @@ const useFirebase = () => {
             .collection("notifications")
             .doc(userId)
             .collection("notifs")
+            .orderBy("createdAt", "desc")
+            .limit(20)
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
+    /**
+     * listener for user waiting notifications status (ex: waiting for a user to ask friend request)
+     * 
+     * @param {string} userId user id 
+     * @param {function} callback function called when waiting status getted
+     */
+    notifsWaitingStatusListener: (userId, callback) => {
+        return firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("waiting")
             .orderBy("createdAt", "desc")
             .limit(20)
             .onSnapshot(documentSnapshot => {
@@ -286,13 +303,23 @@ const useFirebase = () => {
      * @param {string} geId group/event id
      */
     sendNotif: (type, to, from, geId = null) => {
-        firestore
+        const notifsUser = firestore
             .collection("notifications")
+        notifsUser
             .doc(to)
             .collection("notifs")
             .add({
                 type: type,
                 from: from,
+                geId: geId,
+                createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+            })
+        notifsUser
+            .doc(from.id)
+            .collection("waiting")
+            .add({
+                type: type,
+                to: to,
                 geId: geId,
                 createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
             })
@@ -326,6 +353,27 @@ const useFirebase = () => {
             .doc(messageId)
             .update({
                 pinned: pinned
+            })
+     },
+     /**
+      * update user notifs
+      * 
+      * @param {string} userId user id
+      */
+     updateNotifs: (userId) => {
+        firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("notifs")
+            .get()
+            .then(snapshot => {
+                const promises = [];
+                snapshot.forEach(doc => {
+                    promises.push(doc.ref.update({
+                        isSeen: true,
+                    }));
+                });
+                Promise.all(promises)
             })
      }
   };

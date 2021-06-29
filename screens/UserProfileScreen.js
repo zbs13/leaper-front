@@ -4,7 +4,12 @@ import useApp from '../hooks/useApp';
 import useFirebase from '../hooks/useFirebase';
 import globalStyles from '../assets/styles/global';
 import { manageResponseUI } from '../context/actions/apiCall';
-import { getSportById, isMyFriend, isUserInEventGroup } from '../utils/utils';
+import { 
+    getSportById, 
+    isMyFriend, 
+    isUserInEventGroup, 
+    isFriendRequestWaiting 
+} from '../utils/utils';
 import Cta from '../components/cta/Cta';
 import Txt from '../components/Txt';
 import t from '../providers/lang/translations';
@@ -18,6 +23,7 @@ import { formatPhoneNumber } from 'react-phone-number-input';
 import EventCard from '../components/cards/EventCard';
 import { cta, profile } from '../assets/styles/styles';
 import UserProfileLoader from '../components/loaders/UserProfileLoader';
+import global from '../providers/global';
 
 /**
  * user profile screen
@@ -36,7 +42,7 @@ export default function UserProfileScreen({navigation, route}) {
     const {actions: firebase} = useFirebase();
 
     const [isLoaded, setIsLoaded] = useState(false);
-
+    const [friendRequestWaiting, setFriendRequestWaiting] = useState(false);
     const [user, setUser] = useState(null);
     const [userProfilePic, setUserProfilePic] = useState(null);
 
@@ -44,18 +50,24 @@ export default function UserProfileScreen({navigation, route}) {
         navigation.setOptions({
             headerTitle: t(selectorsApp.getLang()).profile.title(userFirstname)
         });
-        fetchProfile();
-    }, [])
-
-    useEffect(() => {
         let isMounted = true;
         if(isMounted){
+            fetchProfile();
             firebase.getUserProfilePic(userId).then(function(url){
                 setUserProfilePic(url);
             })
         }
         return () => {isMounted = false};
     }, [])
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            let userRequestWaiting = isFriendRequestWaiting(selectorsApp.getWaitingNotifs(), userId);
+            setFriendRequestWaiting(userRequestWaiting);
+        }
+        return () => {isMounted = false}
+    }, [selectorsApp.getWaitingNotifs()])
 
     /**
      * get user datas
@@ -106,11 +118,24 @@ export default function UserProfileScreen({navigation, route}) {
                                             }}
                                         />
                                     :
-                                        <Cta 
-                                            onPress={() => console.log("ajouter en ami")}
-                                            _style={[cta.main, cta.first]}
-                                            value={t(selectorsApp.getLang()).profile.ADD_AS_FRIEND}
-                                        />
+                                        friendRequestWaiting ?
+                                            <Cta
+                                                _style={[cta.main, cta.first]}
+                                                value={t(selectorsApp.getLang()).friends.FRIEND_REQUEST_WAITING}
+                                                disabled
+                                            />
+                                        :
+                                            <Cta 
+                                                onPress={() => {
+                                                    firebase.sendNotif(global.notifications.ASK_FRIEND, userId, {
+                                                        id: selectorsUser.getConnectedUser().id,
+                                                        firstname: selectorsUser.getConnectedUser().firstname,
+                                                        lastname: selectorsUser.getConnectedUser().lastname
+                                                    });
+                                                }}
+                                                _style={[cta.main, cta.first]}
+                                                value={t(selectorsApp.getLang()).profile.ADD_AS_FRIEND}
+                                            />
                                 :
                                     null
                             }

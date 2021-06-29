@@ -8,6 +8,7 @@ import ListBookmarksScreenManager from '../../screensManager/ListBookmarksScreen
 import t from '../../providers/lang/translations';
 import useApp from '../../hooks/useApp';
 import global from '../../providers/global';
+import { getNbUnseenNotifs } from '../../utils/utils';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,10 +50,11 @@ export default function BottomMenu() {
           tabBarLabel: t(selectors.getLang()).HOME,
           tabBarIcon: ({color, size}) => <Ionicons name="ios-home" size={35} color={color} />
         }} />
-      <Tab.Screen name={global.routing.NOTIFICATIONS_ROUTING} component={NotificationsScreenManager} options={{ tabBarBadge: 3 }} options={
+      <Tab.Screen name={global.routing.NOTIFICATIONS_ROUTING} component={NotificationsScreenManager} options={
         {
           tabBarLabel: t(selectors.getLang()).NOTIFICATIONS,
-          tabBarIcon: ({color, size}) => <Ionicons name="ios-notifications-outline" size={size} color={color} />
+          tabBarIcon: ({color, size}) => <Ionicons name="ios-notifications-outline" size={size} color={color} />,
+          tabBarBadge: getNbUnseenNotifs(selectors.getNotifs()) !== 0 ? getNbUnseenNotifs(selectors.getNotifs()) : null
         }} />
       <Tab.Screen name={global.routing.BOOKMARKS_ROUTING} component={ListBookmarksScreenManager} options={
         {

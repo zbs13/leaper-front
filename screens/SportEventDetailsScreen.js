@@ -16,7 +16,12 @@ import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
-import { getSportById, isInFav, isGEOwner } from '../utils/utils';
+import { 
+    getSportById, 
+    isInFav,
+    isGEOwner, 
+    isEventRequestWaiting 
+} from '../utils/utils';
 
 /**
  * sport event details screen
@@ -37,10 +42,16 @@ export default function SportEventDetailsScreen({navigation, route}) {
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [addRequestWaiting, setAddRequestWaiting] = useState(false);
+
     const lang = selectorsApp.getLang();
 
     useEffect(() => {
-        fetchEventDetails();
+        let isMounted = true;
+        if(isMounted){
+            fetchEventDetails();
+        }
+        return () => {isMounted = false}
     }, []);
 
     useEffect(() => {
@@ -49,6 +60,15 @@ export default function SportEventDetailsScreen({navigation, route}) {
           headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} geId={id} /> : null
         });
     }, [isLoaded, selectorsUser.getConnectedUser().bookmarks]);
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            let userRequestWaiting = isEventRequestWaiting(selectorsApp.getWaitingNotifs(), id);
+            setAddRequestWaiting(userRequestWaiting);
+        }
+        return () => {isMounted = false}
+    }, [selectorsApp.getWaitingNotifs()])
 
     /**
      * fetch event details by id
@@ -184,14 +204,20 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                         onPress={() => console.log("quitter event")}
                                     />
                                 :
-                                    <Cta value={t(lang).JOIN} 
-                                        _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
-                                        confirm={{
-                                            title: title,
-                                            content: t(lang).event.CONFIRM_JOIN_EVENT
-                                        }}
-                                        onPress={() => console.log("edojf")}
-                                    />
+                                    addRequestWaiting ?
+                                        <Cta value={t(lang).event.WAITING_ADD_EVENT} 
+                                            _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                            disabled
+                                        />
+                                    :
+                                        <Cta value={t(lang).JOIN} 
+                                            _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                            confirm={{
+                                                title: title,
+                                                content: t(lang).event.CONFIRM_JOIN_EVENT
+                                            }}
+                                            onPress={() => console.log("edojf")}
+                                        />
                             :
                                 null
                         }

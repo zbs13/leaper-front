@@ -332,3 +332,63 @@ export const toGQLDateTimeFormat = (date, daysToAdd = null) => {
     }
     return parseISO(date).toISOString();
 }
+
+/**
+ * check if friend request is waiting for an user
+ * 
+ * @param {object} waitingNotifs all waiting notifs object
+ * @param {string} userId user id where friend request sended
+ */
+export const isFriendRequestWaiting = (waitingNotifs, userId) => {
+    for(let notif of waitingNotifs){
+        if(notif.type === "addAsFriend" && notif.to === userId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if event request is waiting for an user
+ * 
+ * @param {object} waitingNotifs all waiting notifs object
+ * @param {string} eventId event id where add request sended
+ */
+export const isEventRequestWaiting = (waitingNotifs, eventId) => {
+    for(let notif of waitingNotifs){
+        if(notif.type === "addEvent" && notif.to === eventId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if group request is waiting for an user
+ * 
+ * @param {object} waitingNotifs all waiting notifs object
+ * @param {string} groupId group id where add request sended
+ */
+ export const isGroupRequestWaiting = (waitingNotifs, groupId) => {
+    for(let notif of waitingNotifs){
+        if(notif.type === "addGroup" && notif.to === groupId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * get number of unseen notifications
+ * 
+ * @param {object} notifs all notifs 
+ */
+export const getNbUnseenNotifs = (notifs) => {
+    let unseenNotifs = [];
+    for(let notif of notifs){
+        if(!notif.isSeen){
+            unseenNotifs.push(notif.id);
+        }
+    }
+    return unseenNotifs.length;
+}

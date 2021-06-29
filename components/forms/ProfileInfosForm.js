@@ -257,7 +257,7 @@ export default function ProfileInfosForm({isEdit = false}) {
                             function (res) {
                                 if(!isEdit){
                                     if(getValues.profilePic !== null){
-                                        firebase.putUserProfilePic(res.signup.user.id, getValues.profilePic);
+                                        firebase.putUserProfilePic(res.user.id, getValues.profilePic);
                                     }
                                 }
                                 if(isEdit){

@@ -103,6 +103,17 @@ const useApp = () => {
       })
     },
     /**
+     * set user waiting notifs
+     * 
+     * @param {object} notifs user waiting notifs
+     */
+     setWaitingNotifs: function(waitingNotifs){
+      dispatch({
+        type: "SET_WAITING_NOTIFS",
+        payload: waitingNotifs
+      })
+    },
+    /**
      * fetch global
      * 
      * @param {object} search search value
@@ -125,7 +136,9 @@ const useApp = () => {
     getPopupsStatus: () => appState.popupsStatus,
     getAddModal: () => appState.addModal,
     isFirstLaunch: () => appState.isFirstLaunch,
-    isConnected: () => appState.isConnected
+    isConnected: () => appState.isConnected,
+    getNotifs: () => appState.notifications,
+    getWaitingNotifs: () => appState.waitingNotifications
   };
 
   return { selectors, actions };
