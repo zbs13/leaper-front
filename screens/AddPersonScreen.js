@@ -9,7 +9,7 @@ import global from '../providers/global';
 import SB from '../components/search/SearchBar';
 import NoData from '../components/NoData';
 import PersonCard from '../components/cards/PersonCard';
-import { isFriendRequestWaiting } from '../utils/utils';
+import { isFriendRequestWaiting, isAddGERequestWaiting } from '../utils/utils';
 
 /**
  * add person (friend or add person to group/event) screen
@@ -86,7 +86,7 @@ export default function AddPersonScreen({navigation, route}) {
                             addAsFriend={asFriend} 
                             addToGE={!asFriend} 
                             geId={!asFriend ? geId : null} 
-                            inWaiting={asFriend ? isFriendRequestWaiting(selectorsApp.getWaitingNotifs(), item.id) : false} 
+                            inWaiting={asFriend ? isFriendRequestWaiting(selectorsApp.getWaitingNotifs(), item.id) : isAddGERequestWaiting(selectorsApp.getGEWaitingNotifs(), item.id)} 
                             datas={item} 
                         />
                     )}

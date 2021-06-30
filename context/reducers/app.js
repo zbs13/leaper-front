@@ -14,7 +14,9 @@ export const initialState = {
       navigation: null
     },
     notifications: [],
+    geNotifications: [],
     waitingNotifications: [],
+    waitingGENotifications: [],
     isConnected: false
 };
   
@@ -55,6 +57,16 @@ export const initialState = {
         return {
           ...state,
           notifications: action.payload
+        }
+      case "SET_GE_NOTIFS":
+        return {
+          ...state,
+          geNotifications: action.payload
+        }
+      case "SET_WAITING_GE_NOTIFS":
+        return {
+          ...state,
+          waitingGENotifications: action.payload
         }
       case "SET_WAITING_NOTIFS":
         return {

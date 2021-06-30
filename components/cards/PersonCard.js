@@ -50,6 +50,7 @@ export default function PersonCard({
 
     const [userProfilePic, setUserProfilePic] = useState(null);
     const [friendRequestWaiting, setFriendRequestWaiting] = useState(false);
+    const [addGERequestWaiting, setAddGERequestWaiting] = useState(false);
 
     let selector = selectorsGroup;
     let action = actionsGroup;
@@ -204,6 +205,7 @@ export default function PersonCard({
                                                     firstname: selectorsUser.getConnectedUser().firstname,
                                                     lastname: selectorsUser.getConnectedUser().lastname
                                                 }, geId);
+                                                setAddGERequestWaiting(true);
                                             }}
                                             _style={[cta.main, friendRequestWaiting ? cta.second : {}]}
                                             underlayColor="transparent"
@@ -214,7 +216,7 @@ export default function PersonCard({
                                             }}
                                         >
                                             {
-                                                friendRequestWaiting ?
+                                                friendRequestWaiting || addGERequestWaiting ?
                                                     <View style={globalStyles.alignCenter}>
                                                         <Ionicons name="mail-outline" color={global.colors.ANTHRACITE} size={30} />
                                                     </View>

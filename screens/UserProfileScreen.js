@@ -107,9 +107,21 @@ export default function UserProfileScreen({navigation, route}) {
                         <View style={globalStyles.mt_10}>
                             {
                                 userId !== selectorsUser.getConnectedUser().id ?
-                                    isMyFriend(user.id, user.friends) ?
+                                    isMyFriend(selectorsUser.getConnectedUser().id, user.friends) ?
                                         <Cta 
-                                            onPress={() => console.log("DELETE AMI")}
+                                            onPress={() => {
+                                                actionsUser.deleteFriend(user.id).then((data) => {
+                                                    manageResponseUI(data,
+                                                        selectorsApp.getLang(),
+                                                        function (res) {
+                                                            navigation.goBack();
+                                                            return;
+                                                        },
+                                                        function (error) {
+                                                            actionsApp.addPopupStatus(error);
+                                                        })
+                                                    })
+                                            }}
                                             _style={[cta.main, cta.b_red]}
                                             value={t(selectorsApp.getLang()).profile.DELETE_FRIEND}
                                             confirm={{

@@ -9,11 +9,14 @@ import {
   editProfile,
   addBookmark,
   addFriend,
+  deleteFriend,
   removeBookmark,
   fetchConnectedUserGroups,
   fetchConnectedUserEvents,
   updateUserPassword,
-  editConnectedUserNotification
+  editConnectedUserNotification,
+  addUserToEvent,
+  addUserToGroup
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -203,12 +206,17 @@ const useUsers = () => {
      */
      addFriend: function(id){
       return addFriend(id).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_FRIENDS",
-            payload: res
-          });
-        })
+        return response(data);
+      });
+    },
+    /**
+     * delete friend
+     * 
+     * @param {string} id friend id
+     */
+    deleteFriend: function(id){
+      return deleteFriend(id).then((data) => {
+        return response(data);
       });
     },
     /**
@@ -249,6 +257,24 @@ const useUsers = () => {
      */
     updateUserPassword: function({oldPassword, newPassword}){
       return updateUserPassword(oldPassword, newPassword).then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * 
+     * @returns 
+     */
+    addUserToEvent: function(){
+      return addUserToEvent().then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * 
+     * @returns 
+     */
+     addUserToGroup: function(){
+      return addUserToGroup().then((data) => {
         return response(data);
       });
     }

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
 import useUsers from '../hooks/useUsers';
 import useApp from '../hooks/useApp';
+import useFirebase from '../hooks/useFirebase';
 import { eventDetailsMap, cta, ctaJoinEventDetails } from '../assets/styles/styles';
 import { manageResponseUI } from '../context/actions/apiCall';
 import Map, { MapPin } from '../components/maps/Map';
@@ -39,6 +40,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
     const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
     const { actions: actionsUser, selectors: selectorsUser } = useUsers();
+    const { actions: firebase } = useFirebase();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -216,7 +218,14 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                                 title: title,
                                                 content: t(lang).event.CONFIRM_JOIN_EVENT
                                             }}
-                                            onPress={() => console.log("edojf")}
+                                            onPress={() => {
+                                                firebase.sendNotif(global.notifications.ASK_EVENT, id, {
+                                                    id: selectorsUser.getConnectedUser().id,
+                                                    firstname: selectorsUser.getConnectedUser().firstname,
+                                                    lastname: selectorsUser.getConnectedUser().lastname
+                                                }, id);
+                                                setAddRequestWaiting(true);
+                                            }}
                                         />
                             :
                                 null

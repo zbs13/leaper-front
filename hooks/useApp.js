@@ -103,6 +103,23 @@ const useApp = () => {
       })
     },
     /**
+     * set group/events notifs
+     * 
+     * @param {object} geNotifs 
+     */
+    setGENotifs: function(geNotifs){
+      dispatch({
+        type: "SET_GE_NOTIFS",
+        payload: geNotifs
+      })
+    },
+    setGEWaitingNotifs: function(geWaitingNotifs){
+      dispatch({
+        type: "SET_WAITING_GE_NOTIFS",
+        payload: geWaitingNotifs
+      })
+    },
+    /**
      * set user waiting notifs
      * 
      * @param {object} notifs user waiting notifs
@@ -138,7 +155,9 @@ const useApp = () => {
     isFirstLaunch: () => appState.isFirstLaunch,
     isConnected: () => appState.isConnected,
     getNotifs: () => appState.notifications,
-    getWaitingNotifs: () => appState.waitingNotifications
+    getGeNotifs: () => appState.geNotifications,
+    getWaitingNotifs: () => appState.waitingNotifications,
+    getGEWaitingNotifs: () => appState.waitingGENotifications
   };
 
   return { selectors, actions };

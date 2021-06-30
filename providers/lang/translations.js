@@ -65,6 +65,7 @@ const l = {
         SURE_TO_EXCLUDE: "Etes vous sûr de vouloir exclure",
         MANAGE_ROLE: "Gestion du rôle",
         INVITE: "Inviter",
+        WAITING: "En attente",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Téléchargement terminé avec succès",
             EDIT_SUCCESS: "Modifié avec succès",
@@ -401,14 +402,15 @@ const l = {
         notifications: {
             NOTIFICATIONS: "Notifications",
             NO_NOTIFS: "Aucune notification",
+            NO_REQUEST: "Aucune demande",
             ASK_FRIEND_TITLE: "Demande d'ami",
             ASK_EVENT_TITLE: "Demande d'intégration à un évènement",
             ASK_GROUP_TITLE: "Demande d'intégration à un groupe",
             ADD_EVENT_TITLE: "Invitation d'évènement",
             ADD_GROUP_TITLE: "Invitation de groupe",
             ASK_FRIEND_CONTENT: "souhaite devenir votre ami",
-            ASK_EVENT_CONTENT: "souhaite intégrer l'évènement :",
-            ASK_GROUP_CONTENT: "souhaite intégrer le groupe :",
+            ASK_EVENT_CONTENT: "souhaite intégrer l'évènement",
+            ASK_GROUP_CONTENT: "souhaite intégrer le groupe",
             ADD_EVENT_CONTENT: "Vous êtes invité à un évènement :",
             ADD_GROUP_CONTENT: "Vous êtes invité à un groupe :",
             SEE: "Voir"
@@ -477,6 +479,7 @@ const l = {
         SURE_TO_EXCLUDE: "Are you sure to exclude",
         MANAGE_ROLE: "Manage role",
         INVITE: "Invite",
+        WAITING: "Waiting",
         success: {
             SUCCESS_DOWNLOAD_FILE: "Download successfully completed",
             EDIT_SUCCESS: "Successfully edited",
@@ -820,14 +823,15 @@ const l = {
         notifications: {
             NOTIFICATIONS: "Notifications",
             NO_NOTIFS: "No notification",
+            NO_REQUEST: "No request",
             ASK_FRIEND_TITLE: "Friend request",
             ASK_EVENT_TITLE: "Request to join an event",
             ASK_GROUP_TITLE: "Request to join a group",
             ADD_EVENT_TITLE: "Event invitation",
             ADD_GROUP_TITLE: "Group invitation",
             ASK_FRIEND_CONTENT: "wants to be your friend",
-            ASK_EVENT_CONTENT: "would like to join the event :",
-            ASK_GROUP_CONTENT: "would like to join the group :",
+            ASK_EVENT_CONTENT: "would like to join this event",
+            ASK_GROUP_CONTENT: "would like to join this group",
             ADD_EVENT_CONTENT: "You are invited to join an event :",
             ADD_GROUP_CONTENT: "You are invited to join a group :",
             SEE: "See"

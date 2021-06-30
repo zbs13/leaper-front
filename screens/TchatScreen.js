@@ -19,6 +19,7 @@ import global from '../providers/global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniLoader from '../components/loaders/MiniLoader';
 import _ from 'lodash';
+import { getNbGENotif } from '../utils/utils';
 
 /**
  * tchat screen
@@ -141,6 +142,7 @@ export default function TchatScreen({navigation, route}) {
           </View>
           <View style={{flex: 1}}>
             <Cta
+              tag={selector.hasRight(global.rights.ADD_USER) ? getNbGENotif(selectorsApp.getGeNotifs(), id) : 0}
               onPress={() => navigation.navigate(global.screens.PEOPLE_LIST, {isEvent: isEvent, id: id})} 
               _style={globalStyles.h_50p}
             >

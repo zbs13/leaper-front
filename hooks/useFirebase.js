@@ -272,7 +272,6 @@ const useFirebase = () => {
             .doc(userId)
             .collection("notifs")
             .orderBy("createdAt", "desc")
-            .limit(20)
             .onSnapshot(documentSnapshot => {
                 callback(documentSnapshot);
             });
@@ -313,16 +312,50 @@ const useFirebase = () => {
                 from: from,
                 geId: geId,
                 createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+            }).then(function(data){
+                notifsUser
+                    .doc(from.id)
+                    .collection("waiting")
+                    .add({
+                        type: type,
+                        to: to,
+                        geId: geId,
+                        createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000),
+                        notifRef: data.id
+                    })
             })
-        notifsUser
-            .doc(from.id)
-            .collection("waiting")
-            .add({
-                type: type,
-                to: to,
-                geId: geId,
-                createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
-            })
+    },
+    /**
+     * delete notifs
+     * 
+     * @param {string} notif notif id to delete
+     */
+     deleteNotif: (notifId, userId, waitingUserId, callbackError) => {
+         console.log(userId);
+         console.log(notifId)
+        firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("notifs")
+            .doc(notifId)
+            .delete()
+            .then(function(){
+                firestore
+                    .collection("notifications")
+                    .doc(waitingUserId)
+                    .collection("waiting")
+                    .where("notifRef", "==", notifId)
+                    .get()
+                    .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                          doc.ref.delete();
+                        });
+                    }).catch(function(){
+                        callbackError();
+                    });
+            }).catch(function(){
+                callbackError();
+            });
     },
     /**
      * set user push notifications token

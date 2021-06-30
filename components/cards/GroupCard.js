@@ -154,13 +154,13 @@ export default function GroupCard({
                                                         id: selectorsUser.getConnectedUser().id,
                                                         firstname: selectorsUser.getConnectedUser().firstname,
                                                         lastname: selectorsUser.getConnectedUser().lastname
-                                                    });
+                                                    }, item.id);
                                                     setGroupRequestWaiting(true);
                                                 }}
                                                 _style={[cta.main, cta.first]}
                                                 confirm={{
                                                     title: item.name,
-                                                    content: t(selectors.getLang()).CONFIRM_JOIN_GROUP
+                                                    content: t(selectors.getLang()).group.CONFIRM_JOIN_GROUP
                                                 }}
                                             >
                                                 <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />

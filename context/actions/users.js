@@ -646,37 +646,51 @@ export const fetchConnectedUser = () => {
  * @param {string} id friend id
  */
  export const addFriend = (id) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
-        return req(
-            'mutation',
-            gql`mutation($userId: ID, $friendId: ID){
-                updateUser(
-                    data: {
-                        friends: {
-                            connect: {
-                                id: $friendId
-                            }
-                        }
-                    },
-                    where: {
-                        id: $userId
+    return req(
+        'mutation',
+        gql`mutation($friendId: ID!){
+            addFriendsToUser(
+                users: [
+                    {
+                        id: $friendId
                     }
-                ),{
-                    friends{
-                        id,
-                        firstname,
-                        lastname,
-                    },
-                }
-            }`, 
-            {
-                userId: userId,
-                friendId: id
-            },
-            true
-        )
-    })
-  }
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            friendId: id
+        },
+        true
+    )
+}
+
+/**
+ * delete friend
+ * 
+ * @param {string} id friend id
+ */
+ export const deleteFriend = (id) => {
+    return req(
+        'mutation',
+        gql`mutation($friendId: ID!){
+            removeFriendsToUser(
+                users: [
+                    {
+                        id: $friendId
+                    }
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            friendId: id
+        },
+        true
+    )
+}
 
 /**
  * fetch connected user groups
@@ -843,4 +857,18 @@ export const fetchConnectedUserGroups = () => {
             true
         );
     })
+}
+
+/**
+ * 
+ */
+export const addUserToGroup = () => {
+
+}
+
+/**
+ * 
+ */
+export const addUserToEvent = () => {
+    
 }

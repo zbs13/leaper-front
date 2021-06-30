@@ -207,7 +207,7 @@ export default function EventCard({
                                                 id: selectorsUser.getConnectedUser().id,
                                                 firstname: selectorsUser.getConnectedUser().firstname,
                                                 lastname: selectorsUser.getConnectedUser().lastname
-                                            });
+                                            }, item.id);
                                             setEventRequestWaiting(true);
                                         }}
                                         _style={[cta.main, cta.first]}

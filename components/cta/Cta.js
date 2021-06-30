@@ -8,6 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { cta } from '../../assets/styles/styles';
 import Txt from '../Txt';
+import { Tag } from 'react-native-btr';
+import TagNbNotifs from '../tags/TagNbNotifs';
 
 /**
  * all Cta management => usual cta or with swipeable options...
@@ -26,6 +28,7 @@ import Txt from '../Txt';
  * @param {object} swipeableRightOptions right swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
  * @param {object} swipeableLeftOptions left swipeable options for cta => style, action, value, confirm{title, content}, icon, iconSize, iconColor
  * @param {boolean} disabled is cta disabled
+ * @param {number} tag tag displaying number of notifications
  * @returns 
  */
 export default function Cta({
@@ -42,7 +45,8 @@ export default function Cta({
     iconColor = null, 
     swipeableRightOptions = null,
     swipeableLeftOptions = null,
-    disabled = false
+    disabled = false,
+    tag = 0
 }) {
 
     const [dialogVisible, setDialogVisible] = useState(false);
@@ -100,7 +104,17 @@ export default function Cta({
                                     <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                                 </View>
                             :
-                                <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
+                                tag !== 0 ?
+                                    <View style={[globalStyles.flexRow, globalStyles.alignCenter]}>
+                                        <View style={globalStyles.mr_5}>
+                                            <TagNbNotifs size={12} padding={20}>
+                                                {tag}
+                                            </TagNbNotifs> 
+                                        </View>
+                                        <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
+                                    </View>
+                                :
+                                    <Txt _style={[color, fontSize, globalStyles.ta_c, textAlign]}>{value}</Txt>
                         : 
                             typeof backgroundImage !== "undefined" ?
                                 <BackgroundImage
@@ -110,7 +124,17 @@ export default function Cta({
                                 </BackgroundImage>
                             :
                                 typeof children !== "undefined" ?
-                                    children
+                                    tag !== 0 ?
+                                        <View style={{position: "relative"}}>
+                                            <View style={{position: "absolute", left: "50%", top: 2, zIndex: 10}}>
+                                                <TagNbNotifs size={12} padding={20}>
+                                                    {tag}
+                                                </TagNbNotifs> 
+                                            </View>
+                                            {children}
+                                        </View>
+                                    :
+                                        children
                                 :
                                     value
 

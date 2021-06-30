@@ -169,6 +169,26 @@ export default function Main() {
         }
     }, [selectors.isConnected()])
 
+    useEffect(() => {
+        if(selectorsUser.getConnectedUser().id !== undefined){
+            let GEs = (selectorsUser.getConnectedUser().events).concat(selectorsUser.getConnectedUser().groups);
+            let a = [];
+            let b = [];
+            for(let ge of GEs){
+                firebase.notifsListener(ge.id, function(notifs){
+                    const data = notifs.docs.map(doc => ({...doc.data(), id: doc.id}));
+                    a.push(data);
+                    actions.setGENotifs(_.reverse(a.flat()));
+                })
+                firebase.notifsWaitingStatusListener(ge.id, function(waitingNotifs){
+                    const data = waitingNotifs.docs.map(doc => ({...doc.data(), id: doc.id}));
+                    b.push(data);
+                    actions.setGEWaitingNotifs(data);
+                })
+            }
+        }
+    }, [selectorsUser.getConnectedUser().events, selectorsUser.getConnectedUser().groups])
+
     if(state.isLoaded){
         return (
             <>

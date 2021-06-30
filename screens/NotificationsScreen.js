@@ -6,6 +6,7 @@ import useFirebase from '../hooks/useFirebase';
 import globalStyles from '../assets/styles/global';
 import Title from '../components/Title';
 import NotificationCard from '../components/cards/NotificationCard';
+import NoData from '../components/NoData';
 import t from '../providers/lang/translations';
 
 /**
@@ -41,7 +42,6 @@ export default function NotificationsScreen({navigation}) {
         keyExtractor={(data, index) => index.toString()}
         onEndReachedThreshold={0.3}
         removeClippedSubviews
-        //onEndReached={onEndReached}
       />
     </View>
   );

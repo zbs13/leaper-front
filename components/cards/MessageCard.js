@@ -131,12 +131,12 @@ export default function MessageCard({ geId, message, isEvent}) {
             options.options.splice(1, 0, ...[{
                 value: t(selectorsApp.getLang()).COPY_ATTACHMENT_LINK,
                 icon: "copy-outline",
-                action: () => Clipboard.setString(message.attachment)
+                action: () => Clipboard.setString(message.attachment.downloadUrl)
             },
             {
                 value: t(selectorsApp.getLang()).SAVE_ATTACHMENT,
                 icon: "save-outline",
-                action: () => saveFileOnPhone(message.attachment,
+                action: () => saveFileOnPhone(message.attachment.downloadUrl,
                     () => {
                         actionsApp.addPopupStatus({
                             type: "error",
@@ -150,7 +150,7 @@ export default function MessageCard({ geId, message, isEvent}) {
                 disabled: isSharing,
                 action: () => {
                     setIsSharing(true);
-                    shareFile(message.attachment,
+                    shareFile(message.attachment.downloadUrl,
                         () => {
                             actionsApp.addPopupStatus({
                                 type: "error",

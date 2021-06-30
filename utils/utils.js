@@ -341,7 +341,22 @@ export const toGQLDateTimeFormat = (date, daysToAdd = null) => {
  */
 export const isFriendRequestWaiting = (waitingNotifs, userId) => {
     for(let notif of waitingNotifs){
-        if(notif.type === "addAsFriend" && notif.to === userId){
+        if(notif.type === global.notifications.ASK_FRIEND && notif.to === userId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if add to group/event request is waiting for an user
+ * 
+ * @param {object} waitingGENotifs all waiting group/event notifs object
+ * @param {string} userId user id where add to group/event request sended
+ */
+export const isAddGERequestWaiting = (waitingGENotifs, userId) => {
+    for(let notif of waitingGENotifs){
+        if((notif.type === global.notifications.ADD_EVENT || notif.type === global.notifications.ADD_GROUP) && notif.to === userId){
             return true;
         }
     }
@@ -356,7 +371,7 @@ export const isFriendRequestWaiting = (waitingNotifs, userId) => {
  */
 export const isEventRequestWaiting = (waitingNotifs, eventId) => {
     for(let notif of waitingNotifs){
-        if(notif.type === "addEvent" && notif.to === eventId){
+        if(notif.type === global.notifications.ASK_EVENT && notif.to === eventId){
             return true;
         }
     }
@@ -371,7 +386,7 @@ export const isEventRequestWaiting = (waitingNotifs, eventId) => {
  */
  export const isGroupRequestWaiting = (waitingNotifs, groupId) => {
     for(let notif of waitingNotifs){
-        if(notif.type === "addGroup" && notif.to === groupId){
+        if(notif.type === global.notifications.ASK_GROUP && notif.to === groupId){
             return true;
         }
     }
@@ -391,4 +406,37 @@ export const getNbUnseenNotifs = (notifs) => {
         }
     }
     return unseenNotifs.length;
+}
+
+/**
+ * get nb notifs in a group/event
+ * 
+ * @param {object} geNotifs all group/event notifs
+ * @param {string} geId group/event id
+ */
+export const getNbGENotif = (geNotifs, geId) => {
+    let nbNotifs = 0;
+    for(let notif of geNotifs){
+        if(notif.geId === geId){
+            nbNotifs++;
+        }
+    }
+    return nbNotifs;
+}
+
+/**
+ * egt group/event notifs
+ * 
+ * @param {object} geNotifs all group/event notifs
+ * @param {string} geId group/event id
+ * @returns 
+ */
+export const getGENotifs = (geNotifs, geId) => {
+    let notifs = [];
+    for(let geNotif of geNotifs){
+        if(geNotif.geId === geId){
+            notifs.push(geNotif);
+        }
+    }
+    return notifs;
 }

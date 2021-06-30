@@ -28,11 +28,12 @@ import { manageResponseUI } from '../../context/actions/apiCall';
 export default function MyGroupsEventsCards({ data }) {
 
     const {actions, selectors} = useApp();
-    const {actions: actionsUser} = useUsers();
+    const {actions: actionsUser, selectors: selectorsUser} = useUsers();
+    const {actions: firebase} = useFirebase();
     const navigation = useNavigation();
 
     return (
-        <View style={[globalStyles.flexRow, card.view]}>
+        <View style={[globalStyles.flexRow, card.view, globalStyles.mpp]}>
             <View style={[{flex: 1.5}, globalStyles.flexColumn, notificationCard.view]}>
                 <Title type="third">
                     { 
@@ -83,10 +84,15 @@ export default function MyGroupsEventsCards({ data }) {
                         onPress={() => {
                             switch(data.type){
                                 case global.notifications.ASK_FRIEND:
-                                    actionsUser.addFriend(data.from.id).then((data) => {
-                                        manageResponseUI(data,
+                                    actionsUser.addFriend(data.from.id).then((ds) => {
+                                        manageResponseUI(ds,
                                             selectors.getLang(),
                                             function (res) {
+                                                firebase.deleteNotif(data.id, selectorsUser.getConnectedUser().id, data.from.id, function(){
+                                                    actions.addPopupStatus({
+                                                        type: "error"
+                                                    });
+                                                });
                                                 return;
                                             },
                                             function (error) {
@@ -96,9 +102,55 @@ export default function MyGroupsEventsCards({ data }) {
                                     break;
                                 case global.notifications.ADD_EVENT:
                                 case global.notifications.ASK_EVENT:
+                                    actionsUser.addUserToEvent(data.from.id).then((ds) => {
+                                        manageResponseUI(ds,
+                                            selectors.getLang(),
+                                            function (res) {
+                                                if(data.type === global.notifications.ASK_EVENT){
+                                                    firebase.deleteNotif(data.id, data.geId, data.from.id, function(){
+                                                        actions.addPopupStatus({
+                                                            type: "error"
+                                                        });
+                                                    });
+                                                }else{
+                                                    firebase.deleteNotif(data.id, selectorsUser.getConnectedUser().id, data.from.id, function(){
+                                                        actions.addPopupStatus({
+                                                            type: "error"
+                                                        });
+                                                    });
+                                                }
+                                                return;
+                                            },
+                                            function (error) {
+                                                actions.addPopupStatus(error);
+                                            })
+                                        })
                                     break;
                                 case global.notifications.ADD_GROUP:
                                 case global.notifications.ASK_GROUP:
+                                    actionsUser.addUserToGroup(data.from.id).then((ds) => {
+                                        manageResponseUI(ds,
+                                            selectors.getLang(),
+                                            function (res) {
+                                                if(data.type === global.notifications.ASK_GROUP){
+                                                    firebase.deleteNotif(data.id, data.geId, data.from.id, function(){
+                                                        actions.addPopupStatus({
+                                                            type: "error"
+                                                        });
+                                                    });
+                                                }else{
+                                                    firebase.deleteNotif(data.id, selectorsUser.getConnectedUser().id, data.from.id, function(){
+                                                        actions.addPopupStatus({
+                                                            type: "error"
+                                                        });
+                                                    });
+                                                }
+                                                return;
+                                            },
+                                            function (error) {
+                                                actions.addPopupStatus(error);
+                                            })
+                                        })
                                     break;
                             }
                         }}
@@ -111,12 +163,21 @@ export default function MyGroupsEventsCards({ data }) {
                         onPress={() => {
                             switch(data.type){
                                 case global.notifications.ASK_FRIEND:
-                                    break;
                                 case global.notifications.ADD_EVENT:
-                                case global.notifications.ASK_EVENT:
-                                    break;
                                 case global.notifications.ADD_GROUP:
+                                    firebase.deleteNotif(data.id, selectorsUser.getConnectedUser().id, data.from.id, function(){
+                                        actions.addPopupStatus({
+                                            type: "error"
+                                        });
+                                    });
+                                    break;
                                 case global.notifications.ASK_GROUP:
+                                case global.notifications.ASK_EVENT:
+                                    firebase.deleteNotif(data.id, data.geId, data.from.id, function(){
+                                        actions.addPopupStatus({
+                                            type: "error"
+                                        });
+                                    });
                                     break;
                             }
                         }}
