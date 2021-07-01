@@ -103,6 +103,34 @@ const useApp = () => {
       })
     },
     /**
+     * set group/events notifs
+     * 
+     * @param {object} geNotifs 
+     */
+    setGENotifs: function(geNotifs){
+      dispatch({
+        type: "SET_GE_NOTIFS",
+        payload: geNotifs
+      })
+    },
+    setGEWaitingNotifs: function(geWaitingNotifs){
+      dispatch({
+        type: "SET_WAITING_GE_NOTIFS",
+        payload: geWaitingNotifs
+      })
+    },
+    /**
+     * set user waiting notifs
+     * 
+     * @param {object} notifs user waiting notifs
+     */
+     setWaitingNotifs: function(waitingNotifs){
+      dispatch({
+        type: "SET_WAITING_NOTIFS",
+        payload: waitingNotifs
+      })
+    },
+    /**
      * fetch global
      * 
      * @param {object} search search value
@@ -125,7 +153,11 @@ const useApp = () => {
     getPopupsStatus: () => appState.popupsStatus,
     getAddModal: () => appState.addModal,
     isFirstLaunch: () => appState.isFirstLaunch,
-    isConnected: () => appState.isConnected
+    isConnected: () => appState.isConnected,
+    getNotifs: () => appState.notifications,
+    getGeNotifs: () => appState.geNotifications,
+    getWaitingNotifs: () => appState.waitingNotifications,
+    getGEWaitingNotifs: () => appState.waitingGENotifications
   };
 
   return { selectors, actions };

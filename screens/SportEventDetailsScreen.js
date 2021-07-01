@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import useEvents from '../hooks/useEvents';
 import useUsers from '../hooks/useUsers';
 import useApp from '../hooks/useApp';
+import useFirebase from '../hooks/useFirebase';
 import { eventDetailsMap, cta, ctaJoinEventDetails } from '../assets/styles/styles';
 import { manageResponseUI } from '../context/actions/apiCall';
 import Map, { MapPin } from '../components/maps/Map';
@@ -16,7 +17,12 @@ import EventDetailsLoader from '../components/loaders/EventDetailsLoader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Txt from '../components/Txt';
 import HeaderRightGroupEventOptions from '../components/headers/HeaderRightGroupEventOptions';
-import { getSportById, isInFav, isGEOwner } from '../utils/utils';
+import { 
+    getSportById, 
+    isInFav,
+    isGEOwner, 
+    isEventRequestWaiting 
+} from '../utils/utils';
 
 /**
  * sport event details screen
@@ -32,15 +38,22 @@ export default function SportEventDetailsScreen({navigation, route}) {
     const id = route.params.id;
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
-    const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
+    const { actions: actionsEvent } = useEvents();
     const { actions: actionsUser, selectors: selectorsUser } = useUsers();
+    const { actions: firebase } = useFirebase();
 
     const [details, setDetails] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [addRequestWaiting, setAddRequestWaiting] = useState(false);
+
     const lang = selectorsApp.getLang();
 
     useEffect(() => {
-        fetchEventDetails();
+        let isMounted = true;
+        if(isMounted){
+            fetchEventDetails();
+        }
+        return () => {isMounted = false}
     }, []);
 
     useEffect(() => {
@@ -49,6 +62,15 @@ export default function SportEventDetailsScreen({navigation, route}) {
           headerRight: () => isMyEvent ? <HeaderRightGroupEventOptions isEvent={true} geTitle={title} geId={id} /> : null
         });
     }, [isLoaded, selectorsUser.getConnectedUser().bookmarks]);
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            let userRequestWaiting = isEventRequestWaiting(selectorsApp.getWaitingNotifs(), id);
+            setAddRequestWaiting(userRequestWaiting);
+        }
+        return () => {isMounted = false}
+    }, [selectorsApp.getWaitingNotifs()])
 
     /**
      * fetch event details by id
@@ -181,17 +203,41 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                             title: title,
                                             content: t(lang).event.SURE_TO_LEAVE_EVENT
                                         }}
-                                        onPress={() => console.log("quitter event")}
+                                        onPress={() => actionsEvent.removeUser(selectorsUser.getConnectedUser().id, id).then((data) => {
+                                            manageResponseUI(data,
+                                                selectorsApp.getLang(),
+                                                function (res) {
+                                                    navigation.navigate(global.screens.MY_EVENTS);
+                                                    actionsEvent.updateNeedReload(true);
+                                                },
+                                                function (error) {
+                                                    actionsApp.addPopupStatus(error);
+                                                })
+                                            })
+                                        }
                                     />
                                 :
-                                    <Cta value={t(lang).JOIN} 
-                                        _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
-                                        confirm={{
-                                            title: title,
-                                            content: t(lang).event.CONFIRM_JOIN_EVENT
-                                        }}
-                                        onPress={() => console.log("edojf")}
-                                    />
+                                    addRequestWaiting ?
+                                        <Cta value={t(lang).event.WAITING_ADD_EVENT} 
+                                            _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                            disabled
+                                        />
+                                    :
+                                        <Cta value={t(lang).JOIN} 
+                                            _style={[cta.main, cta.first_nr, globalStyles.f_bold]}
+                                            confirm={{
+                                                title: title,
+                                                content: t(lang).event.CONFIRM_JOIN_EVENT
+                                            }}
+                                            onPress={() => {
+                                                firebase.sendNotif(global.notifications.ASK_EVENT, id, {
+                                                    id: selectorsUser.getConnectedUser().id,
+                                                    firstname: selectorsUser.getConnectedUser().firstname,
+                                                    lastname: selectorsUser.getConnectedUser().lastname
+                                                }, id);
+                                                setAddRequestWaiting(true);
+                                            }}
+                                        />
                             :
                                 null
                         }

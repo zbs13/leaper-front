@@ -147,7 +147,7 @@ export const fetchById = (id) => {
                     roles{
                         id,
                         name,
-                        group{
+                        event{
                             id
                         },
                         rights{
@@ -326,26 +326,10 @@ export const update = (id, datas) => {
  * @param {*} eventId event id
  */
 export const removeUser = (userId, eventId) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
-    })
-}
-
-/**
- * add user to event
- * 
- * @param {string} eventId event id
- * @param {string} userId user id to add
- */
-export const addUserToEvent = (eventId, userId) => {
     return req(
         'mutation',
-        gql`mutation($idEvent: ID, $userId: ID){
-            addUsersToEvent(
+        gql`mutation($idEvent: ID!, $userId: ID!){
+            removeUsersToEvent(
                 idEvent: $idEvent,
                 users: [
                     {id: $userId}

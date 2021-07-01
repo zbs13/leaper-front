@@ -5,6 +5,7 @@ import OptionsModal from '../modals/OptionsModal';
 import t from '../../providers/lang/translations';
 import useEvents from '../../hooks/useEvents';
 import useGroups from '../../hooks/useGroups';
+import useUsers from '../../hooks/useUsers';
 import useApp from '../../hooks/useApp';
 import { useNavigation } from '@react-navigation/native';
 import { manageResponseUI } from '../../context/actions/apiCall';
@@ -22,6 +23,7 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
     const { selectors: selectorsApp, actions: actionsApp } = useApp();
     const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
     const { selectors: selectorsGroup, actions: actionsGroup } = useGroups();
+    const { selectors: selectorsUser } = useUsers();
     const navigation = useNavigation();
 
     let selector = selectorsGroup;
@@ -71,7 +73,17 @@ export default function HeaderRightGroupEventOptions({isEvent = false, geTitle, 
                     })
                 }) 
             : 
-              () => alert("Quitter")
+              () => action.removeUser(selectorsUser.getConnectedUser().id, geId).then((data) => {
+                manageResponseUI(data,
+                    selectorsApp.getLang(),
+                    function (res) {
+                        navigation.navigate(global.screens.MY_EVENTS);
+                        actionsEvent.updateNeedReload(true);
+                    },
+                    function (error) {
+                        actionsApp.addPopupStatus(error);
+                    })
+                })
         },
     ];
   

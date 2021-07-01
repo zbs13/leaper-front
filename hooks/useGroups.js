@@ -41,9 +41,11 @@ const useGroups = () => {
               res.users.map((user, index) => {
                 if(user.id === userId){
                   user.roles.map((role, index) => {
-                    if(role.group.id === id){
-                      for(let right of role.rights){
-                        rightsArr.push(right.id);
+                    if(role.group !== null){
+                      if(role.group.id === id){
+                        for(let right of role.rights){
+                          rightsArr.push(right.id);
+                        }
                       }
                     }
                   })
@@ -94,7 +96,7 @@ const useGroups = () => {
       });
     },
     /**
-     * remove an user from an a group
+     * remove an user from a group
      * 
      * @param {string} userId user id to remove
      * @param {string} groupId group id

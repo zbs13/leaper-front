@@ -7,6 +7,7 @@ import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
 import { ellipsisText, getSportById, isInFav } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
+import useEvents from '../../hooks/useEvents';
 import useFirebase from '../../hooks/useFirebase';
 import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
@@ -23,12 +24,20 @@ import { manageResponseUI } from '../../context/actions/apiCall';
  * @param {object} item event object => id, name, owner, sportId, description, src, users, postalCode
  * @param {boolean} isMyEvent true if user is in event else false
  * @param {object|null} navigation only used in global search to access to navigation
- * @param {function|null} onPress only used in global search to close search modal while pressing cta  
+ * @param {function|null} onPress only used in global search to close search modal while pressing cta 
+ * @param {boolean} inWaiting is add request sended 
  * @returns 
  */
-export default function EventCard({ item, isMyEvent = false, navigation = null, onPress = null }) {
+export default function EventCard({ 
+    item, 
+    isMyEvent = false, 
+    navigation = null, 
+    onPress = null,
+    inWaiting = false
+}) {
     
     const {selectors, actions} = useApp();
+    const {actions: actionsEvent} = useEvents();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
     const {actions: firebase} = useFirebase();
     if(navigation === null){
@@ -38,6 +47,7 @@ export default function EventCard({ item, isMyEvent = false, navigation = null, 
     const inFav = isInFav(selectorsUser.getConnectedUser().bookmarks, item.id);
 
     const [eventLogo, setEventLogo] = useState(null);
+    const [eventRequestWaiting, setEventRequestWaiting] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -48,6 +58,14 @@ export default function EventCard({ item, isMyEvent = false, navigation = null, 
         }
         return () => { isMounted = false };
     }, [])
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            setEventRequestWaiting(inWaiting);
+        }
+        return () => { isMounted = false };
+    }, [item])
 
     /**
      * details options for option modal
@@ -111,7 +129,16 @@ export default function EventCard({ item, isMyEvent = false, navigation = null, 
         },
         icon: "log-out-outline",
         iconColor: global.colors.WHITE,
-        action: () => navigation.navigate("Home", {caca: "caca"})
+        action: () => actionsEvent.removeUser(selectorsUser.getConnectedUser().id, item.id).then((data) => {
+            manageResponseUI(data,
+                selectors.getLang(),
+                function (res) {
+                    actionsEvent.updateNeedReload(true);
+                },
+                function (error) {
+                    actions.addPopupStatus(error);
+                })
+            })
     };
 
     /**
@@ -175,15 +202,32 @@ export default function EventCard({ item, isMyEvent = false, navigation = null, 
                                     />
                                 </View>
                             :
-                                <Cta
-                                    onPress={() => alert("aaa")}
-                                    _style={[cta.main, cta.first]}
-                                    value={t(selectors.getLang()).JOIN}
-                                    confirm={{
-                                        title: item.name,
-                                        content: t(selectors.getLang()).event.CONFIRM_JOIN_EVENT
-                                    }}
-                                />
+                                eventRequestWaiting ?
+                                    <Cta
+                                        _style={[cta.main, cta.second]}
+                                        disabled
+                                    >
+                                        <View style={globalStyles.alignCenter}>
+                                            <Ionicons name="mail-outline" color={global.colors.ANTHRACITE} size={30} />
+                                        </View>
+                                    </Cta>
+                                :
+                                    <Cta
+                                        onPress={() => {
+                                            firebase.sendNotif(global.notifications.ASK_EVENT, item.id, {
+                                                id: selectorsUser.getConnectedUser().id,
+                                                firstname: selectorsUser.getConnectedUser().firstname,
+                                                lastname: selectorsUser.getConnectedUser().lastname
+                                            }, item.id);
+                                            setEventRequestWaiting(true);
+                                        }}
+                                        _style={[cta.main, cta.first]}
+                                        value={t(selectors.getLang()).JOIN}
+                                        confirm={{
+                                            title: item.name,
+                                            content: t(selectors.getLang()).event.CONFIRM_JOIN_EVENT
+                                        }}
+                                    />
                             }
                             <Txt _style={[globalStyles.flex, globalStyles.alignCenter, globalStyles.c_anth, globalStyles.ta_l]}>
                                 <Ionicons name="location-outline" size={20}/>

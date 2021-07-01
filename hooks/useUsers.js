@@ -9,11 +9,14 @@ import {
   editProfile,
   addBookmark,
   addFriend,
+  deleteFriend,
   removeBookmark,
   fetchConnectedUserGroups,
   fetchConnectedUserEvents,
   updateUserPassword,
-  editConnectedUserNotification
+  editConnectedUserNotification,
+  addUserToEvent,
+  addUserToGroup
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -37,18 +40,18 @@ const useUsers = () => {
           AsyncStorage.setItem("token", res.token);
           AsyncStorage.setItem("isConnected", "true");
           AsyncStorage.setItem("connectedUserId", res.user.id);
-          dispatch({
-            type: "UPDATE_CONNECTED_USER",
-            payload: res.user
-          });
           // dispatch({
           //   type: "UPDATE_CONNECTED_USER",
-          //   payload: {
-          //     ...res.user,
-          //     events: [],
-          //     groups: []
-          //   },
+          //   payload: res.user
           // });
+          dispatch({
+            type: "UPDATE_CONNECTED_USER",
+            payload: {
+              ...res.user,
+              events: [],
+              groups: []
+            },
+          });
         })
       });
     },
@@ -203,12 +206,17 @@ const useUsers = () => {
      */
      addFriend: function(id){
       return addFriend(id).then((data) => {
-        return response(data, function(res){
-          dispatch({
-            type: "UPDATE_FRIENDS",
-            payload: res
-          });
-        })
+        return response(data);
+      });
+    },
+    /**
+     * delete friend
+     * 
+     * @param {string} id friend id
+     */
+    deleteFriend: function(id){
+      return deleteFriend(id).then((data) => {
+        return response(data);
       });
     },
     /**
@@ -249,6 +257,30 @@ const useUsers = () => {
      */
     updateUserPassword: function({oldPassword, newPassword}){
       return updateUserPassword(oldPassword, newPassword).then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * add a user to an event
+     * 
+     * @param {string} userId user id
+     * @param {string} eventId event id
+     * @returns 
+     */
+    addUserToEvent: function(userId, eventId){
+      return addUserToEvent(userId, eventId).then((data) => {
+        return response(data);
+      });
+    },
+    /**
+     * add user to a group
+     * 
+     * @param {string} userId user id
+     * @param {string} groupId group id
+     * @returns 
+     */
+     addUserToGroup: function(userId, groupId){
+      return addUserToGroup(userId, groupId).then((data) => {
         return response(data);
       });
     }

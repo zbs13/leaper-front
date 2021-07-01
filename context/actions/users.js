@@ -646,37 +646,51 @@ export const fetchConnectedUser = () => {
  * @param {string} id friend id
  */
  export const addFriend = (id) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
-        return req(
-            'mutation',
-            gql`mutation($userId: ID, $friendId: ID){
-                updateUser(
-                    data: {
-                        friends: {
-                            set: {
-                                id: $friendId
-                            }
-                        }
-                    },
-                    where: {
-                        id: $userId
+    return req(
+        'mutation',
+        gql`mutation($friendId: ID!){
+            addFriendsToUser(
+                users: [
+                    {
+                        id: $friendId
                     }
-                ),{
-                    friends{
-                        id,
-                        firstname,
-                        lastname,
-                    },
-                }
-            }`, 
-            {
-                userId: userId,
-                friendId: id
-            },
-            true
-        )
-    })
-  }
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            friendId: id
+        },
+        true
+    )
+}
+
+/**
+ * delete friend
+ * 
+ * @param {string} id friend id
+ */
+ export const deleteFriend = (id) => {
+    return req(
+        'mutation',
+        gql`mutation($friendId: ID!){
+            removeFriendsToUser(
+                users: [
+                    {
+                        id: $friendId
+                    }
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            friendId: id
+        },
+        true
+    )
+}
 
 /**
  * fetch connected user groups
@@ -843,4 +857,60 @@ export const fetchConnectedUserGroups = () => {
             true
         );
     })
+}
+
+/**
+ * add user to a group
+ * 
+ * @param {string} userId user id
+ * @param {string} groupId group id
+ * @returns 
+ */
+export const addUserToGroup = (userId, groupId) => {
+    return req(
+        'mutation',
+        gql`mutation($groupId: ID!, $userId: ID!){
+            addUsersToGroup(
+                idGroup: $groupId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            userId: userId,
+            groupId: groupId
+        },
+        true
+    )
+}
+
+/**
+ * add user to an event
+ * 
+ * @param {string} userId user id
+ * @param {string} eventId event id
+ * @returns 
+ */
+export const addUserToEvent = (userId, eventId) => {
+    return req(
+        'mutation',
+        gql`mutation($eventId: ID!, $userId: ID!){
+            addUsersToEvent(
+                idEvent: $eventId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            userId: userId,
+            eventId: eventId
+        },
+        true
+    )
 }

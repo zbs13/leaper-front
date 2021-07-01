@@ -34,7 +34,7 @@ const useFirebase = () => {
      */
     putUserProfilePic: async(userId, uri, callback = null) => {
         let _ext = ext(uri);
-        blobFromUri(uri, async function(blob){
+        blobFromUri(uri, true, async function(blob){
             let metadata = {
                 contentType: `image/${_ext}`,
             };
@@ -53,7 +53,7 @@ const useFirebase = () => {
      */
     putGELogo: (geId, url) => {
         let _ext = ext(url);
-        blobFromUri(url, async function(blob){
+        blobFromUri(url, true, async function(blob){
             let metadata = {
                 contentType: `image/${_ext}`,
             };
@@ -169,7 +169,8 @@ const useFirebase = () => {
         }
         if(Object.keys(attachment).length !== 0){
             let _ext = ext(attachment.uri);
-            blobFromUri(attachment.uri, async function(blob){
+            let isImage = attachment.type === "image";
+            blobFromUri(attachment.uri, isImage, async function(blob){
                 let type = "application";
                 switch(attachment.type){
                     case "image":
@@ -263,7 +264,7 @@ const useFirebase = () => {
     /**
      * listener for user notifications
      * 
-     * @param {string} userId group/event id 
+     * @param {string} userId user id 
      * @param {function} callback function called when notifs getted
      */
      notifsListener: (userId, callback) => {
@@ -271,6 +272,22 @@ const useFirebase = () => {
             .collection("notifications")
             .doc(userId)
             .collection("notifs")
+            .orderBy("createdAt", "desc")
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
+    /**
+     * listener for user waiting notifications status (ex: waiting for a user to ask friend request)
+     * 
+     * @param {string} userId user id 
+     * @param {function} callback function called when waiting status getted
+     */
+    notifsWaitingStatusListener: (userId, callback) => {
+        return firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("waiting")
             .orderBy("createdAt", "desc")
             .limit(20)
             .onSnapshot(documentSnapshot => {
@@ -286,8 +303,9 @@ const useFirebase = () => {
      * @param {string} geId group/event id
      */
     sendNotif: (type, to, from, geId = null) => {
-        firestore
+        const notifsUser = firestore
             .collection("notifications")
+        notifsUser
             .doc(to)
             .collection("notifs")
             .add({
@@ -295,7 +313,48 @@ const useFirebase = () => {
                 from: from,
                 geId: geId,
                 createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000)
+            }).then(function(data){
+                notifsUser
+                    .doc(from.id)
+                    .collection("waiting")
+                    .add({
+                        type: type,
+                        to: to,
+                        geId: geId,
+                        createdAt: new Date(firestoreAsObf.Timestamp.now().seconds * 1000),
+                        notifRef: data.id
+                    })
             })
+    },
+    /**
+     * delete notifs
+     * 
+     * @param {string} notif notif id to delete
+     */
+     deleteNotif: (notifId, userId, waitingUserId, callbackError) => {
+        firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("notifs")
+            .doc(notifId)
+            .delete()
+            .then(function(){
+                firestore
+                    .collection("notifications")
+                    .doc(waitingUserId)
+                    .collection("waiting")
+                    .where("notifRef", "==", notifId)
+                    .get()
+                    .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                          doc.ref.delete();
+                        });
+                    }).catch(function(){
+                        callbackError();
+                    });
+            }).catch(function(){
+                callbackError();
+            });
     },
     /**
      * set user push notifications token
@@ -326,6 +385,27 @@ const useFirebase = () => {
             .doc(messageId)
             .update({
                 pinned: pinned
+            })
+     },
+     /**
+      * update user notifs
+      * 
+      * @param {string} userId user id
+      */
+     updateNotifs: (userId) => {
+        firestore
+            .collection("notifications")
+            .doc(userId)
+            .collection("notifs")
+            .get()
+            .then(snapshot => {
+                const promises = [];
+                snapshot.forEach(doc => {
+                    promises.push(doc.ref.update({
+                        isSeen: true,
+                    }));
+                });
+                Promise.all(promises)
             })
      }
   };

@@ -27,7 +27,7 @@ export default function ContentDisplay({content}){
                         return value;
                     }).reduce((accu, elem) => {
                         if(isUri(elem)){
-                            return accu === null ? [elem] : [...accu, ' ', <Txt key={randId()} _style={uri.main} onPress={() => openWebBrowser(elem)}>{elem}</Txt>]
+                            return accu === null ? [<Txt key={randId()} _style={uri.main} onPress={() => openWebBrowser(elem)}>{elem}</Txt>] : [...accu, ' ', <Txt key={randId()} _style={uri.main} onPress={() => openWebBrowser(elem)}>{elem}</Txt>]
                         }
                         return accu === null ? [elem] : [...accu, ' ', elem]
                     }, null)

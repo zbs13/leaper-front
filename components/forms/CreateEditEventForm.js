@@ -19,6 +19,7 @@ import { manageResponseUI } from '../../context/actions/apiCall';
 import { useNavigation } from '@react-navigation/native';
 import { addHours } from 'date-fns';
 import { sortListSport } from '../../utils/utils';
+import Cam from '../Cam';
 
 /**
  * Create/edit event form
@@ -79,6 +80,7 @@ export default function CreateEditEventForm({
         title: t(selectors.getLang()).NO_ACCESS_GRANTED,
         content: t(selectors.getLang()).PHONE_ACCESS_NOT_GRANTED_TO_MEDIA
     })
+    const [displayCamera, setDisplayCamera] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -92,6 +94,10 @@ export default function CreateEditEventForm({
         }
         return () => {isMounted = false};
     }, [])
+
+    function manageDisplayCamera(display){
+        setDisplayCamera(display);
+    }
 
     return(
         <View style={globalStyles.h_100}>
@@ -110,7 +116,7 @@ export default function CreateEditEventForm({
                                 {
                                     value: t(selectors.getLang()).CAMERA,
                                     icon: "camera-outline",
-                                    action: () => alert("aa")
+                                    action: () => setDisplayCamera(true)
                                 },
                                 {
                                     value: t(selectors.getLang()).PHOTO_LIBRARY,
@@ -269,6 +275,11 @@ export default function CreateEditEventForm({
                     }}
                 />
             </View>
+            <Cam 
+                isVisible={displayCamera}
+                onTakePicture={(picture) => setGeValues({...geValues, pic: picture.uri})} 
+                onClose={() => {manageDisplayCamera(false)}} 
+            />
         </View>
     )
 }

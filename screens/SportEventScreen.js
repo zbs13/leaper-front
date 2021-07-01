@@ -13,7 +13,7 @@ import EventCardLoader from '../components/loaders/EventCardLoader';
 import { RefreshViewList } from '../components/RefreshView';
 import FiltersModal from '../components/modals/FiltersModal';
 import Txt from '../components/Txt';
-import { isUserInEventGroup } from '../utils/utils';
+import { isUserInEventGroup, isEventRequestWaiting } from '../utils/utils';
 
 /**
  * Sport event screen
@@ -151,6 +151,7 @@ export default React.memo(function SportEventScreen({navigation, route}) {
             <EventCard
               isMyEvent={isUserInEventGroup(selectorsUser.getConnectedUser().events, item.id)}
               item={item}
+              inWaiting={isEventRequestWaiting(selectorsApp.getWaitingNotifs(), item.id)}
             />
           )}
         />

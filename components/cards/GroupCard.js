@@ -8,6 +8,7 @@ import globalStyles from '../../assets/styles/global';
 import { ellipsisText } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
+import useGroups from '../../hooks/useGroups';
 import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,6 +16,7 @@ import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
+import { manageResponseUI } from '../../context/actions/apiCall';
 
 /**
  * group card
@@ -23,19 +25,28 @@ import { useNavigation } from '@react-navigation/native';
  * @param {boolean} isMyGroup true if user is in group else false
  * @param {object|null} navigation only used in global search to access to navigation
  * @param {function|null} onPress only used in global search to close search modal while pressing cta 
+ * @param {boolean} inWaiting is add request sended 
  * @returns 
  */
-export default function GroupCard({ item, isMyGroup = false, navigation = null, onPress = null }) {
+export default function GroupCard({ 
+    item, 
+    isMyGroup = false, 
+    navigation = null, 
+    onPress = null,
+    inWaiting = false
+}) {
     
-    const {selectors} = useApp();
+    const {actions, selectors} = useApp();
     const {selectors: selectorsUser} = useUsers();
     const {actions: firebase} = useFirebase();
+    const {actions: actionsGroup} = useGroups();
 
     if(navigation === null){
         navigation = useNavigation();
     }
 
     const [groupLogo, setGroupLogo] = useState(null);
+    const [groupRequestWaiting, setGroupRequestWaiting] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -46,6 +57,14 @@ export default function GroupCard({ item, isMyGroup = false, navigation = null, 
         }
         return () => { isMounted = false };
     }, [])
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            setGroupRequestWaiting(inWaiting);
+        }
+        return () => { isMounted = false };
+    }, [item])
 
     /**
      * main options in options modal (for swipeable option)
@@ -61,7 +80,16 @@ export default function GroupCard({ item, isMyGroup = false, navigation = null, 
         },
         icon: "log-out-outline",
         iconColor: global.colors.WHITE,
-        action: () => navigation.navigate("Home", {caca: "caca"})
+        action: () => actionsGroup.removeUser(selectorsUser.getConnectedUser().id, item.id).then((data) => {
+            manageResponseUI(data,
+                selectors.getLang(),
+                function (res) {
+                    actionsGroup.updateNeedReload(true);
+                },
+                function (error) {
+                    actions.addPopupStatus(error);
+                })
+            })
     }
 
     /**
@@ -92,8 +120,10 @@ export default function GroupCard({ item, isMyGroup = false, navigation = null, 
             >
                 <Cta
                     onPress={() => {
-                        navigation.navigate(isMyGroup ? global.screens.TCHAT : null, {title: item.name, id: item.id, isEvent: false});
-                        onPress !== null ? onPress() : null;
+                        if(isMyGroup){
+                            navigation.navigate(global.screens.TCHAT, {title: item.name, id: item.id, isEvent: false});
+                            onPress !== null ? onPress() : null;
+                        }
                     }}
                     _style={card.cardContainer}
                     underlayColor={global.colors.WHITE}
@@ -120,16 +150,33 @@ export default function GroupCard({ item, isMyGroup = false, navigation = null, 
                                             />
                                         </View>
                                     :
-                                        <Cta
-                                            onPress={() => alert("aaa")}
-                                            _style={[cta.main, cta.first]}
-                                            confirm={{
-                                                title: item.name,
-                                                content: t(selectors.getLang()).CONFIRM_JOIN_GROUP
-                                            }}
-                                        >
-                                            <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />
-                                        </Cta>
+                                        groupRequestWaiting ?
+                                            <Cta
+                                                _style={[cta.main, cta.second]}
+                                                disabled
+                                            >
+                                                <View style={globalStyles.alignCenter}>
+                                                    <Ionicons name="mail-outline" color={global.colors.ANTHRACITE} size={30} />
+                                                </View>
+                                            </Cta>
+                                        :
+                                            <Cta
+                                                onPress={() => {
+                                                    firebase.sendNotif(global.notifications.ASK_GROUP, item.id, {
+                                                        id: selectorsUser.getConnectedUser().id,
+                                                        firstname: selectorsUser.getConnectedUser().firstname,
+                                                        lastname: selectorsUser.getConnectedUser().lastname
+                                                    }, item.id);
+                                                    setGroupRequestWaiting(true);
+                                                }}
+                                                _style={[cta.main, cta.first]}
+                                                confirm={{
+                                                    title: item.name,
+                                                    content: t(selectors.getLang()).group.CONFIRM_JOIN_GROUP
+                                                }}
+                                            >
+                                                <Ionicons name="add-outline" size={20} color={global.colors.ANTHRACITE} />
+                                            </Cta>
                                 :
                                     null
                             }

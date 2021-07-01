@@ -80,6 +80,15 @@ export const cta = StyleSheet.create({
         color: global.colors.MAIN_COLOR,
         borderBottomWidth: 2,
         borderBottomColor: global.colors.MAIN_COLOR
+    },
+    notificationAccept: {
+        backgroundColor: global.colors.LIGHT_MAIN_COLOR
+    },
+    notificationRefuse: {
+        backgroundColor: global.colors.RED_ERROR
+    },
+    notificationSee: {
+        backgroundColor: global.colors.VERY_LIGHT_GREY
     }
 });
 
@@ -185,13 +194,22 @@ export const personCard = StyleSheet.create({
     }
 })
 
+export const notificationCard = StyleSheet.create({
+    view: {
+        padding: 10,
+        borderColor: global.colors.VERY_LIGHT_GREY,
+        borderWidth: 1,
+        borderRadius: 5,
+        backgroundColor: global.colors.WHITE
+    }
+})
+
 export const tag = StyleSheet.create({
     container: {
         padding: 5,
         minWidth: 30,
         height: 30,
-        borderRadius: 50,
-        backgroundColor: "red"
+        borderRadius: 50
     },
     groupsEvents: {
         backgroundColor: global.colors.LIGHT_GREY
@@ -402,6 +420,7 @@ export const settings =  StyleSheet.create({
       borderTopRightRadius: 5
     },
     borderPic: {
+      backgroundColor: global.colors.WHITE,
       borderRadius: 100,
       width: 106,
       height: 106,

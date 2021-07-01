@@ -52,6 +52,7 @@ export default global = {
     colors: {
         MAIN_COLOR: '#BDE023',
         LIGHT_MAIN_COLOR: "#DDEF91",
+        VERY_LIGHT_MAIN_COLOR: "#EEF3D6",
         ANTHRACITE: "#293231",
         GREY: "#9E9E9E",
         LIGHT_GREY: '#C6C6C6',
@@ -66,11 +67,11 @@ export default global = {
         URI: "#4C5EBF"
     },
     rights: {
-        REMOVE_USER: 1,
-        ADD_USER: 2,
-        DELETE_MESSAGE: 3,
-        EDIT_INFOS: 4,
-        ALL: [1, 2, 3, 4]
+        REMOVE_USER: "1",
+        ADD_USER: "2",
+        DELETE_MESSAGE: "3",
+        EDIT_INFOS: "4",
+        ALL: ["1", "2", "3", "4"]
     },
     map: {
         DEFAULT_ZOOM_LATITUDE_DELTA: 0.0222, 
@@ -116,8 +117,15 @@ export default global = {
             ONLY_LETTERS: /[^A-Za-z]/,
             USERNAME: /[^A-Za-z0-9_*!$^]/,
             MAIL: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            URI: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/gm
+            URI: /(https?:\/\/(www\.))?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/gm
         }
+    },
+    notifications: {
+        ASK_EVENT: "askEvent",
+        ASK_GROUP: "askGroup",
+        ADD_EVENT: "addEvent",
+        ADD_GROUP: "addGroup",
+        ASK_FRIEND: "askFriend"
     },
     listSports : (lang) => ( 
         [

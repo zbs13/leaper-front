@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import SB from '../search/SearchBar';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
@@ -14,7 +14,11 @@ import global from '../../providers/global';
 import Cta from '../cta/Cta';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
-import { isUserInEventGroup } from '../../utils/utils';
+import { 
+    isUserInEventGroup, 
+    isEventRequestWaiting, 
+    isGroupRequestWaiting 
+} from '../../utils/utils';
 import NoData from '../NoData';
 import EventCard from '../cards/EventCard';
 import GroupCard from '../cards/GroupCard';
@@ -164,8 +168,6 @@ export default function SearchModal({type}) {
                                 data={search.res.events}
                                 onEndReached={() => {
                                     if(search.res.events.length < search.offsetEvents + global.MAX_RESULT_PER_LOADED_PAGE) return;
-                                    console.log(search.res.events.length);
-                                    console.log("ere")
                                     setSearch({
                                         ...search,
                                         offsetEvents: search.res.offsetEvents + global.MAX_RESULT_PER_LOADED_PAGE
@@ -179,6 +181,7 @@ export default function SearchModal({type}) {
                                         onPress={() => actions.updateUserParameters({
                                             searchBar: null
                                         })}
+                                        inWaiting={isEventRequestWaiting(selectors.getWaitingNotifs(), item.id)}
                                     />
                                 )}
                                 ListEmptyComponent={() => <NoData />}
@@ -205,6 +208,7 @@ export default function SearchModal({type}) {
                                         onPress={() => actions.updateUserParameters({
                                             searchBar: null
                                         })}
+                                        inWaiting={isGroupRequestWaiting(selectors.getWaitingNotifs(), item.id)}
                                     />
                                 )}
                                 ListEmptyComponent={() => <NoData />}

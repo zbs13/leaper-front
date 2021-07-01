@@ -2,6 +2,7 @@ import { format, isToday, parseISO, isYesterday, isBefore, addDays } from 'date-
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 import _ from "lodash";
+import * as ImageManipulator from 'expo-image-manipulator';
 
 /**
  * generate an uniq id
@@ -311,12 +312,30 @@ export const isInFav = (userBookmarks, eventId) => {
  * @param {string} uri file uri 
  * @param {function} callback function called to get blob
  */
-export const blobFromUri = (uri, callback) => {
-    fetch(uri).then(function(response){
-        response.blob().then(function(blob){
-            callback(blob);
+export const blobFromUri = (uri, isImage, callback) => {
+    function fetchUri(uri){
+        fetch(uri).then(function(response){
+            response.blob().then(function(blob){
+                callback(blob)
+            })
+        });
+    }
+
+    if(isImage){
+        ImageManipulator.manipulateAsync(
+            uri,
+            [{
+                resize: {
+                  height: 200,
+                },
+            }],
+            { compress: 0.6 }
+        ).then(function(res){
+            fetchUri(uri)
         })
-    });
+    }else{
+        fetchUri(uri)
+    }
 }
 
 /**
@@ -331,4 +350,112 @@ export const toGQLDateTimeFormat = (date, daysToAdd = null) => {
         return addDays(parseISO(date), daysToAdd).toISOString();
     }
     return parseISO(date).toISOString();
+}
+
+/**
+ * check if friend request is waiting for an user
+ * 
+ * @param {object} waitingNotifs all waiting notifs object
+ * @param {string} userId user id where friend request sended
+ */
+export const isFriendRequestWaiting = (waitingNotifs, userId) => {
+    for(let notif of waitingNotifs){
+        if(notif.type === global.notifications.ASK_FRIEND && notif.to === userId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if add to group/event request is waiting for an user
+ * 
+ * @param {object} waitingGENotifs all waiting group/event notifs object
+ * @param {string} userId user id where add to group/event request sended
+ */
+export const isAddGERequestWaiting = (waitingGENotifs, userId) => {
+    for(let notif of waitingGENotifs){
+        if((notif.type === global.notifications.ADD_EVENT || notif.type === global.notifications.ADD_GROUP) && notif.to === userId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if event request is waiting for an user
+ * 
+ * @param {object} waitingNotifs all waiting notifs object
+ * @param {string} eventId event id where add request sended
+ */
+export const isEventRequestWaiting = (waitingNotifs, eventId) => {
+    for(let notif of waitingNotifs){
+        if(notif.type === global.notifications.ASK_EVENT && notif.to === eventId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if group request is waiting for an user
+ * 
+ * @param {object} waitingNotifs all waiting notifs object
+ * @param {string} groupId group id where add request sended
+ */
+ export const isGroupRequestWaiting = (waitingNotifs, groupId) => {
+    for(let notif of waitingNotifs){
+        if(notif.type === global.notifications.ASK_GROUP && notif.to === groupId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * get number of unseen notifications
+ * 
+ * @param {object} notifs all notifs 
+ */
+export const getNbUnseenNotifs = (notifs) => {
+    let unseenNotifs = [];
+    for(let notif of notifs){
+        if(!notif.isSeen){
+            unseenNotifs.push(notif.id);
+        }
+    }
+    return unseenNotifs.length;
+}
+
+/**
+ * get nb notifs in a group/event
+ * 
+ * @param {object} geNotifs all group/event notifs
+ * @param {string} geId group/event id
+ */
+export const getNbGENotif = (geNotifs, geId) => {
+    let nbNotifs = 0;
+    for(let notif of geNotifs){
+        if(notif.geId === geId){
+            nbNotifs++;
+        }
+    }
+    return nbNotifs;
+}
+
+/**
+ * egt group/event notifs
+ * 
+ * @param {object} geNotifs all group/event notifs
+ * @param {string} geId group/event id
+ * @returns 
+ */
+export const getGENotifs = (geNotifs, geId) => {
+    let notifs = [];
+    for(let geNotif of geNotifs){
+        if(geNotif.geId === geId){
+            notifs.push(geNotif);
+        }
+    }
+    return notifs;
 }
