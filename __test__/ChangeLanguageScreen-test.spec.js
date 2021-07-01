@@ -1,15 +1,7 @@
 
 import "react";
-import renderer from "react-test-renderer";
-import ChangeLanguageScreen from "../screens/ChangeLanguageScreen";
 
-import '../providers/lang/translations';
-
-import * as t from '../providers/lang/translations';
-import {jest} from '@jest/globals';
-
-
-describe('NewsContent', () => {
+describe('Change Language Screen', () => {
     it.todo('Change language') 
   });
 
