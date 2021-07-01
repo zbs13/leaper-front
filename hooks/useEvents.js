@@ -6,7 +6,6 @@ import {
   update, 
   create, 
   removeUser,
-  addUserToEvent,
   deleteById
 } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
@@ -57,13 +56,14 @@ const useEvents = () => {
               rightsArr = global.rights.ALL;
               isOwner = true;
             }else{
-              res.users.map((index, user) => {
+              res.users.map((user, index) => {
                 if(user.id === userId){
-                  user.roles.map((index, role) => {
-                    if(role.event.id === id){
-                      
-                      for(let right of role.rights){
-                        rightsArr.push(right.id);
+                  user.roles.map((role, index) => {
+                    if(role.event !== null){
+                      if(role.event.id === id){
+                        for(let right of role.rights){
+                          rightsArr.push(right.id);
+                        }
                       }
                     }
                   })
@@ -139,17 +139,6 @@ const useEvents = () => {
         type: "DELETE_ROLE_IN_UI",
         payload: id
       });
-    },
-    /**
-     * add user to event
-     * 
-     * @param {string} eventId event id
-     * @param {string} userId user id to add
-     */
-    addUserToEvent: function(eventId, userId){
-      return addUserToEvent(eventId, userId).then((data) => {
-        return response(data);
-      })
     },
     /**
      * delete an event by id

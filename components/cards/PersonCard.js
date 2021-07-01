@@ -93,7 +93,7 @@ export default function PersonCard({
         /**
          * if user has right "remove user" and its not his person card
          */
-        if(selector.hasRight(global.rights.REMOVE_USER) && myId !== datas.id){
+        if(selector.hasRight(global.rights.REMOVE_USER) && myId !== datas.id && datas.id !==  selector.getFetchedById().owner.id){
             personOptions.splice(1, 0, {
                 value: t(selectorsApp.getLang()).EXCLUDE,
                 icon: "close-outline",
@@ -113,8 +113,8 @@ export default function PersonCard({
                     })
             })
         }
-
-        roleIndex = datas.roles.findIndex((role) => (isEvent ? role.event.id : role.group.id) === selector.getFetchedById().id);
+        
+        roleIndex = datas.roles.findIndex((role) => (isEvent ? (role.event !== null && role.event.id) : (role.group !== null && role.group.id) === selector.getFetchedById().id));
 
         /**
          * if user is the group/event owner

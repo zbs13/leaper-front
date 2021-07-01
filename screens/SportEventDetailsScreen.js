@@ -38,7 +38,7 @@ export default function SportEventDetailsScreen({navigation, route}) {
     const id = route.params.id;
 
     const { actions: actionsApp, selectors: selectorsApp } = useApp();
-    const { selectors: selectorsEvent, actions: actionsEvent } = useEvents();
+    const { actions: actionsEvent } = useEvents();
     const { actions: actionsUser, selectors: selectorsUser } = useUsers();
     const { actions: firebase } = useFirebase();
 
@@ -203,7 +203,18 @@ export default function SportEventDetailsScreen({navigation, route}) {
                                             title: title,
                                             content: t(lang).event.SURE_TO_LEAVE_EVENT
                                         }}
-                                        onPress={() => console.log("quitter event")}
+                                        onPress={() => actionsEvent.removeUser(selectorsUser.getConnectedUser().id, id).then((data) => {
+                                            manageResponseUI(data,
+                                                selectorsApp.getLang(),
+                                                function (res) {
+                                                    navigation.navigate(global.screens.MY_EVENTS);
+                                                    actionsEvent.updateNeedReload(true);
+                                                },
+                                                function (error) {
+                                                    actionsApp.addPopupStatus(error);
+                                                })
+                                            })
+                                        }
                                     />
                                 :
                                     addRequestWaiting ?

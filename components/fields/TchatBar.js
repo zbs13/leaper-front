@@ -15,10 +15,13 @@ import FileDisplay from '../display/FileDisplay';
 /**
  * tchat bar
  * 
+ * @param {function} function called when press camera cta
  * @param {function} onSend function called if message sended 
+ * @param {function} onChangeInput function called when text/media value changed
+ * @param {object} cameraPicture took picture datas
  * @returns 
  */
-export default function TchatBar({onSend, onChangeInput}){
+export default function TchatBar({toggleCamera, onSend, onChangeInput, cameraPicture = null}){
 
     const {selectors, actions} = useApp();
 
@@ -26,8 +29,17 @@ export default function TchatBar({onSend, onChangeInput}){
         textValue: "",
         attachment: {}
     })
-
     const [pickImageRestrictionPopupVisible, setPickImageRestrictionPopupVisible] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+        if(isMounted){
+            if(cameraPicture !== null){
+                setTchatState({...tchatState, attachment: cameraPicture})
+            }
+        }
+        return () => {isMounted = false}
+    }, [cameraPicture]);
 
     useEffect(() => {
         onChangeInput();
@@ -66,7 +78,7 @@ export default function TchatBar({onSend, onChangeInput}){
                                 {
                                     value: t(selectors.getLang()).CAMERA,
                                     icon: "camera-outline",
-                                    action: () => alert("aa")
+                                    action: () => toggleCamera(true)
                                 },
                                 {
                                     value: t(selectors.getLang()).PHOTO_VIDEO_LIBRARY,

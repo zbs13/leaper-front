@@ -8,6 +8,7 @@ import globalStyles from '../../assets/styles/global';
 import { ellipsisText } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
+import useGroups from '../../hooks/useGroups';
 import useFirebase from '../../hooks/useFirebase';
 import t from '../../providers/lang/translations';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,6 +16,7 @@ import OptionsModal from '../modals/OptionsModal';
 import ListUsersIconCards from '../icons/ListUsersIconCards';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
+import { manageResponseUI } from '../../context/actions/apiCall';
 
 /**
  * group card
@@ -34,9 +36,10 @@ export default function GroupCard({
     inWaiting = false
 }) {
     
-    const {selectors} = useApp();
+    const {actions, selectors} = useApp();
     const {selectors: selectorsUser} = useUsers();
     const {actions: firebase} = useFirebase();
+    const {actions: actionsGroup} = useGroups();
 
     if(navigation === null){
         navigation = useNavigation();
@@ -77,7 +80,16 @@ export default function GroupCard({
         },
         icon: "log-out-outline",
         iconColor: global.colors.WHITE,
-        action: () => navigation.navigate("Home", {caca: "caca"})
+        action: () => actionsGroup.removeUser(selectorsUser.getConnectedUser().id, item.id).then((data) => {
+            manageResponseUI(data,
+                selectors.getLang(),
+                function (res) {
+                    actionsGroup.updateNeedReload(true);
+                },
+                function (error) {
+                    actions.addPopupStatus(error);
+                })
+            })
     }
 
     /**

@@ -34,7 +34,7 @@ const useFirebase = () => {
      */
     putUserProfilePic: async(userId, uri, callback = null) => {
         let _ext = ext(uri);
-        blobFromUri(uri, async function(blob){
+        blobFromUri(uri, true, async function(blob){
             let metadata = {
                 contentType: `image/${_ext}`,
             };
@@ -53,7 +53,7 @@ const useFirebase = () => {
      */
     putGELogo: (geId, url) => {
         let _ext = ext(url);
-        blobFromUri(url, async function(blob){
+        blobFromUri(url, true, async function(blob){
             let metadata = {
                 contentType: `image/${_ext}`,
             };
@@ -169,7 +169,8 @@ const useFirebase = () => {
         }
         if(Object.keys(attachment).length !== 0){
             let _ext = ext(attachment.uri);
-            blobFromUri(attachment.uri, async function(blob){
+            let isImage = attachment.type === "image";
+            blobFromUri(attachment.uri, isImage, async function(blob){
                 let type = "application";
                 switch(attachment.type){
                     case "image":
@@ -331,8 +332,6 @@ const useFirebase = () => {
      * @param {string} notif notif id to delete
      */
      deleteNotif: (notifId, userId, waitingUserId, callbackError) => {
-         console.log(userId);
-         console.log(notifId)
         firestore
             .collection("notifications")
             .doc(userId)

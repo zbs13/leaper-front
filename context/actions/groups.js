@@ -40,7 +40,7 @@ export const fetchById = (id) => {
                     email,
                     country,
                     phone,
-                    events{
+                    groups{
                         id,
                         name,
                         owner{
@@ -178,13 +178,24 @@ export const fetchById = (id) => {
  * @param {*} groupId group id
  */
 export const removeUser = (userId, groupId) => {
-    return fetch("https://sdgdfghrdh.fr").then(() => {
-        return {
-            id: 2
-        }
-    }).catch(() => {
-        return {isError: true}
-    })
+    return req(
+        'mutation',
+        gql`mutation($groupId: ID!, $userId: ID!){
+            removeUsersToGroup(
+                idGroup: $groupId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            groupId: groupId,
+            userId: userId
+        },
+        true
+    )
 }
 
 /**

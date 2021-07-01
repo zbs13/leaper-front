@@ -261,20 +261,26 @@ const useUsers = () => {
       });
     },
     /**
+     * add a user to an event
      * 
+     * @param {string} userId user id
+     * @param {string} eventId event id
      * @returns 
      */
-    addUserToEvent: function(){
-      return addUserToEvent().then((data) => {
+    addUserToEvent: function(userId, eventId){
+      return addUserToEvent(userId, eventId).then((data) => {
         return response(data);
       });
     },
     /**
+     * add user to a group
      * 
+     * @param {string} userId user id
+     * @param {string} groupId group id
      * @returns 
      */
-     addUserToGroup: function(){
-      return addUserToGroup().then((data) => {
+     addUserToGroup: function(userId, groupId){
+      return addUserToGroup(userId, groupId).then((data) => {
         return response(data);
       });
     }

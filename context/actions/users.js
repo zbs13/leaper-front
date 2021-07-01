@@ -860,15 +860,57 @@ export const fetchConnectedUserGroups = () => {
 }
 
 /**
+ * add user to a group
  * 
+ * @param {string} userId user id
+ * @param {string} groupId group id
+ * @returns 
  */
-export const addUserToGroup = () => {
-
+export const addUserToGroup = (userId, groupId) => {
+    return req(
+        'mutation',
+        gql`mutation($groupId: ID!, $userId: ID!){
+            addUsersToGroup(
+                idGroup: $groupId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            userId: userId,
+            groupId: groupId
+        },
+        true
+    )
 }
 
 /**
+ * add user to an event
  * 
+ * @param {string} userId user id
+ * @param {string} eventId event id
+ * @returns 
  */
-export const addUserToEvent = () => {
-    
+export const addUserToEvent = (userId, eventId) => {
+    return req(
+        'mutation',
+        gql`mutation($eventId: ID!, $userId: ID!){
+            addUsersToEvent(
+                idEvent: $eventId,
+                users: [
+                    {id: $userId}
+                ]
+            ),{
+                id
+            }
+        }`, 
+        {
+            userId: userId,
+            eventId: eventId
+        },
+        true
+    )
 }

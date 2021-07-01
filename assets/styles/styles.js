@@ -420,6 +420,7 @@ export const settings =  StyleSheet.create({
       borderTopRightRadius: 5
     },
     borderPic: {
+      backgroundColor: global.colors.WHITE,
       borderRadius: 100,
       width: 106,
       height: 106,

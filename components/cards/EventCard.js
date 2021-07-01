@@ -7,6 +7,7 @@ import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
 import { ellipsisText, getSportById, isInFav } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
+import useEvents from '../../hooks/useEvents';
 import useFirebase from '../../hooks/useFirebase';
 import useUsers from '../../hooks/useUsers';
 import t from '../../providers/lang/translations';
@@ -36,6 +37,7 @@ export default function EventCard({
 }) {
     
     const {selectors, actions} = useApp();
+    const {actions: actionsEvent} = useEvents();
     const {selectors: selectorsUser, actions: actionsUser} = useUsers();
     const {actions: firebase} = useFirebase();
     if(navigation === null){
@@ -127,7 +129,16 @@ export default function EventCard({
         },
         icon: "log-out-outline",
         iconColor: global.colors.WHITE,
-        action: () => navigation.navigate("Home", {caca: "caca"})
+        action: () => actionsEvent.removeUser(selectorsUser.getConnectedUser().id, item.id).then((data) => {
+            manageResponseUI(data,
+                selectors.getLang(),
+                function (res) {
+                    actionsEvent.updateNeedReload(true);
+                },
+                function (error) {
+                    actions.addPopupStatus(error);
+                })
+            })
     };
 
     /**

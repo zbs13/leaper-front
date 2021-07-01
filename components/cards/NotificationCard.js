@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import useGroups from '../../hooks/useGroups';
 import useEvents from '../../hooks/useEvents';
@@ -10,9 +10,6 @@ import global from '../../providers/global';
 import { card, cta, notificationCard } from '../../assets/styles/styles';
 import globalStyles from '../../assets/styles/global';
 import t from '../../providers/lang/translations';
-import TagNbGroupsEvents from '../tags/TagNbGroupsEvents';
-import TagNbNotifs from '../tags/TagNbNotifs';
-import ImageIcon from '../icons/ImageIcon';
 import Txt from '../Txt';
 import { useNavigation } from '@react-navigation/native';
 import Title from '../Title';
@@ -29,6 +26,8 @@ export default function MyGroupsEventsCards({ data }) {
 
     const {actions, selectors} = useApp();
     const {actions: actionsUser, selectors: selectorsUser} = useUsers();
+    const {actions: actionsEvent} = useEvents();
+    const {actions: actionsGroup} = useGroups();
     const {actions: firebase} = useFirebase();
     const navigation = useNavigation();
 
@@ -57,8 +56,8 @@ export default function MyGroupsEventsCards({ data }) {
                         : data.type === global.notifications.ASK_GROUP
                         ? `${data.from.firstname} ${data.from.lastname} ${t(selectors.getLang()).notifications.ASK_GROUP_CONTENT}`
                         : data.type === global.notifications.ADD_EVENT 
-                        ? `${t(selectors.getLang()).notifications.ADD_EVENT_CONTENT} ${data.ge.title}`
-                        : `${t(selectors.getLang()).notifications.ADD_GROUP_CONTENT} ${data.ge.title}`}
+                        ? t(selectors.getLang()).notifications.ADD_EVENT_CONTENT
+                        : t(selectors.getLang()).notifications.ADD_GROUP_CONTENT}
                     </Txt>
                 </View>
             </View>
@@ -73,7 +72,7 @@ export default function MyGroupsEventsCards({ data }) {
                                 || data.type === global.notifications.ASK_GROUP){
                                     navigation.navigate(global.screens.USER_PROFILE, {userId: data.from.id})
                                 }else{
-                                    navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {isMyEvent: false, id: data.ge.id})
+                                    navigation.navigate(global.screens.SPORT_EVENT_DETAILS, {isMyEvent: false, id: data.geId})
                                 }
                             }}
                         />
@@ -102,7 +101,7 @@ export default function MyGroupsEventsCards({ data }) {
                                     break;
                                 case global.notifications.ADD_EVENT:
                                 case global.notifications.ASK_EVENT:
-                                    actionsUser.addUserToEvent(data.from.id).then((ds) => {
+                                    actionsUser.addUserToEvent(data.type === global.notifications.ASK_EVENT ? data.from.id : selectorsUser.getConnectedUser().id, data.geId).then((ds) => {
                                         manageResponseUI(ds,
                                             selectors.getLang(),
                                             function (res) {
@@ -118,6 +117,7 @@ export default function MyGroupsEventsCards({ data }) {
                                                             type: "error"
                                                         });
                                                     });
+                                                    actionsEvent.updateNeedReload(true);
                                                 }
                                                 return;
                                             },
@@ -128,7 +128,7 @@ export default function MyGroupsEventsCards({ data }) {
                                     break;
                                 case global.notifications.ADD_GROUP:
                                 case global.notifications.ASK_GROUP:
-                                    actionsUser.addUserToGroup(data.from.id).then((ds) => {
+                                    actionsUser.addUserToGroup(data.type === global.notifications.ASK_GROUP ? data.from.id : selectorsUser.getConnectedUser().id, data.geId).then((ds) => {
                                         manageResponseUI(ds,
                                             selectors.getLang(),
                                             function (res) {
@@ -144,6 +144,7 @@ export default function MyGroupsEventsCards({ data }) {
                                                             type: "error"
                                                         });
                                                     });
+                                                    actionsGroup.updateNeedReload(true);
                                                 }
                                                 return;
                                             },

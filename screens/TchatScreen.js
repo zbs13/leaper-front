@@ -20,6 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniLoader from '../components/loaders/MiniLoader';
 import _ from 'lodash';
 import { getNbGENotif } from '../utils/utils';
+import Cam from '../components/Cam';
 
 /**
  * tchat screen
@@ -54,6 +55,8 @@ export default function TchatScreen({navigation, route}) {
 
   const [messages, setMessages] = useState([]);
   const [oldMessages, setOldMessages] = useState([]);
+  const [displayCamera, setDisplayCamera] = useState(false);
+  const [cameraPicture, setCameraPicture] = useState(null);
 
   let lang = selectorsApp.getLang();
 
@@ -85,6 +88,10 @@ export default function TchatScreen({navigation, route}) {
   if(isEvent){
     action = actionsEvent;
     selector = selectorsEvent;
+  }
+
+  function manageDisplayCamera(display){
+    setDisplayCamera(display);
   }
 
   /**
@@ -228,6 +235,8 @@ export default function TchatScreen({navigation, route}) {
       </KeyboardAwareScrollView>
       <View>
         <TchatBar
+          cameraPicture={cameraPicture}
+          toggleCamera={(open) => setDisplayCamera(open)}
           onChangeInput={() => scrollViewRef.current.scrollToEnd({ animated: true })} 
           onSend={({textValue, attachment}) => {
             firebase.postMessage(id, selectorsUser.getConnectedUser(), textValue, attachment, function(){
@@ -238,6 +247,11 @@ export default function TchatScreen({navigation, route}) {
           }}
         />
       </View>
+      <Cam 
+          isVisible={displayCamera}
+          onTakePicture={(picture) => setCameraPicture(picture)} 
+          onClose={() => {manageDisplayCamera(false)}} 
+      />
     </>
   );
 }

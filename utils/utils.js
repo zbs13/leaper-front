@@ -2,6 +2,7 @@ import { format, isToday, parseISO, isYesterday, isBefore, addDays } from 'date-
 import t from '../providers/lang/translations';
 import global from '../providers/global';
 import _ from "lodash";
+import * as ImageManipulator from 'expo-image-manipulator';
 
 /**
  * generate an uniq id
@@ -311,12 +312,30 @@ export const isInFav = (userBookmarks, eventId) => {
  * @param {string} uri file uri 
  * @param {function} callback function called to get blob
  */
-export const blobFromUri = (uri, callback) => {
-    fetch(uri).then(function(response){
-        response.blob().then(function(blob){
-            callback(blob);
+export const blobFromUri = (uri, isImage, callback) => {
+    function fetchUri(uri){
+        fetch(uri).then(function(response){
+            response.blob().then(function(blob){
+                callback(blob)
+            })
+        });
+    }
+
+    if(isImage){
+        ImageManipulator.manipulateAsync(
+            uri,
+            [{
+                resize: {
+                  height: 200,
+                },
+            }],
+            { compress: 0.6 }
+        ).then(function(res){
+            fetchUri(uri)
         })
-    });
+    }else{
+        fetchUri(uri)
+    }
 }
 
 /**

@@ -67,11 +67,11 @@ export default global = {
         URI: "#4C5EBF"
     },
     rights: {
-        REMOVE_USER: 1,
-        ADD_USER: 2,
-        DELETE_MESSAGE: 3,
-        EDIT_INFOS: 4,
-        ALL: [1, 2, 3, 4]
+        REMOVE_USER: "1",
+        ADD_USER: "2",
+        DELETE_MESSAGE: "3",
+        EDIT_INFOS: "4",
+        ALL: ["1", "2", "3", "4"]
     },
     map: {
         DEFAULT_ZOOM_LATITUDE_DELTA: 0.0222, 
@@ -117,7 +117,7 @@ export default global = {
             ONLY_LETTERS: /[^A-Za-z]/,
             USERNAME: /[^A-Za-z0-9_*!$^]/,
             MAIL: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            URI: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/gm
+            URI: /(https?:\/\/(www\.))?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/gm
         }
     },
     notifications: {

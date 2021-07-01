@@ -50,7 +50,7 @@ export default function RightToggleMenu() {
     }, [selectorsUser.getConnectedUserProfilePic()]);
 
     return (
-      <View >
+      <View>
         <Cta _style={[header.headerProfilePic, globalStyles.m_10]} 
             onPress={toggleBottomNavigationView}
             backgroundImage={{uri: mainHeaderState.profilePic || imageUri}} //a changer selon recuperation depuis api

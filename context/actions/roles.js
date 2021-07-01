@@ -1,7 +1,6 @@
 import { req } from './apiCall';
 import gql from 'graphql-tag';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
-import RolesContext from '../rolesContext';
 
 /**
  * create a role
