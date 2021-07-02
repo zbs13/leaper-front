@@ -324,7 +324,6 @@ export const fields = StyleSheet.create({
 
 export const calendarFilter = StyleSheet.create({
     container: {
-        height: 320, 
         marginTop: 10, 
         marginBottom: 10,
         borderTopWidth: 1,
