@@ -149,7 +149,7 @@ export default function TchatScreen({navigation, route}) {
           </View>
           <View style={{flex: 1}}>
             <Cta
-              tag={selector.hasRight(global.rights.ADD_USER) ? getNbGENotif(selectorsApp.getGeNotifs(), id) : 0}
+              tag={selector.hasRight(global.rights.ADD_USER) && selectorsApp.getGeNotifs()[id] ? selectorsApp.getGeNotifs()[id].length : 0}
               onPress={() => navigation.navigate(global.screens.PEOPLE_LIST, {isEvent: isEvent, id: id})} 
               _style={globalStyles.h_50p}
             >

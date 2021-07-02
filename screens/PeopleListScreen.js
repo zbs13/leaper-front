@@ -111,7 +111,7 @@ export default function PeopleListScreen({navigation, route}) {
                     </View>
                     <View style={{flex: 1}}>
                         <Cta 
-                            tag={selectors.hasRight(global.rights.ADD_USER) ? getNbGENotif(selectorsApp.getGeNotifs(), id) : 0}
+                            tag={selectors.hasRight(global.rights.ADD_USER) && selectorsApp.getGeNotifs()[id] ? selectorsApp.getGeNotifs()[id].length : 0}
                             value={t(selectorsApp.getLang()).WAITING}
                             _style={[cta.main, activeDot === 1 ? cta.globalSearch_in : cta.globalSearch]}
                             onPress={() => {
@@ -132,7 +132,7 @@ export default function PeopleListScreen({navigation, route}) {
                     {membersPart()}
                     <View>
                         <FlatList
-                            data={getGENotifs(selectorsApp.getGeNotifs(), id)}
+                            data={selectorsApp.getGeNotifs()[id] ? selectorsApp.getGeNotifs()[id] : []}
                             renderItem={({item}) => (
                                 <NotificationCard data={item} />
                             )}
