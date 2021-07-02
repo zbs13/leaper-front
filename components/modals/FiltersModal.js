@@ -41,6 +41,7 @@ export default function FiltersModal({setCriteria}){
             onCloseEnd={() => setFilterModalOpen(false)}
             onOpenEnd={() => setFilterModalOpen(true)}
             enabledInnerScrolling={true}
+            enabledContentGestureInteraction={false}
             renderHeader={() => (
                 <Cta _style={filtersModal.ctaTitle}
                     onPress={() => {
