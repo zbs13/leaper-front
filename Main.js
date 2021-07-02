@@ -15,8 +15,9 @@ import { deviceYearClass, modelName } from 'expo-device';
 import { manageResponseUI } from './context/actions/apiCall';
 import useFirebase from './hooks/useFirebase';
 import _ from 'lodash';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
+import * as SecureStore from 'expo-secure-store';
+//import * as Notifications from 'expo-notifications';
+//import * as Permissions from 'expo-permissions';
 
 export default function Main() {
 
@@ -39,30 +40,30 @@ export default function Main() {
      * @param {function} callback called when notification token is getted
      * @returns 
      */
-     async function registerForPushNotificationsAsync() {
-        let token;
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
-            finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-            return;
-        }
-        token = (await Notifications.getExpoPushTokenAsync()).data;
+    //  async function registerForPushNotificationsAsync() {
+    //     let token;
+    //     const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    //     let finalStatus = existingStatus;
+    //     if (existingStatus !== 'granted') {
+    //         const { status } = await Notifications.requestPermissionsAsync();
+    //         finalStatus = status;
+    //     }
+    //     if (finalStatus !== 'granted') {
+    //         return;
+    //     }
+    //     token = (await Notifications.getExpoPushTokenAsync()).data;
       
-        if (Platform.OS === 'android') {
-          Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-          });
-        }
+    //     if (Platform.OS === 'android') {
+    //       Notifications.setNotificationChannelAsync('default', {
+    //         name: 'default',
+    //         importance: Notifications.AndroidImportance.MAX,
+    //         vibrationPattern: [0, 250, 250, 250],
+    //         lightColor: '#FF231F7C',
+    //       });
+    //     }
       
-        return token;
-      }
+    //     return token;
+    //   }
 
     /**
      * configure app os and language
@@ -105,9 +106,9 @@ export default function Main() {
 
         getLang();
         isFirstAppLaunch();
-        AsyncStorage.getItem("isConnected").then(isConnected => {
+        SecureStore.getItemAsync("isConnected").then(isConnected => {
             if(isConnected === null){
-                AsyncStorage.setItem("isConnected", "false").then(() => {
+                SecureStore.setItemAsync("isConnected", "false").then(() => {
                     if(isMounted){
                         setState({
                             isLoaded: true
@@ -173,6 +174,8 @@ export default function Main() {
         if(selectorsUser.getConnectedUser().id !== undefined){
             let GEs = (selectorsUser.getConnectedUser().events).concat(selectorsUser.getConnectedUser().groups);
             let res = {};
+            let resWaiting = {};
+            let resLastMessages = {};
             for(let ge in GEs){
                 firebase.notifsListener(GEs[ge].id, function(notifs){
                     const data = notifs.docs.map(doc => ({...doc.data(), id: doc.id}));
@@ -182,9 +185,21 @@ export default function Main() {
                     }
                     actions.setGENotifs(res);
                 })
-                firebase.notifsWaitingStatusListener(ge.id, function(waitingNotifs){
+                firebase.notifsWaitingStatusListener(GEs[ge].id, function(waitingNotifs){
                     const data = waitingNotifs.docs.map(doc => ({...doc.data(), id: doc.id}));
-                    actions.setGEWaitingNotifs(data);
+                    resWaiting = {
+                        ...resWaiting,
+                        [GEs[ge].id]: data
+                    }
+                    actions.setGEWaitingNotifs(resWaiting);
+                })
+                firebase.lastGEMessageListener(GEs[ge].id, function(lastMessages){
+                    const data = lastMessages.docs.map(doc => ({...doc.data(), id: doc.id}));
+                    resLastMessages = {
+                        ...resLastMessages,
+                        [GEs[ge].id]: data
+                    }
+                    actions.setGELastMessages(resLastMessages);
                 })
             }
         }

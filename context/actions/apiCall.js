@@ -4,9 +4,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import t from '../../providers/lang/translations';
 import global from '../../providers/global';
+import * as SecureStore from 'expo-secure-store';
 
 /**
  * main graphql request method
@@ -65,7 +65,7 @@ import global from '../../providers/global';
 
         needAuth ? options = {
             headers: {
-                Authorization: await AsyncStorage.getItem("token")
+                Authorization: await SecureStore.getItemAsync("token")
             },
         } : null;
 

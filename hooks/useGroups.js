@@ -9,7 +9,7 @@ import {
 } from '../context/actions/groups';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
 
 const useGroups = () => {
   const {
@@ -27,7 +27,7 @@ const useGroups = () => {
     fetchById: function(id) {
       return fetchById(id).then((data) => {
         return response(data, function(res){
-          AsyncStorage.getItem("connectedUserId").then((userId) => {
+          SecureStore.getItemAsync("connectedUserId").then((userId) => {
             dispatch({
               type: "UPDATE_GROUPS_BY_ID",
               payload: res

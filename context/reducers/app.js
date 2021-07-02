@@ -15,6 +15,7 @@ export const initialState = {
     },
     notifications: [],
     geNotifications: {},
+    geLastMessages: {},
     waitingNotifications: [],
     waitingGENotifications: [],
     isConnected: false
@@ -72,6 +73,11 @@ export const initialState = {
         return {
           ...state,
           waitingNotifications: action.payload
+        }
+      case "SET_GE_LAST_MESSAGES":
+        return {
+          ...state,
+          geLastMessages: action.payload
         }
       case "UPDATE_IS_CONNECTED":
         return {

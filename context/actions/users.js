@@ -1,8 +1,8 @@
 import { req } from './apiCall';
 import gql from 'graphql-tag';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import global from '../../providers/global';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import * as SecureStore from 'expo-secure-store';
 
 export const login = (mail, password) => {
     return req(
@@ -222,7 +222,7 @@ export const login = (mail, password) => {
  * @param {number} fav_sport user favorite sport
  */
 export const editProfile = ({firstname, lastname, email, phone, country, birthdate, fav_sport}) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'mutation',
             gql`mutation(
@@ -380,7 +380,7 @@ export const fetchUsersByName = (value, offset) => {
  * @returns 
  */
 export const fetchConnectedUser = () => {
-    return AsyncStorage.getItem("token").then(token => {
+    return SecureStore.getItemAsync("token").then(token => {
         return req(
             'mutation',
             gql`mutation($token: String!){
@@ -394,7 +394,7 @@ export const fetchConnectedUser = () => {
             }
         ).then(result => {
             if(result.isConnected){
-                return AsyncStorage.getItem("connectedUserId").then(connectedUserId => {
+                return SecureStore.getItemAsync("connectedUserId").then(connectedUserId => {
                     return req(
                         'query',
                         gql`query($id: ID){
@@ -554,7 +554,7 @@ export const fetchConnectedUser = () => {
  * @param {string} id event id
  */
  export const addBookmark = (id) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'mutation',
             gql`mutation($userId: ID, $eventId: ID){
@@ -600,7 +600,7 @@ export const fetchConnectedUser = () => {
  * @param {string} id event id
  */
  export const removeBookmark = (id) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'mutation',
             gql`mutation($userId: ID, $eventId: ID){
@@ -698,7 +698,7 @@ export const fetchConnectedUser = () => {
  * @returns 
  */
 export const fetchConnectedUserGroups = () => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'query',
             gql`query($userId: ID){
@@ -744,7 +744,7 @@ export const fetchConnectedUserGroups = () => {
  * @returns 
  */
  export const fetchConnectedUserEvents = () => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'query',
             gql`query($userId: ID){
@@ -794,13 +794,81 @@ export const fetchConnectedUserGroups = () => {
 }
 
 /**
+ * fetch connected user friends
+ * 
+ * @returns 
+ */
+ export const fetchConnectedUserFriends = () => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
+        return req(
+            'query',
+            gql`query($userId: ID){
+                user(
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    friends{
+                        id,
+                        firstname,
+                        lastname,
+                    }
+                }
+            }`, 
+            {
+                userId: userId,
+            },
+            true
+        )
+    })
+}
+
+/**
+ * fetch connected user bookmarks
+ * 
+ * @returns 
+ */
+ export const fetchConnectedUserBookmarks = () => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
+        return req(
+            'query',
+            gql`query($userId: ID){
+                user(
+                    where: {
+                        id: $userId
+                    }
+                ),{
+                    bookmarks{
+                        id,
+                        name,
+                        description,
+                        address,
+                        location{
+                            latitude,
+                            longitude
+                        },
+                        users{
+                            id
+                        }
+                    }
+                }
+            }`, 
+            {
+                userId: userId,
+            },
+            true
+        )
+    })
+}
+
+/**
  * update user password
  * 
  * @param {string} oldPassword old password
  * @param {string} newPassword new password
  */
  export const updateUserPassword = (oldPassword, newPassword) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'mutation',
             gql`mutation($userId: ID, $password: String!, $oldPassword: String!){
@@ -830,7 +898,7 @@ export const fetchConnectedUserGroups = () => {
  * @param {object} notification name and new value of notification
  */
  export const editConnectedUserNotification = (notification) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         const notif = Object.keys(notification)[0];
         const mutation = {
             mutation: {

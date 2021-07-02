@@ -38,7 +38,7 @@ export default function ListFriendsScreen({navigation}) {
      * fetch all my friends
      */
     function fetchFriends(){
-        actionsUser.fetchConnectedUser().then((data) => {
+        actionsUser.fetchConnectedUserFriends().then((data) => {
         manageResponseUI(data,
             lang,
             function (res) {

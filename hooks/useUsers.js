@@ -13,13 +13,15 @@ import {
   removeBookmark,
   fetchConnectedUserGroups,
   fetchConnectedUserEvents,
+  fetchConnectedUserFriends,
+  fetchConnectedUserBookmarks,
   updateUserPassword,
   editConnectedUserNotification,
   addUserToEvent,
   addUserToGroup
 } from '../context/actions/users';
 import { response } from '../context/actions/apiCall';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
 
 const useUsers = () => {
   const {
@@ -37,13 +39,9 @@ const useUsers = () => {
     login: function(mail, password){
       return login(mail, password).then((data) => {
         return response(data, function(res){
-          AsyncStorage.setItem("token", res.token);
-          AsyncStorage.setItem("isConnected", "true");
-          AsyncStorage.setItem("connectedUserId", res.user.id);
-          // dispatch({
-          //   type: "UPDATE_CONNECTED_USER",
-          //   payload: res.user
-          // });
+          SecureStore.setItemAsync("token", res.token);
+          SecureStore.setItemAsync("isConnected", "true");
+          SecureStore.setItemAsync("connectedUserId", res.user.id);
           dispatch({
             type: "UPDATE_CONNECTED_USER",
             payload: {
@@ -61,8 +59,8 @@ const useUsers = () => {
      * @param {function} callback function called to logout
      */
     logout: function(callback){
-      AsyncStorage.removeItem("token");
-      AsyncStorage.setItem("isConnected", "false");
+      SecureStore.deleteItemAsync("token");
+      SecureStore.setItemAsync("isConnected", "false");
       callback()
     },
     /**
@@ -245,6 +243,36 @@ const useUsers = () => {
           dispatch({
             type: "UPDATE_EVENTS",
             payload: res.events
+          });
+        })
+      });
+    },
+    /**
+     * fetch connected user friends
+     * 
+     * @returns 
+     */
+     fetchConnectedUserFriends: function () {
+      return fetchConnectedUserFriends().then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_FRIENDS",
+            payload: res.friends
+          });
+        })
+      });
+    },
+    /**
+     * fetch connected user bookmarks
+     * 
+     * @returns 
+     */
+     fetchConnectedUserBookmarks: function () {
+      return fetchConnectedUserBookmarks().then((data) => {
+        return response(data, function(res){
+          dispatch({
+            type: "UPDATE_BOOKMARKS",
+            payload: res.bookmarks
           });
         })
       });
