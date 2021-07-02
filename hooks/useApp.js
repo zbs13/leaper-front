@@ -105,7 +105,7 @@ const useApp = () => {
     /**
      * set group/events notifs
      * 
-     * @param {object} geNotifs 
+     * @param {object} geNotifs group/event notifs
      */
     setGENotifs: function(geNotifs){
       dispatch({
@@ -113,6 +113,11 @@ const useApp = () => {
         payload: geNotifs
       })
     },
+    /**
+     * set group/event last waiting notifications
+     * 
+     * @param {object} geWaitingNotifs group/event waiting notifs
+     */
     setGEWaitingNotifs: function(geWaitingNotifs){
       dispatch({
         type: "SET_WAITING_GE_NOTIFS",
@@ -122,12 +127,23 @@ const useApp = () => {
     /**
      * set user waiting notifs
      * 
-     * @param {object} notifs user waiting notifs
+     * @param {object} waitingNotifs user waiting notifs
      */
      setWaitingNotifs: function(waitingNotifs){
       dispatch({
         type: "SET_WAITING_NOTIFS",
         payload: waitingNotifs
+      })
+    },
+    /**
+     * set group/event last messages
+     * 
+     * @param {object} lastMessages group/event last messages
+     */
+     setGELastMessages: function(lastMessages){
+      dispatch({
+        type: "SET_GE_LAST_MESSAGES",
+        payload: lastMessages
       })
     },
     /**
@@ -157,7 +173,8 @@ const useApp = () => {
     getNotifs: () => appState.notifications,
     getGeNotifs: () => appState.geNotifications,
     getWaitingNotifs: () => appState.waitingNotifications,
-    getGEWaitingNotifs: () => appState.waitingGENotifications
+    getGEWaitingNotifs: () => appState.waitingGENotifications,
+    getGELastMessages: () => appState.geLastMessages
   };
 
   return { selectors, actions };

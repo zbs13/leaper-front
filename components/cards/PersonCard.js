@@ -72,7 +72,11 @@ export default function PersonCard({
     useEffect(() => {
         let isMounted = true;
         if(isMounted){
-            setFriendRequestWaiting(addAsFriend && inWaiting);
+            if(addAsFriend){
+                setFriendRequestWaiting(inWaiting);
+            }else{
+                setAddGERequestWaiting(inWaiting);
+            }
         }
         return () => { isMounted = false };
     }, [datas])
@@ -201,7 +205,7 @@ export default function PersonCard({
                                                 }
 
                                                 firebase.sendNotif(isEvent ? global.notifications.ADD_EVENT : global.notifications.ADD_GROUP, datas.id, {
-                                                    id: selectorsUser.getConnectedUser().id,
+                                                    id: geId,
                                                     firstname: selectorsUser.getConnectedUser().firstname,
                                                     lastname: selectorsUser.getConnectedUser().lastname
                                                 }, geId);

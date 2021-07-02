@@ -10,7 +10,7 @@ import {
 } from '../context/actions/events';
 import { response } from '../context/actions/apiCall';
 import global from '../providers/global';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 const useEvents = () => {
   const {
@@ -45,7 +45,7 @@ const useEvents = () => {
     fetchById: function(id) {
       return fetchById(id).then((data) => {
         return response(data, function(res){
-          AsyncStorage.getItem("connectedUserId").then((userId) => {
+          SecureStore.getItemAsync("connectedUserId").then((userId) => {
             dispatch({
               type: "UPDATE_EVENTS_BY_ID",
               payload: res

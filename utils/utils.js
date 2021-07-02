@@ -375,7 +375,7 @@ export const isFriendRequestWaiting = (waitingNotifs, userId) => {
  */
 export const isAddGERequestWaiting = (waitingGENotifs, userId) => {
     for(let notif of waitingGENotifs){
-        if((notif.type === global.notifications.ADD_EVENT || notif.type === global.notifications.ADD_GROUP) && notif.to === userId){
+        if((notif.type == global.notifications.ADD_EVENT || notif.type == global.notifications.ADD_GROUP) && notif.to == userId){
             return true;
         }
     }
@@ -458,4 +458,19 @@ export const getGENotifs = (geNotifs, geId) => {
         }
     }
     return notifs;
+}
+
+/**
+ * group/event last message to display on cards
+ * 
+ * @param {object} geLastMessage group/event last message
+ * @param {string} lang attachment value language
+ * @returns 
+ */
+export const geLastMessage = (geLastMessage, lang) => {
+    if(geLastMessage[0].content !== null && geLastMessage[0].content !== ""){
+        return `${geLastMessage[0].sentBy.firstname} : ${geLastMessage[0].content}`;
+    }
+
+    return `${geLastMessage[0].sentBy.firstname} : [${t(lang).ATTACHMENT}]`;
 }

@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { req } from './apiCall';
 import gql from 'graphql-tag';
+import * as SecureStore from 'expo-secure-store';
 
 /**
  * fetch my groups by id
@@ -140,7 +140,7 @@ export const fetchById = (id) => {
  * @param {object} datas datas to update
  */
  export const create = (datas) => {
-    return AsyncStorage.getItem("connectedUserId").then(userId => {
+    return SecureStore.getItemAsync("connectedUserId").then(userId => {
         return req(
             'mutation',
             gql`mutation(

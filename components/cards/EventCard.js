@@ -5,7 +5,7 @@ import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
 import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
-import { ellipsisText, getSportById, isInFav } from '../../utils/utils';
+import { ellipsisText, getSportById, isInFav, geLastMessage } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import useEvents from '../../hooks/useEvents';
 import useFirebase from '../../hooks/useFirebase';
@@ -191,7 +191,17 @@ export default function EventCard({
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>
                             <Txt ellipsis={50} _style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{item.name}</Txt>
-                            <Txt ellipsis={80} _style={[globalStyles.c_anth, globalStyles.ta_j]}>{item.description}</Txt>
+                            <Txt ellipsis={80} _style={[globalStyles.c_anth, globalStyles.ta_j]}>
+                                {
+                                    isMyEvent 
+                                    ? selectors.getGELastMessages()[item.id] !== undefined 
+                                    ? selectors.getGELastMessages()[item.id].length !== 0 
+                                    ? geLastMessage(selectors.getGELastMessages()[item.id], selectors.getLang()) 
+                                    : item.description 
+                                    : item.description 
+                                    : item.description
+                                }
+                            </Txt>
                             <ListUsersIconCards users={item.users} />
                         </View>
                         <View style={[globalStyles.m_10, globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround]}>

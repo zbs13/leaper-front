@@ -86,7 +86,7 @@ export default function AddPersonScreen({navigation, route}) {
                             addAsFriend={asFriend} 
                             addToGE={!asFriend} 
                             geId={!asFriend ? geId : null} 
-                            inWaiting={asFriend ? isFriendRequestWaiting(selectorsApp.getWaitingNotifs(), item.id) : isAddGERequestWaiting(selectorsApp.getGEWaitingNotifs(), item.id)} 
+                            inWaiting={asFriend ? isFriendRequestWaiting(selectorsApp.getWaitingNotifs(), item.id) : isAddGERequestWaiting(selectorsApp.getGEWaitingNotifs()[geId], item.id)} 
                             datas={item} 
                         />
                     )}

@@ -48,7 +48,7 @@ export default function ListBookmarksScreen() {
    * fetch bookmarks
    */
   function fetchBookmarks(){
-    actionsUser.fetchConnectedUser().then((data) => {
+    actionsUser.fetchConnectedUserBookmarks().then((data) => {
     manageResponseUI(data,
       selectorsApp.getLang(),
       function (res) {

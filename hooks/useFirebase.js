@@ -125,6 +125,17 @@ const useFirebase = () => {
                 callback(documentSnapshot);
             });
     },
+    lastGEMessageListener: (geId, callback) => {
+        return firestore
+            .collection("chat")
+            .doc(geId)
+            .collection("messages")
+            .orderBy("createdAt", "desc")
+            .limit(1)
+            .onSnapshot(documentSnapshot => {
+                callback(documentSnapshot);
+            });
+    },
     /**
      * get last pinned messages in real time
      * 

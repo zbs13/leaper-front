@@ -5,7 +5,7 @@ import global from '../../providers/global';
 import { card, cta } from '../../assets/styles/styles';
 import ImageIcon from '../icons/ImageIcon';
 import globalStyles from '../../assets/styles/global';
-import { ellipsisText } from '../../utils/utils';
+import { ellipsisText, geLastMessage } from '../../utils/utils';
 import useApp from '../../hooks/useApp';
 import useUsers from '../../hooks/useUsers';
 import useGroups from '../../hooks/useGroups';
@@ -137,7 +137,17 @@ export default function GroupCard({
                         </View>
                         <View style={[globalStyles.flexColumn, globalStyles.h_100, globalStyles.flexAround, globalStyles.p_5, {flex: 3}]}>
                             <Txt ellipsis={50} _style={[globalStyles.f_bold, globalStyles.c_anth, globalStyles.ta_j]}>{item.name}</Txt>
-                            <Txt ellipsis={80} _style={[globalStyles.c_anth, globalStyles.ta_j]}>{item.description}</Txt>
+                            <Txt ellipsis={80} _style={[globalStyles.c_anth, globalStyles.ta_j]}>
+                                {
+                                    isMyGroup 
+                                    ? selectors.getGELastMessages()[item.id] !== undefined 
+                                    ? selectors.getGELastMessages()[item.id].length !== 0 
+                                    ? geLastMessage(selectors.getGELastMessages()[item.id], selectors.getLang()) 
+                                    : item.description 
+                                    : item.description 
+                                    : item.description
+                                }
+                            </Txt>
                             <ListUsersIconCards users={item.users} />
                         </View>
                         <View style={[globalStyles.m_10]}>
