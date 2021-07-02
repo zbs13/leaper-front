@@ -172,17 +172,18 @@ export default function Main() {
     useEffect(() => {
         if(selectorsUser.getConnectedUser().id !== undefined){
             let GEs = (selectorsUser.getConnectedUser().events).concat(selectorsUser.getConnectedUser().groups);
-            let a = [];
-            let b = [];
-            for(let ge of GEs){
-                firebase.notifsListener(ge.id, function(notifs){
+            let res = {};
+            for(let ge in GEs){
+                firebase.notifsListener(GEs[ge].id, function(notifs){
                     const data = notifs.docs.map(doc => ({...doc.data(), id: doc.id}));
-                    a.push(data);
-                    actions.setGENotifs(_.reverse(a.flat()));
+                    res = {
+                        ...res,
+                        [GEs[ge].id]: _.reverse(data)
+                    }
+                    actions.setGENotifs(res);
                 })
                 firebase.notifsWaitingStatusListener(ge.id, function(waitingNotifs){
                     const data = waitingNotifs.docs.map(doc => ({...doc.data(), id: doc.id}));
-                    b.push(data);
                     actions.setGEWaitingNotifs(data);
                 })
             }
@@ -207,14 +208,15 @@ export default function Main() {
                         <GroupsProvider>
                             <RolesProvider>
                                 <AppScreenManager />
+                                {selectors.getSearchBar() !== null 
+                                    &&
+                                        <SearchModal type={selectors.getSearchBar()} />
+                                }
                             </RolesProvider>
                         </GroupsProvider>
                     </EventsProvider>
                 </KeyboardAvoidingView>
-                {selectors.getSearchBar() !== null 
-                    &&
-                        <SearchModal type={selectors.getSearchBar()} />
-                }
+                
                 {selectors.getAddModal().isOpen
                     &&
                         <AddModal />

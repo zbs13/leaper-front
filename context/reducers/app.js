@@ -14,7 +14,7 @@ export const initialState = {
       navigation: null
     },
     notifications: [],
-    geNotifications: [],
+    geNotifications: {},
     waitingNotifications: [],
     waitingGENotifications: [],
     isConnected: false

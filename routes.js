@@ -24,8 +24,6 @@ import AboutScreen from "./screens/AboutScreen";
 import ProfileSettingsScreen from "./screens/ProfileSettingsScreen";
 import PinnedMessagesScreen from "./screens/PinnedMessagesScreen";
 
-
-
 export const auth = [
     {
         name: global.screens.LOGIN,
