@@ -48,8 +48,3 @@ jobs:
       - name: Run Build
         run: expo build:android --skip-workflow-check -t app-bundle
 
-      #- name: Run cypress
-      # TODO: implement
-
-      #- name: Run build
-      #  run: npm run build-prod
