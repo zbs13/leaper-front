@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run.
+on:
+
+  pull_request:
+    branches:
+      - "add/*"
+      - "fix/*"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - run: npm ci --ignore-scripts
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run jest
+        run: npm t
+
+      - name: Run expo install
+        run: npm install --global expo-cli
+
+      - name: Run login Expo
+        run: expo login -u lucas.estrade5@hotmail.fr -p z4mAAgpDikZE_74-5r
+
+      - name: Run Build
+        run: expo build:android --skip-workflow-check -t app-bundle
+
