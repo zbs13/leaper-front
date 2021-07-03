@@ -4,7 +4,7 @@
   "expo": {
     "name": "leaper",
     "slug": "leaper",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -21,11 +21,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.leaper.leaper",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.1"
     },
     "android": {
       "package": "com.leaper.leaper",
-      "versionCode": 1,
+      "versionCode": "1.0.1",
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
