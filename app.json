@@ -25,7 +25,7 @@
     },
     "android": {
       "package": "com.leaper.leaper",
-      "versionCode": 4,
+      "versionCode": 5,
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
